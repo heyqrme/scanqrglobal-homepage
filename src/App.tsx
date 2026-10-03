@@ -26,6 +26,7 @@ import {
   Layers,
   Bot,
   X,
+  MessageCircle,
 } from 'lucide-react'
 
 const CERCA_BASE_URL = 'https://www.qr4luv.com'
@@ -470,10 +471,36 @@ export function synthesizeAIQuery(rawQuery: string): AIQueryResult {
   }
 }
 
+export interface VerifiedHostData {
+  id: string
+  name: string
+  handle: string
+  city: string
+  country: string
+  flag: string
+  badge: string
+  role: string
+  img: string
+  glow: string
+  rating: number
+  reviewsCount: number
+  bio: string
+  languages: string[]
+  musicTags: string[]
+  topSpots: string[]
+  availableFor: string[]
+  lastActiveText: string
+  slug: string
+  whatsappSupported?: boolean
+}
+
 export default function App() {
   const [activeMarket, setActiveMarket] = useState<'usa' | 'colombia' | 'brazil' | 'thailand'>('usa')
   const [dropIndex, setDropIndex] = useState(0)
   const [selectedLanguage, setSelectedLanguage] = useState('English')
+
+  // Selected host for Interactive Dossier Modal
+  const [selectedHostModal, setSelectedHostModal] = useState<VerifiedHostData | null>(null)
 
   // Telemetry Stream state
   const [telemetryIndex, setTelemetryIndex] = useState(0)
@@ -706,46 +733,226 @@ export default function App() {
   ]
 
   // SECTION 6: Verified Hosts Data matching Cerca starter profiles
-  const verifiedHosts = [
+  const verifiedHosts: VerifiedHostData[] = [
     {
-      name: 'Elena Vance',
-      city: 'Los Angeles',
-      badge: 'Verified Host',
-      img: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=800&auto=format&fit=crop&q=80',
-      glow: '#a855f7',
-      link: `${CERCA_BASE_URL}/city/la`,
+      id: 'camila-bogota',
+      name: 'Camila Morales',
+      handle: 'camila_bogota',
+      city: 'Bogotá',
+      country: 'Colombia',
+      flag: '🇨🇴',
+      badge: 'Bogotá Insider',
+      role: 'Local Guide & Curator',
+      img: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=800&auto=format&fit=crop&q=80',
+      glow: '#06b6d4',
+      rating: 5.0,
+      reviewsCount: 68,
+      bio: 'Zona Rosa gastronomy curator and nightlife photographer. Showing travelers the best 13-room parties at Theatron, salsa dining at Andrés D.C., and underground electronic spots in Chapinero.',
+      languages: ['Spanish', 'English'],
+      musicTags: ['Cumbia', 'Salsa', 'EDM', 'Melodic Techno'],
+      topSpots: ['Theatron Chapinero', 'Andrés D.C.', 'Esposito Zona Rosa'],
+      availableFor: ['Tour', 'Drinks', 'Tips', 'Events'],
+      lastActiveText: 'Active 5m ago',
+      slug: 'bogota',
+      whatsappSupported: true,
     },
     {
+      id: 'sofia-miami',
       name: 'Sofia Delgado',
+      handle: 'sofi_mia',
       city: 'Miami',
-      badge: 'Nightlife Insider',
+      country: 'United States',
+      flag: '🇺🇸',
+      badge: 'VIP Host',
+      role: 'Nightlife Insider',
       img: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=800&auto=format&fit=crop&q=80',
       glow: '#f43f5e',
-      link: `${CERCA_BASE_URL}/city/miami`,
+      rating: 4.9,
+      reviewsCount: 64,
+      bio: 'South Beach events concierge & Wynwood creative. Connecting travelers with rooftop guestlists, beach volleyball mixers, and underground Afro-house parties.',
+      languages: ['English', 'Spanish', 'Portuguese'],
+      musicTags: ['Afro-House', 'Reggaeton', 'Deep House', 'Tech-House'],
+      topSpots: ['Gramps Wynwood', '1 Hotel Beach Club', 'Space Terrace'],
+      availableFor: ['Events', 'Drinks', 'Tips'],
+      lastActiveText: 'Active 5m ago',
+      slug: 'miami',
+      whatsappSupported: true,
     },
     {
+      id: 'elena-la',
+      name: 'Elena Vance',
+      handle: 'elena_lalive',
+      city: 'Los Angeles',
+      country: 'United States',
+      flag: '🇺🇸',
+      badge: 'Verified Host',
+      role: 'District Ambassador',
+      img: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=800&auto=format&fit=crop&q=80',
+      glow: '#a855f7',
+      rating: 4.9,
+      reviewsCount: 51,
+      bio: 'West Hollywood photographer & sunset hike organizer. Ask me about golden hour rooftops, Venice Beach surf sessions, and hidden downtown speakeasies.',
+      languages: ['English', 'French'],
+      musicTags: ['Melodic House', 'Sunset Disco', 'R&B'],
+      topSpots: ['Élephante', 'Broken Shaker', 'Sound Nightclub'],
+      availableFor: ['Drinks', 'Tips', 'Tour'],
+      lastActiveText: 'Active 3m ago',
+      slug: 'la',
+      whatsappSupported: true,
+    },
+    {
+      id: 'julian-nyc',
+      name: 'Julian Chen',
+      handle: 'julian_nyc',
+      city: 'New York City',
+      country: 'United States',
+      flag: '🇺🇸',
+      badge: 'Local Guide',
+      role: 'Audio & Speakeasy Guide',
+      img: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=800&auto=format&fit=crop&q=80',
+      glow: '#38bdf8',
+      rating: 5.0,
+      reviewsCount: 42,
+      bio: 'Brooklyn audio engineer & Lower East Side resident. Passionate about vinyl listening bars, natural wine cellars, and late-night Bushwick dance floors.',
+      languages: ['English', 'Mandarin'],
+      musicTags: ['Vinyl Sets', 'Minimal Techno', 'Jazz', 'Indie'],
+      topSpots: ['Nowadays', 'Tokyo Record Bar', 'Dime Deli'],
+      availableFor: ['Tips', 'Drinks', 'Tour'],
+      lastActiveText: 'Active 18m ago',
+      slug: 'nyc',
+      whatsappSupported: true,
+    },
+    {
+      id: 'travis-austin',
+      name: 'Travis Sterling',
+      handle: 'travis_atx',
+      city: 'Austin',
+      country: 'United States',
+      flag: '🇺🇸',
+      badge: 'Verified Host',
+      role: 'Music Scene Host',
+      img: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=800&auto=format&fit=crop&q=80',
+      glow: '#f97316',
+      rating: 5.0,
+      reviewsCount: 38,
+      bio: 'East Austin resident, guitarist & door host at Hotel Vegas. Happy to show visitors two-stepping basics, secret taco trailers, and live honky-tonk bars.',
+      languages: ['English', 'Spanish'],
+      musicTags: ['Indie Rock', 'Americana', 'Psych-Rock', 'Country'],
+      topSpots: ['The White Horse', 'Hotel Vegas', 'Justine’s Brasserie'],
+      availableFor: ['Drinks', 'Tips', 'Events'],
+      lastActiveText: 'Active 12m ago',
+      slug: 'austin',
+      whatsappSupported: true,
+    },
+    {
+      id: 'thiago-rio',
       name: 'Thiago Alencar',
+      handle: 'thiago_carioca',
       city: 'Rio de Janeiro',
+      country: 'Brazil',
+      flag: '🇧🇷',
       badge: 'Carioca Guide',
+      role: 'Local Guide',
       img: 'https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?w=800&auto=format&fit=crop&q=80',
       glow: '#06b6d4',
-      link: `${CERCA_BASE_URL}/city/rio`,
+      rating: 5.0,
+      reviewsCount: 77,
+      bio: 'Born and raised in Ipanema. Surf coach & samba guitarist. Guiding international visitors to wild beaches (Prainha, Grumari), Arpoador sunsets, and Lapa street circles.',
+      languages: ['Portuguese', 'English', 'Spanish'],
+      musicTags: ['Samba de Raiz', 'Bossa Nova', 'Funk Carioca', 'Reggae'],
+      topSpots: ['Pedra do Sal', 'Prainha Beach', 'Bar Urca'],
+      availableFor: ['Tour', 'Language Exchange', 'Drinks'],
+      lastActiveText: 'Active now',
+      slug: 'rio',
+      whatsappSupported: true,
     },
     {
+      id: 'renato-saopaulo',
+      name: 'Renato "Tato" Silveira',
+      handle: 'tato_sp',
+      city: 'São Paulo',
+      country: 'Brazil',
+      flag: '🇧🇷',
+      badge: 'Underground Host',
+      role: 'Nightlife Insider',
+      img: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=800&auto=format&fit=crop&q=80',
+      glow: '#ec4899',
+      rating: 4.9,
+      reviewsCount: 64,
+      bio: 'Electronic music producer and resident selector in Barra Funda. Helping music lovers find D-Edge techno nights, hidden underground vaults, and rooftop disco views over Edifício Copan.',
+      languages: ['Portuguese', 'English', 'Spanish'],
+      musicTags: ['Techno', 'Tech-House', 'Nu-Disco', 'MPB'],
+      topSpots: ['D-Edge', 'Tokyo SP Rooftop', 'Bar dos Arcos'],
+      availableFor: ['Drinks', 'Tips', 'Events'],
+      lastActiveText: 'Active 8m ago',
+      slug: 'sao-paulo',
+      whatsappSupported: true,
+    },
+    {
+      id: 'top-bangkok',
+      name: 'Natthapol "Top" Thongdee',
+      handle: 'top_bangkok',
+      city: 'Bangkok',
+      country: 'Thailand',
+      flag: '🇹🇭',
+      badge: 'VIP Host',
+      role: 'Nightlife Insider',
+      img: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=800&auto=format&fit=crop&q=80',
+      glow: '#eab308',
+      rating: 5.0,
+      reviewsCount: 77,
+      bio: 'Sukhumvit hospitality curator and Thong Lo insider. Connecting travelers to secret mezzanine lounges at Sing Sing Theater, RCA mega-clubs, and sunset skyline cocktails at Tichuca.',
+      languages: ['Thai', 'English'],
+      musicTags: ['Deep House', 'EDM', 'Afro Beats', 'Melodic Techno'],
+      topSpots: ['Sing Sing Theater', 'Onyx RCA', 'Tichuca Rooftop'],
+      availableFor: ['Drinks', 'Tips', 'Events'],
+      lastActiveText: 'Active now',
+      slug: 'bangkok',
+      whatsappSupported: true,
+    },
+    {
+      id: 'somchai-phuket',
       name: 'Somchai Prasert',
+      handle: 'somchai_andaman',
       city: 'Phuket',
+      country: 'Thailand',
+      flag: '🇹🇭',
       badge: 'TAT Certified Guide',
+      role: 'Island & Nightlife Guide',
       img: 'https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=800&auto=format&fit=crop&q=80',
       glow: '#10b981',
-      link: `${CERCA_BASE_URL}/city/phuket`,
+      rating: 5.0,
+      reviewsCount: 89,
+      bio: 'PADI Master Scuba Diver & island boat captain. Specializes in sunrise speedboat tours avoiding tourist packs, secluded freedom beaches, and night market culinary walks.',
+      languages: ['Thai', 'English'],
+      musicTags: ['Tropical House', 'Reggae', 'Thai Pop'],
+      topSpots: ['Banana Beach', 'Bang Tao Sunset Clubs', 'Phuket Old Town Market'],
+      availableFor: ['Tour', 'Tips', 'Events'],
+      lastActiveText: 'Active now',
+      slug: 'phuket',
+      whatsappSupported: true,
     },
     {
-      name: 'Mayuree Chai',
+      id: 'may-krabi',
+      name: 'Mayuree "May" Chai',
+      handle: 'may_railay',
       city: 'Krabi',
+      country: 'Thailand',
+      flag: '🇹🇭',
       badge: 'Verified Host',
+      role: 'Railay Host',
       img: 'https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=800&auto=format&fit=crop&q=80',
       glow: '#f59e0b',
-      link: `${CERCA_BASE_URL}/city/krabi`,
+      rating: 4.9,
+      reviewsCount: 53,
+      bio: 'Eco-lodge owner on Railay Beach and rock-climbing instructor. Helping travelers navigate longtail boat routes, hidden emerald pools, and fire shows by the water.',
+      languages: ['Thai', 'English'],
+      musicTags: ['Acoustic', 'Chillout', 'Deep House'],
+      topSpots: ['Railay East Viewpoint', 'Hong Island Lagoon', 'Ao Nang Night Market'],
+      availableFor: ['Tour', 'Tips', 'Language Exchange'],
+      lastActiveText: 'Active 21m ago',
+      slug: 'krabi',
+      whatsappSupported: true,
     },
   ]
 
@@ -2195,29 +2402,39 @@ export default function App() {
           display: 'flex',
           flexWrap: 'wrap',
           justifyContent: 'center',
-          gap: 28,
+          gap: 24,
         }}>
           {verifiedHosts.map((host) => (
-            <a
-              key={host.name}
-              href={host.link}
+            <div
+              key={host.id}
+              onClick={() => setSelectedHostModal(host)}
+              role="button"
+              tabIndex={0}
+              onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') setSelectedHostModal(host) }}
               style={{
-                textDecoration: 'none',
                 display: 'flex',
                 flexDirection: 'column',
                 alignItems: 'center',
                 gap: 10,
-                width: 140,
+                width: 156,
+                padding: '16px 12px',
+                borderRadius: 20,
+                background: 'rgba(255, 255, 255, 0.02)',
+                border: '1px solid rgba(255, 255, 255, 0.07)',
+                cursor: 'pointer',
+                transition: 'all 0.25s ease',
+                boxShadow: '0 4px 20px rgba(0, 0, 0, 0.3)',
               }}
             >
               {/* Circular Avatar with Neon Rim Light */}
               <div style={{
+                position: 'relative',
                 width: 88,
                 height: 88,
                 borderRadius: '50%',
                 padding: 3,
                 background: `linear-gradient(135deg, ${host.glow}, #ffffff)`,
-                boxShadow: `0 0 20px ${host.glow}66`,
+                boxShadow: `0 0 22px ${host.glow}66`,
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
@@ -2233,30 +2450,375 @@ export default function App() {
                     background: '#27272a',
                   }}
                 />
+                <span
+                  style={{
+                    position: 'absolute',
+                    bottom: 0,
+                    right: 0,
+                    background: '#09090b',
+                    borderRadius: 999,
+                    display: 'flex',
+                  }}
+                >
+                  <ShieldCheck size={18} className="text-cyan-400" />
+                </span>
               </div>
 
-              <div>
-                <h4 style={{ margin: 0, fontSize: 15, fontWeight: 700, color: '#fff' }}>
+              <div style={{ textAlign: 'center' }}>
+                <h4 style={{ margin: 0, fontSize: 14.5, fontWeight: 700, color: '#fff' }}>
                   {host.name}
                 </h4>
-                <div style={{ fontSize: 12, color: '#94a3b8', marginTop: 2 }}>{host.city}</div>
-                <span style={{
-                  display: 'inline-block',
+                <div style={{ fontSize: 11.5, color: '#94a3b8', marginTop: 2 }}>
+                  {host.city} {host.flag}
+                </div>
+                <div style={{
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  gap: 3,
                   marginTop: 6,
                   padding: '2px 8px',
                   borderRadius: 999,
-                  background: 'rgba(255, 255, 255, 0.08)',
+                  background: 'rgba(255, 255, 255, 0.06)',
                   border: '1px solid rgba(255, 255, 255, 0.12)',
-                  fontSize: 11,
+                  fontSize: 10.5,
                   fontWeight: 600,
                   color: '#e4e4e7',
                 }}>
-                  {host.badge}
-                </span>
+                  <span>{host.badge}</span>
+                </div>
+                <div style={{
+                  marginTop: 6,
+                  fontSize: 10.5,
+                  fontWeight: 700,
+                  color: '#38bdf8',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  gap: 3,
+                }}>
+                  <Star size={10} fill="#facc15" color="#facc15" />
+                  <span>{host.rating.toFixed(1)} · Tap to Email</span>
+                </div>
               </div>
-            </a>
+            </div>
           ))}
         </div>
+
+        {/* HOST PROFILE & CONTACT DOSSIER MODAL */}
+        {selectedHostModal && (
+          <div
+            role="dialog"
+            aria-modal="true"
+            onClick={() => setSelectedHostModal(null)}
+            style={{
+              position: 'fixed',
+              inset: 0,
+              background: 'rgba(3, 3, 5, 0.85)',
+              backdropFilter: 'blur(10px)',
+              zIndex: 99999,
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              padding: '16px 12px',
+            }}
+          >
+            <div
+              onClick={(e) => e.stopPropagation()}
+              style={{
+                background: '#0a0a10',
+                border: `1px solid ${selectedHostModal.glow}66`,
+                borderRadius: 24,
+                maxWidth: 520,
+                width: '100%',
+                padding: '24px 22px',
+                boxShadow: `0 25px 60px rgba(0, 0, 0, 0.9), 0 0 35px ${selectedHostModal.glow}33`,
+                maxHeight: '92vh',
+                overflowY: 'auto',
+                display: 'flex',
+                flexDirection: 'column',
+                gap: 16,
+                textAlign: 'left',
+                boxSizing: 'border-box',
+              }}
+            >
+              {/* Modal Top Bar */}
+              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+                  <span
+                    style={{
+                      fontSize: 10.5,
+                      fontWeight: 800,
+                      letterSpacing: '0.08em',
+                      textTransform: 'uppercase',
+                      color: '#38bdf8',
+                      background: 'rgba(6, 182, 212, 0.14)',
+                      padding: '3px 8px',
+                      borderRadius: 6,
+                      border: '1px solid rgba(6, 182, 212, 0.3)',
+                    }}
+                  >
+                    Verified Host Dossier
+                  </span>
+                  <span style={{ fontSize: 11, color: '#4ade80', fontWeight: 600 }}>
+                    ● {selectedHostModal.lastActiveText}
+                  </span>
+                </div>
+                <button
+                  type="button"
+                  onClick={() => setSelectedHostModal(null)}
+                  style={{
+                    width: 32,
+                    height: 32,
+                    borderRadius: 8,
+                    background: 'rgba(255, 255, 255, 0.08)',
+                    border: '1px solid rgba(255, 255, 255, 0.12)',
+                    color: '#e2e8f0',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    cursor: 'pointer',
+                  }}
+                >
+                  <X size={16} />
+                </button>
+              </div>
+
+              {/* Profile Hero */}
+              <div style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
+                <div
+                  style={{
+                    position: 'relative',
+                    width: 76,
+                    height: 76,
+                    borderRadius: '50%',
+                    padding: 3,
+                    background: `linear-gradient(135deg, ${selectedHostModal.glow}, #ffffff)`,
+                    boxShadow: `0 0 25px ${selectedHostModal.glow}88`,
+                    flexShrink: 0,
+                  }}
+                >
+                  <img
+                    src={selectedHostModal.img}
+                    alt={selectedHostModal.name}
+                    style={{
+                      width: '100%',
+                      height: '100%',
+                      borderRadius: '50%',
+                      objectFit: 'cover',
+                      background: '#18181b',
+                    }}
+                  />
+                  <span
+                    style={{
+                      position: 'absolute',
+                      bottom: 0,
+                      right: 0,
+                      background: '#09090b',
+                      borderRadius: 999,
+                      display: 'flex',
+                    }}
+                  >
+                    <ShieldCheck size={20} className="text-cyan-400" />
+                  </span>
+                </div>
+
+                <div style={{ flex: 1, minWidth: 0 }}>
+                  <h3 style={{ margin: 0, fontSize: 19, fontWeight: 800, color: '#fff' }}>
+                    {selectedHostModal.name}
+                  </h3>
+                  <div style={{ fontSize: 12, color: '#38bdf8', fontWeight: 600, marginTop: 2 }}>
+                    @{selectedHostModal.handle} · {selectedHostModal.role}
+                  </div>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: 6, marginTop: 6, fontSize: 12, color: '#94a3b8' }}>
+                    <MapPin size={12} className="text-zinc-400" />
+                    <span>
+                      {selectedHostModal.city}, {selectedHostModal.country} {selectedHostModal.flag}
+                    </span>
+                    <span>·</span>
+                    <div style={{ display: 'inline-flex', alignItems: 'center', gap: 3, color: '#facc15', fontWeight: 700 }}>
+                      <Star size={12} fill="#facc15" />
+                      <span>{selectedHostModal.rating.toFixed(1)} ({selectedHostModal.reviewsCount} reviews)</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              {/* Bio */}
+              <div
+                style={{
+                  borderRadius: 14,
+                  background: 'rgba(255, 255, 255, 0.03)',
+                  border: '1px solid rgba(255, 255, 255, 0.08)',
+                  padding: '12px 14px',
+                }}
+              >
+                <div style={{ fontSize: 11, fontWeight: 700, color: '#94a3b8', textTransform: 'uppercase', marginBottom: 6, letterSpacing: '0.05em' }}>
+                  Local Insider Dossier
+                </div>
+                <p style={{ margin: 0, fontSize: 13, lineHeight: 1.5, color: '#e2e8f0' }}>
+                  {selectedHostModal.bio}
+                </p>
+              </div>
+
+              {/* Available Services */}
+              <div>
+                <div style={{ fontSize: 11, fontWeight: 700, color: '#94a3b8', textTransform: 'uppercase', marginBottom: 6, letterSpacing: '0.05em' }}>
+                  Available Concierge Services
+                </div>
+                <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6 }}>
+                  {selectedHostModal.availableFor.map((service) => (
+                    <span
+                      key={service}
+                      style={{
+                        fontSize: 11,
+                        fontWeight: 700,
+                        padding: '4px 10px',
+                        borderRadius: 999,
+                        background: 'rgba(168, 85, 247, 0.15)',
+                        border: '1px solid rgba(168, 85, 247, 0.3)',
+                        color: '#c084fc',
+                      }}
+                    >
+                      ✦ {service}
+                    </span>
+                  ))}
+                </div>
+              </div>
+
+              {/* Curated Top Spots in City */}
+              <div>
+                <div style={{ fontSize: 11, fontWeight: 700, color: '#94a3b8', textTransform: 'uppercase', marginBottom: 6, letterSpacing: '0.05em' }}>
+                  Top Recommended Spots in {selectedHostModal.city}
+                </div>
+                <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6 }}>
+                  {selectedHostModal.topSpots.map((spot) => (
+                    <a
+                      key={spot}
+                      href={`${CERCA_BASE_URL}/city/${selectedHostModal.slug}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      style={{
+                        fontSize: 11.5,
+                        fontWeight: 600,
+                        padding: '4px 10px',
+                        borderRadius: 8,
+                        background: 'rgba(6, 182, 212, 0.12)',
+                        border: '1px solid rgba(6, 182, 212, 0.25)',
+                        color: '#38bdf8',
+                        textDecoration: 'none',
+                        display: 'inline-flex',
+                        alignItems: 'center',
+                        gap: 4,
+                      }}
+                    >
+                      <span>📍 {spot}</span>
+                      <ExternalLink size={11} className="text-cyan-400" />
+                    </a>
+                  ))}
+                </div>
+              </div>
+
+              {/* Languages & Music */}
+              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 10, fontSize: 12 }}>
+                <div style={{ background: 'rgba(255, 255, 255, 0.03)', padding: '10px 12px', borderRadius: 12, border: '1px solid rgba(255, 255, 255, 0.06)' }}>
+                  <div style={{ fontSize: 10.5, fontWeight: 700, color: '#94a3b8', textTransform: 'uppercase', marginBottom: 4 }}>
+                    Languages
+                  </div>
+                  <div style={{ color: '#fff', fontWeight: 600 }}>{selectedHostModal.languages.join(', ')}</div>
+                </div>
+                <div style={{ background: 'rgba(255, 255, 255, 0.03)', padding: '10px 12px', borderRadius: 12, border: '1px solid rgba(255, 255, 255, 0.06)' }}>
+                  <div style={{ fontSize: 10.5, fontWeight: 700, color: '#94a3b8', textTransform: 'uppercase', marginBottom: 4 }}>
+                    Music Pulse
+                  </div>
+                  <div style={{ color: '#fff', fontWeight: 600 }}>{selectedHostModal.musicTags.join(', ')}</div>
+                </div>
+              </div>
+
+              {/* Action Buttons: Email Guide & Open Cerca App */}
+              <div style={{ display: 'flex', flexDirection: 'column', gap: 8, marginTop: 4 }}>
+                {/* Button 1: Direct Email Booking */}
+                <a
+                  href={`mailto:info@scanqrglobal.ai?subject=${encodeURIComponent(`Guide Inquiry: ${selectedHostModal.name} (${selectedHostModal.city})`)}&body=${encodeURIComponent(
+                    `Hi ${selectedHostModal.name},\n\nI saw your verified profile on ScanQR Global / Cerca for ${selectedHostModal.city}. I am planning a visit and would like to connect for local nightlife recommendations and guide services.\n\nTravel Dates:\nGroup Size:\nPreferred Spots / Vibe:\n\nLooking forward to hearing from you!\n`
+                  )}`}
+                  style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    gap: 8,
+                    padding: '12px 16px',
+                    borderRadius: 12,
+                    background: 'linear-gradient(135deg, #0284c7, #2563eb)',
+                    color: '#fff',
+                    fontWeight: 700,
+                    fontSize: 13,
+                    textDecoration: 'none',
+                    boxShadow: '0 4px 16px rgba(37, 99, 235, 0.35)',
+                    cursor: 'pointer',
+                  }}
+                >
+                  <Mail size={16} />
+                  <span>Email Guide / Request Booking</span>
+                </a>
+
+                {/* Button 2: Open Cerca App */}
+                <a
+                  href={`${CERCA_BASE_URL}/city/${selectedHostModal.slug}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    gap: 8,
+                    padding: '11px 16px',
+                    borderRadius: 12,
+                    background: 'rgba(168, 85, 247, 0.18)',
+                    border: '1px solid rgba(168, 85, 247, 0.35)',
+                    color: '#e9d5ff',
+                    fontWeight: 700,
+                    fontSize: 13,
+                    textDecoration: 'none',
+                    cursor: 'pointer',
+                  }}
+                >
+                  <Sparkles size={16} className="text-purple-300" />
+                  <span>Explore {selectedHostModal.city} on Cerca App</span>
+                  <ExternalLink size={13} />
+                </a>
+
+                {/* Button 3: WhatsApp Concierge */}
+                {selectedHostModal.whatsappSupported && (
+                  <a
+                    href={`https://wa.me/?text=${encodeURIComponent(
+                      `Hi ${selectedHostModal.name}, I saw your verified host profile on ScanQR Global for ${selectedHostModal.city} and would like to ask about local spots & tours!`
+                    )}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    style={{
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      gap: 8,
+                      padding: '10px 16px',
+                      borderRadius: 12,
+                      background: 'rgba(34, 197, 94, 0.12)',
+                      border: '1px solid rgba(34, 197, 94, 0.25)',
+                      color: '#4ade80',
+                      fontWeight: 700,
+                      fontSize: 12.5,
+                      textDecoration: 'none',
+                      cursor: 'pointer',
+                    }}
+                  >
+                    <MessageCircle size={15} />
+                    <span>WhatsApp Direct Concierge</span>
+                  </a>
+                )}
+              </div>
+            </div>
+          </div>
+        )}
       </section>
 
       {/* 7. TRUST & COMPLIANCE (Centered Badges) */}
