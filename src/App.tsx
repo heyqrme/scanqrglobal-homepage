@@ -18,11 +18,11 @@ import {
 const CERCA_BASE_URL = 'https://www.qr4luv.com'
 
 export default function App() {
-  const [activeMarket, setActiveMarket] = useState<'usa' | 'brazil' | 'thailand'>('usa')
+  const [activeMarket, setActiveMarket] = useState<'usa' | 'colombia' | 'brazil' | 'thailand'>('usa')
   const [dropIndex, setDropIndex] = useState(0)
   const [selectedLanguage, setSelectedLanguage] = useState('English')
 
-  // SECTION 3: 3-Market City Hub Data with direct links & verified CDN photography
+  // SECTION 3: 4-Market City Hub Data with direct links & verified CDN photography
   const cities = {
     usa: [
       {
@@ -31,7 +31,7 @@ export default function App() {
         img: 'https://images.unsplash.com/photo-1580655653885-65763b2597d0?w=1000&auto=format&fit=crop&q=80',
         tag: 'Rooftops & Coast',
         pulse: 'Melodic House',
-        venuesCount: '3+ Hotspots',
+        venuesCount: 'Curated Rooftops',
       },
       {
         name: 'Miami',
@@ -39,7 +39,7 @@ export default function App() {
         img: 'https://images.unsplash.com/photo-1571896349842-33c89424de2d?w=1000&auto=format&fit=crop&q=80',
         tag: 'Nightlife & Latin Beats',
         pulse: 'Afro-House & Ocean',
-        venuesCount: '4+ Hotspots',
+        venuesCount: 'Ultra-Clubs & VIP',
       },
       {
         name: 'New York City',
@@ -47,7 +47,7 @@ export default function App() {
         img: 'https://images.unsplash.com/photo-1514525253161-7a46d19cd819?w=1000&auto=format&fit=crop&q=80',
         tag: 'Underground & Speakeasies',
         pulse: 'Analog Sound & Jazz',
-        venuesCount: '4+ Hotspots',
+        venuesCount: 'Hidden Speakeasies',
       },
       {
         name: 'Austin',
@@ -55,7 +55,7 @@ export default function App() {
         img: 'https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?w=1000&auto=format&fit=crop&q=80',
         tag: 'Live Music & Patio Bars',
         pulse: 'Two-Step & Psych-Rock',
-        venuesCount: '4+ Hotspots',
+        venuesCount: 'Live Music Venues',
       },
       {
         name: 'Nashville',
@@ -63,7 +63,17 @@ export default function App() {
         img: 'https://images.unsplash.com/photo-1519671482749-fd09be7ccebf?w=1000&auto=format&fit=crop&q=80',
         tag: 'Honky Tonk & Bluegrass',
         pulse: 'Live Roots & Soul',
-        venuesCount: '4+ Hotspots',
+        venuesCount: 'Honky Tonk Stages',
+      },
+    ],
+    colombia: [
+      {
+        name: 'Bogotá',
+        slug: 'bogota',
+        img: 'https://images.unsplash.com/photo-1598977123118-4e30ba3c4f5b?w=1000&auto=format&fit=crop&q=80',
+        tag: 'Zona Rosa & Chapinero',
+        pulse: 'Theatron & Andean Nightlife',
+        venuesCount: 'Mega-Clubs & Dining',
       },
     ],
     brazil: [
@@ -73,7 +83,7 @@ export default function App() {
         img: 'https://images.unsplash.com/photo-1483729558449-99ef09a8c325?w=1000&auto=format&fit=crop&q=80',
         tag: 'Samba & Beach Lounges',
         pulse: 'Street Roda & Bossa',
-        venuesCount: '4+ Hotspots',
+        venuesCount: 'Samba & Beach Lounges',
       },
       {
         name: 'Florianópolis',
@@ -81,7 +91,7 @@ export default function App() {
         img: 'https://images.unsplash.com/photo-1548574505-5e239809ee19?w=1000&auto=format&fit=crop&q=80',
         tag: 'Island Parties & Clear Waters',
         pulse: 'Electronic Beach Clubs',
-        venuesCount: '4+ Hotspots',
+        venuesCount: 'Day & Beach Clubs',
       },
       {
         name: 'Salvador da Bahia',
@@ -89,7 +99,7 @@ export default function App() {
         img: 'https://images.unsplash.com/photo-1598977123118-4e30ba3c4f5b?w=1000&auto=format&fit=crop&q=80',
         tag: 'Afro-Beats & Culture',
         pulse: 'Samba-Reggae Drums',
-        venuesCount: '4+ Hotspots',
+        venuesCount: 'Cultural Venues',
       },
       {
         name: 'São Paulo',
@@ -97,7 +107,7 @@ export default function App() {
         img: 'https://images.unsplash.com/photo-1578632767115-351597cf2477?w=1000&auto=format&fit=crop&q=80',
         tag: 'Techno Temples & Rooftops',
         pulse: 'Underground Electronic & D-Edge',
-        venuesCount: '4+ Hotspots',
+        venuesCount: 'Electronic Temples',
       },
     ],
     thailand: [
@@ -107,7 +117,7 @@ export default function App() {
         img: 'https://images.unsplash.com/photo-1508009603885-50cf7c579365?w=1000&auto=format&fit=crop&q=80',
         tag: 'Theatrical Speakeasies & RCA',
         pulse: 'Sing Sing Theater & Skybars',
-        venuesCount: '4+ Hotspots',
+        venuesCount: 'Theatrical Speakeasies',
       },
       {
         name: 'Phuket',
@@ -115,7 +125,7 @@ export default function App() {
         img: 'https://images.unsplash.com/photo-1589394815804-964ed0be2eb5?w=1000&auto=format&fit=crop&q=80',
         tag: 'Sunset Clubs & Islands',
         pulse: 'Tropical House & Superclubs',
-        venuesCount: '4+ Hotspots',
+        venuesCount: 'Sunset Beach Clubs',
       },
       {
         name: 'Koh Samui',
@@ -123,7 +133,7 @@ export default function App() {
         img: 'https://images.unsplash.com/photo-1537956965359-7573183d1f57?w=1000&auto=format&fit=crop&q=80',
         tag: 'Day Clubs & Fire Acrobats',
         pulse: 'Ark Bar Beach & Sunken Pools',
-        venuesCount: '4+ Hotspots',
+        venuesCount: 'Ocean Day Clubs',
       },
       {
         name: 'Krabi',
@@ -131,7 +141,7 @@ export default function App() {
         img: 'https://images.unsplash.com/photo-1552465011-b4e21bf6e79a?w=1000&auto=format&fit=crop&q=80',
         tag: 'Cliff Bars & Quiet Coasts',
         pulse: 'Cave Dining & Fire Shows',
-        venuesCount: '4+ Hotspots',
+        venuesCount: 'Cliff & Cavern Bars',
       },
       {
         name: 'Pattaya',
@@ -139,7 +149,7 @@ export default function App() {
         img: 'https://images.unsplash.com/photo-1508009603885-50cf7c579365?w=1000&auto=format&fit=crop&q=80',
         tag: 'Beach Lounges & Sky Bars',
         pulse: '34th Floor Terraces & EDM',
-        venuesCount: '4+ Hotspots',
+        venuesCount: 'Sky Bars & EDM',
       },
     ],
   }
@@ -383,7 +393,7 @@ export default function App() {
             textTransform: 'uppercase',
             letterSpacing: '0.06em',
           }}>
-            ⚡ Live Social Radar • USA • Brazil • Thailand
+            ⚡ ScanQR Global • The Master Gateway for Cerca Social on qr4luv.com
           </div>
 
           {/* Headline */}
@@ -405,11 +415,11 @@ export default function App() {
             fontSize: 'clamp(16px, 2.5vw, 20px)',
             color: '#cbd5e1',
             lineHeight: 1.6,
-            maxWidth: 700,
+            maxWidth: 720,
             margin: '0 auto 40px',
             fontWeight: 400,
           }}>
-            Explore cities, verify live crowd levels, discover curated hotspots, and meet people safely — in real time on <strong style={{ color: '#fff' }}>qr4luv.com</strong>.
+            Explore global cities, verify live crowd levels, discover curated nightlife, and connect safely with zero-barrier guest access — powered by Cerca on <strong style={{ color: '#fff' }}>qr4luv.com</strong>.
           </p>
 
           {/* Action Buttons */}
@@ -453,10 +463,32 @@ export default function App() {
             >
               Tonight’s Live Pulse <Flame size={16} color="#f43f5e" />
             </a>
+            <a
+              href="https://play.google.com/store/apps/details?id=com.qr4luv.cerca"
+              target="_blank"
+              rel="noopener noreferrer"
+              style={{
+                height: 52,
+                padding: '0 24px',
+                borderRadius: 14,
+                background: 'rgba(255, 255, 255, 0.08)',
+                border: '1px solid rgba(255, 255, 255, 0.18)',
+                color: '#f8fafc',
+                fontSize: 15,
+                fontWeight: 700,
+                textDecoration: 'none',
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: 8,
+                backdropFilter: 'blur(10px)',
+              }}
+            >
+              📱 Google Play App
+            </a>
           </div>
 
           <div style={{ fontSize: 13, color: '#94a3b8' }}>
-            ✓ No account required to browse • Real-time verified staff updates
+            ✓ No account required to browse • Real-time verified staff updates • Instant guest access
           </div>
         </div>
       </section>
@@ -657,7 +689,7 @@ export default function App() {
             borderRadius: 12,
             border: '1px solid rgba(255, 255, 255, 0.08)',
           }}>
-            {(['usa', 'brazil', 'thailand'] as const).map((market) => (
+            {(['usa', 'colombia', 'brazil', 'thailand'] as const).map((market) => (
               <button
                 key={market}
                 onClick={() => setActiveMarket(market)}
@@ -675,7 +707,7 @@ export default function App() {
                   transition: 'all 0.15s ease',
                 }}
               >
-                {market === 'usa' ? '🇺🇸 USA' : market === 'brazil' ? '🇧🇷 Brazil' : '🇹🇭 Thailand'}
+                {market === 'usa' ? '🇺🇸 USA' : market === 'colombia' ? '🇨🇴 Colombia' : market === 'brazil' ? '🇧🇷 Brazil' : '🇹🇭 Thailand'}
               </button>
             ))}
           </div>
@@ -1054,7 +1086,7 @@ export default function App() {
           justifyContent: 'center',
           gap: 20,
         }}>
-          {/* Badge 1: Verified scanqr.ai */}
+          {/* Badge 1: Secured by ScanQR Global */}
           <div style={{
             display: 'inline-flex',
             alignItems: 'center',
@@ -1068,29 +1100,35 @@ export default function App() {
             fontWeight: 700,
           }}>
             <ShieldCheck size={18} />
-            <span>Verified by scanqr.ai</span>
+            <span>Secured by ScanQR Global</span>
           </div>
 
           {/* Badge 2: Google Play 4.8 */}
-          <div style={{
-            display: 'inline-flex',
-            alignItems: 'center',
-            gap: 8,
-            padding: '10px 18px',
-            borderRadius: 14,
-            background: 'rgba(245, 158, 11, 0.1)',
-            border: '1px solid rgba(245, 158, 11, 0.3)',
-            color: '#fbbf24',
-            fontSize: 13,
-            fontWeight: 700,
-          }}>
+          <a
+            href="https://play.google.com/store/apps/details?id=com.qr4luv.cerca"
+            target="_blank"
+            rel="noopener noreferrer"
+            style={{
+              display: 'inline-flex',
+              alignItems: 'center',
+              gap: 8,
+              padding: '10px 18px',
+              borderRadius: 14,
+              background: 'rgba(245, 158, 11, 0.1)',
+              border: '1px solid rgba(245, 158, 11, 0.3)',
+              color: '#fbbf24',
+              fontSize: 13,
+              fontWeight: 700,
+              textDecoration: 'none',
+            }}
+          >
             <Star size={16} fill="#fbbf24" />
-            <span>Google Play 4.8★ Rated</span>
-          </div>
+            <span>Google Play · Cerca (4.8★)</span>
+          </a>
 
           {/* Badge 3: Support email */}
           <a
-            href="mailto:info@scanqrglobal.net"
+            href="mailto:info@scanqrglobal.ai"
             style={{
               display: 'inline-flex',
               alignItems: 'center',
@@ -1106,7 +1144,7 @@ export default function App() {
             }}
           >
             <Mail size={16} />
-            <span>info@scanqrglobal.net</span>
+            <span>info@scanqrglobal.ai</span>
           </a>
         </div>
       </section>
@@ -1145,7 +1183,7 @@ export default function App() {
               <span style={{ fontSize: 17, fontWeight: 800 }}>ScanQR Global</span>
             </div>
             <p style={{ fontSize: 13, color: '#71717a', lineHeight: 1.6, margin: 0 }}>
-              Live social map for people, places, nightlife &amp; travelers. Real-time translation, crowd pulse, and verified safety powered by Cerca.
+              The Master Intelligence Gateway for Cerca Social on qr4luv.com. Real-time translation, crowd pulse, and verified safety with zero-barrier guest access.
             </p>
           </div>
 
@@ -1155,8 +1193,9 @@ export default function App() {
             <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: 10, fontSize: 13 }}>
               <li><a href={`${CERCA_BASE_URL}/city/la`} style={{ color: '#a1a1aa', textDecoration: 'none' }}>Los Angeles</a> &bull; <a href={`${CERCA_BASE_URL}/city/miami`} style={{ color: '#a1a1aa', textDecoration: 'none' }}>Miami</a></li>
               <li><a href={`${CERCA_BASE_URL}/city/nyc`} style={{ color: '#a1a1aa', textDecoration: 'none' }}>New York City</a> &bull; <a href={`${CERCA_BASE_URL}/city/austin`} style={{ color: '#a1a1aa', textDecoration: 'none' }}>Austin</a></li>
+              <li><a href={`${CERCA_BASE_URL}/city/bogota`} style={{ color: '#a1a1aa', textDecoration: 'none' }}>Bogotá</a> &bull; <a href={`${CERCA_BASE_URL}/city/sao-paulo`} style={{ color: '#a1a1aa', textDecoration: 'none' }}>São Paulo</a></li>
               <li><a href={`${CERCA_BASE_URL}/city/rio`} style={{ color: '#a1a1aa', textDecoration: 'none' }}>Rio de Janeiro</a> &bull; <a href={`${CERCA_BASE_URL}/city/florianopolis`} style={{ color: '#a1a1aa', textDecoration: 'none' }}>Florianópolis</a></li>
-              <li><a href={`${CERCA_BASE_URL}/city/phuket`} style={{ color: '#a1a1aa', textDecoration: 'none' }}>Phuket</a> &bull; <a href={`${CERCA_BASE_URL}/city/krabi`} style={{ color: '#a1a1aa', textDecoration: 'none' }}>Krabi</a> &bull; <a href={`${CERCA_BASE_URL}/city/pattaya`} style={{ color: '#a1a1aa', textDecoration: 'none' }}>Pattaya</a></li>
+              <li><a href={`${CERCA_BASE_URL}/city/bangkok`} style={{ color: '#a1a1aa', textDecoration: 'none' }}>Bangkok</a> &bull; <a href={`${CERCA_BASE_URL}/city/phuket`} style={{ color: '#a1a1aa', textDecoration: 'none' }}>Phuket</a> &bull; <a href={`${CERCA_BASE_URL}/city/koh-samui`} style={{ color: '#a1a1aa', textDecoration: 'none' }}>Samui</a></li>
             </ul>
           </div>
 
@@ -1177,7 +1216,9 @@ export default function App() {
             <ul style={{ listStyle: 'none', padding: 0, margin: '0 0 16px', display: 'flex', flexDirection: 'column', gap: 10, fontSize: 13 }}>
               <li><a href={`${CERCA_BASE_URL}/privacy`} style={{ color: '#a1a1aa', textDecoration: 'none' }}>Privacy Policy</a></li>
               <li><a href={`${CERCA_BASE_URL}/terms`} style={{ color: '#a1a1aa', textDecoration: 'none' }}>Terms of Service</a></li>
-              <li><a href="mailto:info@scanqrglobal.net" style={{ color: '#38bdf8', textDecoration: 'none' }}>info@scanqrglobal.net</a></li>
+              <li><a href="https://play.google.com/store/apps/details?id=com.qr4luv.cerca" target="_blank" rel="noopener noreferrer" style={{ color: '#38bdf8', textDecoration: 'none' }}>Android App (Google Play)</a></li>
+              <li><a href="/llms.txt" style={{ color: '#a1a1aa', textDecoration: 'none' }}>AI Context (llms.txt)</a></li>
+              <li><a href="mailto:info@scanqrglobal.ai" style={{ color: '#38bdf8', textDecoration: 'none' }}>info@scanqrglobal.ai</a></li>
             </ul>
 
             {/* 8-Language Selector */}

@@ -1,0 +1,90 @@
+# ScanQR Global
+
+> ScanQR Global (https://scanqrglobal.ai) is the master gateway and intelligence directory for Cerca Social (https://www.qr4luv.com) — a real-time social radar, live venue map, and cultural travel companion designed for travelers, digital nomads, and local explorers worldwide.
+
+ScanQR Global unites live venue vitals, verified local hosts, real-time crowd pulse gauges, zero-friction QR social handshakes, and 8-language real-time translation under one privacy-centric platform.
+
+---
+
+## 1. Quick Access & Platform Links
+
+- **Primary Web Application**: [https://www.qr4luv.com](https://www.qr4luv.com) (Instant zero-barrier guest access; no login or paywall required)
+- **Official Android App (Google Play)**: [com.qr4luv.cerca on Google Play](https://play.google.com/store/apps/details?id=com.qr4luv.cerca)
+- **Umbrella Gateway & Directory**: [https://scanqrglobal.ai](https://scanqrglobal.ai)
+- **Live Social Heatmap**: [https://www.qr4luv.com/explore](https://www.qr4luv.com/explore)
+- **Tonight's Live City Pulse Feed**: [https://www.qr4luv.com/tonight](https://www.qr4luv.com/tonight)
+- **Safe QR Social Handshake**: [https://www.qr4luv.com/scan](https://www.qr4luv.com/scan)
+- **Curated City Hubs**: [https://www.qr4luv.com/city/la](https://www.qr4luv.com/city/la)
+
+---
+
+## 2. Brand Hierarchy & System Architecture
+
+- **ScanQR Global (`scanqrglobal.ai`)**: The umbrella enterprise entity, global portal, and discovery gateway directing travelers, venues, event organizers, and partners to localized experiences.
+- **Cerca (`qr4luv.com` / `com.qr4luv.cerca`)**: The consumer-facing Progressive Web App (PWA) and native mobile application providing real-time location-based social networking, live venue check-ins, crowd density monitors, and verified local host tips.
+- **Zero-Barrier Guest Access**: Any visitor can immediately browse cities, inspect venue vitals, and read live host reports without forced sign-up, email walls, or subscription paywalls.
+
+---
+
+## 3. Verified Regional Hubs & Direct City Guides
+
+Cerca features deep, curated city guides with verified on-the-ground hosts, live music genres, dress vibe recommendations, venue hours, and local safety tips:
+
+### United States
+- **Los Angeles, CA**: [https://www.qr4luv.com/city/la](https://www.qr4luv.com/city/la) — Golden Hour Rooftops, Coastal Energy & Melodic House. Verified Hotspots: Élephante Santa Monica, Desert 5 Spot Hollywood, Sound Nightclub, The Highlight Room.
+- **Miami, FL**: [https://www.qr4luv.com/city/miami](https://www.qr4luv.com/city/miami) — High-Energy Nightlife, Latin Beats & Oceanfront Lounges. Verified Hotspots: LIV Miami, E11EVEN 24/7 Ultraclub, Club Space Rooftop Terrace, Baoli Miami.
+- **New York City, NY**: [https://www.qr4luv.com/city/nyc](https://www.qr4luv.com/city/nyc) — Underground Electronic, Jazz & Bespoke Speakeasies. Verified Hotspots: House of Yes Brooklyn, Nebula NYC, Please Don't Tell (PDT), Little Branch.
+- **Austin, TX**: [https://www.qr4luv.com/city/austin](https://www.qr4luv.com/city/austin) — Live Music Capital, Honky Tonk & Patio Culture. Verified Hotspots: The Continental Club, The White Horse Two-Step, C-Boy's Heart & Soul, Rainey Street Bars.
+- **Nashville, TN**: [https://www.qr4luv.com/city/nashville](https://www.qr4luv.com/city/nashville) — Music City Honky Tonk, Live Bluegrass & Neon Energy. Verified Hotspots: Robert's Western World, Tootsie's Orchid Lounge, The Listening Room Cafe, Station Inn.
+
+### Colombia
+- **Bogotá**: [https://www.qr4luv.com/city/bogota](https://www.qr4luv.com/city/bogota) — High-Altitude Cosmopolitan Pulse, Legendary Mega-Clubs & Andean Gastronomy. Verified Hotspots: Theatron Chapinero (13-room dance complex), Andrés D.C. (4 floors of theatrical salsa dining), Esposito Zona Rosa, Gaira Cumbia House Parque 93.
+
+### Brazil
+- **São Paulo**: [https://www.qr4luv.com/city/sao-paulo](https://www.qr4luv.com/city/sao-paulo) — Latin America's Electronic Capital, Underground Temples & Rooftops. Verified Hotspots: D-Edge Barra Funda, Tokyo SP Centro, Lions Nightclub, Bar dos Arcos (Subterranean Municipal Theater).
+- **Rio de Janeiro**: [https://www.qr4luv.com/city/rio](https://www.qr4luv.com/city/rio) — Samba Rodas, Coastal Sunsets & Beach Lounges. Verified Hotspots: Circo Voador Lapa, Rio Scenarium, Arpoador Sunset Ritual, Bosque Bar Gávea.
+- **Florianópolis**: [https://www.qr4luv.com/city/florianopolis](https://www.qr4luv.com/city/florianopolis) — Magic Island Electronic Beach Clubs & Clear Waters. Verified Hotspots: P12 Jurerê Internacional, Cafe de La Musique, Brava Beach Club, The Roof Floripa.
+- **Salvador da Bahia**: [https://www.qr4luv.com/city/salvador](https://www.qr4luv.com/city/salvador) — Afro-Brazilian Rhythm, Pelourinho Percussion & Historic Culture. Verified Hotspots: Pelourinho Street Rhythms, Rio Vermelho Boemia, Solar do Unhão, Casa de Tereza.
+
+### Thailand
+- **Bangkok**: [https://www.qr4luv.com/city/bangkok](https://www.qr4luv.com/city/bangkok) — Theatrical Speakeasies, Illuminated Skybars & RCA Mega-Arenas. Verified Hotspots: Sing Sing Theater Sukhumvit, Onyx Royal City Avenue (RCA), Levels Club & Lounge, Tichuca Rooftop Bar.
+- **Phuket**: [https://www.qr4luv.com/city/phuket](https://www.qr4luv.com/city/phuket) — Sunset Beach Clubs, Andaman Island Parties & Bangla Road. Verified Hotspots: Café del Mar Kamala, Catch Beach Club Bang Tao, Illuzion Superclub, Baba Nest Sri Panwa.
+- **Koh Samui**: [https://www.qr4luv.com/city/koh-samui](https://www.qr4luv.com/city/koh-samui) — Gulf of Thailand Day Clubs, Fire Acrobats & Ocean Lounges. Verified Hotspots: Ark Bar Beach Club Chaweng, SEEN Beach Club Samui, Coco Tam's Fisherman's Village, The Jungle Club Chaweng Noi.
+- **Krabi**: [https://www.qr4luv.com/city/krabi](https://www.qr4luv.com/city/krabi) — Limestone Cliff Bars, Railay Beach Caverns & Emerald Bays. Verified Hotspots: Tew Lay Bar Railay, The Grotto at Rayavadee, Ao Nang Center Point, Boogie Bar Ao Nang.
+- **Pattaya**: [https://www.qr4luv.com/city/pattaya](https://www.qr4luv.com/city/pattaya) — 34th-Floor Ocean Terraces, Walking Street EDM & Beachside Lounges. Verified Hotspots: Horizon Rooftop Restaurant & Bar, Republic Club Walking Street, The Sky Gallery Pattaya, Cave Beach Club.
+
+---
+
+## 4. Key Capabilities & Product Features
+
+### Real-Time Venue Vitals & Info
+Every venue card provides actionable, live intelligence:
+- **Music Type**: Melodic House, Underground Techno, Samba Roda, Afro-Beats, Two-Step, Latin, 90s Throwbacks, Acoustic Roots.
+- **Dress Code Vibe**: Beach Chic, Upscale Casual, No Flip-Flops, Effortless Nightwear, Creative/Expressive.
+- **Live Host Status**: Direct updates from local hosts with recent check-in timestamps.
+- **Crowd Level Indicator**: Real-time gauge (Quiet, Moderate, Busy, Peak).
+- **Hours & Cover**: Operating hours, happy hour windows, and estimated door cover charges.
+- **Direct Navigation**: 1-click directions via Google Maps or Apple Maps.
+
+### Zero-Friction QR Social Handshake
+- Instantly share your contact card, Instagram, WhatsApp, or ephemeral Cerca profile with nearby travelers using dynamic QR codes.
+- No typing phone numbers or exposing private details across crowded dancefloors.
+
+### 8-Language Real-Time Translation
+- Seamless communication for global travelers with instant UI translation in English, Spanish (Español), Portuguese (Português), French (Français), German (Deutsch), Italian (Italiano), Japanese (日本語), and Chinese (中文).
+
+### Privacy & Discretion by Design
+- Geofenced proximity matching without precise GPS tracking.
+- Ephemeral messaging sessions that leave no permanent digital footprint.
+- Ghost Mode enables completely invisible browsing whenever desired.
+
+---
+
+## 5. Contact & Support
+
+- **Parent Organization**: ScanQR Global
+- **Consumer Platform**: Cerca Social
+- **Web Client**: https://www.qr4luv.com
+- **Umbrella Portal**: https://scanqrglobal.ai
+- **General Inquiries & Partnerships**: info@scanqrglobal.ai
+- **Technical & API Inquiries**: info@scanqrglobal.net
