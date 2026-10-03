@@ -86,5 +86,5 @@ Every venue card provides actionable, live intelligence:
 - **Consumer Platform**: Cerca Social
 - **Web Client**: https://www.qr4luv.com
 - **Umbrella Portal**: https://scanqrglobal.ai
-- **General Inquiries & Partnerships**: info@scanqrglobal.ai
-- **Technical & API Inquiries**: info@scanqrglobal.net
+- **General Inquiries, Host Bookings & Support**: qr4luv@gmail.com
+- **Technical & API Inquiries**: qr4luv@gmail.com

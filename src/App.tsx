@@ -2738,7 +2738,7 @@ export default function App() {
               <div style={{ display: 'flex', flexDirection: 'column', gap: 8, marginTop: 4 }}>
                 {/* Button 1: Direct Email Booking */}
                 <a
-                  href={`mailto:info@scanqrglobal.ai?subject=${encodeURIComponent(`Guide Inquiry: ${selectedHostModal.name} (${selectedHostModal.city})`)}&body=${encodeURIComponent(
+                  href={`mailto:qr4luv@gmail.com?subject=${encodeURIComponent(`Guide Inquiry: ${selectedHostModal.name} (${selectedHostModal.city})`)}&body=${encodeURIComponent(
                     `Hi ${selectedHostModal.name},\n\nI saw your verified profile on ScanQR Global / Cerca for ${selectedHostModal.city}. I am planning a visit and would like to connect for local nightlife recommendations and guide services.\n\nTravel Dates:\nGroup Size:\nPreferred Spots / Vibe:\n\nLooking forward to hearing from you!\n`
                   )}`}
                   style={{
@@ -2876,7 +2876,7 @@ export default function App() {
 
           {/* Badge 3: Support email */}
           <a
-            href="mailto:info@scanqrglobal.ai"
+            href="mailto:qr4luv@gmail.com"
             style={{
               display: 'inline-flex',
               alignItems: 'center',
@@ -2892,7 +2892,7 @@ export default function App() {
             }}
           >
             <Mail size={16} />
-            <span>info@scanqrglobal.ai</span>
+            <span>qr4luv@gmail.com</span>
           </a>
         </div>
       </section>
@@ -2966,7 +2966,7 @@ export default function App() {
               <li><a href={`${CERCA_BASE_URL}/terms`} style={{ color: '#a1a1aa', textDecoration: 'none' }}>Terms of Service</a></li>
               <li><a href="https://play.google.com/store/apps/details?id=com.qr4luv.cerca" target="_blank" rel="noopener noreferrer" style={{ color: '#38bdf8', textDecoration: 'none' }}>Android App (Google Play)</a></li>
               <li><a href="/llms.txt" style={{ color: '#a1a1aa', textDecoration: 'none' }}>AI Context (llms.txt)</a></li>
-              <li><a href="mailto:info@scanqrglobal.ai" style={{ color: '#38bdf8', textDecoration: 'none' }}>info@scanqrglobal.ai</a></li>
+              <li><a href="mailto:qr4luv@gmail.com" style={{ color: '#38bdf8', textDecoration: 'none' }}>qr4luv@gmail.com</a></li>
             </ul>
 
             {/* 8-Language Selector */}
