@@ -91,14 +91,38 @@ export default function App() {
         pulse: 'Samba-Reggae Drums',
         venuesCount: '4+ Hotspots',
       },
+      {
+        name: 'São Paulo',
+        slug: 'sao-paulo',
+        img: 'https://images.unsplash.com/photo-1578632767115-351597cf2477?w=1000&auto=format&fit=crop&q=80',
+        tag: 'Techno Temples & Rooftops',
+        pulse: 'Underground Electronic & D-Edge',
+        venuesCount: '4+ Hotspots',
+      },
     ],
     thailand: [
+      {
+        name: 'Bangkok',
+        slug: 'bangkok',
+        img: 'https://images.unsplash.com/photo-1508009603885-50cf7c579365?w=1000&auto=format&fit=crop&q=80',
+        tag: 'Theatrical Speakeasies & RCA',
+        pulse: 'Sing Sing Theater & Skybars',
+        venuesCount: '4+ Hotspots',
+      },
       {
         name: 'Phuket',
         slug: 'phuket',
         img: 'https://images.unsplash.com/photo-1589394815804-964ed0be2eb5?w=1000&auto=format&fit=crop&q=80',
         tag: 'Sunset Clubs & Islands',
         pulse: 'Tropical House & Superclubs',
+        venuesCount: '4+ Hotspots',
+      },
+      {
+        name: 'Koh Samui',
+        slug: 'koh-samui',
+        img: 'https://images.unsplash.com/photo-1537956965359-7573183d1f57?w=1000&auto=format&fit=crop&q=80',
+        tag: 'Day Clubs & Fire Acrobats',
+        pulse: 'Ark Bar Beach & Sunken Pools',
         venuesCount: '4+ Hotspots',
       },
       {
