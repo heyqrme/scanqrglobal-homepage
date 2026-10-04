@@ -28,6 +28,15 @@ import {
   X,
   MessageCircle,
 } from 'lucide-react'
+import {
+  SUPPORTED_LOCALES,
+  TRANSLATIONS,
+  LOCATION_TRANSLATIONS,
+  HOST_TRANSLATIONS,
+  getStoredLocale,
+  setStoredLocale,
+  type Locale,
+} from './i18n'
 
 const CERCA_BASE_URL = 'https://www.qr4luv.com'
 
@@ -495,9 +504,27 @@ export interface VerifiedHostData {
 }
 
 export default function App() {
+  const [locale, setLocale] = useState<Locale>(() => getStoredLocale())
+  const t = TRANSLATIONS[locale] || TRANSLATIONS.en
+
+  const handleLocaleChange = (newLocale: Locale) => {
+    setLocale(newLocale)
+    setStoredLocale(newLocale)
+  }
+
   const [activeMarket, setActiveMarket] = useState<'usa' | 'colombia' | 'brazil' | 'thailand'>('usa')
   const [dropIndex, setDropIndex] = useState(0)
-  const [selectedLanguage, setSelectedLanguage] = useState('English')
+
+  // Auto-switch regional hub tab when switching to a locale with a primary market
+  useEffect(() => {
+    if (locale === 'th') {
+      setActiveMarket('thailand')
+    } else if (locale === 'es') {
+      setActiveMarket('colombia')
+    } else if (locale === 'pt') {
+      setActiveMarket('brazil')
+    }
+  }, [locale])
 
   // Selected host for Interactive Dossier Modal
   const [selectedHostModal, setSelectedHostModal] = useState<VerifiedHostData | null>(null)
@@ -1111,6 +1138,39 @@ export default function App() {
         </div>
 
         <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+          {/* TOP LANGUAGE PICKER */}
+          <div style={{
+            display: 'flex',
+            alignItems: 'center',
+            gap: 6,
+            background: 'rgba(255, 255, 255, 0.06)',
+            border: '1px solid rgba(255, 255, 255, 0.14)',
+            borderRadius: 10,
+            padding: '4px 10px',
+          }}>
+            <Globe size={15} color="#06b6d4" />
+            <select
+              value={locale}
+              onChange={(e) => handleLocaleChange(e.target.value as Locale)}
+              aria-label={t.nav.languageSelector}
+              style={{
+                background: 'transparent',
+                border: 'none',
+                color: '#fff',
+                fontSize: 13,
+                fontWeight: 700,
+                outline: 'none',
+                cursor: 'pointer',
+              }}
+            >
+              {SUPPORTED_LOCALES.map((l) => (
+                <option key={l.code} value={l.code} style={{ background: '#0a0a10', color: '#fff' }}>
+                  {l.flag} {l.nativeLabel}
+                </option>
+              ))}
+            </select>
+          </div>
+
           <a
             href={`${CERCA_BASE_URL}/explore`}
             style={{
@@ -1125,7 +1185,7 @@ export default function App() {
               transition: 'background 0.2s',
             }}
           >
-            Explore Map
+            {t.nav.exploreMap}
           </a>
           <a
             href={CERCA_BASE_URL}
@@ -1143,7 +1203,7 @@ export default function App() {
               gap: 6,
             }}
           >
-            Launch Cerca App <ArrowRight size={14} />
+            {t.nav.launchApp} <ArrowRight size={14} />
           </a>
         </div>
       </nav>
@@ -1195,16 +1255,18 @@ export default function App() {
               display: 'inline-block',
               animation: 'pulseDot 1.8s infinite',
             }} />
-            Live Telemetry
+            {t.telemetry.liveBadge}
           </div>
           <span style={{ color: '#52525b', fontSize: 11 }}>
-            15 HUBS ONLINE • AES-256
+            {t.telemetry.hubsOnline}
           </span>
         </div>
 
         {/* Center: Dynamic Active Signal */}
         {(() => {
           const currentEvt = TELEMETRY_EVENTS[telemetryIndex]
+          const evtLoc = LOCATION_TRANSLATIONS[currentEvt.slug]?.[locale] || LOCATION_TRANSLATIONS[currentEvt.slug]?.en
+          const eventCityName = evtLoc?.name || currentEvt.city
           return (
             <div
               onClick={() => {
@@ -1225,7 +1287,7 @@ export default function App() {
                 transition: 'background 0.2s',
               }}
               className="telemetry-hover"
-              title="Click to jump to this active hub"
+              title={t.telemetry.jumpTitle}
             >
               <span style={{
                 padding: '2px 6px',
@@ -1240,7 +1302,7 @@ export default function App() {
               </span>
 
               <span style={{ color: '#e4e4e7', fontWeight: 700 }}>
-                {currentEvt.flag} [{currentEvt.city}]
+                {currentEvt.flag} [{eventCityName}]
               </span>
 
               <span style={{ color: '#06b6d4', fontWeight: 600 }}>
@@ -1264,7 +1326,7 @@ export default function App() {
               </span>
 
               <span style={{ color: '#38bdf8', fontSize: 11, display: 'inline-flex', alignItems: 'center', gap: 2 }}>
-                Jump <ArrowRight size={10} />
+                {t.telemetry.jump} <ArrowRight size={10} />
               </span>
             </div>
           )
@@ -1289,7 +1351,7 @@ export default function App() {
               alignItems: 'center',
               justifyContent: 'center',
             }}
-            title="Previous Signal"
+            title={t.telemetry.prevSignal}
           >
             <ChevronLeft size={12} />
           </button>
@@ -1307,7 +1369,7 @@ export default function App() {
               alignItems: 'center',
               justifyContent: 'center',
             }}
-            title="Next Signal"
+            title={t.telemetry.nextSignal}
           >
             <ChevronRight size={12} />
           </button>
@@ -1349,7 +1411,7 @@ export default function App() {
             textTransform: 'uppercase',
             letterSpacing: '0.06em',
           }}>
-            ⚡ ScanQR Global • The Master Gateway for Cerca Social on qr4luv.com
+            {t.hero.badge}
           </div>
 
           {/* Headline */}
@@ -1363,7 +1425,7 @@ export default function App() {
             WebkitBackgroundClip: 'text',
             WebkitTextFillColor: 'transparent',
           }}>
-            Live Social Map for People, Places, Nightlife &amp; Travelers
+            {t.hero.headline}
           </h1>
 
           {/* Subheadline */}
@@ -1375,7 +1437,7 @@ export default function App() {
             margin: '0 auto 40px',
             fontWeight: 400,
           }}>
-            Explore global cities, verify live crowd levels, discover curated nightlife, and connect safely with zero-barrier guest access — powered by Cerca on <strong style={{ color: '#fff' }}>qr4luv.com</strong>.
+            {t.hero.subheadline}
           </p>
 
           {/* Action Buttons */}
@@ -1397,7 +1459,7 @@ export default function App() {
                 boxShadow: '0 8px 30px rgba(168, 85, 247, 0.38)',
               }}
             >
-              Explore Live Cities <ExternalLink size={16} />
+              {t.hero.exploreCities} <ExternalLink size={16} />
             </a>
             <a
               href={`${CERCA_BASE_URL}/tonight`}
@@ -1417,7 +1479,7 @@ export default function App() {
                 backdropFilter: 'blur(10px)',
               }}
             >
-              Tonight’s Live Pulse <Flame size={16} color="#f43f5e" />
+              {t.hero.tonightsPulse} <Flame size={16} color="#f43f5e" />
             </a>
             <a
               href="https://play.google.com/store/apps/details?id=com.qr4luv.cerca"
@@ -1439,12 +1501,12 @@ export default function App() {
                 backdropFilter: 'blur(10px)',
               }}
             >
-              📱 Google Play App
+              {t.hero.googlePlay}
             </a>
           </div>
 
           <div style={{ fontSize: 13, color: '#94a3b8', marginBottom: 20 }}>
-            ✓ No account required to browse • Real-time verified staff updates • Instant guest access
+            {t.hero.guarantee}
           </div>
 
           {/* PROXIMITY GEO-PING BUTTON & RADAR LOCK HUD */}
@@ -1470,7 +1532,7 @@ export default function App() {
               }}
             >
               <Crosshair size={18} style={{ animation: geoStatus === 'scanning' ? 'radarSpin 1.4s linear infinite' : 'none' }} />
-              <span>{geoStatus === 'scanning' ? '🛰️ Acquiring Orbital Telemetry...' : '⚡ Detect My Vibe / Radar Ping Nearest Hub'}</span>
+              <span>{geoStatus === 'scanning' ? t.geoPing.buttonScanning : t.geoPing.buttonIdle}</span>
             </button>
           </div>
 
@@ -1514,81 +1576,85 @@ export default function App() {
                   }} />
                   <div>
                     <div style={{ fontSize: 13, fontWeight: 800, color: '#38bdf8', marginBottom: 4 }}>
-                      [STAGE {geoScanStep}/3] {geoScanStep === 1 ? '🛰️ Calibrating orbital sensor mesh...' : geoScanStep === 2 ? '📡 Triangulating GPS latitude & longitude...' : '⚡ Calculating Great-Circle distance to 15 hubs...'}
+                      [STAGE {geoScanStep}/3] {geoScanStep === 1 ? t.geoPing.stage1 : geoScanStep === 2 ? t.geoPing.stage2 : t.geoPing.stage3}
                     </div>
                     <div style={{ fontSize: 12, color: '#71717a' }}>
-                      Locating closest active telemetry node across USA, Colombia, Brazil &amp; Thailand...
+                      {t.geoPing.stageSubtitle}
                     </div>
                   </div>
                 </div>
-              ) : geoData ? (
-                <div>
-                  <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 12, flexWrap: 'wrap', gap: 8 }}>
-                    <div style={{ display: 'inline-flex', alignItems: 'center', gap: 8 }}>
-                      <span style={{
-                        width: 8,
-                        height: 8,
-                        borderRadius: '50%',
-                        background: '#10b981',
-                        boxShadow: '0 0 10px #10b981',
-                        display: 'inline-block',
-                      }} />
-                      <span style={{ fontSize: 11, fontWeight: 800, color: '#10b981', textTransform: 'uppercase', letterSpacing: '0.06em' }}>
-                        SIGNAL LOCKED • {geoData.isFallback ? 'TELEMETRY SIMULATION' : 'GPS HIGH-PRECISION'}
-                      </span>
-                    </div>
-                    <span style={{ fontSize: 11, fontFamily: 'monospace', color: '#71717a' }}>
-                      LAT: {geoData.lat.toFixed(4)}° • LNG: {geoData.lng.toFixed(4)}°
-                    </span>
-                  </div>
-
-                  <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', flexWrap: 'wrap', gap: 14 }}>
-                    <div>
-                      <div style={{ fontSize: 20, fontWeight: 900, color: '#fff', marginBottom: 4, display: 'flex', alignItems: 'center', gap: 8 }}>
-                        <span>{geoData.nearestHub.flag}</span>
-                        <span>{geoData.nearestHub.name}, {geoData.nearestHub.country}</span>
+              ) : geoData ? (() => {
+                const nearestLoc = LOCATION_TRANSLATIONS[geoData.nearestHub.slug]?.[locale] || LOCATION_TRANSLATIONS[geoData.nearestHub.slug]?.en
+                const nearestCityName = nearestLoc?.name || geoData.nearestHub.name
+                return (
+                  <div>
+                    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 12, flexWrap: 'wrap', gap: 8 }}>
+                      <div style={{ display: 'inline-flex', alignItems: 'center', gap: 8 }}>
                         <span style={{
-                          fontSize: 12,
-                          fontWeight: 700,
-                          padding: '2px 8px',
-                          borderRadius: 6,
-                          background: 'rgba(6, 182, 212, 0.15)',
-                          color: '#38bdf8',
-                          border: '1px solid rgba(6, 182, 212, 0.3)',
-                        }}>
-                          {geoData.distanceKm} km away
+                          width: 8,
+                          height: 8,
+                          borderRadius: '50%',
+                          background: '#10b981',
+                          boxShadow: '0 0 10px #10b981',
+                          display: 'inline-block',
+                        }} />
+                        <span style={{ fontSize: 11, fontWeight: 800, color: '#10b981', textTransform: 'uppercase', letterSpacing: '0.06em' }}>
+                          {t.geoPing.signalLocked} • {geoData.isFallback ? t.geoPing.simulatedSignal : 'GPS HIGH-PRECISION'}
                         </span>
                       </div>
-                      <p style={{ margin: '0 0 8px', fontSize: 13, color: '#cbd5e1' }}>
-                        Current Pulse: <strong style={{ color: '#ec4899' }}>{geoData.nearestHub.pulse}</strong> • Vibe: <strong style={{ color: '#a855f7' }}>{geoData.nearestHub.vibe}</strong>
-                      </p>
-                      <p style={{ margin: 0, fontSize: 12, color: '#94a3b8' }}>
-                        Recommended Hotspot: <strong style={{ color: '#fff' }}>{geoData.nearestHub.topSpot}</strong>
-                      </p>
+                      <span style={{ fontSize: 11, fontFamily: 'monospace', color: '#71717a' }}>
+                        LAT: {geoData.lat.toFixed(4)}° • LNG: {geoData.lng.toFixed(4)}°
+                      </span>
                     </div>
 
-                    <a
-                      href={`${CERCA_BASE_URL}/city/${geoData.nearestHub.slug}`}
-                      style={{
-                        padding: '10px 18px',
-                        borderRadius: 12,
-                        background: 'linear-gradient(135deg, #06b6d4, #a855f7)',
-                        color: '#fff',
-                        fontSize: 13,
-                        fontWeight: 800,
-                        textDecoration: 'none',
-                        display: 'inline-flex',
-                        alignItems: 'center',
-                        gap: 6,
-                        boxShadow: '0 4px 16px rgba(6, 182, 212, 0.3)',
-                        flexShrink: 0,
-                      }}
-                    >
-                      Enter {geoData.nearestHub.name} Live Map <ArrowRight size={14} />
-                    </a>
+                    <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', flexWrap: 'wrap', gap: 14 }}>
+                      <div>
+                        <div style={{ fontSize: 20, fontWeight: 900, color: '#fff', marginBottom: 4, display: 'flex', alignItems: 'center', gap: 8 }}>
+                          <span>{geoData.nearestHub.flag}</span>
+                          <span>{nearestCityName}, {geoData.nearestHub.country}</span>
+                          <span style={{
+                            fontSize: 12,
+                            fontWeight: 700,
+                            padding: '2px 8px',
+                            borderRadius: 6,
+                            background: 'rgba(6, 182, 212, 0.15)',
+                            color: '#38bdf8',
+                            border: '1px solid rgba(6, 182, 212, 0.3)',
+                          }}>
+                            {geoData.distanceKm} {t.geoPing.kmAway}
+                          </span>
+                        </div>
+                        <p style={{ margin: '0 0 8px', fontSize: 13, color: '#cbd5e1' }}>
+                          {t.geoPing.currentPulse}: <strong style={{ color: '#ec4899' }}>{geoData.nearestHub.pulse}</strong> • {t.geoPing.vibeLabel}: <strong style={{ color: '#a855f7' }}>{geoData.nearestHub.vibe}</strong>
+                        </p>
+                        <p style={{ margin: 0, fontSize: 12, color: '#94a3b8' }}>
+                          {t.geoPing.recommendedSpot}: <strong style={{ color: '#fff' }}>{geoData.nearestHub.topSpot}</strong>
+                        </p>
+                      </div>
+
+                      <a
+                        href={`${CERCA_BASE_URL}/city/${geoData.nearestHub.slug}`}
+                        style={{
+                          padding: '10px 18px',
+                          borderRadius: 12,
+                          background: 'linear-gradient(135deg, #06b6d4, #a855f7)',
+                          color: '#fff',
+                          fontSize: 13,
+                          fontWeight: 800,
+                          textDecoration: 'none',
+                          display: 'inline-flex',
+                          alignItems: 'center',
+                          gap: 6,
+                          boxShadow: '0 4px 16px rgba(6, 182, 212, 0.3)',
+                          flexShrink: 0,
+                        }}
+                      >
+                        {t.geoPing.enterCityMap.replace('{city}', nearestCityName)} <ArrowRight size={14} />
+                      </a>
+                    </div>
                   </div>
-                </div>
-              ) : null}
+                )
+              })() : null}
             </div>
           )}
 
@@ -1637,7 +1703,7 @@ export default function App() {
                 </span>
               </div>
               <span style={{ fontSize: 11, color: '#71717a' }}>
-                Natural Language Parser • 15 Hubs
+                {t.queryBar.subtitle}
               </span>
             </div>
 
@@ -1660,7 +1726,7 @@ export default function App() {
                 onKeyDown={(e) => {
                   if (e.key === 'Enter') handleQuerySubmit(queryInput)
                 }}
-                placeholder="Ask Cerca AI: 'Where is the best nightlife in Bogotá?', 'Bangkok speakeasies', 'How does QR handshake work?'..."
+                placeholder={t.queryBar.inputPlaceholder}
                 style={{
                   flex: 1,
                   background: 'transparent',
@@ -1713,7 +1779,7 @@ export default function App() {
                   transition: 'all 0.15s ease',
                 }}
               >
-                {isSynthesizing ? 'Synthesizing...' : 'Query AI'}
+                {isSynthesizing ? t.queryBar.synthesizing : t.queryBar.queryButton}
                 <Zap size={14} />
               </button>
             </div>
@@ -1726,14 +1792,14 @@ export default function App() {
               marginTop: 12,
               alignItems: 'center',
             }}>
-              <span style={{ fontSize: 11, color: '#71717a', fontWeight: 600 }}>Try queries:</span>
+              <span style={{ fontSize: 11, color: '#71717a', fontWeight: 600 }}>{t.queryBar.tryQueries}</span>
               {[
-                { label: '🔥 Nightlife in Bogotá', q: 'Where is the best nightlife in Bogotá?' },
-                { label: '🍸 Bangkok Speakeasies', q: 'Theatrical speakeasies in Bangkok' },
-                { label: '🎧 São Paulo Techno', q: 'Best underground techno in São Paulo' },
-                { label: '🏖️ Koh Samui Day Clubs', q: 'Beach day clubs on Koh Samui' },
-                { label: '📲 Safe QR Handshake', q: 'How does the safe QR handshake work?' },
-                { label: '🛡️ Zero-Barrier Guest Mode', q: 'Is Cerca free for guests without login?' },
+                { label: t.queryBar.chipBogota, q: 'Where is the best nightlife in Bogotá?' },
+                { label: t.queryBar.chipBangkok, q: 'Theatrical speakeasies in Bangkok' },
+                { label: t.queryBar.chipSaoPaulo, q: 'Best underground techno in São Paulo' },
+                { label: t.queryBar.chipSamui, q: 'Beach day clubs on Koh Samui' },
+                { label: t.queryBar.chipQR, q: 'How does the safe QR handshake work?' },
+                { label: t.queryBar.chipGuest, q: 'Is Cerca free for guests without login?' },
               ].map((chip) => (
                 <button
                   key={chip.label}
@@ -1863,10 +1929,10 @@ export default function App() {
       <section style={{ maxWidth: 1200, margin: '0 auto 80px', padding: '0 24px' }}>
         <div style={{ textAlign: 'center', marginBottom: 36 }}>
           <h2 style={{ fontSize: 'clamp(24px, 3.5vw, 34px)', fontWeight: 800, margin: '0 0 10px' }}>
-            Four Modes. Zero Confusion.
+            {t.pillars.sectionTitle}
           </h2>
           <p style={{ color: '#94a3b8', fontSize: 15, margin: 0 }}>
-            Designed for intuitive, real-world exploration and spontaneous nights out.
+            {t.pillars.sectionSubtitle}
           </p>
         </div>
 
@@ -1903,12 +1969,12 @@ export default function App() {
             }}>
               <Compass size={24} />
             </div>
-            <h3 style={{ margin: 0, fontSize: 19, fontWeight: 800 }}>Guest Mode</h3>
+            <h3 style={{ margin: 0, fontSize: 19, fontWeight: 800 }}>{t.pillars.guestModeTitle}</h3>
             <p style={{ margin: 0, fontSize: 14, color: '#475569', lineHeight: 1.55 }}>
-              Browse active city heatmaps, venues, events, and curated micro-guides immediately without creating an account.
+              {t.pillars.guestModeDesc}
             </p>
             <span style={{ fontSize: 13, fontWeight: 700, color: '#0284c7', marginTop: 'auto' }}>
-              Explore Map as Guest →
+              {t.pillars.guestModeCta} →
             </span>
           </a>
 
@@ -1940,12 +2006,12 @@ export default function App() {
             }}>
               <Globe size={24} />
             </div>
-            <h3 style={{ margin: 0, fontSize: 19, fontWeight: 800 }}>Tourist Mode</h3>
+            <h3 style={{ margin: 0, fontSize: 19, fontWeight: 800 }}>{t.pillars.touristModeTitle}</h3>
             <p style={{ margin: 0, fontSize: 14, color: '#475569', lineHeight: 1.55 }}>
-              Real-time multi-language translation, vetted safety advice, and insider beach &amp; nightlife itineraries worldwide.
+              {t.pillars.touristModeDesc}
             </p>
             <span style={{ fontSize: 13, fontWeight: 700, color: '#059669', marginTop: 'auto' }}>
-              Open Travel Buddy →
+              {t.pillars.touristModeCta} →
             </span>
           </a>
 
@@ -1977,12 +2043,12 @@ export default function App() {
             }}>
               <Flame size={24} />
             </div>
-            <h3 style={{ margin: 0, fontSize: 19, fontWeight: 800 }}>Nightlife &amp; Event Pulse</h3>
+            <h3 style={{ margin: 0, fontSize: 19, fontWeight: 800 }}>{t.pillars.pulseModeTitle}</h3>
             <p style={{ margin: 0, fontSize: 14, color: '#475569', lineHeight: 1.55 }}>
-              Live crowd levels (Quiet, Moderate, Busy, Peak), music genres, dress vibe, and entry costs before heading out.
+              {t.pillars.pulseModeDesc}
             </p>
             <span style={{ fontSize: 13, fontWeight: 700, color: '#e11d48', marginTop: 'auto' }}>
-              Check Tonight's Pulse →
+              {t.pillars.pulseModeCta} →
             </span>
           </a>
 
@@ -2014,12 +2080,12 @@ export default function App() {
             }}>
               <QrCode size={24} />
             </div>
-            <h3 style={{ margin: 0, fontSize: 19, fontWeight: 800 }}>Optional QR Identity</h3>
+            <h3 style={{ margin: 0, fontSize: 19, fontWeight: 800 }}>{t.pillars.qrModeTitle}</h3>
             <p style={{ margin: 0, fontSize: 14, color: '#475569', lineHeight: 1.55 }}>
-              Safe physical handshake for venue check-ins and verified social card exchanges without revealing personal numbers.
+              {t.pillars.qrModeDesc}
             </p>
             <span style={{ fontSize: 13, fontWeight: 700, color: '#d97706', marginTop: 'auto' }}>
-              Scan QR Contact Card →
+              {t.pillars.qrModeCta} →
             </span>
           </a>
         </div>
@@ -2037,13 +2103,13 @@ export default function App() {
         }}>
           <div>
             <div style={{ display: 'inline-flex', alignItems: 'center', gap: 6, color: '#38bdf8', fontSize: 12, fontWeight: 700, textTransform: 'uppercase', marginBottom: 6 }}>
-              <MapPin size={14} /> Curated Global Hubs
+              <MapPin size={14} /> {t.markets.badge}
             </div>
             <h2 style={{ fontSize: 'clamp(24px, 3.5vw, 34px)', fontWeight: 800, margin: '0 0 8px' }}>
-              Live City Guides &amp; Hotspots
+              {t.markets.title}
             </h2>
             <p style={{ color: '#94a3b8', fontSize: 15, margin: 0 }}>
-              Click any city to view its curated venues, live host statuses, and district vibes on Cerca.
+              {t.markets.subtitle}
             </p>
           </div>
 
@@ -2073,7 +2139,7 @@ export default function App() {
                   transition: 'all 0.15s ease',
                 }}
               >
-                {market === 'usa' ? '🇺🇸 USA' : market === 'colombia' ? '🇨🇴 Colombia' : market === 'brazil' ? '🇧🇷 Brazil' : '🇹🇭 Thailand'}
+                {market === 'usa' ? t.markets.usaTab : market === 'colombia' ? t.markets.colombiaTab : market === 'brazil' ? t.markets.brazilTab : t.markets.thailandTab}
               </button>
             ))}
           </div>
@@ -2087,6 +2153,12 @@ export default function App() {
         }}>
           {cities[activeMarket].map((city) => {
             const isTargeted = highlightedCitySlug === city.slug
+            const loc = LOCATION_TRANSLATIONS[city.slug]?.[locale] || LOCATION_TRANSLATIONS[city.slug]?.en
+            const cityName = loc?.name || city.name
+            const cityTag = loc?.tag || city.tag
+            const cityPulse = loc?.pulse || city.pulse
+            const venuesCount = loc?.venuesCount || city.venuesCount
+
             return (
               <a
                 key={city.name}
@@ -2132,64 +2204,65 @@ export default function App() {
                     <Zap size={11} /> Targeted Hub
                   </div>
                 )}
-              {/* City photo */}
-              <img
-                src={city.img}
-                alt={city.name}
-                style={{
+                {/* City photo */}
+                <img
+                  src={city.img}
+                  alt={cityName}
+                  style={{
+                    position: 'absolute',
+                    inset: 0,
+                    width: '100%',
+                    height: '100%',
+                    objectFit: 'cover',
+                    zIndex: 0,
+                    transition: 'transform 0.4s ease',
+                  }}
+                />
+                {/* Dark gradient overlay */}
+                <div style={{
                   position: 'absolute',
                   inset: 0,
-                  width: '100%',
-                  height: '100%',
-                  objectFit: 'cover',
-                  zIndex: 0,
-                  transition: 'transform 0.4s ease',
-                }}
-              />
-              {/* Dark gradient overlay */}
-              <div style={{
-                position: 'absolute',
-                inset: 0,
-                background: 'linear-gradient(to top, rgba(7, 7, 10, 0.95) 0%, rgba(7, 7, 10, 0.45) 55%, transparent 100%)',
-                zIndex: 1,
-              }} />
+                  background: 'linear-gradient(to top, rgba(7, 7, 10, 0.95) 0%, rgba(7, 7, 10, 0.45) 55%, transparent 100%)',
+                  zIndex: 1,
+                }} />
 
-              {/* City info */}
-              <div style={{ position: 'relative', zIndex: 2 }}>
-                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 4 }}>
-                  <span style={{ fontSize: 11, fontWeight: 700, color: '#38bdf8', textTransform: 'uppercase', letterSpacing: '0.04em' }}>
-                    {city.tag}
-                  </span>
-                  <span style={{ fontSize: 11, padding: '2px 8px', borderRadius: 6, background: 'rgba(255, 255, 255, 0.15)', color: '#fff', fontWeight: 600 }}>
-                    {city.venuesCount}
-                  </span>
+                {/* City info */}
+                <div style={{ position: 'relative', zIndex: 2 }}>
+                  <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 4 }}>
+                    <span style={{ fontSize: 11, fontWeight: 700, color: '#38bdf8', textTransform: 'uppercase', letterSpacing: '0.04em' }}>
+                      {cityTag}
+                    </span>
+                    <span style={{ fontSize: 11, padding: '2px 8px', borderRadius: 6, background: 'rgba(255, 255, 255, 0.15)', color: '#fff', fontWeight: 600 }}>
+                      {venuesCount}
+                    </span>
+                  </div>
+
+                  <h4 style={{ margin: '2px 0 6px', fontSize: 22, fontWeight: 900, color: '#fff' }}>
+                    {cityName}
+                  </h4>
+
+                  <div style={{ fontSize: 12, color: '#cbd5e1', marginBottom: 12 }}>
+                    🎵 {cityPulse}
+                  </div>
+
+                  <div style={{
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                    gap: 6,
+                    fontSize: 12,
+                    fontWeight: 700,
+                    color: '#a855f7',
+                    background: 'rgba(168, 85, 247, 0.15)',
+                    padding: '4px 10px',
+                    borderRadius: 8,
+                    border: '1px solid rgba(168, 85, 247, 0.3)',
+                  }}>
+                    {t.markets.viewCityGuide} <ArrowRight size={13} />
+                  </div>
                 </div>
-
-                <h4 style={{ margin: '2px 0 6px', fontSize: 22, fontWeight: 900, color: '#fff' }}>
-                  {city.name}
-                </h4>
-
-                <div style={{ fontSize: 12, color: '#cbd5e1', marginBottom: 12 }}>
-                  🎵 {city.pulse}
-                </div>
-
-                <div style={{
-                  display: 'inline-flex',
-                  alignItems: 'center',
-                  gap: 6,
-                  fontSize: 12,
-                  fontWeight: 700,
-                  color: '#a855f7',
-                  background: 'rgba(168, 85, 247, 0.15)',
-                  padding: '4px 10px',
-                  borderRadius: 8,
-                  border: '1px solid rgba(168, 85, 247, 0.3)',
-                }}>
-                  View Live City Guide <ArrowRight size={13} />
-                </div>
-              </div>
-            </a>
-          )})}
+              </a>
+            )
+          })}
         </div>
       </section>
 
@@ -2197,10 +2270,10 @@ export default function App() {
       <section id="app-previews" style={{ maxWidth: 1200, margin: '0 auto 80px', padding: '0 24px' }}>
         <div style={{ textAlign: 'center', marginBottom: 36 }}>
           <h2 style={{ fontSize: 'clamp(24px, 3.5vw, 34px)', fontWeight: 800, margin: '0 0 8px' }}>
-            Interactive App Modules
+            {t.carousel.sectionTitle}
           </h2>
           <p style={{ color: '#94a3b8', fontSize: 15, margin: 0 }}>
-            Curated tools engineered for immediate connection without paywalls.
+            {t.carousel.sectionSubtitle}
           </p>
         </div>
 
@@ -2382,7 +2455,7 @@ export default function App() {
                 fontSize: 13,
                 fontWeight: 700,
               }}>
-                View Full Guide on Cerca <ArrowRight size={14} />
+                {t.carousel.viewCercaGuide} <ArrowRight size={14} />
               </div>
             </div>
           </a>
@@ -2392,10 +2465,10 @@ export default function App() {
       {/* 6. VERIFIED HOSTS (5 Circular Avatars with Neon Rim Light + Badges) */}
       <section style={{ maxWidth: 1000, margin: '0 auto 80px', padding: '0 24px', textAlign: 'center' }}>
         <h2 style={{ fontSize: 'clamp(22px, 3vw, 32px)', fontWeight: 800, margin: '0 0 10px' }}>
-          Verified Local Hosts &amp; Concierges
+          {t.hosts.sectionTitle}
         </h2>
         <p style={{ color: '#94a3b8', fontSize: 15, margin: '0 0 36px' }}>
-          Connect with trusted district insiders and local creators live on Cerca.
+          {t.hosts.sectionSubtitle}
         </p>
 
         <div style={{
@@ -2404,208 +2477,56 @@ export default function App() {
           justifyContent: 'center',
           gap: 24,
         }}>
-          {verifiedHosts.map((host) => (
-            <div
-              key={host.id}
-              onClick={() => setSelectedHostModal(host)}
-              role="button"
-              tabIndex={0}
-              onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') setSelectedHostModal(host) }}
-              style={{
-                display: 'flex',
-                flexDirection: 'column',
-                alignItems: 'center',
-                gap: 10,
-                width: 156,
-                padding: '16px 12px',
-                borderRadius: 20,
-                background: 'rgba(255, 255, 255, 0.02)',
-                border: '1px solid rgba(255, 255, 255, 0.07)',
-                cursor: 'pointer',
-                transition: 'all 0.25s ease',
-                boxShadow: '0 4px 20px rgba(0, 0, 0, 0.3)',
-              }}
-            >
-              {/* Circular Avatar with Neon Rim Light */}
-              <div style={{
-                position: 'relative',
-                width: 88,
-                height: 88,
-                borderRadius: '50%',
-                padding: 3,
-                background: `linear-gradient(135deg, ${host.glow}, #ffffff)`,
-                boxShadow: `0 0 22px ${host.glow}66`,
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-              }}>
-                <img
-                  src={host.img}
-                  alt={host.name}
-                  style={{
-                    width: '100%',
-                    height: '100%',
-                    borderRadius: '50%',
-                    objectFit: 'cover',
-                    background: '#27272a',
-                  }}
-                />
-                <span
-                  style={{
-                    position: 'absolute',
-                    bottom: 0,
-                    right: 0,
-                    background: '#09090b',
-                    borderRadius: 999,
-                    display: 'flex',
-                  }}
-                >
-                  <ShieldCheck size={18} className="text-cyan-400" />
-                </span>
-              </div>
+          {verifiedHosts.map((host) => {
+            const hostLoc = HOST_TRANSLATIONS[host.id]?.[locale] || HOST_TRANSLATIONS[host.id]?.en
+            const hostName = hostLoc?.name || host.name
+            const hostCity = hostLoc?.city || host.city
+            const hostBadge = hostLoc?.badge || host.badge
 
-              <div style={{ textAlign: 'center' }}>
-                <h4 style={{ margin: 0, fontSize: 14.5, fontWeight: 700, color: '#fff' }}>
-                  {host.name}
-                </h4>
-                <div style={{ fontSize: 11.5, color: '#94a3b8', marginTop: 2 }}>
-                  {host.city} {host.flag}
-                </div>
-                <div style={{
-                  display: 'inline-flex',
+            return (
+              <div
+                key={host.id}
+                onClick={() => setSelectedHostModal(host)}
+                role="button"
+                tabIndex={0}
+                onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') setSelectedHostModal(host) }}
+                style={{
+                  display: 'flex',
+                  flexDirection: 'column',
                   alignItems: 'center',
-                  gap: 3,
-                  marginTop: 6,
-                  padding: '2px 8px',
-                  borderRadius: 999,
-                  background: 'rgba(255, 255, 255, 0.06)',
-                  border: '1px solid rgba(255, 255, 255, 0.12)',
-                  fontSize: 10.5,
-                  fontWeight: 600,
-                  color: '#e4e4e7',
-                }}>
-                  <span>{host.badge}</span>
-                </div>
+                  gap: 10,
+                  width: 156,
+                  padding: '16px 12px',
+                  borderRadius: 20,
+                  background: 'rgba(255, 255, 255, 0.02)',
+                  border: '1px solid rgba(255, 255, 255, 0.07)',
+                  cursor: 'pointer',
+                  transition: 'all 0.25s ease',
+                  boxShadow: '0 4px 20px rgba(0, 0, 0, 0.3)',
+                }}
+              >
+                {/* Circular Avatar with Neon Rim Light */}
                 <div style={{
-                  marginTop: 6,
-                  fontSize: 10.5,
-                  fontWeight: 700,
-                  color: '#38bdf8',
+                  position: 'relative',
+                  width: 88,
+                  height: 88,
+                  borderRadius: '50%',
+                  padding: 3,
+                  background: `linear-gradient(135deg, ${host.glow}, #ffffff)`,
+                  boxShadow: `0 0 22px ${host.glow}66`,
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'center',
-                  gap: 3,
                 }}>
-                  <Star size={10} fill="#facc15" color="#facc15" />
-                  <span>{host.rating.toFixed(1)} · Tap to Email</span>
-                </div>
-              </div>
-            </div>
-          ))}
-        </div>
-
-        {/* HOST PROFILE & CONTACT DOSSIER MODAL */}
-        {selectedHostModal && (
-          <div
-            role="dialog"
-            aria-modal="true"
-            onClick={() => setSelectedHostModal(null)}
-            style={{
-              position: 'fixed',
-              inset: 0,
-              background: 'rgba(3, 3, 5, 0.85)',
-              backdropFilter: 'blur(10px)',
-              zIndex: 99999,
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              padding: '16px 12px',
-            }}
-          >
-            <div
-              onClick={(e) => e.stopPropagation()}
-              style={{
-                background: '#0a0a10',
-                border: `1px solid ${selectedHostModal.glow}66`,
-                borderRadius: 24,
-                maxWidth: 520,
-                width: '100%',
-                padding: '24px 22px',
-                boxShadow: `0 25px 60px rgba(0, 0, 0, 0.9), 0 0 35px ${selectedHostModal.glow}33`,
-                maxHeight: '92vh',
-                overflowY: 'auto',
-                display: 'flex',
-                flexDirection: 'column',
-                gap: 16,
-                textAlign: 'left',
-                boxSizing: 'border-box',
-              }}
-            >
-              {/* Modal Top Bar */}
-              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-                <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-                  <span
-                    style={{
-                      fontSize: 10.5,
-                      fontWeight: 800,
-                      letterSpacing: '0.08em',
-                      textTransform: 'uppercase',
-                      color: '#38bdf8',
-                      background: 'rgba(6, 182, 212, 0.14)',
-                      padding: '3px 8px',
-                      borderRadius: 6,
-                      border: '1px solid rgba(6, 182, 212, 0.3)',
-                    }}
-                  >
-                    Verified Host Dossier
-                  </span>
-                  <span style={{ fontSize: 11, color: '#4ade80', fontWeight: 600 }}>
-                    ● {selectedHostModal.lastActiveText}
-                  </span>
-                </div>
-                <button
-                  type="button"
-                  onClick={() => setSelectedHostModal(null)}
-                  style={{
-                    width: 32,
-                    height: 32,
-                    borderRadius: 8,
-                    background: 'rgba(255, 255, 255, 0.08)',
-                    border: '1px solid rgba(255, 255, 255, 0.12)',
-                    color: '#e2e8f0',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    cursor: 'pointer',
-                  }}
-                >
-                  <X size={16} />
-                </button>
-              </div>
-
-              {/* Profile Hero */}
-              <div style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
-                <div
-                  style={{
-                    position: 'relative',
-                    width: 76,
-                    height: 76,
-                    borderRadius: '50%',
-                    padding: 3,
-                    background: `linear-gradient(135deg, ${selectedHostModal.glow}, #ffffff)`,
-                    boxShadow: `0 0 25px ${selectedHostModal.glow}88`,
-                    flexShrink: 0,
-                  }}
-                >
                   <img
-                    src={selectedHostModal.img}
-                    alt={selectedHostModal.name}
+                    src={host.img}
+                    alt={hostName}
                     style={{
                       width: '100%',
                       height: '100%',
                       borderRadius: '50%',
                       objectFit: 'cover',
-                      background: '#18181b',
+                      background: '#27272a',
                     }}
                   />
                   <span
@@ -2618,181 +2539,318 @@ export default function App() {
                       display: 'flex',
                     }}
                   >
-                    <ShieldCheck size={20} className="text-cyan-400" />
+                    <ShieldCheck size={18} className="text-cyan-400" />
                   </span>
                 </div>
 
-                <div style={{ flex: 1, minWidth: 0 }}>
-                  <h3 style={{ margin: 0, fontSize: 19, fontWeight: 800, color: '#fff' }}>
-                    {selectedHostModal.name}
-                  </h3>
-                  <div style={{ fontSize: 12, color: '#38bdf8', fontWeight: 600, marginTop: 2 }}>
-                    @{selectedHostModal.handle} · {selectedHostModal.role}
+                <div style={{ textAlign: 'center' }}>
+                  <h4 style={{ margin: 0, fontSize: 14.5, fontWeight: 700, color: '#fff' }}>
+                    {hostName}
+                  </h4>
+                  <div style={{ fontSize: 11.5, color: '#94a3b8', marginTop: 2 }}>
+                    {hostCity} {host.flag}
                   </div>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: 6, marginTop: 6, fontSize: 12, color: '#94a3b8' }}>
-                    <MapPin size={12} className="text-zinc-400" />
-                    <span>
-                      {selectedHostModal.city}, {selectedHostModal.country} {selectedHostModal.flag}
+                  <div style={{
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                    gap: 3,
+                    marginTop: 6,
+                    padding: '2px 8px',
+                    borderRadius: 999,
+                    background: 'rgba(255, 255, 255, 0.06)',
+                    border: '1px solid rgba(255, 255, 255, 0.12)',
+                    fontSize: 10.5,
+                    fontWeight: 600,
+                    color: '#e4e4e7',
+                  }}>
+                    <span>{hostBadge}</span>
+                  </div>
+                  <div style={{
+                    marginTop: 6,
+                    fontSize: 10.5,
+                    fontWeight: 700,
+                    color: '#38bdf8',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    gap: 3,
+                  }}>
+                    <Star size={10} fill="#facc15" color="#facc15" />
+                    <span>{host.rating.toFixed(1)} · {t.hosts.tapToEmail}</span>
+                  </div>
+                </div>
+              </div>
+            )
+          })}
+        </div>
+
+        {/* HOST PROFILE & CONTACT DOSSIER MODAL */}
+        {selectedHostModal && (() => {
+          const modalHostLoc = HOST_TRANSLATIONS[selectedHostModal.id]?.[locale] || HOST_TRANSLATIONS[selectedHostModal.id]?.en
+          const modalHostName = modalHostLoc?.name || selectedHostModal.name
+          const modalHostRole = modalHostLoc?.role || selectedHostModal.role
+          const modalHostCity = modalHostLoc?.city || selectedHostModal.city
+          const modalHostBio = modalHostLoc?.bio || selectedHostModal.bio
+
+          return (
+            <div
+              role="dialog"
+              aria-modal="true"
+              onClick={() => setSelectedHostModal(null)}
+              style={{
+                position: 'fixed',
+                inset: 0,
+                background: 'rgba(3, 3, 5, 0.85)',
+                backdropFilter: 'blur(10px)',
+                zIndex: 99999,
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                padding: '16px 12px',
+              }}
+            >
+              <div
+                onClick={(e) => e.stopPropagation()}
+                style={{
+                  background: '#0a0a10',
+                  border: `1px solid ${selectedHostModal.glow}66`,
+                  borderRadius: 24,
+                  maxWidth: 520,
+                  width: '100%',
+                  padding: '24px 22px',
+                  boxShadow: `0 25px 60px rgba(0, 0, 0, 0.9), 0 0 35px ${selectedHostModal.glow}33`,
+                  maxHeight: '92vh',
+                  overflowY: 'auto',
+                  display: 'flex',
+                  flexDirection: 'column',
+                  gap: 16,
+                  textAlign: 'left',
+                  boxSizing: 'border-box',
+                }}
+              >
+                {/* Modal Top Bar */}
+                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+                    <span
+                      style={{
+                        fontSize: 10.5,
+                        fontWeight: 800,
+                        letterSpacing: '0.08em',
+                        textTransform: 'uppercase',
+                        color: '#38bdf8',
+                        background: 'rgba(6, 182, 212, 0.14)',
+                        padding: '3px 8px',
+                        borderRadius: 6,
+                        border: '1px solid rgba(6, 182, 212, 0.3)',
+                      }}
+                    >
+                      {t.hosts.dossierTitle}
                     </span>
-                    <span>·</span>
-                    <div style={{ display: 'inline-flex', alignItems: 'center', gap: 3, color: '#facc15', fontWeight: 700 }}>
-                      <Star size={12} fill="#facc15" />
-                      <span>{selectedHostModal.rating.toFixed(1)} ({selectedHostModal.reviewsCount} reviews)</span>
+                    <span style={{ fontSize: 11, color: '#4ade80', fontWeight: 600 }}>
+                      ● {selectedHostModal.lastActiveText}
+                    </span>
+                  </div>
+                  <button
+                    type="button"
+                    onClick={() => setSelectedHostModal(null)}
+                    style={{
+                      width: 32,
+                      height: 32,
+                      borderRadius: 8,
+                      background: 'rgba(255, 255, 255, 0.08)',
+                      border: '1px solid rgba(255, 255, 255, 0.12)',
+                      color: '#e2e8f0',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      cursor: 'pointer',
+                    }}
+                  >
+                    <X size={16} />
+                  </button>
+                </div>
+
+                {/* Profile Hero */}
+                <div style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
+                  <div
+                    style={{
+                      position: 'relative',
+                      width: 76,
+                      height: 76,
+                      borderRadius: '50%',
+                      padding: 3,
+                      background: `linear-gradient(135deg, ${selectedHostModal.glow}, #ffffff)`,
+                      boxShadow: `0 0 25px ${selectedHostModal.glow}88`,
+                      flexShrink: 0,
+                    }}
+                  >
+                    <img
+                      src={selectedHostModal.img}
+                      alt={modalHostName}
+                      style={{
+                        width: '100%',
+                        height: '100%',
+                        borderRadius: '50%',
+                        objectFit: 'cover',
+                        background: '#18181b',
+                      }}
+                    />
+                    <span
+                      style={{
+                        position: 'absolute',
+                        bottom: 0,
+                        right: 0,
+                        background: '#09090b',
+                        borderRadius: 999,
+                        display: 'flex',
+                      }}
+                    >
+                      <ShieldCheck size={20} className="text-cyan-400" />
+                    </span>
+                  </div>
+
+                  <div style={{ flex: 1, minWidth: 0 }}>
+                    <h3 style={{ margin: 0, fontSize: 19, fontWeight: 800, color: '#fff' }}>
+                      {modalHostName}
+                    </h3>
+                    <div style={{ fontSize: 12, color: '#38bdf8', fontWeight: 600, marginTop: 2 }}>
+                      @{selectedHostModal.handle} · {modalHostRole}
+                    </div>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: 6, marginTop: 6, fontSize: 12, color: '#94a3b8' }}>
+                      <MapPin size={12} className="text-zinc-400" />
+                      <span>
+                        {modalHostCity}, {selectedHostModal.country} {selectedHostModal.flag}
+                      </span>
+                      <span>·</span>
+                      <div style={{ display: 'inline-flex', alignItems: 'center', gap: 3, color: '#facc15', fontWeight: 700 }}>
+                        <Star size={12} fill="#facc15" />
+                        <span>{selectedHostModal.rating.toFixed(1)} ({selectedHostModal.reviewsCount} reviews)</span>
+                      </div>
                     </div>
                   </div>
                 </div>
-              </div>
 
-              {/* Bio */}
-              <div
-                style={{
-                  borderRadius: 14,
-                  background: 'rgba(255, 255, 255, 0.03)',
-                  border: '1px solid rgba(255, 255, 255, 0.08)',
-                  padding: '12px 14px',
-                }}
-              >
-                <div style={{ fontSize: 11, fontWeight: 700, color: '#94a3b8', textTransform: 'uppercase', marginBottom: 6, letterSpacing: '0.05em' }}>
-                  Local Insider Dossier
-                </div>
-                <p style={{ margin: 0, fontSize: 13, lineHeight: 1.5, color: '#e2e8f0' }}>
-                  {selectedHostModal.bio}
-                </p>
-              </div>
-
-              {/* Available Services */}
-              <div>
-                <div style={{ fontSize: 11, fontWeight: 700, color: '#94a3b8', textTransform: 'uppercase', marginBottom: 6, letterSpacing: '0.05em' }}>
-                  Available Concierge Services
-                </div>
-                <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6 }}>
-                  {selectedHostModal.availableFor.map((service) => (
-                    <span
-                      key={service}
-                      style={{
-                        fontSize: 11,
-                        fontWeight: 700,
-                        padding: '4px 10px',
-                        borderRadius: 999,
-                        background: 'rgba(168, 85, 247, 0.15)',
-                        border: '1px solid rgba(168, 85, 247, 0.3)',
-                        color: '#c084fc',
-                      }}
-                    >
-                      ✦ {service}
-                    </span>
-                  ))}
-                </div>
-              </div>
-
-              {/* Curated Top Spots in City */}
-              <div>
-                <div style={{ fontSize: 11, fontWeight: 700, color: '#94a3b8', textTransform: 'uppercase', marginBottom: 6, letterSpacing: '0.05em' }}>
-                  Top Recommended Spots in {selectedHostModal.city}
-                </div>
-                <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6 }}>
-                  {selectedHostModal.topSpots.map((spot) => (
-                    <a
-                      key={spot}
-                      href={`${CERCA_BASE_URL}/city/${selectedHostModal.slug}`}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      style={{
-                        fontSize: 11.5,
-                        fontWeight: 600,
-                        padding: '4px 10px',
-                        borderRadius: 8,
-                        background: 'rgba(6, 182, 212, 0.12)',
-                        border: '1px solid rgba(6, 182, 212, 0.25)',
-                        color: '#38bdf8',
-                        textDecoration: 'none',
-                        display: 'inline-flex',
-                        alignItems: 'center',
-                        gap: 4,
-                      }}
-                    >
-                      <span>📍 {spot}</span>
-                      <ExternalLink size={11} className="text-cyan-400" />
-                    </a>
-                  ))}
-                </div>
-              </div>
-
-              {/* Languages & Music */}
-              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 10, fontSize: 12 }}>
-                <div style={{ background: 'rgba(255, 255, 255, 0.03)', padding: '10px 12px', borderRadius: 12, border: '1px solid rgba(255, 255, 255, 0.06)' }}>
-                  <div style={{ fontSize: 10.5, fontWeight: 700, color: '#94a3b8', textTransform: 'uppercase', marginBottom: 4 }}>
-                    Languages
-                  </div>
-                  <div style={{ color: '#fff', fontWeight: 600 }}>{selectedHostModal.languages.join(', ')}</div>
-                </div>
-                <div style={{ background: 'rgba(255, 255, 255, 0.03)', padding: '10px 12px', borderRadius: 12, border: '1px solid rgba(255, 255, 255, 0.06)' }}>
-                  <div style={{ fontSize: 10.5, fontWeight: 700, color: '#94a3b8', textTransform: 'uppercase', marginBottom: 4 }}>
-                    Music Pulse
-                  </div>
-                  <div style={{ color: '#fff', fontWeight: 600 }}>{selectedHostModal.musicTags.join(', ')}</div>
-                </div>
-              </div>
-
-              {/* Action Buttons: Email Guide & Open Cerca App */}
-              <div style={{ display: 'flex', flexDirection: 'column', gap: 8, marginTop: 4 }}>
-                {/* Button 1: Direct Email Booking */}
-                <a
-                  href={`mailto:qr4luv@gmail.com?subject=${encodeURIComponent(`Guide Inquiry: ${selectedHostModal.name} (${selectedHostModal.city})`)}&body=${encodeURIComponent(
-                    `Hi ${selectedHostModal.name},\n\nI saw your verified profile on ScanQR Global / Cerca for ${selectedHostModal.city}. I am planning a visit and would like to connect for local nightlife recommendations and guide services.\n\nTravel Dates:\nGroup Size:\nPreferred Spots / Vibe:\n\nLooking forward to hearing from you!\n`
-                  )}`}
+                {/* Bio */}
+                <div
                   style={{
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    gap: 8,
-                    padding: '12px 16px',
-                    borderRadius: 12,
-                    background: 'linear-gradient(135deg, #0284c7, #2563eb)',
-                    color: '#fff',
-                    fontWeight: 700,
-                    fontSize: 13,
-                    textDecoration: 'none',
-                    boxShadow: '0 4px 16px rgba(37, 99, 235, 0.35)',
-                    cursor: 'pointer',
+                    borderRadius: 14,
+                    background: 'rgba(255, 255, 255, 0.03)',
+                    border: '1px solid rgba(255, 255, 255, 0.08)',
+                    padding: '12px 14px',
                   }}
                 >
-                  <Mail size={16} />
-                  <span>Email Guide / Request Booking</span>
-                </a>
+                  <div style={{ fontSize: 11, fontWeight: 700, color: '#94a3b8', textTransform: 'uppercase', marginBottom: 6, letterSpacing: '0.05em' }}>
+                    {t.hosts.insiderDossier}
+                  </div>
+                  <p style={{ margin: 0, fontSize: 13, lineHeight: 1.5, color: '#e2e8f0' }}>
+                    {modalHostBio}
+                  </p>
+                </div>
 
-                {/* Button 2: Open Cerca App */}
-                <a
-                  href={`${CERCA_BASE_URL}/city/${selectedHostModal.slug}`}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  style={{
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    gap: 8,
-                    padding: '11px 16px',
-                    borderRadius: 12,
-                    background: 'rgba(168, 85, 247, 0.18)',
-                    border: '1px solid rgba(168, 85, 247, 0.35)',
-                    color: '#e9d5ff',
-                    fontWeight: 700,
-                    fontSize: 13,
-                    textDecoration: 'none',
-                    cursor: 'pointer',
-                  }}
-                >
-                  <Sparkles size={16} className="text-purple-300" />
-                  <span>Explore {selectedHostModal.city} on Cerca App</span>
-                  <ExternalLink size={13} />
-                </a>
+                {/* Available Services */}
+                <div>
+                  <div style={{ fontSize: 11, fontWeight: 700, color: '#94a3b8', textTransform: 'uppercase', marginBottom: 6, letterSpacing: '0.05em' }}>
+                    {t.hosts.availableServices}
+                  </div>
+                  <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6 }}>
+                    {selectedHostModal.availableFor.map((service) => (
+                      <span
+                        key={service}
+                        style={{
+                          fontSize: 11,
+                          fontWeight: 700,
+                          padding: '4px 10px',
+                          borderRadius: 999,
+                          background: 'rgba(168, 85, 247, 0.15)',
+                          border: '1px solid rgba(168, 85, 247, 0.3)',
+                          color: '#c084fc',
+                        }}
+                      >
+                        ✦ {service}
+                      </span>
+                    ))}
+                  </div>
+                </div>
 
-                {/* Button 3: WhatsApp Concierge */}
-                {selectedHostModal.whatsappSupported && (
+                {/* Curated Top Spots in City */}
+                <div>
+                  <div style={{ fontSize: 11, fontWeight: 700, color: '#94a3b8', textTransform: 'uppercase', marginBottom: 6, letterSpacing: '0.05em' }}>
+                    {t.hosts.topSpotsTitle.replace('{city}', modalHostCity)}
+                  </div>
+                  <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6 }}>
+                    {selectedHostModal.topSpots.map((spot) => (
+                      <a
+                        key={spot}
+                        href={`${CERCA_BASE_URL}/city/${selectedHostModal.slug}`}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        style={{
+                          fontSize: 11.5,
+                          fontWeight: 600,
+                          padding: '4px 10px',
+                          borderRadius: 8,
+                          background: 'rgba(6, 182, 212, 0.12)',
+                          border: '1px solid rgba(6, 182, 212, 0.25)',
+                          color: '#38bdf8',
+                          textDecoration: 'none',
+                          display: 'inline-flex',
+                          alignItems: 'center',
+                          gap: 4,
+                        }}
+                      >
+                        <span>📍 {spot}</span>
+                        <ExternalLink size={11} className="text-cyan-400" />
+                      </a>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Languages & Music */}
+                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 10, fontSize: 12 }}>
+                  <div style={{ background: 'rgba(255, 255, 255, 0.03)', padding: '10px 12px', borderRadius: 12, border: '1px solid rgba(255, 255, 255, 0.06)' }}>
+                    <div style={{ fontSize: 10.5, fontWeight: 700, color: '#94a3b8', textTransform: 'uppercase', marginBottom: 4 }}>
+                      {t.hosts.languagesLabel}
+                    </div>
+                    <div style={{ color: '#fff', fontWeight: 600 }}>{selectedHostModal.languages.join(', ')}</div>
+                  </div>
+                  <div style={{ background: 'rgba(255, 255, 255, 0.03)', padding: '10px 12px', borderRadius: 12, border: '1px solid rgba(255, 255, 255, 0.06)' }}>
+                    <div style={{ fontSize: 10.5, fontWeight: 700, color: '#94a3b8', textTransform: 'uppercase', marginBottom: 4 }}>
+                      {t.hosts.musicPulseLabel}
+                    </div>
+                    <div style={{ color: '#fff', fontWeight: 600 }}>{selectedHostModal.musicTags.join(', ')}</div>
+                  </div>
+                </div>
+
+                {/* Action Buttons: Email Guide & Open Cerca App */}
+                <div style={{ display: 'flex', flexDirection: 'column', gap: 8, marginTop: 4 }}>
+                  {/* Button 1: Direct Email Booking */}
                   <a
-                    href={`https://wa.me/?text=${encodeURIComponent(
-                      `Hi ${selectedHostModal.name}, I saw your verified host profile on ScanQR Global for ${selectedHostModal.city} and would like to ask about local spots & tours!`
+                    href={`mailto:qr4luv@gmail.com?subject=${encodeURIComponent(`Guide Inquiry: ${modalHostName} (${modalHostCity})`)}&body=${encodeURIComponent(
+                      `Hi ${modalHostName},\n\nI saw your verified profile on ScanQR Global / Cerca for ${modalHostCity}. I am planning a visit and would like to connect for local nightlife recommendations and guide services.\n\nTravel Dates:\nGroup Size:\nPreferred Spots / Vibe:\n\nLooking forward to hearing from you!\n`
                     )}`}
+                    style={{
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      gap: 8,
+                      padding: '12px 16px',
+                      borderRadius: 12,
+                      background: 'linear-gradient(135deg, #0284c7, #2563eb)',
+                      color: '#fff',
+                      fontWeight: 700,
+                      fontSize: 13,
+                      textDecoration: 'none',
+                      boxShadow: '0 4px 16px rgba(37, 99, 235, 0.35)',
+                      cursor: 'pointer',
+                    }}
+                  >
+                    <Mail size={16} />
+                    <span>{t.hosts.emailGuide}</span>
+                  </a>
+
+                  {/* Button 2: Open Cerca App */}
+                  <a
+                    href={`${CERCA_BASE_URL}/city/${selectedHostModal.slug}`}
                     target="_blank"
                     rel="noopener noreferrer"
                     style={{
@@ -2800,31 +2858,61 @@ export default function App() {
                       alignItems: 'center',
                       justifyContent: 'center',
                       gap: 8,
-                      padding: '10px 16px',
+                      padding: '11px 16px',
                       borderRadius: 12,
-                      background: 'rgba(34, 197, 94, 0.12)',
-                      border: '1px solid rgba(34, 197, 94, 0.25)',
-                      color: '#4ade80',
+                      background: 'rgba(168, 85, 247, 0.18)',
+                      border: '1px solid rgba(168, 85, 247, 0.35)',
+                      color: '#e9d5ff',
                       fontWeight: 700,
-                      fontSize: 12.5,
+                      fontSize: 13,
                       textDecoration: 'none',
                       cursor: 'pointer',
                     }}
                   >
-                    <MessageCircle size={15} />
-                    <span>WhatsApp Direct Concierge</span>
+                    <Sparkles size={16} className="text-purple-300" />
+                    <span>{t.hosts.exploreCityApp.replace('{city}', modalHostCity)}</span>
+                    <ExternalLink size={13} />
                   </a>
-                )}
+
+                  {/* Button 3: WhatsApp Concierge */}
+                  {selectedHostModal.whatsappSupported && (
+                    <a
+                      href={`https://wa.me/?text=${encodeURIComponent(
+                        `Hi ${modalHostName}, I saw your verified host profile on ScanQR Global for ${modalHostCity} and would like to ask about local spots & tours!`
+                      )}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      style={{
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        gap: 8,
+                        padding: '10px 16px',
+                        borderRadius: 12,
+                        background: 'rgba(34, 197, 94, 0.12)',
+                        border: '1px solid rgba(34, 197, 94, 0.25)',
+                        color: '#4ade80',
+                        fontWeight: 700,
+                        fontSize: 12.5,
+                        textDecoration: 'none',
+                        cursor: 'pointer',
+                      }}
+                    >
+                      <MessageCircle size={15} />
+                      <span>{t.hosts.whatsappDirect}</span>
+                    </a>
+                  )}
+                </div>
               </div>
             </div>
-          </div>
-        )}
+          )
+        })()}
       </section>
 
       {/* 7. TRUST & COMPLIANCE (Centered Badges) */}
       <section style={{ maxWidth: 900, margin: '0 auto 80px', padding: '0 24px', textAlign: 'center' }}>
         <h3 style={{ fontSize: 13, textTransform: 'uppercase', letterSpacing: '0.1em', color: '#71717a', marginBottom: 20 }}>
-          Trust, Security &amp; Compliance
+          {t.trust.sectionTitle}
         </h3>
 
         <div style={{
@@ -2848,7 +2936,7 @@ export default function App() {
             fontWeight: 700,
           }}>
             <ShieldCheck size={18} />
-            <span>Secured by ScanQR Global</span>
+            <span>{t.trust.securedBy}</span>
           </div>
 
           {/* Badge 2: Google Play 4.8 */}
@@ -2871,7 +2959,7 @@ export default function App() {
             }}
           >
             <Star size={16} fill="#fbbf24" />
-            <span>Google Play · Cerca (4.8★)</span>
+            <span>{t.trust.googlePlayRating}</span>
           </a>
 
           {/* Badge 3: Support email */}
@@ -2931,13 +3019,13 @@ export default function App() {
               <span style={{ fontSize: 17, fontWeight: 800 }}>ScanQR Global</span>
             </div>
             <p style={{ fontSize: 13, color: '#71717a', lineHeight: 1.6, margin: 0 }}>
-              The Master Intelligence Gateway for Cerca Social on qr4luv.com. Real-time translation, crowd pulse, and verified safety with zero-barrier guest access.
+              {t.footer.about}
             </p>
           </div>
 
           {/* Column: Cities */}
           <div>
-            <h4 style={{ fontSize: 14, fontWeight: 700, margin: '0 0 16px', color: '#fff' }}>Direct City Guides</h4>
+            <h4 style={{ fontSize: 14, fontWeight: 700, margin: '0 0 16px', color: '#fff' }}>{t.footer.citiesTitle}</h4>
             <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: 10, fontSize: 13 }}>
               <li><a href={`${CERCA_BASE_URL}/city/la`} style={{ color: '#a1a1aa', textDecoration: 'none' }}>Los Angeles</a> &bull; <a href={`${CERCA_BASE_URL}/city/miami`} style={{ color: '#a1a1aa', textDecoration: 'none' }}>Miami</a></li>
               <li><a href={`${CERCA_BASE_URL}/city/nyc`} style={{ color: '#a1a1aa', textDecoration: 'none' }}>New York City</a> &bull; <a href={`${CERCA_BASE_URL}/city/austin`} style={{ color: '#a1a1aa', textDecoration: 'none' }}>Austin</a></li>
@@ -2949,7 +3037,7 @@ export default function App() {
 
           {/* Column: Live Modes */}
           <div>
-            <h4 style={{ fontSize: 14, fontWeight: 700, margin: '0 0 16px', color: '#fff' }}>Explore Modes</h4>
+            <h4 style={{ fontSize: 14, fontWeight: 700, margin: '0 0 16px', color: '#fff' }}>{t.footer.modesTitle}</h4>
             <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: 10, fontSize: 13 }}>
               <li><a href={`${CERCA_BASE_URL}/explore`} style={{ color: '#a1a1aa', textDecoration: 'none' }}>Live Heatmap</a></li>
               <li><a href={`${CERCA_BASE_URL}/tonight`} style={{ color: '#a1a1aa', textDecoration: 'none' }}>Tonight's Pulse</a></li>
@@ -2960,7 +3048,7 @@ export default function App() {
 
           {/* Column: Safety & Contact + Language Selector */}
           <div>
-            <h4 style={{ fontSize: 14, fontWeight: 700, margin: '0 0 16px', color: '#fff' }}>Safety &amp; Compliance</h4>
+            <h4 style={{ fontSize: 14, fontWeight: 700, margin: '0 0 16px', color: '#fff' }}>{t.footer.safetyTitle}</h4>
             <ul style={{ listStyle: 'none', padding: 0, margin: '0 0 16px', display: 'flex', flexDirection: 'column', gap: 10, fontSize: 13 }}>
               <li><a href={`${CERCA_BASE_URL}/privacy`} style={{ color: '#a1a1aa', textDecoration: 'none' }}>Privacy Policy</a></li>
               <li><a href={`${CERCA_BASE_URL}/terms`} style={{ color: '#a1a1aa', textDecoration: 'none' }}>Terms of Service</a></li>
@@ -2971,10 +3059,10 @@ export default function App() {
 
             {/* 8-Language Selector */}
             <div style={{ marginTop: 12 }}>
-              <label style={{ fontSize: 11, color: '#71717a', display: 'block', marginBottom: 6 }}>Language (8 Languages)</label>
+              <label style={{ fontSize: 11, color: '#71717a', display: 'block', marginBottom: 6 }}>{t.footer.languageLabel}</label>
               <select
-                value={selectedLanguage}
-                onChange={(e) => setSelectedLanguage(e.target.value)}
+                value={locale}
+                onChange={(e) => handleLocaleChange(e.target.value as Locale)}
                 style={{
                   padding: '6px 12px',
                   borderRadius: 8,
@@ -2985,14 +3073,11 @@ export default function App() {
                   outline: 'none',
                 }}
               >
-                <option value="English">English</option>
-                <option value="Español">Español</option>
-                <option value="Português">Português</option>
-                <option value="Français">Français</option>
-                <option value="Deutsch">Deutsch</option>
-                <option value="Italiano">Italiano</option>
-                <option value="日本語">日本語</option>
-                <option value="中文">中文</option>
+                {SUPPORTED_LOCALES.map((l) => (
+                  <option key={l.code} value={l.code} style={{ background: '#121217', color: '#fff' }}>
+                    {l.flag} {l.nativeLabel}
+                  </option>
+                ))}
               </select>
             </div>
           </div>
@@ -3013,10 +3098,10 @@ export default function App() {
           color: '#52525b',
         }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-            <span>© 2026 ScanQR Global • All rights reserved.</span>
+            <span>{t.footer.copyright}</span>
           </div>
           <div>
-            <span>Connected to <strong style={{ color: '#cbd5e1' }}>qr4luv.com</strong> • Global Live Social Map</span>
+            <span>{t.footer.connected}</span>
           </div>
         </div>
       </footer>
