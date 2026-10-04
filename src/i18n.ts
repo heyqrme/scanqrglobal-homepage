@@ -138,6 +138,35 @@ export interface UiTranslations {
     hostsDesc: string
     supportEmailBadge: string
   }
+  classifieds: {
+    badge: string
+    title: string
+    subtitle: string
+    allTab: string
+    bangkokTab: string
+    phuketTab: string
+    samuiTab: string
+    globalTab: string
+    postBtn: string
+    modalTitle: string
+    modalSubtitle: string
+    formType: string
+    formCity: string
+    formTitle: string
+    formDetails: string
+    formContact: string
+    submitBtn: string
+    closeBtn: string
+    successMsg: string
+    contactConcierge: string
+  }
+  telemetryMonitor: {
+    title: string
+    sessionsToday: string
+    appRoutes: string
+    activeNow: string
+    status: string
+  }
   footer: {
     citiesCol: string
     featuresCol: string
@@ -255,6 +284,35 @@ export const TRANSLATIONS: Record<Locale, UiTranslations> = {
       hostsDesc: 'Every district curator and guide is certified by Cerca on-the-ground field ambassadors.',
       supportEmailBadge: 'Direct Concierge Email',
     },
+    classifieds: {
+      badge: 'Thailand & Global Community Board',
+      title: 'Nightlife Splits & Local Classifieds',
+      subtitle: 'VIP table shares, curated nightlife tours, island boat charters, and verified nomad sublets in Bangkok, Phuket, and Samui.',
+      allTab: 'All Listings',
+      bangkokTab: 'Bangkok 🇹🇭',
+      phuketTab: 'Phuket 🇹🇭',
+      samuiTab: 'Koh Samui 🇹🇭',
+      globalTab: 'Americas & Global 🌐',
+      postBtn: '+ Post Listing / Split a Table',
+      modalTitle: 'Submit a Classified Listing / Propose Table Split',
+      modalSubtitle: 'Directly verified by Darwin & Cerca Concierge. Once approved, your listing goes live across our global hubs.',
+      formType: 'Listing Category',
+      formCity: 'Destination City',
+      formTitle: 'Listing Title',
+      formDetails: 'Details, Dates & Split Cost',
+      formContact: 'Your Contact (Email or WhatsApp)',
+      submitBtn: 'Submit Listing to Concierge',
+      closeBtn: 'Close',
+      successMsg: 'Inquiry dispatched to Darwin & Cerca Concierge! Check your email.',
+      contactConcierge: 'Inquire via Concierge',
+    },
+    telemetryMonitor: {
+      title: 'LIVE TRAFFIC & TELEMETRY MONITOR',
+      sessionsToday: 'Verified Sessions Today',
+      appRoutes: 'Cerca App Routes',
+      activeNow: 'Active Visitors Now',
+      status: 'Hub Status: Thailand Online',
+    },
     footer: {
       citiesCol: 'Active Regional Hubs',
       featuresCol: 'Live Capabilities',
@@ -370,6 +428,35 @@ export const TRANSLATIONS: Record<Locale, UiTranslations> = {
       hostsTitle: 'โฮสต์ท้องถิ่นผ่านการตรวจสอบ 100%',
       hostsDesc: 'ผู้ดูแลและไกด์ทุกคนได้รับการรับรองโดยทูตภาคสนามของ Cerca ในแต่ละเมือง',
       supportEmailBadge: 'อีเมลคอนเซียร์จโดยตรง',
+    },
+    classifieds: {
+      badge: 'กระดานชุมชนประเทศไทย & สากล',
+      title: 'บอร์ดแชร์โต๊ะ VIP & บริการท้องถิ่น',
+      subtitle: 'แชร์โต๊ะ VIP คลับดัง, ไนท์ไลฟ์ทัวร์พร้อมไกด์ที่ผ่านการตรวจสอบ, เรือเหมาลำเที่ยวเกาะ และที่พัก Digital Nomad ในกรุงเทพฯ ภูเก็ต และสมุย',
+      allTab: 'รายการทั้งหมด',
+      bangkokTab: 'กรุงเทพฯ 🇹🇭',
+      phuketTab: 'ภูเก็ต 🇹🇭',
+      samuiTab: 'เกาะสมุย 🇹🇭',
+      globalTab: 'สากล / ละตินอเมริกา 🌐',
+      postBtn: '+ โพสต์ประกาศ / ขอแชร์โต๊ะ VIP',
+      modalTitle: 'ลงประกาศ / เสนอแชร์โต๊ะหรือกิจกรรม',
+      modalSubtitle: 'ส่งตรงถึงทีมคอนเซียร์จ Cerca เพื่อตรวจสอบและเผยแพร่บนเครือข่ายฮับทั่วโลก',
+      formType: 'หมวดหมู่ประกาศ',
+      formCity: 'เมืองเป้าหมาย',
+      formTitle: 'หัวข้อประกาศ',
+      formDetails: 'รายละเอียด วันที่ และค่าใช้จ่ายที่แชร์',
+      formContact: 'ช่องทางติดต่อของคุณ (อีเมล หรือ WhatsApp)',
+      submitBtn: 'ส่งข้อมูลถึงคอนเซียร์จ',
+      closeBtn: 'ปิด',
+      successMsg: 'ส่งข้อมูลถึงทีมงานเรียบร้อยแล้ว! เราจะติดต่อกลับโดยเร็ว',
+      contactConcierge: 'ติดต่อคอนเซียร์จเพื่อเข้าร่วม',
+    },
+    telemetryMonitor: {
+      title: 'ระบบติดตามทราฟฟิก & สัญญาณสด',
+      sessionsToday: 'การเข้าชมที่ผ่านการตรวจสอบวันนี้',
+      appRoutes: 'การเชื่อมต่อสู่แอป Cerca',
+      activeNow: 'ผู้ใช้งานออนไลน์ขณะนี้',
+      status: 'สถานะระบบ: ฮับไทยเปิดให้บริการ',
     },
     footer: {
       citiesCol: 'ฮับภูมิภาคที่เปิดบริการ',
@@ -487,6 +574,35 @@ export const TRANSLATIONS: Record<Locale, UiTranslations> = {
       hostsDesc: 'Cada curador y guía está certificado por embajadores de campo de Cerca.',
       supportEmailBadge: 'Correo Directo de Concierge',
     },
+    classifieds: {
+      badge: 'Tablón Comunitario Tailandia & Global',
+      title: 'Mesas VIP & Clasificados de Vida Nocturna',
+      subtitle: 'Compartir mesas VIP, tours nocturnos seleccionados, chárter de botes y alojamientos nómadas en Bangkok, Phuket y Samui.',
+      allTab: 'Todos los Anuncios',
+      bangkokTab: 'Bangkok 🇹🇭',
+      phuketTab: 'Phuket 🇹🇭',
+      samuiTab: 'Koh Samui 🇹🇭',
+      globalTab: 'América & Global 🌐',
+      postBtn: '+ Publicar Anuncio / Compartir Mesa',
+      modalTitle: 'Publicar Anuncio / Proponer Mesa Compartida',
+      modalSubtitle: 'Verificado por el Concierge de Cerca. Tu anuncio se publica en nuestros hubs globales tras su aprobación.',
+      formType: 'Categoría',
+      formCity: 'Ciudad',
+      formTitle: 'Título del Anuncio',
+      formDetails: 'Detalles, Fechas y Costo por Persona',
+      formContact: 'Contacto (Email o WhatsApp)',
+      submitBtn: 'Enviar Anuncio al Concierge',
+      closeBtn: 'Cerrar',
+      successMsg: '¡Solicitud enviada al Concierge! Te contactaremos pronto.',
+      contactConcierge: 'Consultar con Concierge',
+    },
+    telemetryMonitor: {
+      title: 'MONITOR DE TRÁFICO Y TELEMETRÍA EN VIVO',
+      sessionsToday: 'Sesiones Verificadas Hoy',
+      appRoutes: 'Rutas al App Cerca',
+      activeNow: 'Visitantes Activos Ahora',
+      status: 'Estado: Hub Tailandia Online',
+    },
     footer: {
       citiesCol: 'Hubs Regionales Activos',
       featuresCol: 'Funciones en Vivo',
@@ -602,6 +718,35 @@ export const TRANSLATIONS: Record<Locale, UiTranslations> = {
       hostsTitle: '100% Anfitriões Locais Verificados',
       hostsDesc: 'Todos os guias e curadores são certificados por embaixadores de campo do Cerca.',
       supportEmailBadge: 'E-mail Direto do Concierge',
+    },
+    classifieds: {
+      badge: 'Mural Comunitário Tailândia & Global',
+      title: 'Mesas VIP & Classificados Noturnos',
+      subtitle: 'Divisão de camarotes VIP, tours guiados por especialistas, passeios de barco e vilas nômades em Bangkok, Phuket e Samui.',
+      allTab: 'Todos os Anúncios',
+      bangkokTab: 'Bangkok 🇹🇭',
+      phuketTab: 'Phuket 🇹🇭',
+      samuiTab: 'Koh Samui 🇹🇭',
+      globalTab: 'Américas & Global 🌐',
+      postBtn: '+ Criar Anúncio / Dividir Mesa',
+      modalTitle: 'Enviar Anúncio / Propor Divisão de Mesa',
+      modalSubtitle: 'Verificado pelo Concierge Cerca para publicação imediata.',
+      formType: 'Categoria',
+      formCity: 'Cidade',
+      formTitle: 'Título do Anúncio',
+      formDetails: 'Detalhes, Datas e Valor por Pessoa',
+      formContact: 'Seu Contato (Email ou WhatsApp)',
+      submitBtn: 'Enviar Anúncio ao Concierge',
+      closeBtn: 'Fechar',
+      successMsg: 'Enviado com sucesso ao Concierge Cerca!',
+      contactConcierge: 'Consultar via Concierge',
+    },
+    telemetryMonitor: {
+      title: 'MONITOR DE TRÁFEGO & TELEMETRIA AO VIVO',
+      sessionsToday: 'Sessões Verificadas Hoje',
+      appRoutes: 'Rotas ao App Cerca',
+      activeNow: 'Visitantes Online Agora',
+      status: 'Status: Hub Tailândia Online',
     },
     footer: {
       citiesCol: 'Hubs Regionais Ativos',
@@ -719,6 +864,35 @@ export const TRANSLATIONS: Record<Locale, UiTranslations> = {
       hostsDesc: 'Chaque guide et curateur est certifié par des ambassadeurs de terrain Cerca.',
       supportEmailBadge: 'E-mail Direct du Concierge',
     },
+    classifieds: {
+      badge: 'Panneau Communautaire Thaïlande & Global',
+      title: 'Partage de Tables VIP & Petites Annonces',
+      subtitle: 'Partage de tables VIP, visites nocturnes certifiées, locations de bateaux et villas nomades à Bangkok, Phuket et Koh Samui.',
+      allTab: 'Toutes les Annonces',
+      bangkokTab: 'Bangkok 🇹🇭',
+      phuketTab: 'Phuket 🇹🇭',
+      samuiTab: 'Koh Samui 🇹🇭',
+      globalTab: 'Amériques & International 🌐',
+      postBtn: '+ Déposer une Annonce / Partager une Table',
+      modalTitle: 'Déposer une Annonce / Proposer un Partage VIP',
+      modalSubtitle: 'Vérifié par la Conciergerie Cerca avant publication immédiate.',
+      formType: 'Catégorie',
+      formCity: 'Ville',
+      formTitle: "Titre de l'Annonce",
+      formDetails: 'Détails, Dates & Coût Partagé',
+      formContact: 'Votre Contact (Email ou WhatsApp)',
+      submitBtn: 'Envoyer à la Conciergerie',
+      closeBtn: 'Fermer',
+      successMsg: 'Demande transmise avec succès à la Conciergerie Cerca !',
+      contactConcierge: 'Contacter la Conciergerie',
+    },
+    telemetryMonitor: {
+      title: 'MONITEUR DE TRAFIC & TÉLÉMÉTRIE EN DIRECT',
+      sessionsToday: "Sessions Vérifiées Aujourd'hui",
+      appRoutes: 'Redirections vers Cerca',
+      activeNow: 'Visiteurs Actifs en ce Moment',
+      status: 'Statut du Hub : Thaïlande En Ligne',
+    },
     footer: {
       citiesCol: 'Hubs Régionaux Actifs',
       featuresCol: 'Fonctionnalités en Direct',
@@ -834,6 +1008,35 @@ export const TRANSLATIONS: Record<Locale, UiTranslations> = {
       hostsTitle: '100% Verifizierte Lokale Hosts',
       hostsDesc: 'Jeder Guide und Kurator ist von Cerca-Feldrepräsentanten persönlich zertifiziert.',
       supportEmailBadge: 'Direkte Concierge-E-Mail',
+    },
+    classifieds: {
+      badge: 'Community-Board Thailand & Global',
+      title: 'VIP-Tisch-Sharing & Lokale Kleinanzeigen',
+      subtitle: 'VIP-Tische teilen, exklusive Nachtleben-Touren, Bootstouren und Nomaden-Villen in Bangkok, Phuket und Samui.',
+      allTab: 'Alle Anzeigen',
+      bangkokTab: 'Bangkok 🇹🇭',
+      phuketTab: 'Phuket 🇹🇭',
+      samuiTab: 'Koh Samui 🇹🇭',
+      globalTab: 'Amerika & Weltweit 🌐',
+      postBtn: '+ Anzeige Aufgeben / Tisch Teilen',
+      modalTitle: 'Kleinanzeige Aufgeben / VIP-Tisch Vorschlagen',
+      modalSubtitle: 'Direkt vom Cerca-Concierge geprüft und im globalen Netzwerk veröffentlicht.',
+      formType: 'Kategorie',
+      formCity: 'Zielstadt',
+      formTitle: 'Anzeigentitel',
+      formDetails: 'Details, Termine & Kostenaufteilung',
+      formContact: 'Kontakt (E-Mail oder WhatsApp)',
+      submitBtn: 'Anzeige an Concierge Senden',
+      closeBtn: 'Schließen',
+      successMsg: 'Anfrage erfolgreich an den Cerca-Concierge übermittelt!',
+      contactConcierge: 'Über Concierge Anfragen',
+    },
+    telemetryMonitor: {
+      title: 'LIVE-TRAFFIC & TELEMETRIE-MONITOR',
+      sessionsToday: 'Geprüfte Sitzungen Heute',
+      appRoutes: 'Cerca App Weiterleitungen',
+      activeNow: 'Besucher Gerade Online',
+      status: 'Hub-Status: Thailand Online',
     },
     footer: {
       citiesCol: 'Aktive Regionale Hubs',
@@ -951,6 +1154,35 @@ export const TRANSLATIONS: Record<Locale, UiTranslations> = {
       hostsDesc: 'すべてのキュレーターとガイドはCerca現地アンバサダーにより直接認証されています。',
       supportEmailBadge: 'コンシェルジュ直通メール',
     },
+    classifieds: {
+      badge: 'タイ＆グローバル・コミュニティ掲示板',
+      title: 'VIPテーブルシェア＆ナイトライフ掲示板',
+      subtitle: 'バンコク、プーケット、サムイ島のVIPテーブル共同利用、認証ガイドツアー、プライベートボート、ノマド向けヴィラ情報。',
+      allTab: 'すべての募集',
+      bangkokTab: 'バンコク 🇹🇭',
+      phuketTab: 'プーケット 🇹🇭',
+      samuiTab: 'サムイ島 🇹🇭',
+      globalTab: 'グローバル / 米州 🌐',
+      postBtn: '+ 募集を投稿 / テーブルシェアを提案',
+      modalTitle: '募集・提案を投稿する',
+      modalSubtitle: 'Cercaコンシェルジュが直接確認し、承認後にグローバルハブに掲載されます。',
+      formType: 'カテゴリー',
+      formCity: '対象都市',
+      formTitle: '投稿タイトル',
+      formDetails: '詳細・日時・シェア費用',
+      formContact: '連絡先（メールまたはWhatsApp）',
+      submitBtn: 'コンシェルジュに送信する',
+      closeBtn: '閉じる',
+      successMsg: 'コンシェルジュに送信されました！追ってご連絡いたします。',
+      contactConcierge: 'コンシェルジュ経由で問い合わせ',
+    },
+    telemetryMonitor: {
+      title: 'リアルタイム・トラフィック＆テレメトリーモニター',
+      sessionsToday: '本日の認証セッション数',
+      appRoutes: 'Cercaアプリ遷移数',
+      activeNow: '現在のオンライン訪問者数',
+      status: 'ハブ稼働状況: タイ（オンライン）',
+    },
     footer: {
       citiesCol: '稼働中地域ハブ',
       featuresCol: 'ライブ機能',
@@ -1066,6 +1298,35 @@ export const TRANSLATIONS: Record<Locale, UiTranslations> = {
       hostsTitle: '100% 实地认证本地向导',
       hostsDesc: '每位街区策划人均由 Cerca 实地特派大使面对面核实认证。',
       supportEmailBadge: '礼宾向导直通邮箱',
+    },
+    classifieds: {
+      badge: '泰国与全球社区公告栏',
+      title: 'VIP卡座拼单与本地生活分类信息',
+      subtitle: '曼谷、普吉岛与苏梅岛热门夜店VIP卡座分摊、认证向导微旅行、私人长尾船出海及数字游民海景别墅转租。',
+      allTab: '全部列表',
+      bangkokTab: '曼谷 🇹🇭',
+      phuketTab: '普吉岛 🇹🇭',
+      samuiTab: '苏梅岛 🇹🇭',
+      globalTab: '美洲与全球 🌐',
+      postBtn: '+ 发布分类信息 / 发起卡座拼单',
+      modalTitle: '提交分类信息 / 发起VIP拼桌',
+      modalSubtitle: '经由 Cerca 专属礼宾团队审核后，即时同步至全球各大活力枢纽。',
+      formType: '分类类型',
+      formCity: '所属城市',
+      formTitle: '信息标题',
+      formDetails: '活动详情、日期与分摊金额',
+      formContact: '联系方式（邮箱或 WhatsApp）',
+      submitBtn: '提交至礼宾团队',
+      closeBtn: '关闭',
+      successMsg: '已成功发送至 Cerca 礼宾团队！我们将尽快与您联系。',
+      contactConcierge: '联系礼宾咨询',
+    },
+    telemetryMonitor: {
+      title: '实时流量与全球信号监控器',
+      sessionsToday: '今日认证访问次数',
+      appRoutes: '引导至 Cerca 应用数',
+      activeNow: '当前在线访客',
+      status: '枢纽状态：泰国在线活跃',
     },
     footer: {
       citiesCol: '已上线区域枢纽',
