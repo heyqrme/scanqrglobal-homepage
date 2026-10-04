@@ -32,6 +32,8 @@ export interface HostTranslation {
   role: string
   badge: string
   bio: string
+  name?: string
+  city?: string
 }
 
 export interface UiTranslations {
@@ -81,6 +83,22 @@ export interface UiTranslations {
     pulseLabel: string
     exploreCityCta: string
     browserPrompt: string
+  }
+  pillars: {
+    sectionTitle: string
+    sectionSubtitle: string
+    guestModeTitle: string
+    guestModeDesc: string
+    guestModeCta: string
+    touristModeTitle: string
+    touristModeDesc: string
+    touristModeCta: string
+    pulseModeTitle: string
+    pulseModeDesc: string
+    pulseModeCta: string
+    qrModeTitle: string
+    qrModeDesc: string
+    qrModeCta: string
   }
   markets: {
     sectionTitle: string
@@ -183,6 +201,22 @@ export const TRANSLATIONS: Record<Locale, UiTranslations> = {
       exploreCityCta: 'Explore Regional Hub Guide →',
       browserPrompt: 'Calculating closest verified district...',
     },
+    pillars: {
+      sectionTitle: 'Four Modes. Zero Confusion.',
+      sectionSubtitle: 'Designed for intuitive, real-world exploration and spontaneous nights out.',
+      guestModeTitle: 'Guest Mode',
+      guestModeDesc: 'Browse active city heatmaps, venues, events, and curated micro-guides immediately without creating an account.',
+      guestModeCta: 'Explore Map as Guest',
+      touristModeTitle: 'Tourist Mode',
+      touristModeDesc: 'Real-time multi-language translation, vetted safety advice, and insider beach & nightlife itineraries worldwide.',
+      touristModeCta: 'Open Travel Buddy',
+      pulseModeTitle: 'Nightlife & Event Pulse',
+      pulseModeDesc: 'Live crowd levels (Quiet, Moderate, Busy, Peak), music genres, dress vibe, and entry costs before heading out.',
+      pulseModeCta: "Check Tonight's Pulse",
+      qrModeTitle: 'Optional QR Identity',
+      qrModeDesc: 'Safe physical handshake for venue check-ins and verified social card exchanges without revealing personal numbers.',
+      qrModeCta: 'Scan QR Contact Card',
+    },
     markets: {
       sectionTitle: 'Regional Hubs & Verified City Guides',
       sectionSubtitle: 'Click any city to view its curated venues, live host statuses, and district vibes on Cerca.',
@@ -282,6 +316,22 @@ export const TRANSLATIONS: Record<Locale, UiTranslations> = {
       pulseLabel: 'บรรยากาศ & ดนตรี',
       exploreCityCta: 'สำรวจคู่มือเมืองนี้ →',
       browserPrompt: 'กำลังระบุพิกัดย่านท่องเที่ยวที่ใกล้ที่สุด...',
+    },
+    pillars: {
+      sectionTitle: 'สี่โหมดหลัก ใช้งานง่ายไร้ความซับซ้อน',
+      sectionSubtitle: 'ออกแบบมาเพื่อการสำรวจโลกจริงอย่างเป็นธรรมชาติและการท่องราตรียามค่ำคืน',
+      guestModeTitle: 'โหมดผู้เยี่ยมชม (Guest Mode)',
+      guestModeDesc: 'ดูฮีทแมพเมือง สถานที่ อีเวนต์ และคู่มือท้องถิ่นได้ทันทีโดยไม่ต้องสร้างบัญชี',
+      guestModeCta: 'สำรวจแผนที่ในโหมดผู้เยี่ยมชม',
+      touristModeTitle: 'โหมดนักท่องเที่ยว (Tourist Mode)',
+      touristModeDesc: 'ระบบแปลภาษาแบบเรียลไทม์ คำแนะนำความปลอดภัย และแผนการเที่ยวชายหาดและไนท์ไลฟ์ทั่วโลก',
+      touristModeCta: 'เปิดระบบเพื่อนร่วมเดินทาง',
+      pulseModeTitle: 'ชีพจรไนท์ไลฟ์ & กิจกรรมสด',
+      pulseModeDesc: 'ตรวจเช็คระดับความหนาแน่นคน แนวดนตรี สไตล์การแต่งกาย และค่าเข้าก่อนออกจากบ้าน',
+      pulseModeCta: 'เช็คชีพจรไนท์ไลฟ์คืนนี้',
+      qrModeTitle: 'ตัวตน QR ส่วนตัว (ทางเลือก)',
+      qrModeDesc: 'เช็คอินสถานที่และแลกเปลี่ยนคอนแทกต์การ์ดที่ผ่านการยืนยันได้อย่างปลอดภัยโดยไม่ต้องเปิดเผยเบอร์โทรส่วนตัว',
+      qrModeCta: 'สแกน QR คอนแทกต์การ์ด',
     },
     markets: {
       sectionTitle: 'ฮับภูมิภาคและคู่มือเมืองที่ผ่านการตรวจสอบ',
@@ -383,6 +433,22 @@ export const TRANSLATIONS: Record<Locale, UiTranslations> = {
       exploreCityCta: 'Explorar Guía Regional →',
       browserPrompt: 'Localizando distrito verificado más próximo...',
     },
+    pillars: {
+      sectionTitle: 'Cuatro Modos. Cero Confusión.',
+      sectionSubtitle: 'Diseñado para la exploración intuitiva en el mundo real y noches espontáneas.',
+      guestModeTitle: 'Modo Invitado',
+      guestModeDesc: 'Explora mapas de calor de ciudades, lugares, eventos y guías locales de inmediato sin registrarte.',
+      guestModeCta: 'Explorar Mapa como Invitado',
+      touristModeTitle: 'Modo Turista',
+      touristModeDesc: 'Traducción multilingüe en tiempo real, consejos de seguridad verificados e itinerarios nocturnos en todo el mundo.',
+      touristModeCta: 'Abrir Travel Buddy',
+      pulseModeTitle: 'Pulso Nocturno & Eventos',
+      pulseModeDesc: 'Niveles de multitud en vivo (Tranquilo, Moderado, Lleno, Pico), géneros musicales y códigos de vestimenta.',
+      pulseModeCta: 'Ver Pulso de Esta Noche',
+      qrModeTitle: 'Identidad QR Opcional',
+      qrModeDesc: 'Apretón de manos digital seguro para check-in en locales e intercambio de contactos sin revelar tu teléfono.',
+      qrModeCta: 'Escanear Tarjeta QR',
+    },
     markets: {
       sectionTitle: 'Hubs Regionales y Guías de Ciudad Verificadas',
       sectionSubtitle: 'Haz clic en cualquier ciudad para ver locales seleccionados, estados en vivo y vibras en Cerca.',
@@ -482,6 +548,22 @@ export const TRANSLATIONS: Record<Locale, UiTranslations> = {
       pulseLabel: 'Atmosfera e Música',
       exploreCityCta: 'Explorar Guia da Cidade →',
       browserPrompt: 'Localizando distrito verificado mais próximo...',
+    },
+    pillars: {
+      sectionTitle: 'Quatro Modos. Zero Confusão.',
+      sectionSubtitle: 'Projetado para exploração intuitiva no mundo real e noites espontâneas.',
+      guestModeTitle: 'Modo Convidado',
+      guestModeDesc: 'Navegue pelos mapas de calor da cidade, locais, eventos e microguias imediatamente sem criar conta.',
+      guestModeCta: 'Explorar Mapa como Convidado',
+      touristModeTitle: 'Modo Turista',
+      touristModeDesc: 'Tradução multilíngue em tempo real, dicas de segurança verificadas e roteiros de praia e vida noturna no mundo todo.',
+      touristModeCta: 'Abrir Travel Buddy',
+      pulseModeTitle: 'Pulso da Vida Noturna & Eventos',
+      pulseModeDesc: 'Lotação em tempo real (Calmo, Moderado, Movimentado, Pico), gêneros musicais e dress code.',
+      pulseModeCta: 'Conferir Pulso de Hoje',
+      qrModeTitle: 'Identidade QR Opcional',
+      qrModeDesc: 'Handshake físico seguro para check-in em locais e troca de cartões sociais sem revelar números pessoais.',
+      qrModeCta: 'Escanear Cartão QR',
     },
     markets: {
       sectionTitle: 'Hubs Regionais e Guias de Cidades Verificados',
@@ -583,6 +665,22 @@ export const TRANSLATIONS: Record<Locale, UiTranslations> = {
       exploreCityCta: 'Explorer le Guide Régional →',
       browserPrompt: 'Localisation du quartier le plus proche...',
     },
+    pillars: {
+      sectionTitle: 'Quatre Modes. Zéro Confusion.',
+      sectionSubtitle: 'Conçu pour une exploration intuitive du monde réel et des sorties nocturnes spontanées.',
+      guestModeTitle: 'Mode Invité',
+      guestModeDesc: 'Consultez immédiatement les heatmaps de villes, lieux, événements et guides sans créer de compte.',
+      guestModeCta: 'Explorer la Carte en Invité',
+      touristModeTitle: 'Mode Touriste',
+      touristModeDesc: 'Traduction multilingue en temps réel, conseils de sécurité vérifiés et itinéraires nocturnes mondiaux.',
+      touristModeCta: 'Ouvrir Travel Buddy',
+      pulseModeTitle: 'Pouls Nocturne & Événements',
+      pulseModeDesc: 'Affluence en direct (Calme, Modéré, Animé, Pic), styles musicaux et ambiance vestimentaire.',
+      pulseModeCta: 'Voir le Pouls de ce Soir',
+      qrModeTitle: 'Identité QR Optionnelle',
+      qrModeDesc: 'Check-in sécurisé dans les lieux et échange de fiches de contact sans dévoiler votre numéro personnel.',
+      qrModeCta: 'Scanner la Carte QR',
+    },
     markets: {
       sectionTitle: 'Hubs Régionaux & Guides de Villes Vérifiés',
       sectionSubtitle: 'Cliquez sur une ville pour découvrir ses lieux sélectionnés, son statut en direct et son ambiance sur Cerca.',
@@ -682,6 +780,22 @@ export const TRANSLATIONS: Record<Locale, UiTranslations> = {
       pulseLabel: 'Atmosphäre & Musik',
       exploreCityCta: 'Stadtführer Öffnen →',
       browserPrompt: 'Ermittle nächsten geprüften Bezirk...',
+    },
+    pillars: {
+      sectionTitle: 'Vier Modi. Keine Verwirrung.',
+      sectionSubtitle: 'Entwickelt für intuitive Echtzeit-Erkundung und spontane Nächte.',
+      guestModeTitle: 'Gast-Modus',
+      guestModeDesc: 'Durchsuchen Sie Stadt-Heatmaps, Veranstaltungsorte, Events und Reiseführer sofort ohne Registrierung.',
+      guestModeCta: 'Karte als Gast erkunden',
+      touristModeTitle: 'Touristen-Modus',
+      touristModeDesc: 'Echtzeit-Übersetzung, geprüfte Sicherheitstipps und weltweite Strand- und Nachtleben-Routen.',
+      touristModeCta: 'Travel Buddy öffnen',
+      pulseModeTitle: 'Nachtleben & Event-Puls',
+      pulseModeDesc: 'Live-Auslastung (Ruhig, Moderat, Voll, Peak), Musikgenres, Dresscode und Eintrittspreise.',
+      pulseModeCta: 'Heutigen Puls prüfen',
+      qrModeTitle: 'Optionale QR-Identität',
+      qrModeDesc: 'Sicherer Check-in vor Ort und Austausch von Kontaktkarten ohne Preisgabe persönlicher Telefonnummern.',
+      qrModeCta: 'QR-Kontaktkarte scannen',
     },
     markets: {
       sectionTitle: 'Regionale Hubs & Verifizierte Stadtführer',
@@ -783,6 +897,22 @@ export const TRANSLATIONS: Record<Locale, UiTranslations> = {
       exploreCityCta: '都市ガイドを見る →',
       browserPrompt: '最寄りの認証エリアを検索中...',
     },
+    pillars: {
+      sectionTitle: '4つのモード。迷わず直感的に。',
+      sectionSubtitle: 'リアルな街歩きやナイトライフを直感的に楽しめる設計。',
+      guestModeTitle: 'ゲストモード',
+      guestModeDesc: 'アカウント登録なしで、都市のヒートマップ、人気スポット、イベント、限定ガイドをすぐに閲覧できます。',
+      guestModeCta: 'ゲストとしてマップを探索',
+      touristModeTitle: 'ツーリストモード',
+      touristModeDesc: 'リアルタイム多言語翻訳、安全ガイド、世界各地のビーチ＆ナイトライフ攻略情報を網羅。',
+      touristModeCta: 'トラベルバディを開く',
+      pulseModeTitle: 'ナイトライフ＆イベントパルス',
+      pulseModeDesc: '現在の混雑状況（空いている、普通、混雑、ピーク）、音楽ジャンル、ドレスコードを出発前に確認。',
+      pulseModeCta: '今夜のパルスを確認',
+      qrModeTitle: 'オプショナルQR ID',
+      qrModeDesc: '電話番号を公開することなく、安全なチェックインや連絡先の交換が可能。',
+      qrModeCta: 'QRカードをスキャン',
+    },
     markets: {
       sectionTitle: '地域ハブ＆認証済み都市ガイド',
       sectionSubtitle: '都市をクリックして、Cerca上で厳選スポットやリアルタイム状況を確認できます。',
@@ -882,6 +1012,22 @@ export const TRANSLATIONS: Record<Locale, UiTranslations> = {
       pulseLabel: '音乐与氛围',
       exploreCityCta: '进入该城市指南 →',
       browserPrompt: '正在识别距离最近的认证街区...',
+    },
+    pillars: {
+      sectionTitle: '四大核心模式，直观无界',
+      sectionSubtitle: '专为现实世界的直观探索与即兴夜生活设计。',
+      guestModeTitle: '访客模式 (Guest Mode)',
+      guestModeDesc: '无需注册即可立即浏览全球城市热力图、热门去处、活动及精选向导。',
+      guestModeCta: '以访客身份探索地图',
+      touristModeTitle: '旅行者模式 (Tourist Mode)',
+      touristModeDesc: '实时多语言翻译、安全指南及全球海滩与夜生活精选路线。',
+      touristModeCta: '开启旅行伴侣',
+      pulseModeTitle: '夜生活与活动实时脉搏',
+      pulseModeDesc: '实时客流密度（清闲、适中、热闹、高峰）、音乐类型、着装风格与入场信息。',
+      pulseModeCta: '查看今晚实时脉搏',
+      qrModeTitle: '安全QR身份互换 (可选)',
+      qrModeDesc: '安全入场签到并交换社交联系卡，无需透露私人电话号码。',
+      qrModeCta: '扫描QR名片',
     },
     markets: {
       sectionTitle: '区域枢纽与认证城市指南',

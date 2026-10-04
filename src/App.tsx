@@ -1152,7 +1152,7 @@ export default function App() {
             <select
               value={locale}
               onChange={(e) => handleLocaleChange(e.target.value as Locale)}
-              aria-label={t.nav.languageSelector}
+              aria-label={t.nav.languageLabel}
               style={{
                 background: 'transparent',
                 border: 'none',
@@ -1165,7 +1165,7 @@ export default function App() {
             >
               {SUPPORTED_LOCALES.map((l) => (
                 <option key={l.code} value={l.code} style={{ background: '#0a0a10', color: '#fff' }}>
-                  {l.flag} {l.nativeLabel}
+                  {l.flag} {l.label}
                 </option>
               ))}
             </select>
@@ -1258,7 +1258,7 @@ export default function App() {
             {t.telemetry.liveBadge}
           </div>
           <span style={{ color: '#52525b', fontSize: 11 }}>
-            {t.telemetry.hubsOnline}
+            15 HUBS ONLINE • AES-256
           </span>
         </div>
 
@@ -1287,7 +1287,7 @@ export default function App() {
                 transition: 'background 0.2s',
               }}
               className="telemetry-hover"
-              title={t.telemetry.jumpTitle}
+              title="Click to jump to this active hub"
             >
               <span style={{
                 padding: '2px 6px',
@@ -1326,7 +1326,7 @@ export default function App() {
               </span>
 
               <span style={{ color: '#38bdf8', fontSize: 11, display: 'inline-flex', alignItems: 'center', gap: 2 }}>
-                {t.telemetry.jump} <ArrowRight size={10} />
+                Jump <ArrowRight size={10} />
               </span>
             </div>
           )
@@ -1351,7 +1351,7 @@ export default function App() {
               alignItems: 'center',
               justifyContent: 'center',
             }}
-            title={t.telemetry.prevSignal}
+            title="Previous Signal"
           >
             <ChevronLeft size={12} />
           </button>
@@ -1369,7 +1369,7 @@ export default function App() {
               alignItems: 'center',
               justifyContent: 'center',
             }}
-            title={t.telemetry.nextSignal}
+            title="Next Signal"
           >
             <ChevronRight size={12} />
           </button>
@@ -1411,7 +1411,7 @@ export default function App() {
             textTransform: 'uppercase',
             letterSpacing: '0.06em',
           }}>
-            {t.hero.badge}
+            ⚡ {t.hero.trustBadge}
           </div>
 
           {/* Headline */}
@@ -1425,7 +1425,7 @@ export default function App() {
             WebkitBackgroundClip: 'text',
             WebkitTextFillColor: 'transparent',
           }}>
-            {t.hero.headline}
+            {t.hero.headline} {t.hero.headlineHighlight}
           </h1>
 
           {/* Subheadline */}
@@ -1459,7 +1459,7 @@ export default function App() {
                 boxShadow: '0 8px 30px rgba(168, 85, 247, 0.38)',
               }}
             >
-              {t.hero.exploreCities} <ExternalLink size={16} />
+              {t.hero.ctaPrimary} <ExternalLink size={16} />
             </a>
             <a
               href={`${CERCA_BASE_URL}/tonight`}
@@ -1479,7 +1479,7 @@ export default function App() {
                 backdropFilter: 'blur(10px)',
               }}
             >
-              {t.hero.tonightsPulse} <Flame size={16} color="#f43f5e" />
+              Tonight’s Live Pulse <Flame size={16} color="#f43f5e" />
             </a>
             <a
               href="https://play.google.com/store/apps/details?id=com.qr4luv.cerca"
@@ -1501,12 +1501,12 @@ export default function App() {
                 backdropFilter: 'blur(10px)',
               }}
             >
-              {t.hero.googlePlay}
+              📱 Google Play App
             </a>
           </div>
 
           <div style={{ fontSize: 13, color: '#94a3b8', marginBottom: 20 }}>
-            {t.hero.guarantee}
+            ✓ No account required to browse • Real-time verified staff updates • Instant guest access
           </div>
 
           {/* PROXIMITY GEO-PING BUTTON & RADAR LOCK HUD */}
@@ -1532,7 +1532,7 @@ export default function App() {
               }}
             >
               <Crosshair size={18} style={{ animation: geoStatus === 'scanning' ? 'radarSpin 1.4s linear infinite' : 'none' }} />
-              <span>{geoStatus === 'scanning' ? t.geoPing.buttonScanning : t.geoPing.buttonIdle}</span>
+              <span>{geoStatus === 'scanning' ? t.geoPing.scanning : t.geoPing.detectBtn}</span>
             </button>
           </div>
 
@@ -1576,10 +1576,10 @@ export default function App() {
                   }} />
                   <div>
                     <div style={{ fontSize: 13, fontWeight: 800, color: '#38bdf8', marginBottom: 4 }}>
-                      [STAGE {geoScanStep}/3] {geoScanStep === 1 ? t.geoPing.stage1 : geoScanStep === 2 ? t.geoPing.stage2 : t.geoPing.stage3}
+                      [STAGE {geoScanStep}/3] {t.geoPing.scanning}
                     </div>
                     <div style={{ fontSize: 12, color: '#71717a' }}>
-                      {t.geoPing.stageSubtitle}
+                      {t.geoPing.browserPrompt}
                     </div>
                   </div>
                 </div>
@@ -1599,7 +1599,7 @@ export default function App() {
                           display: 'inline-block',
                         }} />
                         <span style={{ fontSize: 11, fontWeight: 800, color: '#10b981', textTransform: 'uppercase', letterSpacing: '0.06em' }}>
-                          {t.geoPing.signalLocked} • {geoData.isFallback ? t.geoPing.simulatedSignal : 'GPS HIGH-PRECISION'}
+                          {t.geoPing.lockedTitle} • {geoData.isFallback ? 'TELEMETRY SIMULATION' : 'GPS HIGH-PRECISION'}
                         </span>
                       </div>
                       <span style={{ fontSize: 11, fontFamily: 'monospace', color: '#71717a' }}>
@@ -1621,11 +1621,11 @@ export default function App() {
                             color: '#38bdf8',
                             border: '1px solid rgba(6, 182, 212, 0.3)',
                           }}>
-                            {geoData.distanceKm} {t.geoPing.kmAway}
+                            {geoData.distanceKm} km ({t.geoPing.distance})
                           </span>
                         </div>
                         <p style={{ margin: '0 0 8px', fontSize: 13, color: '#cbd5e1' }}>
-                          {t.geoPing.currentPulse}: <strong style={{ color: '#ec4899' }}>{geoData.nearestHub.pulse}</strong> • {t.geoPing.vibeLabel}: <strong style={{ color: '#a855f7' }}>{geoData.nearestHub.vibe}</strong>
+                          {t.geoPing.pulseLabel}: <strong style={{ color: '#ec4899' }}>{geoData.nearestHub.pulse}</strong> • Vibe: <strong style={{ color: '#a855f7' }}>{geoData.nearestHub.vibe}</strong>
                         </p>
                         <p style={{ margin: 0, fontSize: 12, color: '#94a3b8' }}>
                           {t.geoPing.recommendedSpot}: <strong style={{ color: '#fff' }}>{geoData.nearestHub.topSpot}</strong>
@@ -1649,7 +1649,7 @@ export default function App() {
                           flexShrink: 0,
                         }}
                       >
-                        {t.geoPing.enterCityMap.replace('{city}', nearestCityName)} <ArrowRight size={14} />
+                        {t.geoPing.exploreCityCta} <ArrowRight size={14} />
                       </a>
                     </div>
                   </div>
@@ -1703,7 +1703,7 @@ export default function App() {
                 </span>
               </div>
               <span style={{ fontSize: 11, color: '#71717a' }}>
-                {t.queryBar.subtitle}
+                {t.queryBar.title}
               </span>
             </div>
 
@@ -1726,7 +1726,7 @@ export default function App() {
                 onKeyDown={(e) => {
                   if (e.key === 'Enter') handleQuerySubmit(queryInput)
                 }}
-                placeholder={t.queryBar.inputPlaceholder}
+                placeholder={t.queryBar.placeholder}
                 style={{
                   flex: 1,
                   background: 'transparent',
@@ -1779,7 +1779,7 @@ export default function App() {
                   transition: 'all 0.15s ease',
                 }}
               >
-                {isSynthesizing ? t.queryBar.synthesizing : t.queryBar.queryButton}
+                {isSynthesizing ? t.queryBar.synthesizing : 'Query AI'}
                 <Zap size={14} />
               </button>
             </div>
@@ -1792,14 +1792,14 @@ export default function App() {
               marginTop: 12,
               alignItems: 'center',
             }}>
-              <span style={{ fontSize: 11, color: '#71717a', fontWeight: 600 }}>{t.queryBar.tryQueries}</span>
+              <span style={{ fontSize: 11, color: '#71717a', fontWeight: 600 }}>{t.queryBar.chipAll}</span>
               {[
-                { label: t.queryBar.chipBogota, q: 'Where is the best nightlife in Bogotá?' },
-                { label: t.queryBar.chipBangkok, q: 'Theatrical speakeasies in Bangkok' },
-                { label: t.queryBar.chipSaoPaulo, q: 'Best underground techno in São Paulo' },
-                { label: t.queryBar.chipSamui, q: 'Beach day clubs on Koh Samui' },
-                { label: t.queryBar.chipQR, q: 'How does the safe QR handshake work?' },
-                { label: t.queryBar.chipGuest, q: 'Is Cerca free for guests without login?' },
+                { label: t.queryBar.chips.bogota, q: 'Where is the best nightlife in Bogotá?' },
+                { label: t.queryBar.chips.bangkok, q: 'Theatrical speakeasies in Bangkok' },
+                { label: t.queryBar.chips.rio, q: 'Best underground techno in São Paulo or Rio' },
+                { label: t.queryBar.chips.phuket, q: 'Beach day clubs on Koh Samui and Phuket' },
+                { label: t.queryBar.chips.qr, q: 'How does the safe QR handshake work?' },
+                { label: t.queryBar.chips.miami, q: 'Best rooftop lounges in Miami' },
               ].map((chip) => (
                 <button
                   key={chip.label}
@@ -2103,13 +2103,13 @@ export default function App() {
         }}>
           <div>
             <div style={{ display: 'inline-flex', alignItems: 'center', gap: 6, color: '#38bdf8', fontSize: 12, fontWeight: 700, textTransform: 'uppercase', marginBottom: 6 }}>
-              <MapPin size={14} /> {t.markets.badge}
+              <MapPin size={14} /> 15 Regional Hubs
             </div>
             <h2 style={{ fontSize: 'clamp(24px, 3.5vw, 34px)', fontWeight: 800, margin: '0 0 8px' }}>
-              {t.markets.title}
+              {t.markets.sectionTitle}
             </h2>
             <p style={{ color: '#94a3b8', fontSize: 15, margin: 0 }}>
-              {t.markets.subtitle}
+              {t.markets.sectionSubtitle}
             </p>
           </div>
 
@@ -2139,7 +2139,7 @@ export default function App() {
                   transition: 'all 0.15s ease',
                 }}
               >
-                {market === 'usa' ? t.markets.usaTab : market === 'colombia' ? t.markets.colombiaTab : market === 'brazil' ? t.markets.brazilTab : t.markets.thailandTab}
+                {market === 'usa' ? t.markets.tabUsa : market === 'colombia' ? t.markets.tabColombia : market === 'brazil' ? t.markets.tabBrazil : t.markets.tabThailand}
               </button>
             ))}
           </div>
@@ -2270,10 +2270,10 @@ export default function App() {
       <section id="app-previews" style={{ maxWidth: 1200, margin: '0 auto 80px', padding: '0 24px' }}>
         <div style={{ textAlign: 'center', marginBottom: 36 }}>
           <h2 style={{ fontSize: 'clamp(24px, 3.5vw, 34px)', fontWeight: 800, margin: '0 0 8px' }}>
-            {t.carousel.sectionTitle}
+            Interactive App Modules
           </h2>
           <p style={{ color: '#94a3b8', fontSize: 15, margin: 0 }}>
-            {t.carousel.sectionSubtitle}
+            {t.carousel.badge}
           </p>
         </div>
 
@@ -2455,7 +2455,7 @@ export default function App() {
                 fontSize: 13,
                 fontWeight: 700,
               }}>
-                {t.carousel.viewCercaGuide} <ArrowRight size={14} />
+                {t.carousel.viewFullGuide} <ArrowRight size={14} />
               </div>
             </div>
           </a>
@@ -2644,7 +2644,7 @@ export default function App() {
                         border: '1px solid rgba(6, 182, 212, 0.3)',
                       }}
                     >
-                      {t.hosts.dossierTitle}
+                      {t.hosts.dossierBadge}
                     </span>
                     <span style={{ fontSize: 11, color: '#4ade80', fontWeight: 600 }}>
                       ● {selectedHostModal.lastActiveText}
@@ -2740,7 +2740,7 @@ export default function App() {
                   }}
                 >
                   <div style={{ fontSize: 11, fontWeight: 700, color: '#94a3b8', textTransform: 'uppercase', marginBottom: 6, letterSpacing: '0.05em' }}>
-                    {t.hosts.insiderDossier}
+                    {t.hosts.overviewTitle}
                   </div>
                   <p style={{ margin: 0, fontSize: 13, lineHeight: 1.5, color: '#e2e8f0' }}>
                     {modalHostBio}
@@ -2750,7 +2750,7 @@ export default function App() {
                 {/* Available Services */}
                 <div>
                   <div style={{ fontSize: 11, fontWeight: 700, color: '#94a3b8', textTransform: 'uppercase', marginBottom: 6, letterSpacing: '0.05em' }}>
-                    {t.hosts.availableServices}
+                    {t.hosts.servicesTitle}
                   </div>
                   <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6 }}>
                     {selectedHostModal.availableFor.map((service) => (
@@ -2775,7 +2775,7 @@ export default function App() {
                 {/* Curated Top Spots in City */}
                 <div>
                   <div style={{ fontSize: 11, fontWeight: 700, color: '#94a3b8', textTransform: 'uppercase', marginBottom: 6, letterSpacing: '0.05em' }}>
-                    {t.hosts.topSpotsTitle.replace('{city}', modalHostCity)}
+                    {t.hosts.topSpotsTitle.includes('{city}') ? t.hosts.topSpotsTitle.replace('{city}', modalHostCity) : `${t.hosts.topSpotsTitle} ${modalHostCity}`}
                   </div>
                   <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6 }}>
                     {selectedHostModal.topSpots.map((spot) => (
@@ -2809,13 +2809,13 @@ export default function App() {
                 <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 10, fontSize: 12 }}>
                   <div style={{ background: 'rgba(255, 255, 255, 0.03)', padding: '10px 12px', borderRadius: 12, border: '1px solid rgba(255, 255, 255, 0.06)' }}>
                     <div style={{ fontSize: 10.5, fontWeight: 700, color: '#94a3b8', textTransform: 'uppercase', marginBottom: 4 }}>
-                      {t.hosts.languagesLabel}
+                      {t.hosts.languagesTitle}
                     </div>
                     <div style={{ color: '#fff', fontWeight: 600 }}>{selectedHostModal.languages.join(', ')}</div>
                   </div>
                   <div style={{ background: 'rgba(255, 255, 255, 0.03)', padding: '10px 12px', borderRadius: 12, border: '1px solid rgba(255, 255, 255, 0.06)' }}>
                     <div style={{ fontSize: 10.5, fontWeight: 700, color: '#94a3b8', textTransform: 'uppercase', marginBottom: 4 }}>
-                      {t.hosts.musicPulseLabel}
+                      {t.hosts.musicTitle}
                     </div>
                     <div style={{ color: '#fff', fontWeight: 600 }}>{selectedHostModal.musicTags.join(', ')}</div>
                   </div>
@@ -2845,7 +2845,7 @@ export default function App() {
                     }}
                   >
                     <Mail size={16} />
-                    <span>{t.hosts.emailGuide}</span>
+                    <span>{t.hosts.emailBtn}</span>
                   </a>
 
                   {/* Button 2: Open Cerca App */}
@@ -2870,7 +2870,7 @@ export default function App() {
                     }}
                   >
                     <Sparkles size={16} className="text-purple-300" />
-                    <span>{t.hosts.exploreCityApp.replace('{city}', modalHostCity)}</span>
+                    <span>{t.hosts.cercaBtn} ({modalHostCity})</span>
                     <ExternalLink size={13} />
                   </a>
 
@@ -2899,7 +2899,7 @@ export default function App() {
                       }}
                     >
                       <MessageCircle size={15} />
-                      <span>{t.hosts.whatsappDirect}</span>
+                      <span>{t.hosts.whatsappBtn}</span>
                     </a>
                   )}
                 </div>
@@ -2936,7 +2936,7 @@ export default function App() {
             fontWeight: 700,
           }}>
             <ShieldCheck size={18} />
-            <span>{t.trust.securedBy}</span>
+            <span>Secured by ScanQR Global (TLS 1.3)</span>
           </div>
 
           {/* Badge 2: Google Play 4.8 */}
@@ -2959,7 +2959,7 @@ export default function App() {
             }}
           >
             <Star size={16} fill="#fbbf24" />
-            <span>{t.trust.googlePlayRating}</span>
+            <span>Google Play · Cerca (4.8★)</span>
           </a>
 
           {/* Badge 3: Support email */}
@@ -3019,13 +3019,13 @@ export default function App() {
               <span style={{ fontSize: 17, fontWeight: 800 }}>ScanQR Global</span>
             </div>
             <p style={{ fontSize: 13, color: '#71717a', lineHeight: 1.6, margin: 0 }}>
-              {t.footer.about}
+              The Master Intelligence Gateway for Cerca Social on qr4luv.com. Real-time translation, crowd pulse, and verified safety with zero-barrier guest access.
             </p>
           </div>
 
           {/* Column: Cities */}
           <div>
-            <h4 style={{ fontSize: 14, fontWeight: 700, margin: '0 0 16px', color: '#fff' }}>{t.footer.citiesTitle}</h4>
+            <h4 style={{ fontSize: 14, fontWeight: 700, margin: '0 0 16px', color: '#fff' }}>{t.footer.citiesCol}</h4>
             <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: 10, fontSize: 13 }}>
               <li><a href={`${CERCA_BASE_URL}/city/la`} style={{ color: '#a1a1aa', textDecoration: 'none' }}>Los Angeles</a> &bull; <a href={`${CERCA_BASE_URL}/city/miami`} style={{ color: '#a1a1aa', textDecoration: 'none' }}>Miami</a></li>
               <li><a href={`${CERCA_BASE_URL}/city/nyc`} style={{ color: '#a1a1aa', textDecoration: 'none' }}>New York City</a> &bull; <a href={`${CERCA_BASE_URL}/city/austin`} style={{ color: '#a1a1aa', textDecoration: 'none' }}>Austin</a></li>
@@ -3037,7 +3037,7 @@ export default function App() {
 
           {/* Column: Live Modes */}
           <div>
-            <h4 style={{ fontSize: 14, fontWeight: 700, margin: '0 0 16px', color: '#fff' }}>{t.footer.modesTitle}</h4>
+            <h4 style={{ fontSize: 14, fontWeight: 700, margin: '0 0 16px', color: '#fff' }}>{t.footer.featuresCol}</h4>
             <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: 10, fontSize: 13 }}>
               <li><a href={`${CERCA_BASE_URL}/explore`} style={{ color: '#a1a1aa', textDecoration: 'none' }}>Live Heatmap</a></li>
               <li><a href={`${CERCA_BASE_URL}/tonight`} style={{ color: '#a1a1aa', textDecoration: 'none' }}>Tonight's Pulse</a></li>
@@ -3048,18 +3048,18 @@ export default function App() {
 
           {/* Column: Safety & Contact + Language Selector */}
           <div>
-            <h4 style={{ fontSize: 14, fontWeight: 700, margin: '0 0 16px', color: '#fff' }}>{t.footer.safetyTitle}</h4>
+            <h4 style={{ fontSize: 14, fontWeight: 700, margin: '0 0 16px', color: '#fff' }}>{t.footer.safetyCol}</h4>
             <ul style={{ listStyle: 'none', padding: 0, margin: '0 0 16px', display: 'flex', flexDirection: 'column', gap: 10, fontSize: 13 }}>
-              <li><a href={`${CERCA_BASE_URL}/privacy`} style={{ color: '#a1a1aa', textDecoration: 'none' }}>Privacy Policy</a></li>
-              <li><a href={`${CERCA_BASE_URL}/terms`} style={{ color: '#a1a1aa', textDecoration: 'none' }}>Terms of Service</a></li>
-              <li><a href="https://play.google.com/store/apps/details?id=com.qr4luv.cerca" target="_blank" rel="noopener noreferrer" style={{ color: '#38bdf8', textDecoration: 'none' }}>Android App (Google Play)</a></li>
-              <li><a href="/llms.txt" style={{ color: '#a1a1aa', textDecoration: 'none' }}>AI Context (llms.txt)</a></li>
+              <li><a href={`${CERCA_BASE_URL}/privacy`} style={{ color: '#a1a1aa', textDecoration: 'none' }}>{t.footer.privacy}</a></li>
+              <li><a href={`${CERCA_BASE_URL}/terms`} style={{ color: '#a1a1aa', textDecoration: 'none' }}>{t.footer.terms}</a></li>
+              <li><a href="https://play.google.com/store/apps/details?id=com.qr4luv.cerca" target="_blank" rel="noopener noreferrer" style={{ color: '#38bdf8', textDecoration: 'none' }}>{t.footer.androidApp}</a></li>
+              <li><a href="/llms.txt" style={{ color: '#a1a1aa', textDecoration: 'none' }}>{t.footer.aiContext}</a></li>
               <li><a href="mailto:qr4luv@gmail.com" style={{ color: '#38bdf8', textDecoration: 'none' }}>qr4luv@gmail.com</a></li>
             </ul>
 
             {/* 8-Language Selector */}
             <div style={{ marginTop: 12 }}>
-              <label style={{ fontSize: 11, color: '#71717a', display: 'block', marginBottom: 6 }}>{t.footer.languageLabel}</label>
+              <label style={{ fontSize: 11, color: '#71717a', display: 'block', marginBottom: 6 }}>{t.footer.languageSelectorTitle}</label>
               <select
                 value={locale}
                 onChange={(e) => handleLocaleChange(e.target.value as Locale)}
@@ -3075,7 +3075,7 @@ export default function App() {
               >
                 {SUPPORTED_LOCALES.map((l) => (
                   <option key={l.code} value={l.code} style={{ background: '#121217', color: '#fff' }}>
-                    {l.flag} {l.nativeLabel}
+                    {l.flag} {l.label}
                   </option>
                 ))}
               </select>
@@ -3098,10 +3098,10 @@ export default function App() {
           color: '#52525b',
         }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-            <span>{t.footer.copyright}</span>
+            <span>© 2026 ScanQR Global • {t.footer.copyright}</span>
           </div>
           <div>
-            <span>{t.footer.connected}</span>
+            <span>Connected to <strong style={{ color: '#cbd5e1' }}>qr4luv.com</strong> • Global Live Social Map</span>
           </div>
         </div>
       </footer>
