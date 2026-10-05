@@ -742,6 +742,55 @@ export default function App() {
   const [activeVisitorsCount, setActiveVisitorsCount] = useState(38)
   const [campaignRef, setCampaignRef] = useState<string>('direct')
   const [showTrafficModal, setShowTrafficModal] = useState(false)
+  const [isSendingReport, setIsSendingReport] = useState(false)
+  const [reportSendStatus, setReportSendStatus] = useState<string | null>(null)
+
+  // Lightweight non-blocking cloud telemetry ingest
+  const sendTelemetryPing = (eventType: string, meta?: Record<string, any>) => {
+    try {
+      const payload = {
+        event_type: eventType,
+        path: window.location.pathname,
+        referrer: document.referrer || '',
+        campaign_ref: sessionStorage.getItem('sqg_campaign_ref') || campaignRef || 'direct',
+        metadata: meta || {},
+      }
+      if (typeof navigator !== 'undefined' && navigator.sendBeacon) {
+        const blob = new Blob([JSON.stringify(payload)], { type: 'application/json' })
+        navigator.sendBeacon('/api/telemetry', blob)
+      } else {
+        fetch('/api/telemetry', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload),
+          keepalive: true,
+        }).catch(() => {})
+      }
+    } catch {
+      // non-blocking
+    }
+  }
+
+  // Trigger on-demand test daily report via Vercel serverless / Resend (never opens Outlook)
+  const handleTriggerDailyReport = async () => {
+    setIsSendingReport(true)
+    setReportSendStatus(null)
+    try {
+      const res = await fetch('/api/cron/daily-report?test=true')
+      const data = await res.json()
+      if (data.ok) {
+        setReportSendStatus('success')
+      } else if (data.error && data.error.includes('NO_EMAIL_API_KEY')) {
+        setReportSendStatus('missing_key')
+      } else {
+        setReportSendStatus(data.error || 'error')
+      }
+    } catch {
+      setReportSendStatus('network_error')
+    } finally {
+      setIsSendingReport(false)
+    }
+  }
 
   // Track page view and referrer on mount
   useEffect(() => {
@@ -780,6 +829,9 @@ export default function App() {
       const curViews = parseInt(localStorage.getItem('sqg_page_views') || '0', 10)
       localStorage.setItem('sqg_page_views', (curViews + 1).toString())
       setTrafficStats((prev) => ({ ...prev, views: prev.views + 1 }))
+
+      // Ping cloud telemetry
+      sendTelemetryPing('page_view', { screen: `${window.innerWidth}x${window.innerHeight}` })
     } catch {
       // ignore
     }
@@ -798,11 +850,12 @@ export default function App() {
   }, [])
 
   // Helper to log clicks and track conversions
-  const recordClick = (actionName: string) => {
+  const recordClick = (actionName: string, extra?: Record<string, any>) => {
     try {
       const curClicks = parseInt(localStorage.getItem('sqg_clicks') || '0', 10)
       localStorage.setItem('sqg_clicks', (curClicks + 1).toString())
       setTrafficStats((prev) => ({ ...prev, clicks: prev.clicks + 1 }))
+      sendTelemetryPing('click', { action: actionName, ...extra })
     } catch {
       // ignore
     }
@@ -3863,30 +3916,43 @@ export default function App() {
                 <span>Campaign Telemetry</span>
               </button>
 
-              <a
-                href={buildConciergeMailto(
-                  'Live Telemetry Snapshot Ping',
-                  `Live ScanQR Global Traffic Report:\n\n- Active Campaign Ref: ${campaignRef}\n- Total Page Views: ${trafficStats.views}\n- Total Engagements / Clicks: ${trafficStats.clicks}\n- Realtime Active Pulse: ${activeVisitorsCount} visitors\n- Client Time: ${new Date().toLocaleString()}\n\nRouted automatically to Darwin with CC to qr4luv.`
-                )}
-                onClick={() => recordClick('telemetry_ping_email')}
+              <button
+                type="button"
+                onClick={handleTriggerDailyReport}
+                disabled={isSendingReport}
+                title="Trigger automated cloud report to darwinscerca@gmail.com and qr4luv@gmail.com without opening Outlook"
                 style={{
                   display: 'inline-flex',
                   alignItems: 'center',
                   gap: 8,
                   padding: '8px 16px',
                   borderRadius: 10,
-                  background: 'rgba(16, 185, 129, 0.15)',
-                  border: '1px solid rgba(16, 185, 129, 0.35)',
+                  background: reportSendStatus === 'success' ? 'rgba(16, 185, 129, 0.25)' : 'rgba(16, 185, 129, 0.15)',
+                  border: reportSendStatus === 'success' ? '1px solid #10b981' : '1px solid rgba(16, 185, 129, 0.35)',
                   color: '#34d399',
                   fontSize: 12,
                   fontWeight: 700,
-                  textDecoration: 'none',
+                  cursor: isSendingReport ? 'wait' : 'pointer',
                   transition: 'all 0.2s ease',
                 }}
               >
-                <Mail size={14} />
-                <span>Send Snapshot to Darwin</span>
-              </a>
+                {isSendingReport ? (
+                  <>
+                    <Zap size={14} />
+                    <span>Sending to Gmail...</span>
+                  </>
+                ) : reportSendStatus === 'success' ? (
+                  <>
+                    <CheckCircle2 size={14} color="#10b981" />
+                    <span>Sent to Gmail!</span>
+                  </>
+                ) : (
+                  <>
+                    <Mail size={14} />
+                    <span>Send Test Report to Gmail</span>
+                  </>
+                )}
+              </button>
             </div>
           </div>
 
@@ -4285,8 +4351,39 @@ export default function App() {
               </div>
             </div>
 
+            {/* Automated Daily Report Info Box */}
+            <div style={{
+              background: 'rgba(6, 182, 212, 0.08)',
+              border: '1px solid rgba(6, 182, 212, 0.25)',
+              borderRadius: 14,
+              padding: '16px 18px',
+              marginBottom: 24,
+            }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: 8, fontSize: 13, fontWeight: 700, color: '#38bdf8', marginBottom: 6 }}>
+                <Zap size={16} />
+                <span>Automated 24h Daily Cloud Report Active</span>
+              </div>
+              <div style={{ fontSize: 12, color: '#94a3b8', lineHeight: 1.6 }}>
+                Vercel Cron triggers automatically every day at <strong>13:00 UTC (06:00 PT)</strong> to compile verified page views, Cerca app redirects, and nightlife classified interactions into an executive digest sent to:
+                <br />
+                • Primary: <strong style={{ color: '#38bdf8' }}>darwinscerca@gmail.com</strong>
+                <br />
+                • CC: <strong style={{ color: '#a855f7' }}>qr4luv@gmail.com</strong>
+                <br />
+                <span style={{ color: '#a1a1aa', fontSize: 11 }}>
+                  Zero manual sending required. Windows will never open Outlook.
+                </span>
+              </div>
+
+              {reportSendStatus === 'missing_key' && (
+                <div style={{ marginTop: 10, padding: '8px 12px', borderRadius: 8, background: 'rgba(239, 68, 68, 0.15)', border: '1px solid rgba(239, 68, 68, 0.3)', color: '#fca5a5', fontSize: 11.5 }}>
+                  ⚠️ Notice: Add <code>RESEND_API_KEY</code> or <code>SENDGRID_API_KEY</code> in your Vercel Environment Variables to activate cloud delivery to Gmail.
+                </div>
+              )}
+            </div>
+
             {/* Actions */}
-            <div style={{ display: 'flex', gap: 12, justifyContent: 'flex-end' }}>
+            <div style={{ display: 'flex', gap: 12, justifyContent: 'flex-end', alignItems: 'center' }}>
               <button
                 type="button"
                 onClick={() => setShowTrafficModal(false)}
@@ -4303,29 +4400,45 @@ export default function App() {
               >
                 Close
               </button>
-              <a
-                href={buildConciergeMailto(
-                  'Live Telemetry Snapshot Ping',
-                  `Live ScanQR Global Traffic Report:\n\n- Active Campaign Ref: ${campaignRef}\n- Total Page Views: ${trafficStats.views}\n- Total Engagements / Clicks: ${trafficStats.clicks}\n- Realtime Active Pulse: ${activeVisitorsCount} visitors\n- Client Time: ${new Date().toLocaleString()}\n\nRouted automatically to Darwin with CC to qr4luv.`
-                )}
-                onClick={() => recordClick('telemetry_ping_email')}
+              <button
+                type="button"
+                onClick={handleTriggerDailyReport}
+                disabled={isSendingReport}
                 style={{
                   display: 'inline-flex',
                   alignItems: 'center',
                   gap: 8,
                   padding: '10px 20px',
                   borderRadius: 10,
-                  background: 'linear-gradient(135deg, #06b6d4, #3b82f6)',
+                  background: reportSendStatus === 'success'
+                    ? 'linear-gradient(135deg, #059669, #10b981)'
+                    : 'linear-gradient(135deg, #06b6d4, #3b82f6)',
                   color: '#fff',
                   fontSize: 13,
                   fontWeight: 700,
-                  textDecoration: 'none',
+                  border: 'none',
+                  cursor: isSendingReport ? 'wait' : 'pointer',
                   boxShadow: '0 4px 15px rgba(6, 182, 212, 0.4)',
+                  transition: 'all 0.2s ease',
                 }}
               >
-                <Send size={14} />
-                <span>Send Snapshot Email</span>
-              </a>
+                {isSendingReport ? (
+                  <>
+                    <Zap size={14} />
+                    <span>Dispatching Cloud Email...</span>
+                  </>
+                ) : reportSendStatus === 'success' ? (
+                  <>
+                    <CheckCircle2 size={14} color="#fff" />
+                    <span>Sent to Gmail!</span>
+                  </>
+                ) : (
+                  <>
+                    <Send size={14} />
+                    <span>Trigger Test Report to Gmail</span>
+                  </>
+                )}
+              </button>
             </div>
           </div>
         </div>
