@@ -745,6 +745,96 @@ export default function App() {
   const [isSendingReport, setIsSendingReport] = useState(false)
   const [reportSendStatus, setReportSendStatus] = useState<string | null>(null)
 
+  // Local-First Geolocation State
+  const [localHub, setLocalHub] = useState<HubGeo>(() => {
+    return REGIONAL_HUBS.find((h) => h.slug === 'bangkok') || REGIONAL_HUBS[0]
+  })
+  const [isLocalMode, setIsLocalMode] = useState<boolean>(() => {
+    try {
+      const stored = sessionStorage.getItem('sqg_mode')
+      return stored !== 'global' // Defaults to local-first mode
+    } catch {
+      return true
+    }
+  })
+  const [geoDetected, setGeoDetected] = useState<boolean>(false)
+
+  // Auto-detect visitor location on landing and lock to local hub
+  useEffect(() => {
+    async function detectVisitorLocation() {
+      try {
+        const res = await fetch('/api/geo')
+        if (res.ok) {
+          const data = await res.json()
+          if (data?.hub) {
+            const found = REGIONAL_HUBS.find((h) => h.slug === data.hub.slug) || data.hub
+            setLocalHub(found)
+            setGeoDetected(true)
+
+            // If user hasn't explicitly chosen global mode, lock view to detected city
+            const userChoice = sessionStorage.getItem('sqg_mode')
+            if (userChoice !== 'global') {
+              setActiveMarket(found.market)
+              setClassifiedTab(found.slug)
+              setIsLocalMode(true)
+            }
+            return
+          }
+        }
+      } catch {
+        // Fallback: check browser timezone
+        try {
+          const tz = Intl.DateTimeFormat().resolvedOptions().timeZone.toLowerCase()
+          let matched: HubGeo | undefined
+          if (tz.includes('bangkok') || tz.includes('asia') || tz.includes('thailand')) {
+            matched = REGIONAL_HUBS.find((h) => h.slug === 'bangkok')
+          } else if (tz.includes('bogota') || tz.includes('colombia')) {
+            matched = REGIONAL_HUBS.find((h) => h.slug === 'bogota')
+          } else if (tz.includes('sao_paulo') || tz.includes('brazil')) {
+            matched = REGIONAL_HUBS.find((h) => h.slug === 'sao-paulo')
+          } else if (tz.includes('new_york')) {
+            matched = REGIONAL_HUBS.find((h) => h.slug === 'nyc')
+          } else if (tz.includes('los_angeles')) {
+            matched = REGIONAL_HUBS.find((h) => h.slug === 'la')
+          } else if (tz.includes('chicago') || tz.includes('austin')) {
+            matched = REGIONAL_HUBS.find((h) => h.slug === 'austin')
+          }
+
+          if (matched) {
+            setLocalHub(matched)
+            setGeoDetected(true)
+            const userChoice = sessionStorage.getItem('sqg_mode')
+            if (userChoice !== 'global') {
+              setActiveMarket(matched.market)
+              setClassifiedTab(matched.slug)
+              setIsLocalMode(true)
+            }
+          }
+        } catch {
+          // ignore
+        }
+      }
+    }
+    detectVisitorLocation()
+  }, [])
+
+  // Switch between Local and Global modes
+  const handleSwitchToGlobal = () => {
+    setIsLocalMode(false)
+    sessionStorage.setItem('sqg_mode', 'global')
+    recordClick('switch_to_global')
+  }
+
+  const handleSwitchToLocal = (hub?: HubGeo) => {
+    const target = hub || localHub || REGIONAL_HUBS.find((h) => h.slug === 'bangkok')!
+    setLocalHub(target)
+    setIsLocalMode(true)
+    setActiveMarket(target.market)
+    setClassifiedTab(target.slug)
+    sessionStorage.setItem('sqg_mode', 'local')
+    recordClick(`switch_to_local_${target.slug}`)
+  }
+
   // Lightweight non-blocking cloud telemetry ingest
   const sendTelemetryPing = (eventType: string, meta?: Record<string, any>) => {
     try {
@@ -1487,7 +1577,86 @@ export default function App() {
           </span>
         </div>
 
-        <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 10, flexWrap: 'wrap' }}>
+          {/* LOCAL / GLOBAL PRESENCE PILL */}
+          {isLocalMode && localHub ? (
+            <div style={{
+              display: 'inline-flex',
+              alignItems: 'center',
+              gap: 8,
+              padding: '4px 12px',
+              borderRadius: 999,
+              background: 'rgba(6, 182, 212, 0.15)',
+              border: '1px solid rgba(6, 182, 212, 0.45)',
+              boxShadow: '0 0 12px rgba(6, 182, 212, 0.25)',
+            }}>
+              <span style={{ fontSize: 12.5, fontWeight: 800, color: '#38bdf8', display: 'inline-flex', alignItems: 'center', gap: 5 }}>
+                <MapPin size={13} color="#22d3ee" />
+                <span>{localHub.name} {localHub.flag}</span>
+              </span>
+              <button
+                type="button"
+                onClick={handleSwitchToGlobal}
+                title="Switch from local city view to full 15-city global directory"
+                style={{
+                  background: 'rgba(255, 255, 255, 0.12)',
+                  border: 'none',
+                  borderRadius: 999,
+                  color: '#fff',
+                  padding: '3px 10px',
+                  fontSize: 11,
+                  fontWeight: 700,
+                  cursor: 'pointer',
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  gap: 4,
+                  transition: 'background 0.2s',
+                }}
+              >
+                <Globe size={11} />
+                <span>Go Global</span>
+              </button>
+            </div>
+          ) : (
+            <div style={{
+              display: 'inline-flex',
+              alignItems: 'center',
+              gap: 8,
+              padding: '4px 12px',
+              borderRadius: 999,
+              background: 'rgba(168, 85, 247, 0.15)',
+              border: '1px solid rgba(168, 85, 247, 0.4)',
+            }}>
+              <span style={{ fontSize: 12, fontWeight: 800, color: '#c084fc', display: 'inline-flex', alignItems: 'center', gap: 5 }}>
+                <Globe size={13} color="#c084fc" />
+                <span>15 Global Hubs</span>
+              </span>
+              {localHub && (
+                <button
+                  type="button"
+                  onClick={() => handleSwitchToLocal(localHub)}
+                  title={`Lock view to ${localHub.name}`}
+                  style={{
+                    background: 'rgba(255, 255, 255, 0.12)',
+                    border: 'none',
+                    borderRadius: 999,
+                    color: '#fff',
+                    padding: '3px 10px',
+                    fontSize: 11,
+                    fontWeight: 700,
+                    cursor: 'pointer',
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                    gap: 4,
+                  }}
+                >
+                  <MapPin size={11} />
+                  <span>{localHub.name} {localHub.flag}</span>
+                </button>
+              )}
+            </div>
+          )}
+
           {/* TOP LANGUAGE PICKER */}
           <div style={{
             display: 'flex',
@@ -1750,18 +1919,26 @@ export default function App() {
             display: 'inline-flex',
             alignItems: 'center',
             gap: 8,
-            padding: '6px 16px',
+            padding: '6px 18px',
             borderRadius: 999,
-            background: 'rgba(6, 182, 212, 0.12)',
-            border: '1px solid rgba(6, 182, 212, 0.35)',
+            background: isLocalMode ? 'rgba(6, 182, 212, 0.16)' : 'rgba(6, 182, 212, 0.12)',
+            border: isLocalMode ? '1px solid rgba(6, 182, 212, 0.5)' : '1px solid rgba(6, 182, 212, 0.35)',
             color: '#38bdf8',
             fontSize: 12,
-            fontWeight: 700,
+            fontWeight: 800,
             marginBottom: 24,
             textTransform: 'uppercase',
             letterSpacing: '0.06em',
+            boxShadow: isLocalMode ? '0 0 16px rgba(6, 182, 212, 0.25)' : 'none',
           }}>
-            ⚡ {t.hero.trustBadge}
+            {isLocalMode && localHub ? (
+              <>
+                <MapPin size={14} color="#22d3ee" />
+                <span>{localHub.name.toUpperCase()} LIVE HUB • {localHub.flag} {localHub.pulse.toUpperCase()} PULSE</span>
+              </>
+            ) : (
+              <>⚡ {t.hero.trustBadge}</>
+            )}
           </div>
 
           {/* Headline */}
@@ -1775,7 +1952,13 @@ export default function App() {
             WebkitBackgroundClip: 'text',
             WebkitTextFillColor: 'transparent',
           }}>
-            {t.hero.headline} {t.hero.headlineHighlight}
+            {isLocalMode && localHub ? (
+              <>
+                {localHub.name} Nightlife & <span style={{ color: '#06b6d4', WebkitTextFillColor: '#06b6d4' }}>VIP Tables</span>
+              </>
+            ) : (
+              <>{t.hero.headline} {t.hero.headlineHighlight}</>
+            )}
           </h1>
 
           {/* Subheadline */}
@@ -1787,72 +1970,154 @@ export default function App() {
             margin: '0 auto 40px',
             fontWeight: 400,
           }}>
-            {t.hero.subheadline}
+            {isLocalMode && localHub ? (
+              <>
+                Live crowd gauges, verified nightlife hosts, and curated VIP table-sharing across {localHub.name}. Featuring {localHub.topSpot} and local ambassadors. Zero sign-up wall to explore.
+              </>
+            ) : (
+              <>{t.hero.subheadline}</>
+            )}
           </p>
 
           {/* Action Buttons */}
           <div style={{ display: 'flex', flexWrap: 'wrap', gap: 14, justifyContent: 'center', marginBottom: 20 }}>
-            <a
-              href={`${CERCA_BASE_URL}/explore`}
-              style={{
-                height: 52,
-                padding: '0 30px',
-                borderRadius: 14,
-                background: 'linear-gradient(135deg, #a855f7 0%, #ec4899 100%)',
-                color: '#fff',
-                fontSize: 15,
-                fontWeight: 700,
-                textDecoration: 'none',
-                display: 'inline-flex',
-                alignItems: 'center',
-                gap: 8,
-                boxShadow: '0 8px 30px rgba(168, 85, 247, 0.38)',
-              }}
-            >
-              {t.hero.ctaPrimary} <ExternalLink size={16} />
-            </a>
-            <a
-              href={`${CERCA_BASE_URL}/tonight`}
-              style={{
-                height: 52,
-                padding: '0 28px',
-                borderRadius: 14,
-                background: 'rgba(255, 255, 255, 0.08)',
-                border: '1px solid rgba(255, 255, 255, 0.18)',
-                color: '#f8fafc',
-                fontSize: 15,
-                fontWeight: 700,
-                textDecoration: 'none',
-                display: 'inline-flex',
-                alignItems: 'center',
-                gap: 8,
-                backdropFilter: 'blur(10px)',
-              }}
-            >
-              Tonight’s Live Pulse <Flame size={16} color="#f43f5e" />
-            </a>
-            <a
-              href="https://play.google.com/store/apps/details?id=com.qr4luv.cerca"
-              target="_blank"
-              rel="noopener noreferrer"
-              style={{
-                height: 52,
-                padding: '0 24px',
-                borderRadius: 14,
-                background: 'rgba(255, 255, 255, 0.08)',
-                border: '1px solid rgba(255, 255, 255, 0.18)',
-                color: '#f8fafc',
-                fontSize: 15,
-                fontWeight: 700,
-                textDecoration: 'none',
-                display: 'inline-flex',
-                alignItems: 'center',
-                gap: 8,
-                backdropFilter: 'blur(10px)',
-              }}
-            >
-              📱 Google Play App
-            </a>
+            {isLocalMode && localHub ? (
+              <>
+                <a
+                  href="#classifieds"
+                  onClick={() => {
+                    setClassifiedTab(localHub.slug as any)
+                    recordClick(`local_hero_classifieds_${localHub.slug}`)
+                  }}
+                  style={{
+                    height: 52,
+                    padding: '0 28px',
+                    borderRadius: 14,
+                    background: 'linear-gradient(135deg, #06b6d4 0%, #3b82f6 100%)',
+                    color: '#fff',
+                    fontSize: 15,
+                    fontWeight: 700,
+                    textDecoration: 'none',
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                    gap: 8,
+                    boxShadow: '0 8px 30px rgba(6, 182, 212, 0.4)',
+                  }}
+                >
+                  🍾 {localHub.name} VIP Table Splits
+                </a>
+                <a
+                  href="#cities"
+                  onClick={() => {
+                    setActiveMarket(localHub.market)
+                    recordClick(`local_hero_spots_${localHub.slug}`)
+                  }}
+                  style={{
+                    height: 52,
+                    padding: '0 28px',
+                    borderRadius: 14,
+                    background: 'rgba(255, 255, 255, 0.08)',
+                    border: '1px solid rgba(255, 255, 255, 0.18)',
+                    color: '#f8fafc',
+                    fontSize: 15,
+                    fontWeight: 700,
+                    textDecoration: 'none',
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                    gap: 8,
+                    backdropFilter: 'blur(10px)',
+                  }}
+                >
+                  🍸 {localHub.name} Hotspots ({localHub.topSpot.split(' ')[0]})
+                </a>
+                <button
+                  type="button"
+                  onClick={handleSwitchToGlobal}
+                  style={{
+                    height: 52,
+                    padding: '0 22px',
+                    borderRadius: 14,
+                    background: 'rgba(168, 85, 247, 0.12)',
+                    border: '1px solid rgba(168, 85, 247, 0.3)',
+                    color: '#c084fc',
+                    fontSize: 14,
+                    fontWeight: 700,
+                    cursor: 'pointer',
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                    gap: 8,
+                  }}
+                >
+                  <Globe size={16} />
+                  <span>Explore Global Directory (15 Cities)</span>
+                </button>
+              </>
+            ) : (
+              <>
+                <a
+                  href={`${CERCA_BASE_URL}/explore`}
+                  style={{
+                    height: 52,
+                    padding: '0 30px',
+                    borderRadius: 14,
+                    background: 'linear-gradient(135deg, #a855f7 0%, #ec4899 100%)',
+                    color: '#fff',
+                    fontSize: 15,
+                    fontWeight: 700,
+                    textDecoration: 'none',
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                    gap: 8,
+                    boxShadow: '0 8px 30px rgba(168, 85, 247, 0.38)',
+                  }}
+                >
+                  {t.hero.ctaPrimary} <ExternalLink size={16} />
+                </a>
+                <a
+                  href={`${CERCA_BASE_URL}/tonight`}
+                  style={{
+                    height: 52,
+                    padding: '0 28px',
+                    borderRadius: 14,
+                    background: 'rgba(255, 255, 255, 0.08)',
+                    border: '1px solid rgba(255, 255, 255, 0.18)',
+                    color: '#f8fafc',
+                    fontSize: 15,
+                    fontWeight: 700,
+                    textDecoration: 'none',
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                    gap: 8,
+                    backdropFilter: 'blur(10px)',
+                  }}
+                >
+                  Tonight’s Live Pulse <Flame size={16} color="#f43f5e" />
+                </a>
+                {localHub && (
+                  <button
+                    type="button"
+                    onClick={() => handleSwitchToLocal(localHub)}
+                    style={{
+                      height: 52,
+                      padding: '0 22px',
+                      borderRadius: 14,
+                      background: 'rgba(6, 182, 212, 0.12)',
+                      border: '1px solid rgba(6, 182, 212, 0.3)',
+                      color: '#22d3ee',
+                      fontSize: 14,
+                      fontWeight: 700,
+                      cursor: 'pointer',
+                      display: 'inline-flex',
+                      alignItems: 'center',
+                      gap: 8,
+                    }}
+                  >
+                    <MapPin size={16} />
+                    <span>Back to {localHub.name} {localHub.flag}</span>
+                  </button>
+                )}
+              </>
+            )}
           </div>
 
           <div style={{ fontSize: 13, color: '#94a3b8', marginBottom: 20 }}>
@@ -2442,7 +2707,50 @@ export default function App() {
       </section>
 
       {/* 3. 4-MARKET CITY HUB (USA / Colombia / Brazil / Thailand) */}
-      <section id="cities-directory" style={{ maxWidth: 1200, margin: '0 auto 80px', padding: '0 24px' }}>
+      <section id="cities" style={{ maxWidth: 1200, margin: '0 auto 80px', padding: '0 24px' }}>
+        {/* Local mode notice banner if active */}
+        {isLocalMode && localHub && (
+          <div style={{
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+            flexWrap: 'wrap',
+            gap: 12,
+            background: 'rgba(6, 182, 212, 0.08)',
+            border: '1px solid rgba(6, 182, 212, 0.35)',
+            borderRadius: 12,
+            padding: '12px 18px',
+            marginBottom: 24,
+            boxShadow: '0 4px 20px rgba(0, 0, 0, 0.3)',
+          }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+              <span style={{ fontSize: 20 }}>{localHub.flag}</span>
+              <div>
+                <strong style={{ color: '#38bdf8', fontSize: 13.5 }}>Local Hub Detected: {localHub.name}</strong>
+                <div style={{ color: '#94a3b8', fontSize: 12 }}>
+                  Showing verified nightlife spots, speakeasies & crowd levels in {localHub.name}.
+                </div>
+              </div>
+            </div>
+            <button
+              type="button"
+              onClick={handleSwitchToGlobal}
+              style={{
+                background: 'rgba(255, 255, 255, 0.1)',
+                border: '1px solid rgba(255, 255, 255, 0.2)',
+                color: '#fff',
+                borderRadius: 8,
+                padding: '6px 14px',
+                fontSize: 12,
+                fontWeight: 700,
+                cursor: 'pointer',
+              }}
+            >
+              Explore All 15 Cities Globally 🌐
+            </button>
+          </div>
+        )}
+
         <div style={{
           display: 'flex',
           flexWrap: 'wrap',
@@ -3262,7 +3570,50 @@ export default function App() {
       </section>
 
       {/* 6B. THAILAND & GLOBAL CLASSIFIEDS & NIGHTLIFE COMMUNITY BOARD */}
-      <section id="community-board" style={{ maxWidth: 1200, margin: '0 auto 80px', padding: '0 24px' }}>
+      <section id="classifieds" style={{ maxWidth: 1200, margin: '0 auto 80px', padding: '0 24px' }}>
+        {/* Local mode VIP board banner */}
+        {isLocalMode && localHub && (
+          <div style={{
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+            flexWrap: 'wrap',
+            gap: 12,
+            background: 'rgba(236, 72, 153, 0.08)',
+            border: '1px solid rgba(236, 72, 153, 0.35)',
+            borderRadius: 12,
+            padding: '12px 18px',
+            marginBottom: 24,
+            boxShadow: '0 4px 20px rgba(0, 0, 0, 0.3)',
+          }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+              <span style={{ fontSize: 20 }}>🍾</span>
+              <div>
+                <strong style={{ color: '#f472b6', fontSize: 13.5 }}>Local VIP Board: {localHub.name} {localHub.flag}</strong>
+                <div style={{ color: '#94a3b8', fontSize: 12 }}>
+                  Showing active table splits, nightlife guide bookings, and boat charters for {localHub.name}.
+                </div>
+              </div>
+            </div>
+            <button
+              type="button"
+              onClick={handleSwitchToGlobal}
+              style={{
+                background: 'rgba(255, 255, 255, 0.1)',
+                border: '1px solid rgba(255, 255, 255, 0.2)',
+                color: '#fff',
+                borderRadius: 8,
+                padding: '6px 14px',
+                fontSize: 12,
+                fontWeight: 700,
+                cursor: 'pointer',
+              }}
+            >
+              View Global Listings 🌐
+            </button>
+          </div>
+        )}
+
         <div style={{
           display: 'flex',
           flexWrap: 'wrap',
