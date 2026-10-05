@@ -771,22 +771,45 @@ export default function App() {
     }
   }
 
-  // Trigger on-demand test daily report via Vercel serverless / Resend (never opens Outlook)
+  // Trigger on-demand test daily report via cloud API (never opens Outlook)
   const handleTriggerDailyReport = async () => {
     setIsSendingReport(true)
     setReportSendStatus(null)
     try {
-      const res = await fetch('/api/cron/daily-report?test=true')
+      let res = await fetch('/api/cron/daily-report?test=true')
+      if (!res.ok) {
+        res = await fetch('https://rrbvtgqhzqqzzkwphpqd.supabase.co/functions/v1/send-daily-telemetry-report', {
+          method: 'POST',
+          headers: {
+            apikey: 'sb_publishable_0nUgFj3g_kBj-tgxPVFmeQ_lEq0y53A',
+            'Content-Type': 'application/json',
+          },
+        })
+      }
       const data = await res.json()
       if (data.ok) {
         setReportSendStatus('success')
-      } else if (data.error && data.error.includes('NO_EMAIL_API_KEY')) {
-        setReportSendStatus('missing_key')
       } else {
         setReportSendStatus(data.error || 'error')
       }
     } catch {
-      setReportSendStatus('network_error')
+      try {
+        const edgeRes = await fetch('https://rrbvtgqhzqqzzkwphpqd.supabase.co/functions/v1/send-daily-telemetry-report', {
+          method: 'POST',
+          headers: {
+            apikey: 'sb_publishable_0nUgFj3g_kBj-tgxPVFmeQ_lEq0y53A',
+            'Content-Type': 'application/json',
+          },
+        })
+        const data = await edgeRes.json()
+        if (data.ok) {
+          setReportSendStatus('success')
+        } else {
+          setReportSendStatus(data.error || 'error')
+        }
+      } catch {
+        setReportSendStatus('network_error')
+      }
     } finally {
       setIsSendingReport(false)
     }
