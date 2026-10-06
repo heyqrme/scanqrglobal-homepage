@@ -42,6 +42,7 @@ import {
   setStoredLocale,
   type Locale,
 } from './i18n'
+import { useExitTelemetry } from './hooks/useExitTelemetry'
 
 const CERCA_BASE_URL = 'https://www.qr4luv.com'
 
@@ -958,6 +959,13 @@ export default function App() {
     recordClick(`switch_to_local_${target.slug}`)
   }
 
+  // Exit Beacon & Scroll Depth Telemetry Hook
+  const { recordInteraction } = useExitTelemetry({
+    isLocalMode,
+    currentHub: localHub?.slug,
+    campaignRef,
+  })
+
   // Lightweight non-blocking cloud telemetry ingest
   const sendTelemetryPing = (eventType: string, meta?: Record<string, any>) => {
     try {
@@ -1088,6 +1096,7 @@ export default function App() {
   // Helper to log clicks and track conversions
   const recordClick = (actionName: string, extra?: Record<string, any>) => {
     try {
+      recordInteraction(actionName)
       const curClicks = parseInt(localStorage.getItem('sqg_clicks') || '0', 10)
       localStorage.setItem('sqg_clicks', (curClicks + 1).toString())
       setTrafficStats((prev) => ({ ...prev, clicks: prev.clicks + 1 }))
@@ -2014,7 +2023,7 @@ export default function App() {
       </div>
 
       {/* 1. HERO SECTION */}
-      <section style={{
+      <section id="hero" style={{
         position: 'relative',
         minHeight: '76vh',
         display: 'flex',
@@ -2242,7 +2251,7 @@ export default function App() {
           </div>
 
           {/* CERCA AI QUERY BAR & NATURAL-LANGUAGE CONCIERGE */}
-          <div style={{
+          <div id="query-bar" style={{
             maxWidth: 860,
             margin: '0 auto',
             textAlign: 'left',
@@ -3085,7 +3094,7 @@ export default function App() {
       </section>
 
       {/* 3. CORE PILLARS / MODES (4 Equal Columns, Light Card Background) */}
-      <section style={{ maxWidth: 1200, margin: '0 auto 80px', padding: '0 24px' }}>
+      <section id="pillars" style={{ maxWidth: 1200, margin: '0 auto 80px', padding: '0 24px' }}>
         <div style={{ textAlign: 'center', marginBottom: 36 }}>
           <h2 style={{ fontSize: 'clamp(24px, 3.5vw, 34px)', fontWeight: 800, margin: '0 0 10px' }}>
             {t.pillars.sectionTitle}
@@ -3527,7 +3536,7 @@ export default function App() {
       </section>
 
       {/* 5. DAILY DROPS (Auto-rotating carousel) */}
-      <section style={{ maxWidth: 1000, margin: '0 auto 80px', padding: '0 24px' }}>
+      <section id="carousel" style={{ maxWidth: 1000, margin: '0 auto 80px', padding: '0 24px' }}>
         <div style={{
           display: 'flex',
           alignItems: 'center',
@@ -3665,7 +3674,7 @@ export default function App() {
       </section>
 
       {/* 6. VERIFIED HOSTS (5 Circular Avatars with Neon Rim Light + Badges) */}
-      <section style={{ maxWidth: 1000, margin: '0 auto 80px', padding: '0 24px', textAlign: 'center' }}>
+      <section id="hosts" style={{ maxWidth: 1000, margin: '0 auto 80px', padding: '0 24px', textAlign: 'center' }}>
         <h2 style={{ fontSize: 'clamp(22px, 3vw, 32px)', fontWeight: 800, margin: '0 0 10px' }}>
           {t.hosts.sectionTitle}
         </h2>
@@ -4114,7 +4123,7 @@ export default function App() {
       </section>
 
       {/* 7. TRUST & COMPLIANCE (Centered Badges) */}
-      <section style={{ maxWidth: 900, margin: '0 auto 80px', padding: '0 24px', textAlign: 'center' }}>
+      <section id="trust" style={{ maxWidth: 900, margin: '0 auto 80px', padding: '0 24px', textAlign: 'center' }}>
         <h3 style={{ fontSize: 13, textTransform: 'uppercase', letterSpacing: '0.1em', color: '#71717a', marginBottom: 20 }}>
           {t.trust.sectionTitle}
         </h3>
@@ -4191,7 +4200,7 @@ export default function App() {
       </section>
 
       {/* 8. FOOTER */}
-      <footer style={{
+      <footer id="footer" style={{
         background: '#040407',
         borderTop: '1px solid rgba(255, 255, 255, 0.08)',
         padding: '60px 24px 30px',

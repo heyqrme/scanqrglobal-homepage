@@ -70,7 +70,7 @@ export default async function handler(req: IncomingMessage, res: ServerResponse)
     path,
     referrer,
     campaign_ref: campaignRef,
-    city: vercelCity || body.city || null,
+    city: vercelCity ? decodeURIComponent(vercelCity) : (body.city || null),
     country: vercelCountry || body.country || null,
     ip_hash: ipHash,
     user_agent: getHeader(req, 'user-agent') || null,
