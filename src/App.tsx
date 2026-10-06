@@ -1648,6 +1648,12 @@ export default function App() {
     }, 280)
   }
 
+  // Active spotlight listing for mobile above-the-fold elevation
+  const spotlightListing =
+    (isLocalMode && localHub
+      ? CLASSIFIED_LISTINGS.find((c) => c.venueSlug === localHub.slug)
+      : null) || CLASSIFIED_LISTINGS[0]
+
   return (
     <div style={{ minHeight: '100vh', background: '#030305', color: '#ffffff', overflowX: 'hidden', fontFamily: 'system-ui, -apple-system, sans-serif' }}>
       <style>{`
@@ -1671,10 +1677,149 @@ export default function App() {
           border-color: rgba(6, 182, 212, 0.6) !important;
           transform: translateY(-1px);
         }
+
+        /* Responsive Mobile Layout (< 768px) */
+        @media (max-width: 767px) {
+          .sqg-nav {
+            padding: 6px 12px !important;
+            min-height: 44px !important;
+            flex-wrap: nowrap !important;
+          }
+          .sqg-nav-logo-icon {
+            width: 26px !important;
+            height: 26px !important;
+            font-size: 13px !important;
+            border-radius: 8px !important;
+          }
+          .sqg-nav-logo-text {
+            font-size: 15px !important;
+          }
+          .sqg-nav-desktop-only {
+            display: none !important;
+          }
+          .sqg-nav-launch-btn {
+            padding: 5px 10px !important;
+            font-size: 11px !important;
+            border-radius: 8px !important;
+          }
+          .sqg-nav-lang-picker {
+            padding: 2px 6px !important;
+          }
+          .sqg-nav-lang-picker select {
+            font-size: 11px !important;
+          }
+
+          .sqg-fomo-bar {
+            top: 44px !important;
+            padding: 4px 10px !important;
+            min-height: 28px !important;
+            font-size: 11px !important;
+          }
+          .sqg-fomo-desktop-only {
+            display: none !important;
+          }
+          .sqg-fomo-mobile-only {
+            display: inline !important;
+          }
+          .sqg-fomo-controls-desktop {
+            display: none !important;
+          }
+          .sqg-fomo-center {
+            padding: 2px 6px !important;
+            gap: 4px !important;
+            font-size: 10.5px !important;
+          }
+          .sqg-fomo-split-btn {
+            padding: 2px 7px !important;
+            font-size: 10px !important;
+            white-space: nowrap !important;
+          }
+
+          .sqg-hero-section {
+            min-height: auto !important;
+            padding: 12px 12px 10px !important;
+          }
+          .sqg-hero-badge {
+            padding: 3px 10px !important;
+            font-size: 10px !important;
+            margin-bottom: 8px !important;
+          }
+          .sqg-hero-headline {
+            font-size: clamp(20px, 5.5vw, 24px) !important;
+            line-height: 1.22 !important;
+            margin: 0 0 6px !important;
+          }
+          .sqg-hero-subheadline {
+            font-size: 12.5px !important;
+            line-height: 1.4 !important;
+            margin: 0 auto 10px !important;
+            max-width: 100% !important;
+          }
+          .sqg-hero-actions {
+            gap: 8px !important;
+            margin-bottom: 10px !important;
+            flex-wrap: nowrap !important;
+          }
+          .sqg-hero-btn {
+            height: 38px !important;
+            padding: 0 12px !important;
+            font-size: 12px !important;
+            border-radius: 10px !important;
+            flex: 1 !important;
+            justify-content: center !important;
+          }
+          .sqg-dest-pills-container {
+            padding: 6px 8px !important;
+            margin: 0 auto 8px !important;
+          }
+          .sqg-dest-pills-label {
+            font-size: 10.5px !important;
+            margin-bottom: 4px !important;
+          }
+          .sqg-dest-chips-row {
+            flex-wrap: nowrap !important;
+            overflow-x: auto !important;
+            justify-content: flex-start !important;
+            padding-bottom: 4px !important;
+            scrollbar-width: none !important;
+            -webkit-overflow-scrolling: touch !important;
+          }
+          .sqg-dest-chips-row::-webkit-scrollbar {
+            display: none !important;
+          }
+          .sqg-dest-chip {
+            flex-shrink: 0 !important;
+            padding: 3px 9px !important;
+            font-size: 11px !important;
+            white-space: nowrap !important;
+          }
+          .sqg-trust-subline {
+            font-size: 11px !important;
+            margin-bottom: 10px !important;
+          }
+
+          .sqg-mobile-elevated-card {
+            display: block !important;
+          }
+
+          .sqg-query-bar {
+            padding: 14px 12px !important;
+            border-radius: 16px !important;
+          }
+        }
+
+        @media (min-width: 768px) {
+          .sqg-fomo-mobile-only {
+            display: none !important;
+          }
+          .sqg-mobile-elevated-card {
+            display: none !important;
+          }
+        }
       `}</style>
 
       {/* NAVIGATION BAR */}
-      <nav style={{
+      <nav className="sqg-nav" style={{
         position: 'sticky',
         top: 0,
         zIndex: 100,
@@ -1689,7 +1834,7 @@ export default function App() {
         margin: '0 auto',
       }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
-          <div style={{
+          <div className="sqg-nav-logo-icon" style={{
             width: 32,
             height: 32,
             borderRadius: 10,
@@ -1704,7 +1849,7 @@ export default function App() {
           }}>
             ⚡
           </div>
-          <span style={{ fontSize: 18, fontWeight: 800, letterSpacing: '-0.02em', color: '#fff' }}>
+          <span className="sqg-nav-logo-text" style={{ fontSize: 18, fontWeight: 800, letterSpacing: '-0.02em', color: '#fff' }}>
             ScanQR<span style={{ color: '#06b6d4' }}>Global</span>
           </span>
         </div>
@@ -1712,7 +1857,7 @@ export default function App() {
         <div style={{ display: 'flex', alignItems: 'center', gap: 10, flexWrap: 'wrap' }}>
           {/* LOCAL / GLOBAL PRESENCE PILL */}
           {isLocalMode && localHub ? (
-            <div style={{
+            <div className="sqg-nav-presence-pill" style={{
               display: 'inline-flex',
               alignItems: 'center',
               gap: 8,
@@ -1750,7 +1895,7 @@ export default function App() {
               </button>
             </div>
           ) : (
-            <div style={{
+            <div className="sqg-nav-presence-pill" style={{
               display: 'inline-flex',
               alignItems: 'center',
               gap: 8,
@@ -1790,7 +1935,7 @@ export default function App() {
           )}
 
           {/* TOP LANGUAGE PICKER */}
-          <div style={{
+          <div className="sqg-nav-lang-picker" style={{
             display: 'flex',
             alignItems: 'center',
             gap: 6,
@@ -1823,6 +1968,7 @@ export default function App() {
           </div>
 
           <a
+            className="sqg-nav-desktop-only"
             href={`${CERCA_BASE_URL}/explore`}
             style={{
               padding: '8px 16px',
@@ -1839,6 +1985,7 @@ export default function App() {
             {t.nav.exploreMap}
           </a>
           <a
+            className="sqg-nav-launch-btn"
             href={CERCA_BASE_URL}
             style={{
               padding: '8px 18px',
@@ -1861,6 +2008,7 @@ export default function App() {
 
       {/* 0. LIVE GLOBAL FOMO ACTIVITY BAR */}
       <div
+        className="sqg-fomo-bar"
         onMouseEnter={() => setIsTelemetryPaused(true)}
         onMouseLeave={() => setIsTelemetryPaused(false)}
         style={{
@@ -1892,8 +2040,11 @@ export default function App() {
             display: 'inline-block',
             animation: 'pulseDot 1.8s infinite',
           }} />
-          <span style={{ color: '#f8fafc', fontWeight: 800, fontSize: 11.5, letterSpacing: '0.02em' }}>
+          <span className="sqg-fomo-desktop-only" style={{ color: '#f8fafc', fontWeight: 800, fontSize: 11.5, letterSpacing: '0.02em' }}>
             🔴 LIVE NOW: <strong style={{ color: '#38bdf8' }}>{activeVisitorsCount} travelers</strong> checking nightlife in Bangkok & Miami
+          </span>
+          <span className="sqg-fomo-mobile-only" style={{ color: '#f8fafc', fontWeight: 800, fontSize: 11, letterSpacing: '0.01em', whiteSpace: 'nowrap' }}>
+            🔴 LIVE: <strong style={{ color: '#38bdf8' }}>{activeVisitorsCount}</strong> active
           </span>
         </div>
 
@@ -1923,7 +2074,7 @@ export default function App() {
                 border: '1px solid rgba(255, 255, 255, 0.08)',
                 transition: 'background 0.2s',
               }}
-              className="telemetry-hover"
+              className="sqg-fomo-center telemetry-hover"
               title="Click to view live table splits and crowd status"
             >
               <span style={{
@@ -1946,7 +2097,7 @@ export default function App() {
                 {currentEvt.venue}
               </span>
 
-              <span style={{ color: '#a1a1aa', display: 'inline', overflow: 'hidden', textOverflow: 'ellipsis' }}>
+              <span className="sqg-fomo-desktop-only" style={{ color: '#a1a1aa', display: 'inline', overflow: 'hidden', textOverflow: 'ellipsis' }}>
                 — {currentEvt.message}
               </span>
 
@@ -1968,6 +2119,7 @@ export default function App() {
         {/* Right: Quick Action Split Table CTA + Controls */}
         <div style={{ display: 'flex', alignItems: 'center', gap: 8, flexShrink: 0 }}>
           <a
+            className="sqg-fomo-split-btn"
             href="#classifieds"
             onClick={() => recordClick('topbar_split_table')}
             style={{
@@ -1984,6 +2136,7 @@ export default function App() {
             🍾 Split a Table
           </a>
           <button
+            className="sqg-fomo-controls-desktop"
             onClick={() => setTelemetryIndex((prev) => (prev - 1 + TELEMETRY_EVENTS.length) % TELEMETRY_EVENTS.length)}
             style={{
               width: 22,
@@ -2002,6 +2155,7 @@ export default function App() {
             <ChevronLeft size={12} />
           </button>
           <button
+            className="sqg-fomo-controls-desktop"
             onClick={() => setTelemetryIndex((prev) => (prev + 1) % TELEMETRY_EVENTS.length)}
             style={{
               width: 22,
@@ -2023,7 +2177,7 @@ export default function App() {
       </div>
 
       {/* 1. HERO SECTION */}
-      <section id="hero" style={{
+      <section id="hero" className="sqg-hero-section" style={{
         position: 'relative',
         minHeight: '76vh',
         display: 'flex',
@@ -2042,7 +2196,7 @@ export default function App() {
       }}>
         <div style={{ position: 'relative', zIndex: 2, maxWidth: 960, margin: '0 auto' }}>
           {/* Tag badge */}
-          <div style={{
+          <div className="sqg-hero-badge" style={{
             display: 'inline-flex',
             alignItems: 'center',
             gap: 8,
@@ -2072,7 +2226,7 @@ export default function App() {
           </div>
 
           {/* Headline */}
-          <h1 style={{
+          <h1 className="sqg-hero-headline" style={{
             fontSize: 'clamp(34px, 5.5vw, 60px)',
             fontWeight: 900,
             lineHeight: 1.12,
@@ -2092,7 +2246,7 @@ export default function App() {
           </h1>
 
           {/* Subheadline */}
-          <p style={{
+          <p className="sqg-hero-subheadline" style={{
             fontSize: 'clamp(16px, 2.3vw, 20px)',
             color: '#cbd5e1',
             lineHeight: 1.6,
@@ -2110,8 +2264,9 @@ export default function App() {
           </p>
 
           {/* Exactly 2 Clean Action Buttons */}
-          <div style={{ display: 'flex', flexWrap: 'wrap', gap: 14, justifyContent: 'center', marginBottom: 16 }}>
+          <div className="sqg-hero-actions" style={{ display: 'flex', flexWrap: 'wrap', gap: 14, justifyContent: 'center', marginBottom: 16 }}>
             <a
+              className="sqg-hero-btn"
               href={`${CERCA_BASE_URL}/explore${isLocalMode && localHub ? `?city=${localHub.slug}` : ''}`}
               onClick={() => recordClick('hero_cta_free_map')}
               style={{
@@ -2136,6 +2291,7 @@ export default function App() {
             </a>
 
             <a
+              className="sqg-hero-btn"
               href="#classifieds"
               onClick={() => {
                 if (isLocalMode && localHub) setClassifiedTab(localHub.slug as any)
@@ -2188,7 +2344,7 @@ export default function App() {
               </button>
             </div>
           ) : (
-            <div style={{
+            <div className="sqg-dest-pills-container" style={{
               margin: '0 auto 20px',
               maxWidth: 780,
               padding: '12px 16px',
@@ -2197,14 +2353,14 @@ export default function App() {
               border: '1px solid rgba(255, 255, 255, 0.08)',
               textAlign: 'center',
             }}>
-              <div style={{ fontSize: 12, color: '#94a3b8', marginBottom: 8, fontWeight: 600, letterSpacing: '0.04em', textTransform: 'uppercase' }}>
+              <div className="sqg-dest-pills-label" style={{ fontSize: 12, color: '#94a3b8', marginBottom: 8, fontWeight: 600, letterSpacing: '0.04em', textTransform: 'uppercase' }}>
                 {visitorLocation.country && visitorLocation.country !== 'US' ? (
                   <>Visiting from <span style={{ color: '#38bdf8' }}>{visitorLocation.city || visitorLocation.country}</span>? Select your nightlife destination:</>
                 ) : (
                   <>Select a destination to unlock live local radar & VIP tables:</>
                 )}
               </div>
-              <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6, justifyContent: 'center' }}>
+              <div className="sqg-dest-chips-row" style={{ display: 'flex', flexWrap: 'wrap', gap: 6, justifyContent: 'center' }}>
                 {[
                   { name: 'Bangkok', slug: 'bangkok', flag: '🇹🇭' },
                   { name: 'Miami', slug: 'miami', flag: '🇺🇸' },
@@ -2217,6 +2373,7 @@ export default function App() {
                 ].map((dest) => (
                   <button
                     key={dest.slug}
+                    className="sqg-dest-chip"
                     type="button"
                     onClick={() => {
                       const target = REGIONAL_HUBS.find((h) => h.slug === dest.slug)
@@ -2246,12 +2403,167 @@ export default function App() {
           )}
 
           {/* Trust Subline */}
-          <div style={{ fontSize: 13, color: '#94a3b8', marginBottom: 36, fontWeight: 500 }}>
+          <div className="sqg-trust-subline" style={{ fontSize: 13, color: '#94a3b8', marginBottom: 36, fontWeight: 500 }}>
             ⚡ No account required • Real-time crowd meter • 100% Free
           </div>
 
+          {/* MOBILE ELEVATED LIVE TONIGHT VIP SPOTLIGHT CARD (<768px VIEWPORTS) */}
+          <div className="sqg-mobile-elevated-card" style={{
+            margin: '0 auto 16px',
+            maxWidth: 480,
+            background: 'linear-gradient(135deg, rgba(20, 20, 32, 0.95), rgba(12, 12, 20, 0.98))',
+            border: '1px solid rgba(236, 72, 153, 0.45)',
+            borderRadius: 16,
+            padding: '12px 14px',
+            boxShadow: '0 8px 30px rgba(0, 0, 0, 0.5), 0 0 20px rgba(236, 72, 153, 0.15)',
+            position: 'relative',
+            overflow: 'hidden',
+            textAlign: 'left',
+          }}>
+            {/* Glowing accent bar at top */}
+            <div style={{
+              position: 'absolute',
+              top: 0,
+              left: 0,
+              right: 0,
+              height: 3,
+              background: 'linear-gradient(90deg, #ec4899, #a855f7, #06b6d4)',
+            }} />
+
+            {/* Header row: Live indicator & Scarcity */}
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 6, marginBottom: 8 }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
+                <span style={{
+                  width: 7,
+                  height: 7,
+                  borderRadius: '50%',
+                  background: '#ef4444',
+                  boxShadow: '0 0 8px #ef4444',
+                  display: 'inline-block',
+                  animation: 'pulseDot 1.8s infinite',
+                }} />
+                <span style={{
+                  fontSize: 10.5,
+                  fontWeight: 800,
+                  letterSpacing: '0.05em',
+                  textTransform: 'uppercase',
+                  color: '#f472b6',
+                }}>
+                  {isLocalMode && localHub ? `LIVE IN ${localHub.name.toUpperCase()}` : 'LIVE TONIGHT SPOTLIGHT'}
+                </span>
+                <span style={{
+                  fontSize: 9.5,
+                  fontWeight: 800,
+                  padding: '2px 6px',
+                  borderRadius: 4,
+                  background: 'rgba(236, 72, 153, 0.18)',
+                  color: '#f472b6',
+                  border: '1px solid rgba(236, 72, 153, 0.35)',
+                }}>
+                  {spotlightListing.categoryBadge}
+                </span>
+              </div>
+              <span style={{
+                fontSize: 10,
+                fontWeight: 800,
+                padding: '2px 6px',
+                borderRadius: 4,
+                background: 'rgba(239, 68, 68, 0.2)',
+                color: '#f87171',
+                border: '1px solid rgba(239, 68, 68, 0.4)',
+              }}>
+                🔥 {spotlightListing.scarcityBadge || 'Active Split'}
+              </span>
+            </div>
+
+            {/* Listing title & location */}
+            <div style={{ marginBottom: 6 }}>
+              <h4 style={{
+                margin: '0 0 2px',
+                fontSize: 13.5,
+                fontWeight: 800,
+                color: '#ffffff',
+                lineHeight: 1.3,
+              }}>
+                {spotlightListing.title}
+              </h4>
+              <div style={{ display: 'flex', alignItems: 'center', gap: 6, fontSize: 11, color: '#94a3b8' }}>
+                <MapPin size={11} color="#06b6d4" />
+                <span>{spotlightListing.city}, {spotlightListing.country} {spotlightListing.flag}</span>
+                <span style={{ color: '#475569' }}>•</span>
+                <span style={{ color: '#e2e8f0', fontWeight: 600 }}>{spotlightListing.dateOrTime}</span>
+              </div>
+            </div>
+
+            {/* Price, Host & Action CTA row */}
+            <div style={{
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'space-between',
+              gap: 8,
+              paddingTop: 8,
+              borderTop: '1px solid rgba(255, 255, 255, 0.08)',
+              marginTop: 4,
+            }}>
+              <div>
+                <div style={{ fontSize: 9.5, color: '#71717a', textTransform: 'uppercase', fontWeight: 700 }}>
+                  Split Share
+                </div>
+                <div style={{ fontSize: 12.5, fontWeight: 800, color: '#34d399' }}>
+                  💰 {spotlightListing.costPerPerson}
+                </div>
+              </div>
+
+              <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
+                <a
+                  href={buildConciergeMailto(
+                    `[VIP Table Inquiry] ${spotlightListing.title} (${spotlightListing.city})`,
+                    `Hi Darwin & ${spotlightListing.hostName},\n\nI saw the spotlight listing on ScanQR Global mobile radar:\n\n"${spotlightListing.title}"\nLocation: ${spotlightListing.city}, ${spotlightListing.country}\nCost: ${spotlightListing.costPerPerson}\n\nI would like to join this VIP table split tonight.\n\nMy Details:\nGroup Size:\nPreferred Contact (WhatsApp/Email):\n\nThank you!`
+                  )}
+                  onClick={() => recordClick(`mobile_spotlight_inquire_${spotlightListing.id}`)}
+                  style={{
+                    padding: '6px 11px',
+                    borderRadius: 8,
+                    background: 'linear-gradient(135deg, #ec4899, #8b5cf6)',
+                    color: '#ffffff',
+                    fontWeight: 800,
+                    fontSize: 11,
+                    textDecoration: 'none',
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                    gap: 4,
+                    boxShadow: '0 2px 10px rgba(236, 72, 153, 0.35)',
+                  }}
+                >
+                  <span>Join Split</span>
+                  <ArrowRight size={11} />
+                </a>
+
+                <a
+                  href="#classifieds"
+                  onClick={() => recordClick('mobile_spotlight_view_all')}
+                  style={{
+                    padding: '6px 9px',
+                    borderRadius: 8,
+                    background: 'rgba(255, 255, 255, 0.08)',
+                    border: '1px solid rgba(255, 255, 255, 0.15)',
+                    color: '#cbd5e1',
+                    fontWeight: 700,
+                    fontSize: 10.5,
+                    textDecoration: 'none',
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                    gap: 3,
+                  }}
+                >
+                  <span>All Splits ↓</span>
+                </a>
+              </div>
+            </div>
+          </div>
+
           {/* CERCA AI QUERY BAR & NATURAL-LANGUAGE CONCIERGE */}
-          <div id="query-bar" style={{
+          <div id="query-bar" className="sqg-query-bar" style={{
             maxWidth: 860,
             margin: '0 auto',
             textAlign: 'left',
