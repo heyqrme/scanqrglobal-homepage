@@ -282,6 +282,44 @@ export interface AIQueryResult {
 export function synthesizeAIQuery(rawQuery: string): AIQueryResult {
   const q = rawQuery.toLowerCase().trim()
 
+  if (q.includes('split') || q.includes('table') || q.includes('vip') || q.includes('under $50') || q.includes('$50')) {
+    return {
+      query: rawQuery,
+      intent: 'Live Table Splits Board',
+      headline: 'Active VIP Table Splits Under $50 – $150 (Bangkok, Miami & Bogotá)',
+      summary: 'Never pay full price for bottle service alone. Expats and travelers share premium VIP booths, bottle minimums, and daybeds across Bangkok, Miami, Rio, and Bogotá.',
+      keyFacts: [
+        'Bangkok: Sing Sing Theater VIP mezzanine split ($70/person) · 2 seats left.',
+        'Bogotá: Theatron Chapinero VIP terrace split ($30/person) · 2 seats left.',
+        'Miami: Club Space terrace sunrise bottle split ($150/person) · 2 seats left.',
+      ],
+      recommendedVenue: 'Live VIP Table Splits Board',
+      actionUrl: '#classifieds',
+      actionLabel: 'View Active Table Splits →',
+      matchingMarket: 'thailand',
+      matchingCitySlug: 'bangkok',
+    }
+  }
+
+  if (q.includes('speakeasy') || q.includes('hidden') || q.includes('no cover')) {
+    return {
+      query: rawQuery,
+      intent: 'Hidden Speakeasy Radar',
+      headline: 'Hidden Speakeasies & Cocktail Dens (No Forced Cover)',
+      summary: 'Explore vetted secret cocktail rooms behind vintage telephone booths, noodle shops, and hidden staircases across Bangkok Chinatown, NYC East Village, and Bogotá Chapinero.',
+      keyFacts: [
+        'Bangkok: Chinatown & Thonglor speakeasies hidden behind tea counters & phone booths.',
+        'NYC: Please Don’t Tell (PDT) accessed through a phone booth inside a hot dog shop.',
+        'Bogotá: Intimate cocktail bars tucked away along Carrera 4 in Chapinero Alto.',
+      ],
+      recommendedVenue: 'Bangkok Speakeasies Guided Micro-Crawl',
+      actionUrl: '#classifieds',
+      actionLabel: 'See Speakeasy Crawls →',
+      matchingMarket: 'thailand',
+      matchingCitySlug: 'bangkok',
+    }
+  }
+
   if (q.includes('bogot') || q.includes('colombia')) {
     return {
       query: rawQuery,
@@ -535,6 +573,7 @@ export interface ClassifiedListing {
   verified: boolean
   venueSlug?: string
   contactPrompt: string
+  scarcityBadge?: string
 }
 
 export const CLASSIFIED_LISTINGS: ClassifiedListing[] = [
@@ -557,6 +596,7 @@ export const CLASSIFIED_LISTINGS: ClassifiedListing[] = [
     hostImg: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=800&auto=format&fit=crop&q=80',
     verified: true,
     venueSlug: 'bangkok',
+    scarcityBadge: '2 Seats Left',
     contactPrompt: 'Hi Darwin & Somchai, I saw the VIP table split listing for Sing Sing Theater Bangkok on ScanQR Global and would like to join the 2 open spots this Friday!',
   },
   {
@@ -578,7 +618,74 @@ export const CLASSIFIED_LISTINGS: ClassifiedListing[] = [
     hostImg: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=800&auto=format&fit=crop&q=80',
     verified: true,
     venueSlug: 'phuket',
+    scarcityBadge: 'Filling Fast',
     contactPrompt: 'Hi Darwin & Captain Aek, I saw the Café del Mar Phuket daybed split on ScanQR Global and want to reserve a spot for Saturday sunset!',
+  },
+  {
+    id: 'miami-vip-space',
+    title: 'Club Space Miami (Terrace) — VIP Table Bottle Share',
+    city: 'Miami',
+    country: 'USA',
+    flag: '🇺🇸',
+    market: 'usa',
+    category: 'VIP Table Split',
+    categoryBadge: '🍾 VIP TABLE SPLIT',
+    glow: '#ec4899',
+    dateOrTime: 'Saturday Late Night · 3:00 AM - Sunrise',
+    costPerPerson: '$150 / Person',
+    description: 'Legendary Space Terrace sunrise session. Sharing table minimum & tequila service. Looking for 2 vibe-matched music lovers.',
+    hostName: 'Lucas M.',
+    hostBadge: 'Miami Resident',
+    hostHandle: 'lucas_305',
+    hostImg: 'https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?w=800&auto=format&fit=crop&q=80',
+    verified: true,
+    venueSlug: 'miami',
+    scarcityBadge: 'Only 2 Seats Left',
+    contactPrompt: 'Hi Darwin & Lucas, I saw the Club Space Miami terrace split on ScanQR Global and want to join!',
+  },
+  {
+    id: 'bogota-vip-theatron',
+    title: 'Theatron Chapinero Mega-Club — VIP Terrace Table Reservation Split',
+    city: 'Bogotá',
+    country: 'Colombia',
+    flag: '🇨🇴',
+    market: 'colombia',
+    category: 'VIP Table Split',
+    categoryBadge: '🍾 VIP TABLE SPLIT',
+    glow: '#ec4899',
+    dateOrTime: 'Saturday · 11:00 PM',
+    costPerPerson: '120,000 COP (~$30)',
+    description: 'Reserved terrace table in Latin America’s most iconic mega-club complex (14 themed rooms). Looking for 3 people to join our table & drinks split.',
+    hostName: 'Mateo V.',
+    hostBadge: 'Bogotá Ambassador',
+    hostHandle: 'mateo_bogota',
+    hostImg: 'https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=800&auto=format&fit=crop&q=80',
+    verified: true,
+    venueSlug: 'bogota',
+    scarcityBadge: '2 Seats Left',
+    contactPrompt: 'Hi Darwin & Mateo, I saw the Theatron Bogotá VIP table split on ScanQR Global and would love to join your group this Saturday!',
+  },
+  {
+    id: 'rio-vip-ipanema',
+    title: 'Ipanema Sunset Rooftop & Lapa Samba Table Share',
+    city: 'Rio de Janeiro',
+    country: 'Brazil',
+    flag: '🇧🇷',
+    market: 'brazil',
+    category: 'VIP Table Split',
+    categoryBadge: '🍾 VIP TABLE SPLIT',
+    glow: '#06b6d4',
+    dateOrTime: 'This Friday · 8:30 PM',
+    costPerPerson: 'R$ 220 (~$42)',
+    description: 'Reserved rooftop table overlooking Ipanema beach for caipirinhas and tapas before heading to Lapa samba clubs.',
+    hostName: 'Gabriela S.',
+    hostBadge: 'Rio Nightlife Insider',
+    hostHandle: 'gabi_rio',
+    hostImg: 'https://images.unsplash.com/photo-1517841905240-472988babdf9?w=800&auto=format&fit=crop&q=80',
+    verified: true,
+    venueSlug: 'rio',
+    scarcityBadge: '3 Spots Remaining',
+    contactPrompt: 'Hi Darwin & Gabriela, I saw the Rio Ipanema table split on ScanQR Global and want to join your group!',
   },
   {
     id: 'samui-boat-charter',
@@ -599,6 +706,7 @@ export const CLASSIFIED_LISTINGS: ClassifiedListing[] = [
     hostImg: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=800&auto=format&fit=crop&q=80',
     verified: true,
     venueSlug: 'koh-samui',
+    scarcityBadge: '3 Spots Left',
     contactPrompt: 'Hi Darwin & Nok, I want to join the private longtail boat charter to Pig Island on Koh Samui this Sunday!',
   },
   {
@@ -620,6 +728,7 @@ export const CLASSIFIED_LISTINGS: ClassifiedListing[] = [
     hostImg: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=800&auto=format&fit=crop&q=80',
     verified: true,
     venueSlug: 'bangkok',
+    scarcityBadge: 'Closes in 3 Hours',
     contactPrompt: 'Hi Darwin & Somchai, I would like to book a spot on the Bangkok Speakeasies Guided Crawl!',
   },
   {
@@ -641,28 +750,8 @@ export const CLASSIFIED_LISTINGS: ClassifiedListing[] = [
     hostImg: 'https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=800&auto=format&fit=crop&q=80',
     verified: true,
     venueSlug: 'koh-samui',
+    scarcityBadge: '1 Month Left',
     contactPrompt: 'Hi Darwin, I saw the Chaweng Noi Koh Samui pool villa monthly sublet on ScanQR Global and would like to check availability and viewing dates.',
-  },
-  {
-    id: 'bogota-vip-theatron',
-    title: 'Theatron Chapinero Mega-Club — VIP Terrace Table Reservation Split',
-    city: 'Bogotá',
-    country: 'Colombia',
-    flag: '🇨🇴',
-    market: 'colombia',
-    category: 'VIP Table Split',
-    categoryBadge: '🍾 VIP TABLE SPLIT',
-    glow: '#ec4899',
-    dateOrTime: 'Saturday · 11:00 PM',
-    costPerPerson: '120,000 COP (~$30)',
-    description: 'Reserved terrace table in Latin America’s most iconic mega-club complex (14 themed rooms). Looking for 3 people to join our table & drinks split.',
-    hostName: 'Mateo V.',
-    hostBadge: 'Bogotá Ambassador',
-    hostHandle: 'mateo_bogota',
-    hostImg: 'https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=800&auto=format&fit=crop&q=80',
-    verified: true,
-    venueSlug: 'bogota',
-    contactPrompt: 'Hi Darwin & Mateo, I saw the Theatron Bogotá VIP table split on ScanQR Global and would love to join your group this Saturday!',
   },
 ]
 
@@ -1727,13 +1816,13 @@ export default function App() {
         </div>
       </nav>
 
-      {/* 0. LIVE GLOBAL TELEMETRY STREAM TICKER */}
+      {/* 0. LIVE GLOBAL FOMO ACTIVITY BAR */}
       <div
         onMouseEnter={() => setIsTelemetryPaused(true)}
         onMouseLeave={() => setIsTelemetryPaused(false)}
         style={{
           background: 'rgba(5, 5, 8, 0.96)',
-          borderBottom: '1px solid rgba(6, 182, 212, 0.22)',
+          borderBottom: '1px solid rgba(244, 63, 94, 0.25)',
           borderTop: '1px solid rgba(255, 255, 255, 0.04)',
           backdropFilter: 'blur(12px)',
           padding: '8px 16px',
@@ -1749,39 +1838,23 @@ export default function App() {
           overflow: 'hidden',
         }}
       >
-        {/* Left: Glowing Live Beacon & Orbital Node Status */}
-        <div style={{ display: 'flex', alignItems: 'center', gap: 10, flexShrink: 0 }}>
-          <div style={{
-            display: 'inline-flex',
-            alignItems: 'center',
-            gap: 6,
-            padding: '3px 8px',
-            borderRadius: 6,
-            background: 'rgba(16, 185, 129, 0.12)',
-            border: '1px solid rgba(16, 185, 129, 0.35)',
-            color: '#10b981',
-            fontWeight: 800,
-            fontSize: 11,
-            letterSpacing: '0.04em',
-            textTransform: 'uppercase',
-          }}>
-            <span style={{
-              width: 7,
-              height: 7,
-              borderRadius: '50%',
-              background: '#10b981',
-              boxShadow: '0 0 8px #10b981',
-              display: 'inline-block',
-              animation: 'pulseDot 1.8s infinite',
-            }} />
-            {t.telemetry.liveBadge}
-          </div>
-          <span style={{ color: '#52525b', fontSize: 11 }}>
-            15 HUBS ONLINE • AES-256
+        {/* Left: Glowing Red Live Beacon & Live Traveler Count */}
+        <div style={{ display: 'flex', alignItems: 'center', gap: 8, flexShrink: 0 }}>
+          <span style={{
+            width: 8,
+            height: 8,
+            borderRadius: '50%',
+            background: '#ef4444',
+            boxShadow: '0 0 10px #ef4444',
+            display: 'inline-block',
+            animation: 'pulseDot 1.8s infinite',
+          }} />
+          <span style={{ color: '#f8fafc', fontWeight: 800, fontSize: 11.5, letterSpacing: '0.02em' }}>
+            🔴 LIVE NOW: <strong style={{ color: '#38bdf8' }}>{activeVisitorsCount} travelers</strong> checking nightlife in Bangkok & Miami
           </span>
         </div>
 
-        {/* Center: Dynamic Active Signal */}
+        {/* Center: Dynamic FOMO Nightlife Highlights */}
         {(() => {
           const currentEvt = TELEMETRY_EVENTS[telemetryIndex]
           const evtLoc = LOCATION_TRANSLATIONS[currentEvt.slug]?.[locale] || LOCATION_TRANSLATIONS[currentEvt.slug]?.en
@@ -1789,9 +1862,9 @@ export default function App() {
           return (
             <div
               onClick={() => {
-                setActiveMarket(currentEvt.market)
-                setHighlightedCitySlug(currentEvt.slug)
-                document.getElementById('cities-directory')?.scrollIntoView({ behavior: 'smooth' })
+                if (currentEvt.market) setActiveMarket(currentEvt.market)
+                if (currentEvt.slug) setHighlightedCitySlug(currentEvt.slug)
+                document.getElementById('classifieds')?.scrollIntoView({ behavior: 'smooth' })
               }}
               style={{
                 display: 'flex',
@@ -1801,23 +1874,25 @@ export default function App() {
                 overflow: 'hidden',
                 whiteSpace: 'nowrap',
                 textOverflow: 'ellipsis',
-                padding: '3px 10px',
+                padding: '4px 12px',
                 borderRadius: 8,
+                background: 'rgba(255, 255, 255, 0.04)',
+                border: '1px solid rgba(255, 255, 255, 0.08)',
                 transition: 'background 0.2s',
               }}
               className="telemetry-hover"
-              title="Click to jump to this active hub"
+              title="Click to view live table splits and crowd status"
             >
               <span style={{
-                padding: '2px 6px',
+                padding: '2px 7px',
                 borderRadius: 4,
                 fontSize: 10,
                 fontWeight: 800,
-                background: currentEvt.type === 'SIGNAL LOCK' ? 'rgba(6, 182, 212, 0.18)' : currentEvt.type === 'VIP DROP' ? 'rgba(236, 72, 153, 0.18)' : 'rgba(168, 85, 247, 0.18)',
-                color: currentEvt.type === 'SIGNAL LOCK' ? '#22d3ee' : currentEvt.type === 'VIP DROP' ? '#f472b6' : '#c084fc',
-                border: `1px solid ${currentEvt.type === 'SIGNAL LOCK' ? 'rgba(6, 182, 212, 0.4)' : currentEvt.type === 'VIP DROP' ? 'rgba(236, 72, 153, 0.4)' : 'rgba(168, 85, 247, 0.4)'}`,
+                background: 'rgba(244, 63, 94, 0.18)',
+                color: '#f472b6',
+                border: '1px solid rgba(244, 63, 94, 0.4)',
               }}>
-                {currentEvt.type}
+                🔥 LIVE PULSE
               </span>
 
               <span style={{ color: '#e4e4e7', fontWeight: 700 }}>
@@ -1837,25 +1912,34 @@ export default function App() {
                 fontWeight: 800,
                 fontSize: 11,
               }}>
-                • {currentEvt.pulse}
-              </span>
-
-              <span style={{ color: '#52525b', fontSize: 10 }}>
-                ({currentEvt.latency})
+                • {currentEvt.pulse.toUpperCase()}
               </span>
 
               <span style={{ color: '#38bdf8', fontSize: 11, display: 'inline-flex', alignItems: 'center', gap: 2 }}>
-                Jump <ArrowRight size={10} />
+                See Splits <ArrowRight size={10} />
               </span>
             </div>
           )
         })()}
 
-        {/* Right: Controls & Index */}
-        <div style={{ display: 'flex', alignItems: 'center', gap: 6, flexShrink: 0 }}>
-          <span style={{ color: '#52525b', fontSize: 11 }}>
-            {telemetryIndex + 1}/{TELEMETRY_EVENTS.length}
-          </span>
+        {/* Right: Quick Action Split Table CTA + Controls */}
+        <div style={{ display: 'flex', alignItems: 'center', gap: 8, flexShrink: 0 }}>
+          <a
+            href="#classifieds"
+            onClick={() => recordClick('topbar_split_table')}
+            style={{
+              padding: '4px 11px',
+              borderRadius: 6,
+              background: 'linear-gradient(135deg, #ec4899, #8b5cf6)',
+              color: '#ffffff',
+              fontWeight: 800,
+              fontSize: 11,
+              textDecoration: 'none',
+              boxShadow: '0 2px 8px rgba(236, 72, 153, 0.35)',
+            }}
+          >
+            🍾 Split a Table
+          </a>
           <button
             onClick={() => setTelemetryIndex((prev) => (prev - 1 + TELEMETRY_EVENTS.length) % TELEMETRY_EVENTS.length)}
             style={{
@@ -1898,12 +1982,12 @@ export default function App() {
       {/* 1. HERO SECTION */}
       <section style={{
         position: 'relative',
-        minHeight: '84vh',
+        minHeight: '76vh',
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
         textAlign: 'center',
-        padding: '80px 20px 60px',
+        padding: '75px 20px 55px',
         backgroundImage: `
           radial-gradient(circle at 50% 20%, rgba(168, 85, 247, 0.25), transparent 55%),
           radial-gradient(circle at 80% 40%, rgba(6, 182, 212, 0.2), transparent 50%),
@@ -1921,12 +2005,12 @@ export default function App() {
             gap: 8,
             padding: '6px 18px',
             borderRadius: 999,
-            background: isLocalMode ? 'rgba(6, 182, 212, 0.16)' : 'rgba(6, 182, 212, 0.12)',
-            border: isLocalMode ? '1px solid rgba(6, 182, 212, 0.5)' : '1px solid rgba(6, 182, 212, 0.35)',
-            color: '#38bdf8',
+            background: isLocalMode ? 'rgba(6, 182, 212, 0.16)' : 'rgba(236, 72, 153, 0.12)',
+            border: isLocalMode ? '1px solid rgba(6, 182, 212, 0.5)' : '1px solid rgba(236, 72, 153, 0.35)',
+            color: isLocalMode ? '#38bdf8' : '#f472b6',
             fontSize: 12,
             fontWeight: 800,
-            marginBottom: 24,
+            marginBottom: 22,
             textTransform: 'uppercase',
             letterSpacing: '0.06em',
             boxShadow: isLocalMode ? '0 0 16px rgba(6, 182, 212, 0.25)' : 'none',
@@ -1934,10 +2018,10 @@ export default function App() {
             {isLocalMode && localHub ? (
               <>
                 <MapPin size={14} color="#22d3ee" />
-                <span>{localHub.name.toUpperCase()} LIVE HUB • {localHub.flag} {localHub.pulse.toUpperCase()} PULSE</span>
+                <span>{localHub.name.toUpperCase()} LIVE RADAR • {localHub.flag} {localHub.pulse.toUpperCase()} TONIGHT</span>
               </>
             ) : (
-              <>⚡ {t.hero.trustBadge}</>
+              <>{t.hero.trustBadge}</>
             )}
           </div>
 
@@ -1947,14 +2031,14 @@ export default function App() {
             fontWeight: 900,
             lineHeight: 1.12,
             letterSpacing: '-0.03em',
-            margin: '0 0 22px',
+            margin: '0 0 20px',
             background: 'linear-gradient(135deg, #ffffff 40%, #c4b5fd 75%, #38bdf8 100%)',
             WebkitBackgroundClip: 'text',
             WebkitTextFillColor: 'transparent',
           }}>
             {isLocalMode && localHub ? (
               <>
-                {localHub.name} Nightlife & <span style={{ color: '#06b6d4', WebkitTextFillColor: '#06b6d4' }}>VIP Tables</span>
+                Know Where the Party Is in {localHub.name} <span style={{ color: '#06b6d4', WebkitTextFillColor: '#06b6d4' }}>Tonight.</span>
               </>
             ) : (
               <>{t.hero.headline} {t.hero.headlineHighlight}</>
@@ -1963,317 +2047,108 @@ export default function App() {
 
           {/* Subheadline */}
           <p style={{
-            fontSize: 'clamp(16px, 2.5vw, 20px)',
+            fontSize: 'clamp(16px, 2.3vw, 20px)',
             color: '#cbd5e1',
             lineHeight: 1.6,
-            maxWidth: 720,
-            margin: '0 auto 40px',
+            maxWidth: 740,
+            margin: '0 auto 36px',
             fontWeight: 400,
           }}>
             {isLocalMode && localHub ? (
               <>
-                Live crowd gauges, verified nightlife hosts, and curated VIP table-sharing across {localHub.name}. Featuring {localHub.topSpot} and local ambassadors. Zero sign-up wall to explore.
+                Live crowd gauges, vetted expat hosts, and instant VIP table splits across {localHub.name}. Featuring {localHub.topSpot}. Know before you go.
               </>
             ) : (
               <>{t.hero.subheadline}</>
             )}
           </p>
 
-          {/* Action Buttons */}
-          <div style={{ display: 'flex', flexWrap: 'wrap', gap: 14, justifyContent: 'center', marginBottom: 20 }}>
-            {isLocalMode && localHub ? (
-              <>
-                <a
-                  href="#classifieds"
-                  onClick={() => {
-                    setClassifiedTab(localHub.slug as any)
-                    recordClick(`local_hero_classifieds_${localHub.slug}`)
-                  }}
-                  style={{
-                    height: 52,
-                    padding: '0 28px',
-                    borderRadius: 14,
-                    background: 'linear-gradient(135deg, #06b6d4 0%, #3b82f6 100%)',
-                    color: '#fff',
-                    fontSize: 15,
-                    fontWeight: 700,
-                    textDecoration: 'none',
-                    display: 'inline-flex',
-                    alignItems: 'center',
-                    gap: 8,
-                    boxShadow: '0 8px 30px rgba(6, 182, 212, 0.4)',
-                  }}
-                >
-                  🍾 {localHub.name} VIP Table Splits
-                </a>
-                <a
-                  href="#cities"
-                  onClick={() => {
-                    setActiveMarket(localHub.market)
-                    recordClick(`local_hero_spots_${localHub.slug}`)
-                  }}
-                  style={{
-                    height: 52,
-                    padding: '0 28px',
-                    borderRadius: 14,
-                    background: 'rgba(255, 255, 255, 0.08)',
-                    border: '1px solid rgba(255, 255, 255, 0.18)',
-                    color: '#f8fafc',
-                    fontSize: 15,
-                    fontWeight: 700,
-                    textDecoration: 'none',
-                    display: 'inline-flex',
-                    alignItems: 'center',
-                    gap: 8,
-                    backdropFilter: 'blur(10px)',
-                  }}
-                >
-                  🍸 {localHub.name} Hotspots ({localHub.topSpot.split(' ')[0]})
-                </a>
-                <button
-                  type="button"
-                  onClick={handleSwitchToGlobal}
-                  style={{
-                    height: 52,
-                    padding: '0 22px',
-                    borderRadius: 14,
-                    background: 'rgba(168, 85, 247, 0.12)',
-                    border: '1px solid rgba(168, 85, 247, 0.3)',
-                    color: '#c084fc',
-                    fontSize: 14,
-                    fontWeight: 700,
-                    cursor: 'pointer',
-                    display: 'inline-flex',
-                    alignItems: 'center',
-                    gap: 8,
-                  }}
-                >
-                  <Globe size={16} />
-                  <span>Explore Global Directory (15 Cities)</span>
-                </button>
-              </>
-            ) : (
-              <>
-                <a
-                  href={`${CERCA_BASE_URL}/explore`}
-                  style={{
-                    height: 52,
-                    padding: '0 30px',
-                    borderRadius: 14,
-                    background: 'linear-gradient(135deg, #a855f7 0%, #ec4899 100%)',
-                    color: '#fff',
-                    fontSize: 15,
-                    fontWeight: 700,
-                    textDecoration: 'none',
-                    display: 'inline-flex',
-                    alignItems: 'center',
-                    gap: 8,
-                    boxShadow: '0 8px 30px rgba(168, 85, 247, 0.38)',
-                  }}
-                >
-                  {t.hero.ctaPrimary} <ExternalLink size={16} />
-                </a>
-                <a
-                  href={`${CERCA_BASE_URL}/tonight`}
-                  style={{
-                    height: 52,
-                    padding: '0 28px',
-                    borderRadius: 14,
-                    background: 'rgba(255, 255, 255, 0.08)',
-                    border: '1px solid rgba(255, 255, 255, 0.18)',
-                    color: '#f8fafc',
-                    fontSize: 15,
-                    fontWeight: 700,
-                    textDecoration: 'none',
-                    display: 'inline-flex',
-                    alignItems: 'center',
-                    gap: 8,
-                    backdropFilter: 'blur(10px)',
-                  }}
-                >
-                  Tonight’s Live Pulse <Flame size={16} color="#f43f5e" />
-                </a>
-                {localHub && (
-                  <button
-                    type="button"
-                    onClick={() => handleSwitchToLocal(localHub)}
-                    style={{
-                      height: 52,
-                      padding: '0 22px',
-                      borderRadius: 14,
-                      background: 'rgba(6, 182, 212, 0.12)',
-                      border: '1px solid rgba(6, 182, 212, 0.3)',
-                      color: '#22d3ee',
-                      fontSize: 14,
-                      fontWeight: 700,
-                      cursor: 'pointer',
-                      display: 'inline-flex',
-                      alignItems: 'center',
-                      gap: 8,
-                    }}
-                  >
-                    <MapPin size={16} />
-                    <span>Back to {localHub.name} {localHub.flag}</span>
-                  </button>
-                )}
-              </>
-            )}
-          </div>
-
-          <div style={{ fontSize: 13, color: '#94a3b8', marginBottom: 20 }}>
-            ✓ No account required to browse • Real-time verified staff updates • Instant guest access
-          </div>
-
-          {/* PROXIMITY GEO-PING BUTTON & RADAR LOCK HUD */}
-          <div style={{ marginTop: 24, marginBottom: 18 }}>
-            <button
-              type="button"
-              onClick={handleGeoPing}
-              disabled={geoStatus === 'scanning'}
+          {/* Exactly 2 Clean Action Buttons */}
+          <div style={{ display: 'flex', flexWrap: 'wrap', gap: 14, justifyContent: 'center', marginBottom: 16 }}>
+            <a
+              href={`${CERCA_BASE_URL}/explore${isLocalMode && localHub ? `?city=${localHub.slug}` : ''}`}
+              onClick={() => recordClick('hero_cta_free_map')}
               style={{
+                height: 52,
+                padding: '0 30px',
+                borderRadius: 14,
+                background: 'linear-gradient(135deg, #a855f7 0%, #ec4899 100%)',
+                color: '#fff',
+                fontSize: 15,
+                fontWeight: 700,
+                textDecoration: 'none',
                 display: 'inline-flex',
                 alignItems: 'center',
-                gap: 10,
-                padding: '13px 26px',
-                borderRadius: 14,
-                background: 'linear-gradient(135deg, rgba(6, 182, 212, 0.2), rgba(168, 85, 247, 0.2))',
-                border: '1px solid rgba(6, 182, 212, 0.55)',
-                color: '#38bdf8',
-                fontSize: 14,
-                fontWeight: 800,
-                cursor: geoStatus === 'scanning' ? 'wait' : 'pointer',
-                boxShadow: '0 0 24px rgba(6, 182, 212, 0.28)',
-                transition: 'all 0.2s ease',
+                gap: 8,
+                boxShadow: '0 8px 30px rgba(168, 85, 247, 0.38)',
+                transition: 'transform 0.15s ease',
               }}
             >
-              <Crosshair size={18} style={{ animation: geoStatus === 'scanning' ? 'radarSpin 1.4s linear infinite' : 'none' }} />
-              <span>{geoStatus === 'scanning' ? t.geoPing.scanning : t.geoPing.detectBtn}</span>
-            </button>
+              <Flame size={16} color="#fff" />
+              <span>{t.hero.ctaPrimary}</span>
+              <ExternalLink size={15} />
+            </a>
+
+            <a
+              href="#classifieds"
+              onClick={() => {
+                if (isLocalMode && localHub) setClassifiedTab(localHub.slug as any)
+                recordClick('hero_cta_split_table')
+              }}
+              style={{
+                height: 52,
+                padding: '0 28px',
+                borderRadius: 14,
+                background: 'rgba(255, 255, 255, 0.08)',
+                border: '1px solid rgba(255, 255, 255, 0.22)',
+                color: '#f8fafc',
+                fontSize: 15,
+                fontWeight: 700,
+                textDecoration: 'none',
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: 8,
+                backdropFilter: 'blur(10px)',
+                boxShadow: '0 8px 24px rgba(0, 0, 0, 0.3)',
+                transition: 'background 0.15s ease',
+              }}
+            >
+              <span>🍾 {t.hero.ctaSecondary}</span>
+              <ArrowRight size={15} />
+            </a>
           </div>
 
-          {/* PROXIMITY RADAR HUD (When scanning, locked, or fallback) */}
-          {geoStatus !== 'idle' && (
-            <div style={{
-              maxWidth: 780,
-              margin: '0 auto 34px',
-              padding: '22px 24px',
-              borderRadius: 20,
-              background: 'rgba(8, 8, 14, 0.94)',
-              border: geoStatus === 'scanning' ? '1px solid rgba(6, 182, 212, 0.5)' : '1px solid rgba(16, 185, 129, 0.55)',
-              boxShadow: '0 0 35px rgba(6, 182, 212, 0.22), inset 0 0 20px rgba(6, 182, 212, 0.05)',
-              textAlign: 'left',
-              backdropFilter: 'blur(16px)',
-              position: 'relative',
-              overflow: 'hidden',
-            }}>
-              {/* Scanline element */}
-              <div style={{
-                position: 'absolute',
-                top: 0,
-                left: 0,
-                right: 0,
-                height: 2,
-                background: 'linear-gradient(90deg, transparent, #06b6d4, #a855f7, transparent)',
-                animation: 'scanline 2.5s linear infinite',
-                pointerEvents: 'none',
-              }} />
-
-              {geoStatus === 'scanning' ? (
-                <div style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
-                  <div style={{
-                    width: 44,
-                    height: 44,
-                    borderRadius: '50%',
-                    border: '2px solid #06b6d4',
-                    borderTopColor: 'transparent',
-                    animation: 'radarSpin 0.9s linear infinite',
-                    flexShrink: 0,
-                  }} />
-                  <div>
-                    <div style={{ fontSize: 13, fontWeight: 800, color: '#38bdf8', marginBottom: 4 }}>
-                      [STAGE {geoScanStep}/3] {t.geoPing.scanning}
-                    </div>
-                    <div style={{ fontSize: 12, color: '#71717a' }}>
-                      {t.geoPing.browserPrompt}
-                    </div>
-                  </div>
-                </div>
-              ) : geoData ? (() => {
-                const nearestLoc = LOCATION_TRANSLATIONS[geoData.nearestHub.slug]?.[locale] || LOCATION_TRANSLATIONS[geoData.nearestHub.slug]?.en
-                const nearestCityName = nearestLoc?.name || geoData.nearestHub.name
-                return (
-                  <div>
-                    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 12, flexWrap: 'wrap', gap: 8 }}>
-                      <div style={{ display: 'inline-flex', alignItems: 'center', gap: 8 }}>
-                        <span style={{
-                          width: 8,
-                          height: 8,
-                          borderRadius: '50%',
-                          background: '#10b981',
-                          boxShadow: '0 0 10px #10b981',
-                          display: 'inline-block',
-                        }} />
-                        <span style={{ fontSize: 11, fontWeight: 800, color: '#10b981', textTransform: 'uppercase', letterSpacing: '0.06em' }}>
-                          {t.geoPing.lockedTitle} • {geoData.isFallback ? 'TELEMETRY SIMULATION' : 'GPS HIGH-PRECISION'}
-                        </span>
-                      </div>
-                      <span style={{ fontSize: 11, fontFamily: 'monospace', color: '#71717a' }}>
-                        LAT: {geoData.lat.toFixed(4)}° • LNG: {geoData.lng.toFixed(4)}°
-                      </span>
-                    </div>
-
-                    <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', flexWrap: 'wrap', gap: 14 }}>
-                      <div>
-                        <div style={{ fontSize: 20, fontWeight: 900, color: '#fff', marginBottom: 4, display: 'flex', alignItems: 'center', gap: 8 }}>
-                          <span>{geoData.nearestHub.flag}</span>
-                          <span>{nearestCityName}, {geoData.nearestHub.country}</span>
-                          <span style={{
-                            fontSize: 12,
-                            fontWeight: 700,
-                            padding: '2px 8px',
-                            borderRadius: 6,
-                            background: 'rgba(6, 182, 212, 0.15)',
-                            color: '#38bdf8',
-                            border: '1px solid rgba(6, 182, 212, 0.3)',
-                          }}>
-                            {geoData.distanceKm} km ({t.geoPing.distance})
-                          </span>
-                        </div>
-                        <p style={{ margin: '0 0 8px', fontSize: 13, color: '#cbd5e1' }}>
-                          {t.geoPing.pulseLabel}: <strong style={{ color: '#ec4899' }}>{geoData.nearestHub.pulse}</strong> • Vibe: <strong style={{ color: '#a855f7' }}>{geoData.nearestHub.vibe}</strong>
-                        </p>
-                        <p style={{ margin: 0, fontSize: 12, color: '#94a3b8' }}>
-                          {t.geoPing.recommendedSpot}: <strong style={{ color: '#fff' }}>{geoData.nearestHub.topSpot}</strong>
-                        </p>
-                      </div>
-
-                      <a
-                        href={`${CERCA_BASE_URL}/city/${geoData.nearestHub.slug}`}
-                        style={{
-                          padding: '10px 18px',
-                          borderRadius: 12,
-                          background: 'linear-gradient(135deg, #06b6d4, #a855f7)',
-                          color: '#fff',
-                          fontSize: 13,
-                          fontWeight: 800,
-                          textDecoration: 'none',
-                          display: 'inline-flex',
-                          alignItems: 'center',
-                          gap: 6,
-                          boxShadow: '0 4px 16px rgba(6, 182, 212, 0.3)',
-                          flexShrink: 0,
-                        }}
-                      >
-                        {t.geoPing.exploreCityCta} <ArrowRight size={14} />
-                      </a>
-                    </div>
-                  </div>
-                )
-              })() : null}
+          {/* Toggle between Local & Global if in localMode */}
+          {isLocalMode && localHub && (
+            <div style={{ marginBottom: 16 }}>
+              <button
+                type="button"
+                onClick={handleSwitchToGlobal}
+                style={{
+                  background: 'transparent',
+                  border: 'none',
+                  color: '#94a3b8',
+                  fontSize: 12.5,
+                  cursor: 'pointer',
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  gap: 6,
+                  textDecoration: 'underline',
+                  textUnderlineOffset: 3,
+                }}
+              >
+                <Globe size={13} />
+                <span>Switch to Global Search (All 15 Cities)</span>
+              </button>
             </div>
           )}
 
-          {/* CERCA AI QUERY BAR & NATURAL-LANGUAGE SYNTHESIZER */}
+          {/* Trust Subline */}
+          <div style={{ fontSize: 13, color: '#94a3b8', marginBottom: 36, fontWeight: 500 }}>
+            ⚡ No account required • Real-time crowd meter • 100% Free
+          </div>
+
+          {/* CERCA AI QUERY BAR & NATURAL-LANGUAGE CONCIERGE */}
           <div style={{
             maxWidth: 860,
             margin: '0 auto',
@@ -2303,18 +2178,18 @@ export default function App() {
                   <Bot size={14} />
                 </div>
                 <span style={{ fontSize: 13, fontWeight: 800, color: '#f8fafc', letterSpacing: '-0.01em' }}>
-                  Cerca AI Query Engine
+                  Cerca AI Concierge
                 </span>
                 <span style={{
                   fontSize: 10,
                   fontWeight: 800,
                   padding: '2px 6px',
                   borderRadius: 4,
-                  background: 'rgba(6, 182, 212, 0.14)',
-                  color: '#38bdf8',
-                  border: '1px solid rgba(6, 182, 212, 0.3)',
+                  background: 'rgba(236, 72, 153, 0.15)',
+                  color: '#f472b6',
+                  border: '1px solid rgba(236, 72, 153, 0.35)',
                 }}>
-                  ACTIVE .AI STREAM
+                  NIGHTLIFE INTELLIGENCE
                 </span>
               </div>
               <span style={{ fontSize: 11, color: '#71717a' }}>
@@ -2399,7 +2274,7 @@ export default function App() {
               </button>
             </div>
 
-            {/* Quick Prompt Suggestion Chips */}
+            {/* High-Intent FOMO Curiosity Pills */}
             <div style={{
               display: 'flex',
               flexWrap: 'wrap',
@@ -2407,14 +2282,12 @@ export default function App() {
               marginTop: 12,
               alignItems: 'center',
             }}>
-              <span style={{ fontSize: 11, color: '#71717a', fontWeight: 600 }}>{t.queryBar.chipAll}</span>
+              <span style={{ fontSize: 11, color: '#71717a', fontWeight: 600 }}>Suggested:</span>
               {[
-                { label: t.queryBar.chips.bogota, q: 'Where is the best nightlife in Bogotá?' },
-                { label: t.queryBar.chips.bangkok, q: 'Theatrical speakeasies in Bangkok' },
-                { label: t.queryBar.chips.rio, q: 'Best underground techno in São Paulo or Rio' },
-                { label: t.queryBar.chips.phuket, q: 'Beach day clubs on Koh Samui and Phuket' },
-                { label: t.queryBar.chips.qr, q: 'How does the safe QR handshake work?' },
-                { label: t.queryBar.chips.miami, q: 'Best rooftop lounges in Miami' },
+                { label: '🔥 Where is everyone going in Bangkok tonight?', q: 'Where is everyone going in Bangkok tonight?' },
+                { label: '🍸 Best hidden speakeasy with no cover charge', q: 'Best hidden speakeasy with no cover charge' },
+                { label: '🍾 Open VIP table splits under $50 right now', q: 'Open VIP table splits under $50 right now' },
+                { label: '💃 Best rooftop party in Bogotá this weekend', q: 'Best rooftop party in Bogotá this weekend' },
               ].map((chip) => (
                 <button
                   key={chip.label}
@@ -2425,12 +2298,12 @@ export default function App() {
                   }}
                   className="chip-hover"
                   style={{
-                    padding: '4px 11px',
+                    padding: '5px 12px',
                     borderRadius: 999,
                     background: 'rgba(255, 255, 255, 0.05)',
-                    border: '1px solid rgba(255, 255, 255, 0.1)',
-                    color: '#cbd5e1',
-                    fontSize: 11,
+                    border: '1px solid rgba(255, 255, 255, 0.12)',
+                    color: '#e2e8f0',
+                    fontSize: 11.5,
                     fontWeight: 600,
                     cursor: 'pointer',
                     transition: 'all 0.15s ease',
@@ -2540,7 +2413,585 @@ export default function App() {
         </div>
       </section>
 
-      {/* 2. CORE PILLARS / MODES (4 Equal Columns, Light Card Background) */}
+      {/* 2. TONIGHT'S LIVE VIP TABLE SPLITS & NIGHTLIFE COMMUNITY BOARD */}
+      <section id="classifieds" style={{ maxWidth: 1200, margin: '0 auto 80px', padding: '0 24px' }}>
+        {/* Local mode VIP board banner */}
+        {isLocalMode && localHub && (
+          <div style={{
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+            flexWrap: 'wrap',
+            gap: 12,
+            background: 'rgba(236, 72, 153, 0.08)',
+            border: '1px solid rgba(236, 72, 153, 0.35)',
+            borderRadius: 12,
+            padding: '12px 18px',
+            marginBottom: 24,
+            boxShadow: '0 4px 20px rgba(0, 0, 0, 0.3)',
+          }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+              <span style={{ fontSize: 20 }}>🍾</span>
+              <div>
+                <strong style={{ color: '#f472b6', fontSize: 13.5 }}>Local VIP Board: {localHub.name} {localHub.flag}</strong>
+                <div style={{ color: '#94a3b8', fontSize: 12 }}>
+                  Showing active table splits, nightlife guide bookings, and boat charters for {localHub.name}.
+                </div>
+              </div>
+            </div>
+            <button
+              type="button"
+              onClick={handleSwitchToGlobal}
+              style={{
+                background: 'rgba(255, 255, 255, 0.1)',
+                border: '1px solid rgba(255, 255, 255, 0.2)',
+                color: '#fff',
+                borderRadius: 8,
+                padding: '6px 14px',
+                fontSize: 12,
+                fontWeight: 700,
+                cursor: 'pointer',
+              }}
+            >
+              View Global Listings 🌐
+            </button>
+          </div>
+        )}
+
+        <div style={{
+          display: 'flex',
+          flexWrap: 'wrap',
+          alignItems: 'flex-end',
+          justifyContent: 'space-between',
+          gap: 16,
+          marginBottom: 28,
+        }}>
+          <div>
+            <div style={{
+              display: 'inline-flex',
+              alignItems: 'center',
+              gap: 6,
+              color: '#ec4899',
+              fontSize: 12,
+              fontWeight: 800,
+              textTransform: 'uppercase',
+              marginBottom: 6,
+              letterSpacing: '0.06em',
+            }}>
+              <Flame size={14} /> {t.classifieds.badge}
+            </div>
+            <h2 style={{ fontSize: 'clamp(24px, 3.5vw, 34px)', fontWeight: 800, margin: '0 0 8px' }}>
+              {t.classifieds.title}
+            </h2>
+            <p style={{ color: '#94a3b8', fontSize: 15, margin: 0, maxWidth: 640 }}>
+              {t.classifieds.subtitle}
+            </p>
+          </div>
+
+          {/* Action button: Post Listing / Propose Table Split */}
+          <button
+            type="button"
+            onClick={() => {
+              recordClick('open_post_modal')
+              setShowPostModal(true)
+            }}
+            style={{
+              padding: '10px 20px',
+              borderRadius: 12,
+              border: 'none',
+              background: 'linear-gradient(135deg, #ec4899, #8b5cf6)',
+              color: '#ffffff',
+              fontWeight: 800,
+              fontSize: 13,
+              cursor: 'pointer',
+              display: 'inline-flex',
+              alignItems: 'center',
+              gap: 8,
+              boxShadow: '0 4px 18px rgba(236, 72, 153, 0.35)',
+              transition: 'all 0.15s ease',
+            }}
+          >
+            <Plus size={16} />
+            <span>{t.classifieds.postBtn}</span>
+          </button>
+        </div>
+
+        {/* Filter Tabs */}
+        <div style={{
+          display: 'inline-flex',
+          flexWrap: 'wrap',
+          gap: 8,
+          marginBottom: 24,
+          padding: 4,
+          background: '#121217',
+          borderRadius: 12,
+          border: '1px solid rgba(255, 255, 255, 0.08)',
+        }}>
+          {[
+            { id: 'all', label: t.classifieds.allTab },
+            { id: 'bangkok', label: t.classifieds.bangkokTab },
+            { id: 'phuket', label: t.classifieds.phuketTab },
+            { id: 'samui', label: t.classifieds.samuiTab },
+            { id: 'miami', label: 'Miami 🇺🇸' },
+            { id: 'global', label: t.classifieds.globalTab },
+          ].map((tab) => (
+            <button
+              key={tab.id}
+              onClick={() => {
+                recordClick(`classified_tab_${tab.id}`)
+                setClassifiedTab(tab.id as any)
+              }}
+              style={{
+                padding: '8px 16px',
+                borderRadius: 8,
+                border: 'none',
+                background: classifiedTab === tab.id ? '#ec4899' : 'transparent',
+                color: classifiedTab === tab.id ? '#fff' : '#a1a1aa',
+                fontWeight: 700,
+                fontSize: 12.5,
+                cursor: 'pointer',
+                transition: 'all 0.15s ease',
+              }}
+            >
+              {tab.label}
+            </button>
+          ))}
+        </div>
+
+        {/* Listings Grid */}
+        <div style={{
+          display: 'grid',
+          gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))',
+          gap: 20,
+        }}>
+          {CLASSIFIED_LISTINGS
+            .filter((item) => {
+              if (classifiedTab === 'all') return true
+              if (classifiedTab === 'bangkok') return item.city.toLowerCase().includes('bangkok')
+              if (classifiedTab === 'phuket') return item.city.toLowerCase().includes('phuket')
+              if (classifiedTab === 'samui') return item.city.toLowerCase().includes('samui')
+              if (classifiedTab === 'miami') return item.city.toLowerCase().includes('miami')
+              if (classifiedTab === 'global') return item.market !== 'thailand'
+              return true
+            })
+            .map((item) => (
+              <div
+                key={item.id}
+                style={{
+                  background: 'rgba(255, 255, 255, 0.02)',
+                  border: '1px solid rgba(255, 255, 255, 0.08)',
+                  borderRadius: 18,
+                  padding: '22px 20px',
+                  display: 'flex',
+                  flexDirection: 'column',
+                  gap: 14,
+                  boxShadow: '0 8px 30px rgba(0, 0, 0, 0.35)',
+                  transition: 'transform 0.2s ease, border-color 0.2s ease',
+                  position: 'relative',
+                  overflow: 'hidden',
+                }}
+              >
+                {/* Glow accent top bar */}
+                <div style={{
+                  position: 'absolute',
+                  top: 0,
+                  left: 0,
+                  right: 0,
+                  height: 3,
+                  background: `linear-gradient(90deg, ${item.glow}, transparent)`,
+                }} />
+
+                {/* Badge, Scarcity & City */}
+                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 8, flexWrap: 'wrap' }}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
+                    <span style={{
+                      fontSize: 10.5,
+                      fontWeight: 800,
+                      letterSpacing: '0.06em',
+                      textTransform: 'uppercase',
+                      color: item.glow,
+                      background: `${item.glow}18`,
+                      border: `1px solid ${item.glow}44`,
+                      padding: '3px 8px',
+                      borderRadius: 6,
+                    }}>
+                      {item.categoryBadge}
+                    </span>
+                    {item.scarcityBadge && (
+                      <span style={{
+                        fontSize: 10,
+                        fontWeight: 800,
+                        padding: '2px 7px',
+                        borderRadius: 6,
+                        background: 'rgba(239, 68, 68, 0.18)',
+                        color: '#f87171',
+                        border: '1px solid rgba(239, 68, 68, 0.45)',
+                        display: 'inline-flex',
+                        alignItems: 'center',
+                        gap: 3,
+                        boxShadow: '0 0 8px rgba(239, 68, 68, 0.25)',
+                      }}>
+                        🔥 {item.scarcityBadge}
+                      </span>
+                    )}
+                  </div>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: 4, fontSize: 12, color: '#94a3b8' }}>
+                    <MapPin size={13} className="text-zinc-400" />
+                    <span>{item.city}, {item.country} {item.flag}</span>
+                  </div>
+                </div>
+
+                {/* Title */}
+                <h3 style={{ margin: 0, fontSize: 17, fontWeight: 800, color: '#ffffff', lineHeight: 1.35 }}>
+                  {item.title}
+                </h3>
+
+                {/* Chips: Date & Cost */}
+                <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8, fontSize: 12 }}>
+                  <div style={{
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                    gap: 5,
+                    padding: '3px 9px',
+                    borderRadius: 8,
+                    background: 'rgba(255, 255, 255, 0.05)',
+                    border: '1px solid rgba(255, 255, 255, 0.08)',
+                    color: '#e2e8f0',
+                  }}>
+                    <Calendar size={13} color="#38bdf8" />
+                    <span>{item.dateOrTime}</span>
+                  </div>
+                  <div style={{
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                    gap: 5,
+                    padding: '3px 9px',
+                    borderRadius: 8,
+                    background: 'rgba(16, 185, 129, 0.12)',
+                    border: '1px solid rgba(16, 185, 129, 0.25)',
+                    color: '#34d399',
+                    fontWeight: 700,
+                  }}>
+                    <span>💰 {item.costPerPerson}</span>
+                  </div>
+                </div>
+
+                {/* Description */}
+                <p style={{ margin: 0, fontSize: 13, color: '#94a3b8', lineHeight: 1.55 }}>
+                  {item.description}
+                </p>
+
+                {/* Host Info & Action Button */}
+                <div style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'space-between',
+                  gap: 12,
+                  marginTop: 'auto',
+                  paddingTop: 12,
+                  borderTop: '1px solid rgba(255, 255, 255, 0.06)',
+                }}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+                    <div style={{ position: 'relative', width: 34, height: 34, borderRadius: '50%', flexShrink: 0 }}>
+                      <img
+                        src={item.hostImg}
+                        alt={item.hostName}
+                        style={{ width: '100%', height: '100%', borderRadius: '50%', objectFit: 'cover' }}
+                      />
+                      <span style={{ position: 'absolute', bottom: -2, right: -2, background: '#09090b', borderRadius: '50%', display: 'flex' }}>
+                        <ShieldCheck size={14} className="text-cyan-400" />
+                      </span>
+                    </div>
+                    <div>
+                      <div style={{ fontSize: 12, fontWeight: 700, color: '#fff' }}>{item.hostName}</div>
+                      <div style={{ fontSize: 10.5, color: '#71717a' }}>@{item.hostHandle}</div>
+                    </div>
+                  </div>
+
+                  <a
+                    href={buildConciergeMailto(
+                      `[Classified Inquiry] ${item.title} (${item.city})`,
+                      `Hi Darwin & ${item.hostName},\n\nI saw this listing on ScanQR Global Community Board:\n\n"${item.title}"\nLocation: ${item.city}, ${item.country}\nCategory: ${item.category}\nDate / Time: ${item.dateOrTime}\nCost: ${item.costPerPerson}\n\nI would like to inquire about joining this table split / booking this service.\n\nMy Details:\nGroup Size:\nPreferred Contact (WhatsApp/Email):\n\nThank you!`
+                    )}
+                    onClick={() => recordClick(`inquire_listing_${item.id}`)}
+                    style={{
+                      padding: '8px 14px',
+                      borderRadius: 10,
+                      background: 'linear-gradient(135deg, #0ea5e9, #6366f1)',
+                      color: '#fff',
+                      fontSize: 12,
+                      fontWeight: 700,
+                      textDecoration: 'none',
+                      display: 'inline-flex',
+                      alignItems: 'center',
+                      gap: 6,
+                      boxShadow: '0 4px 12px rgba(14, 165, 233, 0.3)',
+                      whiteSpace: 'nowrap',
+                    }}
+                  >
+                    <Mail size={13} />
+                    <span>{t.classifieds.contactConcierge}</span>
+                  </a>
+                </div>
+              </div>
+            ))}
+        </div>
+
+        {/* POST LISTING MODAL */}
+        {showPostModal && (
+          <div
+            role="dialog"
+            aria-modal="true"
+            onClick={() => setShowPostModal(false)}
+            style={{
+              position: 'fixed',
+              inset: 0,
+              background: 'rgba(3, 3, 5, 0.88)',
+              backdropFilter: 'blur(10px)',
+              zIndex: 99999,
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              padding: '16px 12px',
+            }}
+          >
+            <div
+              onClick={(e) => e.stopPropagation()}
+              style={{
+                background: '#0c0c14',
+                border: '1px solid rgba(236, 72, 153, 0.4)',
+                borderRadius: 22,
+                maxWidth: 520,
+                width: '100%',
+                padding: '24px 22px',
+                boxShadow: '0 25px 60px rgba(0, 0, 0, 0.9), 0 0 35px rgba(236, 72, 153, 0.2)',
+                maxHeight: '92vh',
+                overflowY: 'auto',
+                display: 'flex',
+                flexDirection: 'column',
+                gap: 16,
+                boxSizing: 'border-box',
+              }}
+            >
+              {/* Header */}
+              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                <div style={{ display: 'inline-flex', alignItems: 'center', gap: 6, color: '#ec4899', fontSize: 11, fontWeight: 800, textTransform: 'uppercase' }}>
+                  <Sparkles size={14} /> {t.classifieds.badge}
+                </div>
+                <button
+                  type="button"
+                  onClick={() => setShowPostModal(false)}
+                  style={{
+                    width: 32,
+                    height: 32,
+                    borderRadius: 8,
+                    background: 'rgba(255, 255, 255, 0.08)',
+                    border: '1px solid rgba(255, 255, 255, 0.12)',
+                    color: '#e2e8f0',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    cursor: 'pointer',
+                  }}
+                >
+                  <X size={16} />
+                </button>
+              </div>
+
+              <div>
+                <h3 style={{ margin: '0 0 6px', fontSize: 19, fontWeight: 800, color: '#fff' }}>
+                  {t.classifieds.modalTitle}
+                </h3>
+                <p style={{ margin: 0, fontSize: 13, color: '#94a3b8', lineHeight: 1.5 }}>
+                  {t.classifieds.modalSubtitle}
+                </p>
+              </div>
+
+              {postSuccess ? (
+                <div style={{
+                  padding: '20px',
+                  borderRadius: 14,
+                  background: 'rgba(16, 185, 129, 0.12)',
+                  border: '1px solid rgba(16, 185, 129, 0.35)',
+                  color: '#34d399',
+                  textAlign: 'center',
+                  display: 'flex',
+                  flexDirection: 'column',
+                  alignItems: 'center',
+                  gap: 10,
+                }}>
+                  <CheckCircle2 size={32} />
+                  <div style={{ fontSize: 14, fontWeight: 700 }}>
+                    {t.classifieds.successMsg}
+                  </div>
+                  <div style={{ fontSize: 12, color: '#a1a1aa' }}>
+                    Notifications dispatched to: <strong>darwinscerca@gmail.com</strong> (CC: <strong>qr4luv@gmail.com</strong>)
+                  </div>
+                </div>
+              ) : (
+                <form onSubmit={handlePostSubmit} style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
+                  <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12 }}>
+                    <div>
+                      <label style={{ fontSize: 11, color: '#94a3b8', fontWeight: 700, display: 'block', marginBottom: 6 }}>
+                        {t.classifieds.formType}
+                      </label>
+                      <select
+                        value={postForm.type}
+                        onChange={(e) => setPostForm({ ...postForm, type: e.target.value })}
+                        style={{
+                          width: '100%',
+                          padding: '9px 12px',
+                          borderRadius: 10,
+                          background: '#161622',
+                          border: '1px solid rgba(255, 255, 255, 0.14)',
+                          color: '#fff',
+                          fontSize: 13,
+                          outline: 'none',
+                        }}
+                      >
+                        <option value="VIP Table Split">🍾 VIP Table Split</option>
+                        <option value="Curated Guide">🌴 Curated Tour / Guide</option>
+                        <option value="Guestlist / Event">🎟️ Event Guestlist</option>
+                        <option value="Nomad Sublet">🏡 Nomad Villa / Sublet</option>
+                        <option value="Other Nightlife">✦ Other Request</option>
+                      </select>
+                    </div>
+
+                    <div>
+                      <label style={{ fontSize: 11, color: '#94a3b8', fontWeight: 700, display: 'block', marginBottom: 6 }}>
+                        {t.classifieds.formCity}
+                      </label>
+                      <select
+                        value={postForm.city}
+                        onChange={(e) => setPostForm({ ...postForm, city: e.target.value })}
+                        style={{
+                          width: '100%',
+                          padding: '9px 12px',
+                          borderRadius: 10,
+                          background: '#161622',
+                          border: '1px solid rgba(255, 255, 255, 0.14)',
+                          color: '#fff',
+                          fontSize: 13,
+                          outline: 'none',
+                        }}
+                      >
+                        <option value="Bangkok">Bangkok 🇹🇭</option>
+                        <option value="Phuket">Phuket 🇹🇭</option>
+                        <option value="Koh Samui">Koh Samui 🇹🇭</option>
+                        <option value="Miami">Miami 🇺🇸</option>
+                        <option value="Bogotá">Bogotá 🇨🇴</option>
+                        <option value="Rio de Janeiro">Rio de Janeiro 🇧🇷</option>
+                        <option value="Other">Other Global Hub</option>
+                      </select>
+                    </div>
+                  </div>
+
+                  <div>
+                    <label style={{ fontSize: 11, color: '#94a3b8', fontWeight: 700, display: 'block', marginBottom: 6 }}>
+                      {t.classifieds.formTitle}
+                    </label>
+                    <input
+                      type="text"
+                      required
+                      placeholder="e.g. Sing Sing Theater VIP Booth Split (2 seats)"
+                      value={postForm.title}
+                      onChange={(e) => setPostForm({ ...postForm, title: e.target.value })}
+                      style={{
+                        width: '100%',
+                        padding: '10px 12px',
+                        borderRadius: 10,
+                        background: '#161622',
+                        border: '1px solid rgba(255, 255, 255, 0.14)',
+                        color: '#fff',
+                        fontSize: 13,
+                        outline: 'none',
+                        boxSizing: 'border-box',
+                      }}
+                    />
+                  </div>
+
+                  <div>
+                    <label style={{ fontSize: 11, color: '#94a3b8', fontWeight: 700, display: 'block', marginBottom: 6 }}>
+                      {t.classifieds.formDetails}
+                    </label>
+                    <textarea
+                      rows={3}
+                      required
+                      placeholder="Details about the venue, time, group size, split cost per person..."
+                      value={postForm.details}
+                      onChange={(e) => setPostForm({ ...postForm, details: e.target.value })}
+                      style={{
+                        width: '100%',
+                        padding: '10px 12px',
+                        borderRadius: 10,
+                        background: '#161622',
+                        border: '1px solid rgba(255, 255, 255, 0.14)',
+                        color: '#fff',
+                        fontSize: 13,
+                        outline: 'none',
+                        boxSizing: 'border-box',
+                        fontFamily: 'inherit',
+                      }}
+                    />
+                  </div>
+
+                  <div>
+                    <label style={{ fontSize: 11, color: '#94a3b8', fontWeight: 700, display: 'block', marginBottom: 6 }}>
+                      {t.classifieds.formContact}
+                    </label>
+                    <input
+                      type="text"
+                      required
+                      placeholder="WhatsApp (+66...) or Email"
+                      value={postForm.contact}
+                      onChange={(e) => setPostForm({ ...postForm, contact: e.target.value })}
+                      style={{
+                        width: '100%',
+                        padding: '10px 12px',
+                        borderRadius: 10,
+                        background: '#161622',
+                        border: '1px solid rgba(255, 255, 255, 0.14)',
+                        color: '#fff',
+                        fontSize: 13,
+                        outline: 'none',
+                        boxSizing: 'border-box',
+                      }}
+                    />
+                  </div>
+
+                  <div style={{ fontSize: 11, color: '#71717a', lineHeight: 1.4 }}>
+                    🔒 Automatically sends notice to <strong>darwinscerca@gmail.com</strong> (CC: <strong>qr4luv@gmail.com</strong>).
+                  </div>
+
+                  <button
+                    type="submit"
+                    style={{
+                      padding: '12px 20px',
+                      borderRadius: 12,
+                      border: 'none',
+                      background: 'linear-gradient(135deg, #ec4899, #8b5cf6)',
+                      color: '#fff',
+                      fontWeight: 800,
+                      fontSize: 14,
+                      cursor: 'pointer',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      gap: 8,
+                      boxShadow: '0 4px 18px rgba(236, 72, 153, 0.35)',
+                    }}
+                  >
+                    <Send size={15} />
+                    <span>{t.classifieds.submitBtn}</span>
+                  </button>
+                </form>
+              )}
+            </div>
+          </div>
+        )}
+      </section>
+
+      {/* 3. CORE PILLARS / MODES (4 Equal Columns, Light Card Background) */}
       <section style={{ maxWidth: 1200, margin: '0 auto 80px', padding: '0 24px' }}>
         <div style={{ textAlign: 'center', marginBottom: 36 }}>
           <h2 style={{ fontSize: 'clamp(24px, 3.5vw, 34px)', fontWeight: 800, margin: '0 0 10px' }}>
@@ -3569,566 +4020,6 @@ export default function App() {
         })()}
       </section>
 
-      {/* 6B. THAILAND & GLOBAL CLASSIFIEDS & NIGHTLIFE COMMUNITY BOARD */}
-      <section id="classifieds" style={{ maxWidth: 1200, margin: '0 auto 80px', padding: '0 24px' }}>
-        {/* Local mode VIP board banner */}
-        {isLocalMode && localHub && (
-          <div style={{
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'space-between',
-            flexWrap: 'wrap',
-            gap: 12,
-            background: 'rgba(236, 72, 153, 0.08)',
-            border: '1px solid rgba(236, 72, 153, 0.35)',
-            borderRadius: 12,
-            padding: '12px 18px',
-            marginBottom: 24,
-            boxShadow: '0 4px 20px rgba(0, 0, 0, 0.3)',
-          }}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
-              <span style={{ fontSize: 20 }}>🍾</span>
-              <div>
-                <strong style={{ color: '#f472b6', fontSize: 13.5 }}>Local VIP Board: {localHub.name} {localHub.flag}</strong>
-                <div style={{ color: '#94a3b8', fontSize: 12 }}>
-                  Showing active table splits, nightlife guide bookings, and boat charters for {localHub.name}.
-                </div>
-              </div>
-            </div>
-            <button
-              type="button"
-              onClick={handleSwitchToGlobal}
-              style={{
-                background: 'rgba(255, 255, 255, 0.1)',
-                border: '1px solid rgba(255, 255, 255, 0.2)',
-                color: '#fff',
-                borderRadius: 8,
-                padding: '6px 14px',
-                fontSize: 12,
-                fontWeight: 700,
-                cursor: 'pointer',
-              }}
-            >
-              View Global Listings 🌐
-            </button>
-          </div>
-        )}
-
-        <div style={{
-          display: 'flex',
-          flexWrap: 'wrap',
-          alignItems: 'flex-end',
-          justifyContent: 'space-between',
-          gap: 16,
-          marginBottom: 28,
-        }}>
-          <div>
-            <div style={{
-              display: 'inline-flex',
-              alignItems: 'center',
-              gap: 6,
-              color: '#ec4899',
-              fontSize: 12,
-              fontWeight: 800,
-              textTransform: 'uppercase',
-              marginBottom: 6,
-              letterSpacing: '0.06em',
-            }}>
-              <Flame size={14} /> {t.classifieds.badge}
-            </div>
-            <h2 style={{ fontSize: 'clamp(24px, 3.5vw, 34px)', fontWeight: 800, margin: '0 0 8px' }}>
-              {t.classifieds.title}
-            </h2>
-            <p style={{ color: '#94a3b8', fontSize: 15, margin: 0, maxWidth: 640 }}>
-              {t.classifieds.subtitle}
-            </p>
-          </div>
-
-          {/* Action button: Post Listing / Propose Table Split */}
-          <button
-            type="button"
-            onClick={() => {
-              recordClick('open_post_modal')
-              setShowPostModal(true)
-            }}
-            style={{
-              padding: '10px 20px',
-              borderRadius: 12,
-              border: 'none',
-              background: 'linear-gradient(135deg, #ec4899, #8b5cf6)',
-              color: '#ffffff',
-              fontWeight: 800,
-              fontSize: 13,
-              cursor: 'pointer',
-              display: 'inline-flex',
-              alignItems: 'center',
-              gap: 8,
-              boxShadow: '0 4px 18px rgba(236, 72, 153, 0.35)',
-              transition: 'all 0.15s ease',
-            }}
-          >
-            <Plus size={16} />
-            <span>{t.classifieds.postBtn}</span>
-          </button>
-        </div>
-
-        {/* Filter Tabs */}
-        <div style={{
-          display: 'inline-flex',
-          flexWrap: 'wrap',
-          gap: 8,
-          marginBottom: 24,
-          padding: 4,
-          background: '#121217',
-          borderRadius: 12,
-          border: '1px solid rgba(255, 255, 255, 0.08)',
-        }}>
-          {[
-            { id: 'all', label: t.classifieds.allTab },
-            { id: 'bangkok', label: t.classifieds.bangkokTab },
-            { id: 'phuket', label: t.classifieds.phuketTab },
-            { id: 'samui', label: t.classifieds.samuiTab },
-            { id: 'global', label: t.classifieds.globalTab },
-          ].map((tab) => (
-            <button
-              key={tab.id}
-              onClick={() => {
-                recordClick(`classified_tab_${tab.id}`)
-                setClassifiedTab(tab.id as any)
-              }}
-              style={{
-                padding: '8px 16px',
-                borderRadius: 8,
-                border: 'none',
-                background: classifiedTab === tab.id ? '#ec4899' : 'transparent',
-                color: classifiedTab === tab.id ? '#fff' : '#a1a1aa',
-                fontWeight: 700,
-                fontSize: 12.5,
-                cursor: 'pointer',
-                transition: 'all 0.15s ease',
-              }}
-            >
-              {tab.label}
-            </button>
-          ))}
-        </div>
-
-        {/* Listings Grid */}
-        <div style={{
-          display: 'grid',
-          gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))',
-          gap: 20,
-        }}>
-          {CLASSIFIED_LISTINGS
-            .filter((item) => {
-              if (classifiedTab === 'all') return true
-              if (classifiedTab === 'bangkok') return item.city.toLowerCase().includes('bangkok')
-              if (classifiedTab === 'phuket') return item.city.toLowerCase().includes('phuket')
-              if (classifiedTab === 'samui') return item.city.toLowerCase().includes('samui')
-              if (classifiedTab === 'global') return item.market !== 'thailand'
-              return true
-            })
-            .map((item) => (
-              <div
-                key={item.id}
-                style={{
-                  background: 'rgba(255, 255, 255, 0.02)',
-                  border: '1px solid rgba(255, 255, 255, 0.08)',
-                  borderRadius: 18,
-                  padding: '22px 20px',
-                  display: 'flex',
-                  flexDirection: 'column',
-                  gap: 14,
-                  boxShadow: '0 8px 30px rgba(0, 0, 0, 0.35)',
-                  transition: 'transform 0.2s ease, border-color 0.2s ease',
-                  position: 'relative',
-                  overflow: 'hidden',
-                }}
-              >
-                {/* Glow accent top bar */}
-                <div style={{
-                  position: 'absolute',
-                  top: 0,
-                  left: 0,
-                  right: 0,
-                  height: 3,
-                  background: `linear-gradient(90deg, ${item.glow}, transparent)`,
-                }} />
-
-                {/* Badge & City */}
-                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 8 }}>
-                  <span style={{
-                    fontSize: 10.5,
-                    fontWeight: 800,
-                    letterSpacing: '0.06em',
-                    textTransform: 'uppercase',
-                    color: item.glow,
-                    background: `${item.glow}18`,
-                    border: `1px solid ${item.glow}44`,
-                    padding: '3px 8px',
-                    borderRadius: 6,
-                  }}>
-                    {item.categoryBadge}
-                  </span>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: 4, fontSize: 12, color: '#94a3b8' }}>
-                    <MapPin size={13} className="text-zinc-400" />
-                    <span>{item.city}, {item.country} {item.flag}</span>
-                  </div>
-                </div>
-
-                {/* Title */}
-                <h3 style={{ margin: 0, fontSize: 17, fontWeight: 800, color: '#ffffff', lineHeight: 1.35 }}>
-                  {item.title}
-                </h3>
-
-                {/* Chips: Date & Cost */}
-                <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8, fontSize: 12 }}>
-                  <div style={{
-                    display: 'inline-flex',
-                    alignItems: 'center',
-                    gap: 5,
-                    padding: '3px 9px',
-                    borderRadius: 8,
-                    background: 'rgba(255, 255, 255, 0.05)',
-                    border: '1px solid rgba(255, 255, 255, 0.08)',
-                    color: '#e2e8f0',
-                  }}>
-                    <Calendar size={13} color="#38bdf8" />
-                    <span>{item.dateOrTime}</span>
-                  </div>
-                  <div style={{
-                    display: 'inline-flex',
-                    alignItems: 'center',
-                    gap: 5,
-                    padding: '3px 9px',
-                    borderRadius: 8,
-                    background: 'rgba(16, 185, 129, 0.12)',
-                    border: '1px solid rgba(16, 185, 129, 0.25)',
-                    color: '#34d399',
-                    fontWeight: 700,
-                  }}>
-                    <span>💰 {item.costPerPerson}</span>
-                  </div>
-                </div>
-
-                {/* Description */}
-                <p style={{ margin: 0, fontSize: 13, color: '#94a3b8', lineHeight: 1.55 }}>
-                  {item.description}
-                </p>
-
-                {/* Host Info & Action Button */}
-                <div style={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'space-between',
-                  gap: 12,
-                  marginTop: 'auto',
-                  paddingTop: 12,
-                  borderTop: '1px solid rgba(255, 255, 255, 0.06)',
-                }}>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
-                    <div style={{ position: 'relative', width: 34, height: 34, borderRadius: '50%', flexShrink: 0 }}>
-                      <img
-                        src={item.hostImg}
-                        alt={item.hostName}
-                        style={{ width: '100%', height: '100%', borderRadius: '50%', objectFit: 'cover' }}
-                      />
-                      <span style={{ position: 'absolute', bottom: -2, right: -2, background: '#09090b', borderRadius: '50%', display: 'flex' }}>
-                        <ShieldCheck size={14} className="text-cyan-400" />
-                      </span>
-                    </div>
-                    <div>
-                      <div style={{ fontSize: 12, fontWeight: 700, color: '#fff' }}>{item.hostName}</div>
-                      <div style={{ fontSize: 10.5, color: '#71717a' }}>@{item.hostHandle}</div>
-                    </div>
-                  </div>
-
-                  <a
-                    href={buildConciergeMailto(
-                      `[Classified Inquiry] ${item.title} (${item.city})`,
-                      `Hi Darwin & ${item.hostName},\n\nI saw this listing on ScanQR Global Community Board:\n\n"${item.title}"\nLocation: ${item.city}, ${item.country}\nCategory: ${item.category}\nDate / Time: ${item.dateOrTime}\nCost: ${item.costPerPerson}\n\nI would like to inquire about joining this table split / booking this service.\n\nMy Details:\nGroup Size:\nPreferred Contact (WhatsApp/Email):\n\nThank you!`
-                    )}
-                    onClick={() => recordClick(`inquire_listing_${item.id}`)}
-                    style={{
-                      padding: '8px 14px',
-                      borderRadius: 10,
-                      background: 'linear-gradient(135deg, #0ea5e9, #6366f1)',
-                      color: '#fff',
-                      fontSize: 12,
-                      fontWeight: 700,
-                      textDecoration: 'none',
-                      display: 'inline-flex',
-                      alignItems: 'center',
-                      gap: 6,
-                      boxShadow: '0 4px 12px rgba(14, 165, 233, 0.3)',
-                      whiteSpace: 'nowrap',
-                    }}
-                  >
-                    <Mail size={13} />
-                    <span>{t.classifieds.contactConcierge}</span>
-                  </a>
-                </div>
-              </div>
-            ))}
-        </div>
-
-        {/* POST LISTING MODAL */}
-        {showPostModal && (
-          <div
-            role="dialog"
-            aria-modal="true"
-            onClick={() => setShowPostModal(false)}
-            style={{
-              position: 'fixed',
-              inset: 0,
-              background: 'rgba(3, 3, 5, 0.88)',
-              backdropFilter: 'blur(10px)',
-              zIndex: 99999,
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              padding: '16px 12px',
-            }}
-          >
-            <div
-              onClick={(e) => e.stopPropagation()}
-              style={{
-                background: '#0c0c14',
-                border: '1px solid rgba(236, 72, 153, 0.4)',
-                borderRadius: 22,
-                maxWidth: 520,
-                width: '100%',
-                padding: '24px 22px',
-                boxShadow: '0 25px 60px rgba(0, 0, 0, 0.9), 0 0 35px rgba(236, 72, 153, 0.2)',
-                maxHeight: '92vh',
-                overflowY: 'auto',
-                display: 'flex',
-                flexDirection: 'column',
-                gap: 16,
-                boxSizing: 'border-box',
-              }}
-            >
-              {/* Header */}
-              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-                <div style={{ display: 'inline-flex', alignItems: 'center', gap: 6, color: '#ec4899', fontSize: 11, fontWeight: 800, textTransform: 'uppercase' }}>
-                  <Sparkles size={14} /> {t.classifieds.badge}
-                </div>
-                <button
-                  type="button"
-                  onClick={() => setShowPostModal(false)}
-                  style={{
-                    width: 32,
-                    height: 32,
-                    borderRadius: 8,
-                    background: 'rgba(255, 255, 255, 0.08)',
-                    border: '1px solid rgba(255, 255, 255, 0.12)',
-                    color: '#e2e8f0',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    cursor: 'pointer',
-                  }}
-                >
-                  <X size={16} />
-                </button>
-              </div>
-
-              <div>
-                <h3 style={{ margin: '0 0 6px', fontSize: 19, fontWeight: 800, color: '#fff' }}>
-                  {t.classifieds.modalTitle}
-                </h3>
-                <p style={{ margin: 0, fontSize: 13, color: '#94a3b8', lineHeight: 1.5 }}>
-                  {t.classifieds.modalSubtitle}
-                </p>
-              </div>
-
-              {postSuccess ? (
-                <div style={{
-                  padding: '20px',
-                  borderRadius: 14,
-                  background: 'rgba(16, 185, 129, 0.12)',
-                  border: '1px solid rgba(16, 185, 129, 0.35)',
-                  color: '#34d399',
-                  textAlign: 'center',
-                  display: 'flex',
-                  flexDirection: 'column',
-                  alignItems: 'center',
-                  gap: 10,
-                }}>
-                  <CheckCircle2 size={32} />
-                  <div style={{ fontSize: 14, fontWeight: 700 }}>
-                    {t.classifieds.successMsg}
-                  </div>
-                  <div style={{ fontSize: 12, color: '#a1a1aa' }}>
-                    Notifications dispatched to: <strong>darwinscerca@gmail.com</strong> (CC: <strong>qr4luv@gmail.com</strong>)
-                  </div>
-                </div>
-              ) : (
-                <form onSubmit={handlePostSubmit} style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
-                  <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12 }}>
-                    <div>
-                      <label style={{ fontSize: 11, color: '#94a3b8', fontWeight: 700, display: 'block', marginBottom: 6 }}>
-                        {t.classifieds.formType}
-                      </label>
-                      <select
-                        value={postForm.type}
-                        onChange={(e) => setPostForm({ ...postForm, type: e.target.value })}
-                        style={{
-                          width: '100%',
-                          padding: '9px 12px',
-                          borderRadius: 10,
-                          background: '#161622',
-                          border: '1px solid rgba(255, 255, 255, 0.14)',
-                          color: '#fff',
-                          fontSize: 13,
-                          outline: 'none',
-                        }}
-                      >
-                        <option value="VIP Table Split">🍾 VIP Table Split</option>
-                        <option value="Curated Guide">🌴 Curated Tour / Guide</option>
-                        <option value="Guestlist / Event">🎟️ Event Guestlist</option>
-                        <option value="Nomad Sublet">🏡 Nomad Villa / Sublet</option>
-                        <option value="Other Nightlife">✦ Other Request</option>
-                      </select>
-                    </div>
-
-                    <div>
-                      <label style={{ fontSize: 11, color: '#94a3b8', fontWeight: 700, display: 'block', marginBottom: 6 }}>
-                        {t.classifieds.formCity}
-                      </label>
-                      <select
-                        value={postForm.city}
-                        onChange={(e) => setPostForm({ ...postForm, city: e.target.value })}
-                        style={{
-                          width: '100%',
-                          padding: '9px 12px',
-                          borderRadius: 10,
-                          background: '#161622',
-                          border: '1px solid rgba(255, 255, 255, 0.14)',
-                          color: '#fff',
-                          fontSize: 13,
-                          outline: 'none',
-                        }}
-                      >
-                        <option value="Bangkok">Bangkok 🇹🇭</option>
-                        <option value="Phuket">Phuket 🇹🇭</option>
-                        <option value="Koh Samui">Koh Samui 🇹🇭</option>
-                        <option value="Pattaya">Pattaya 🇹🇭</option>
-                        <option value="Krabi">Krabi 🇹🇭</option>
-                        <option value="Bogotá">Bogotá 🇨🇴</option>
-                        <option value="São Paulo">São Paulo 🇧🇷</option>
-                        <option value="Rio de Janeiro">Rio de Janeiro 🇧🇷</option>
-                        <option value="Miami">Miami 🇺🇸</option>
-                        <option value="Other Hub">Other Global Hub</option>
-                      </select>
-                    </div>
-                  </div>
-
-                  <div>
-                    <label style={{ fontSize: 11, color: '#94a3b8', fontWeight: 700, display: 'block', marginBottom: 6 }}>
-                      {t.classifieds.formTitle}
-                    </label>
-                    <input
-                      type="text"
-                      required
-                      placeholder="e.g. Splitting VIP Booth at Onyx RCA this Friday..."
-                      value={postForm.title}
-                      onChange={(e) => setPostForm({ ...postForm, title: e.target.value })}
-                      style={{
-                        width: '100%',
-                        padding: '10px 12px',
-                        borderRadius: 10,
-                        background: '#161622',
-                        border: '1px solid rgba(255, 255, 255, 0.14)',
-                        color: '#fff',
-                        fontSize: 13,
-                        outline: 'none',
-                        boxSizing: 'border-box',
-                      }}
-                    />
-                  </div>
-
-                  <div>
-                    <label style={{ fontSize: 11, color: '#94a3b8', fontWeight: 700, display: 'block', marginBottom: 6 }}>
-                      {t.classifieds.formDetails}
-                    </label>
-                    <textarea
-                      rows={3}
-                      required
-                      placeholder="Details about the venue, time, group size, split cost per person..."
-                      value={postForm.details}
-                      onChange={(e) => setPostForm({ ...postForm, details: e.target.value })}
-                      style={{
-                        width: '100%',
-                        padding: '10px 12px',
-                        borderRadius: 10,
-                        background: '#161622',
-                        border: '1px solid rgba(255, 255, 255, 0.14)',
-                        color: '#fff',
-                        fontSize: 13,
-                        outline: 'none',
-                        boxSizing: 'border-box',
-                        fontFamily: 'inherit',
-                      }}
-                    />
-                  </div>
-
-                  <div>
-                    <label style={{ fontSize: 11, color: '#94a3b8', fontWeight: 700, display: 'block', marginBottom: 6 }}>
-                      {t.classifieds.formContact}
-                    </label>
-                    <input
-                      type="text"
-                      required
-                      placeholder="WhatsApp (+66...) or Email"
-                      value={postForm.contact}
-                      onChange={(e) => setPostForm({ ...postForm, contact: e.target.value })}
-                      style={{
-                        width: '100%',
-                        padding: '10px 12px',
-                        borderRadius: 10,
-                        background: '#161622',
-                        border: '1px solid rgba(255, 255, 255, 0.14)',
-                        color: '#fff',
-                        fontSize: 13,
-                        outline: 'none',
-                        boxSizing: 'border-box',
-                      }}
-                    />
-                  </div>
-
-                  <div style={{ fontSize: 11, color: '#71717a', lineHeight: 1.4 }}>
-                    🔒 Automatically sends notice to <strong>darwinscerca@gmail.com</strong> (CC: <strong>qr4luv@gmail.com</strong>).
-                  </div>
-
-                  <button
-                    type="submit"
-                    style={{
-                      padding: '12px 20px',
-                      borderRadius: 12,
-                      border: 'none',
-                      background: 'linear-gradient(135deg, #ec4899, #8b5cf6)',
-                      color: '#fff',
-                      fontWeight: 800,
-                      fontSize: 14,
-                      cursor: 'pointer',
-                      display: 'flex',
-                      alignItems: 'center',
-                      justifyContent: 'center',
-                      gap: 8,
-                      boxShadow: '0 4px 18px rgba(236, 72, 153, 0.35)',
-                    }}
-                  >
-                    <Send size={15} />
-                    <span>{t.classifieds.submitBtn}</span>
-                  </button>
-                </form>
-              )}
-            </div>
-          </div>
-        )}
-      </section>
-
       {/* 7. TRUST & COMPLIANCE (Centered Badges) */}
       <section style={{ maxWidth: 900, margin: '0 auto 80px', padding: '0 24px', textAlign: 'center' }}>
         <h3 style={{ fontSize: 13, textTransform: 'uppercase', letterSpacing: '0.1em', color: '#71717a', marginBottom: 20 }}>
@@ -4206,232 +4097,253 @@ export default function App() {
         </div>
       </section>
 
-      {/* 7B. LIVE TRAFFIC & CONVERSION TELEMETRY STRIP */}
-      <section style={{
-        maxWidth: 1200,
-        margin: '0 auto 60px',
-        padding: '0 24px',
-      }}>
-        <div style={{
-          background: 'linear-gradient(135deg, rgba(16, 185, 129, 0.08), rgba(6, 182, 212, 0.08))',
-          border: '1px solid rgba(16, 185, 129, 0.25)',
-          borderRadius: 20,
-          padding: '24px 28px',
-          boxShadow: '0 10px 30px rgba(0, 0, 0, 0.35)',
-        }}>
-          <div style={{
-            display: 'flex',
-            flexWrap: 'wrap',
-            alignItems: 'center',
-            justifyContent: 'space-between',
-            gap: 20,
-            marginBottom: 20,
-          }}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
-              <span style={{
-                position: 'relative',
-                display: 'flex',
-                height: 12,
-                width: 12,
-              }}>
-                <span style={{
-                  position: 'absolute',
-                  display: 'inline-flex',
-                  height: '100%',
-                  width: '100%',
-                  borderRadius: '50%',
-                  background: '#10b981',
-                  opacity: 0.75,
-                  animation: 'ping 1.5s cubic-bezier(0, 0, 0.2, 1) infinite',
-                }} />
-                <span style={{
-                  position: 'relative',
-                  display: 'inline-flex',
-                  borderRadius: '50%',
-                  height: 12,
-                  width: 12,
-                  background: '#10b981',
-                }} />
-              </span>
-              <div>
-                <h4 style={{ margin: 0, fontSize: 15, fontWeight: 800, color: '#f8fafc', letterSpacing: '0.04em' }}>
-                  {t.telemetryMonitor.title}
-                </h4>
-                <div style={{ fontSize: 12, color: '#94a3b8', marginTop: 2 }}>
-                  {t.telemetryMonitor.status}: <span style={{ color: '#34d399', fontWeight: 600 }}>Active Auto-Routing</span> &bull; Source: <span style={{ color: '#38bdf8', fontWeight: 700 }}>{campaignRef}</span>
-                </div>
-              </div>
-            </div>
-
-            {/* Actions: View breakdown + ping Darwin */}
-            <div style={{ display: 'flex', alignItems: 'center', gap: 10, flexWrap: 'wrap' }}>
-              <button
-                type="button"
-                onClick={() => {
-                  recordClick('open_telemetry_modal')
-                  setShowTrafficModal(true)
-                }}
-                style={{
-                  display: 'inline-flex',
-                  alignItems: 'center',
-                  gap: 8,
-                  padding: '8px 16px',
-                  borderRadius: 10,
-                  background: 'rgba(56, 189, 248, 0.15)',
-                  border: '1px solid rgba(56, 189, 248, 0.35)',
-                  color: '#38bdf8',
-                  fontSize: 12,
-                  fontWeight: 700,
-                  cursor: 'pointer',
-                  transition: 'all 0.2s ease',
-                }}
-              >
-                <Activity size={14} />
-                <span>Campaign Telemetry</span>
-              </button>
-
-              <button
-                type="button"
-                onClick={handleTriggerDailyReport}
-                disabled={isSendingReport}
-                title="Trigger automated cloud report to darwinscerca@gmail.com and qr4luv@gmail.com without opening Outlook"
-                style={{
-                  display: 'inline-flex',
-                  alignItems: 'center',
-                  gap: 8,
-                  padding: '8px 16px',
-                  borderRadius: 10,
-                  background: reportSendStatus === 'success' ? 'rgba(16, 185, 129, 0.25)' : 'rgba(16, 185, 129, 0.15)',
-                  border: reportSendStatus === 'success' ? '1px solid #10b981' : '1px solid rgba(16, 185, 129, 0.35)',
-                  color: '#34d399',
-                  fontSize: 12,
-                  fontWeight: 700,
-                  cursor: isSendingReport ? 'wait' : 'pointer',
-                  transition: 'all 0.2s ease',
-                }}
-              >
-                {isSendingReport ? (
-                  <>
-                    <Zap size={14} />
-                    <span>Sending to Gmail...</span>
-                  </>
-                ) : reportSendStatus === 'success' ? (
-                  <>
-                    <CheckCircle2 size={14} color="#10b981" />
-                    <span>Sent to Gmail!</span>
-                  </>
-                ) : (
-                  <>
-                    <Mail size={14} />
-                    <span>Send Test Report to Gmail</span>
-                  </>
-                )}
-              </button>
-            </div>
-          </div>
-
-          {/* Metrics Grid */}
-          <div style={{
-            display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))',
-            gap: 14,
-          }}>
-            {/* Metric 1: Views */}
-            <div style={{
-              background: 'rgba(0, 0, 0, 0.35)',
-              border: '1px solid rgba(255, 255, 255, 0.08)',
-              borderRadius: 14,
-              padding: '14px 16px',
-            }}>
-              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 6 }}>
-                <span style={{ fontSize: 11, color: '#94a3b8', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
-                  {t.telemetryMonitor.sessionsToday}
-                </span>
-                <Eye size={15} color="#38bdf8" />
-              </div>
-              <div style={{ fontSize: 24, fontWeight: 900, color: '#f8fafc' }}>
-                {trafficStats.views.toLocaleString()}
-              </div>
-              <div style={{ fontSize: 11, color: '#64748b', marginTop: 4 }}>
-                Real-time sessions
-              </div>
-            </div>
-
-            {/* Metric 2: Clicks */}
-            <div style={{
-              background: 'rgba(0, 0, 0, 0.35)',
-              border: '1px solid rgba(255, 255, 255, 0.08)',
-              borderRadius: 14,
-              padding: '14px 16px',
-            }}>
-              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 6 }}>
-                <span style={{ fontSize: 11, color: '#94a3b8', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
-                  {t.telemetryMonitor.appRoutes}
-                </span>
-                <TrendingUp size={15} color="#a855f7" />
-              </div>
-              <div style={{ fontSize: 24, fontWeight: 900, color: '#f8fafc' }}>
-                {trafficStats.clicks.toLocaleString()}
-              </div>
-              <div style={{ fontSize: 11, color: '#64748b', marginTop: 4 }}>
-                Inquiries & clicks
-              </div>
-            </div>
-
-            {/* Metric 3: Active Now */}
-            <div style={{
-              background: 'rgba(0, 0, 0, 0.35)',
-              border: '1px solid rgba(255, 255, 255, 0.08)',
-              borderRadius: 14,
-              padding: '14px 16px',
-            }}>
-              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 6 }}>
-                <span style={{ fontSize: 11, color: '#94a3b8', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
-                  {t.telemetryMonitor.activeNow}
-                </span>
-                <Users size={15} color="#10b981" />
-              </div>
-              <div style={{ display: 'flex', alignItems: 'baseline', gap: 6 }}>
-                <span style={{ fontSize: 24, fontWeight: 900, color: '#34d399' }}>
-                  {activeVisitorsCount}
-                </span>
-                <span style={{ fontSize: 11, color: '#10b981', fontWeight: 600 }}>live users</span>
-              </div>
-              <div style={{ fontSize: 11, color: '#64748b', marginTop: 4 }}>
-                Thailand & Americas hubs
-              </div>
-            </div>
-
-            {/* Metric 4: Lead Dispatch Status */}
-            <div style={{
-              background: 'rgba(0, 0, 0, 0.35)',
-              border: '1px solid rgba(255, 255, 255, 0.08)',
-              borderRadius: 14,
-              padding: '14px 16px',
-            }}>
-              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 6 }}>
-                <span style={{ fontSize: 11, color: '#94a3b8', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
-                  Dispatch Dual Routing
-                </span>
-                <ShieldCheck size={15} color="#eab308" />
-              </div>
-              <div style={{ fontSize: 13, fontWeight: 700, color: '#f8fafc', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
-                darwinscerca@gmail.com
-              </div>
-              <div style={{ fontSize: 11, color: '#38bdf8', marginTop: 4, fontWeight: 600 }}>
-                CC: qr4luv@gmail.com
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
       {/* 8. FOOTER */}
       <footer style={{
         background: '#040407',
         borderTop: '1px solid rgba(255, 255, 255, 0.08)',
         padding: '60px 24px 30px',
       }}>
+        {/* COLLAPSIBLE OPERATOR & CONVERSION TELEMETRY PANEL */}
+        <div style={{
+          maxWidth: 1200,
+          margin: '0 auto 48px',
+          background: 'rgba(255, 255, 255, 0.02)',
+          border: '1px solid rgba(255, 255, 255, 0.08)',
+          borderRadius: 16,
+          overflow: 'hidden',
+        }}>
+          <details style={{ padding: '14px 20px' }}>
+            <summary style={{
+              cursor: 'pointer',
+              fontSize: 12.5,
+              fontWeight: 700,
+              color: '#94a3b8',
+              display: 'flex',
+              alignItems: 'center',
+              gap: 8,
+              userSelect: 'none',
+            }}>
+              <span style={{
+                display: 'inline-block',
+                width: 7,
+                height: 7,
+                borderRadius: '50%',
+                background: '#10b981',
+                boxShadow: '0 0 6px #10b981',
+              }} />
+              <span>⚙️ Operator Telemetry & Cloud Controls ({trafficStats.views} Views • {trafficStats.clicks} Actions)</span>
+            </summary>
+            <div style={{
+              marginTop: 16,
+              paddingTop: 16,
+              borderTop: '1px solid rgba(255, 255, 255, 0.08)',
+            }}>
+              <div style={{
+                display: 'flex',
+                flexWrap: 'wrap',
+                alignItems: 'center',
+                justifyContent: 'space-between',
+                gap: 16,
+                marginBottom: 16,
+              }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+                  <span style={{
+                    position: 'relative',
+                    display: 'flex',
+                    height: 10,
+                    width: 10,
+                  }}>
+                    <span style={{
+                      position: 'absolute',
+                      display: 'inline-flex',
+                      height: '100%',
+                      width: '100%',
+                      borderRadius: '50%',
+                      background: '#10b981',
+                      opacity: 0.75,
+                      animation: 'ping 1.5s cubic-bezier(0, 0, 0.2, 1) infinite',
+                    }} />
+                    <span style={{
+                      position: 'relative',
+                      display: 'inline-flex',
+                      borderRadius: '50%',
+                      height: 10,
+                      width: 10,
+                      background: '#10b981',
+                    }} />
+                  </span>
+                  <div>
+                    <h4 style={{ margin: 0, fontSize: 14, fontWeight: 800, color: '#f8fafc', letterSpacing: '0.04em' }}>
+                      {t.telemetryMonitor.title}
+                    </h4>
+                    <div style={{ fontSize: 11.5, color: '#94a3b8', marginTop: 2 }}>
+                      {t.telemetryMonitor.status}: <span style={{ color: '#34d399', fontWeight: 600 }}>Active Auto-Routing</span> &bull; Source: <span style={{ color: '#38bdf8', fontWeight: 700 }}>{campaignRef}</span>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Actions: View breakdown + ping Darwin */}
+                <div style={{ display: 'flex', alignItems: 'center', gap: 10, flexWrap: 'wrap' }}>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      recordClick('open_telemetry_modal')
+                      setShowTrafficModal(true)
+                    }}
+                    style={{
+                      display: 'inline-flex',
+                      alignItems: 'center',
+                      gap: 8,
+                      padding: '7px 14px',
+                      borderRadius: 10,
+                      background: 'rgba(56, 189, 248, 0.15)',
+                      border: '1px solid rgba(56, 189, 248, 0.35)',
+                      color: '#38bdf8',
+                      fontSize: 12,
+                      fontWeight: 700,
+                      cursor: 'pointer',
+                      transition: 'all 0.2s ease',
+                    }}
+                  >
+                    <Activity size={14} />
+                    <span>Campaign Telemetry</span>
+                  </button>
+
+                  <button
+                    type="button"
+                    onClick={handleTriggerDailyReport}
+                    disabled={isSendingReport}
+                    title="Trigger automated cloud report to darwinscerca@gmail.com and qr4luv@gmail.com without opening Outlook"
+                    style={{
+                      display: 'inline-flex',
+                      alignItems: 'center',
+                      gap: 8,
+                      padding: '7px 14px',
+                      borderRadius: 10,
+                      background: reportSendStatus === 'success' ? 'rgba(16, 185, 129, 0.25)' : 'rgba(16, 185, 129, 0.15)',
+                      border: reportSendStatus === 'success' ? '1px solid #10b981' : '1px solid rgba(16, 185, 129, 0.35)',
+                      color: '#34d399',
+                      fontSize: 12,
+                      fontWeight: 700,
+                      cursor: isSendingReport ? 'wait' : 'pointer',
+                      transition: 'all 0.2s ease',
+                    }}
+                  >
+                    {isSendingReport ? (
+                      <>
+                        <Zap size={14} />
+                        <span>Sending to Gmail...</span>
+                      </>
+                    ) : reportSendStatus === 'success' ? (
+                      <>
+                        <CheckCircle2 size={14} color="#10b981" />
+                        <span>Sent to Gmail!</span>
+                      </>
+                    ) : (
+                      <>
+                        <Mail size={14} />
+                        <span>Send Test Report to Gmail</span>
+                      </>
+                    )}
+                  </button>
+                </div>
+              </div>
+
+              {/* Metrics Grid */}
+              <div style={{
+                display: 'grid',
+                gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))',
+                gap: 12,
+              }}>
+                {/* Metric 1: Views */}
+                <div style={{
+                  background: 'rgba(0, 0, 0, 0.35)',
+                  border: '1px solid rgba(255, 255, 255, 0.08)',
+                  borderRadius: 12,
+                  padding: '12px 14px',
+                }}>
+                  <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 4 }}>
+                    <span style={{ fontSize: 10.5, color: '#94a3b8', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
+                      {t.telemetryMonitor.sessionsToday}
+                    </span>
+                    <Eye size={14} color="#38bdf8" />
+                  </div>
+                  <div style={{ display: 'flex', alignItems: 'baseline', gap: 6 }}>
+                    <span style={{ fontSize: 22, fontWeight: 900, color: '#f8fafc' }}>
+                      {trafficStats.views.toLocaleString()}
+                    </span>
+                    <span style={{ fontSize: 11, color: '#38bdf8', fontWeight: 600 }}>verified hits</span>
+                  </div>
+                </div>
+
+                {/* Metric 2: Clicks */}
+                <div style={{
+                  background: 'rgba(0, 0, 0, 0.35)',
+                  border: '1px solid rgba(255, 255, 255, 0.08)',
+                  borderRadius: 12,
+                  padding: '12px 14px',
+                }}>
+                  <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 4 }}>
+                    <span style={{ fontSize: 10.5, color: '#94a3b8', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
+                      {t.telemetryMonitor.actionsEngaged}
+                    </span>
+                    <TrendingUp size={14} color="#ec4899" />
+                  </div>
+                  <div style={{ display: 'flex', alignItems: 'baseline', gap: 6 }}>
+                    <span style={{ fontSize: 22, fontWeight: 900, color: '#f472b6' }}>
+                      {trafficStats.clicks.toLocaleString()}
+                    </span>
+                    <span style={{ fontSize: 11, color: '#ec4899', fontWeight: 600 }}>
+                      ({((trafficStats.clicks / Math.max(trafficStats.views, 1)) * 100).toFixed(1)}% CTR)
+                    </span>
+                  </div>
+                </div>
+
+                {/* Metric 3: Active Now */}
+                <div style={{
+                  background: 'rgba(0, 0, 0, 0.35)',
+                  border: '1px solid rgba(255, 255, 255, 0.08)',
+                  borderRadius: 12,
+                  padding: '12px 14px',
+                }}>
+                  <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 4 }}>
+                    <span style={{ fontSize: 10.5, color: '#94a3b8', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
+                      {t.telemetryMonitor.activeNow}
+                    </span>
+                    <Users size={14} color="#10b981" />
+                  </div>
+                  <div style={{ display: 'flex', alignItems: 'baseline', gap: 6 }}>
+                    <span style={{ fontSize: 22, fontWeight: 900, color: '#34d399' }}>
+                      {activeVisitorsCount}
+                    </span>
+                    <span style={{ fontSize: 11, color: '#10b981', fontWeight: 600 }}>live users</span>
+                  </div>
+                </div>
+
+                {/* Metric 4: Lead Dispatch Status */}
+                <div style={{
+                  background: 'rgba(0, 0, 0, 0.35)',
+                  border: '1px solid rgba(255, 255, 255, 0.08)',
+                  borderRadius: 12,
+                  padding: '12px 14px',
+                }}>
+                  <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 4 }}>
+                    <span style={{ fontSize: 10.5, color: '#94a3b8', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
+                      Dispatch Dual Routing
+                    </span>
+                    <ShieldCheck size={14} color="#eab308" />
+                  </div>
+                  <div style={{ fontSize: 12, fontWeight: 700, color: '#f8fafc', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
+                    darwinscerca@gmail.com
+                  </div>
+                  <div style={{ fontSize: 10.5, color: '#38bdf8', marginTop: 2, fontWeight: 600 }}>
+                    CC: qr4luv@gmail.com
+                  </div>
+                </div>
+              </div>
+            </div>
+          </details>
+        </div>
         <div style={{
           maxWidth: 1200,
           margin: '0 auto',
