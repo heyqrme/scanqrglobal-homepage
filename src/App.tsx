@@ -834,69 +834,101 @@ export default function App() {
   const [isSendingReport, setIsSendingReport] = useState(false)
   const [reportSendStatus, setReportSendStatus] = useState<string | null>(null)
 
-  // Local-First Geolocation State
-  const [localHub, setLocalHub] = useState<HubGeo>(() => {
-    return REGIONAL_HUBS.find((h) => h.slug === 'bangkok') || REGIONAL_HUBS[0]
-  })
+  // Smart Geolocation & Hub State
+  const [visitorLocation, setVisitorLocation] = useState<{
+    city: string | null
+    country: string | null
+    isDetected: boolean
+  }>({ city: null, country: null, isDetected: false })
+
   const [isLocalMode, setIsLocalMode] = useState<boolean>(() => {
     try {
       const stored = sessionStorage.getItem('sqg_mode')
-      return stored !== 'global' // Defaults to local-first mode
+      return stored === 'local' // Only starts in local mode if user explicitly selected it
     } catch {
-      return true
+      return false
     }
+  })
+  const [localHub, setLocalHub] = useState<HubGeo>(() => {
+    try {
+      const storedSlug = sessionStorage.getItem('sqg_hub')
+      if (storedSlug) {
+        const found = REGIONAL_HUBS.find((h) => h.slug === storedSlug)
+        if (found) return found
+      }
+    } catch {}
+    return REGIONAL_HUBS.find((h) => h.slug === 'bangkok') || REGIONAL_HUBS[0]
   })
   const [geoDetected, setGeoDetected] = useState<boolean>(false)
 
-  // Auto-detect visitor location on landing and lock to local hub
+  // Auto-detect visitor location on landing: lock to hub if in city, otherwise activate Worldwide Explorer
   useEffect(() => {
     async function detectVisitorLocation() {
       try {
         const res = await fetch('/api/geo')
         if (res.ok) {
           const data = await res.json()
-          if (data?.hub) {
+          if (data?.detectedCity || data?.detectedCountry) {
+            setVisitorLocation({
+              city: data.detectedCity ? decodeURIComponent(data.detectedCity) : null,
+              country: data.detectedCountry || null,
+              isDetected: !!data.detected,
+            })
+          }
+
+          const userChoice = sessionStorage.getItem('sqg_mode')
+
+          // 1. If user is in/near one of our 15 regional hubs and hasn't chosen global mode:
+          if (data?.detected && data?.hub && userChoice !== 'global') {
             const found = REGIONAL_HUBS.find((h) => h.slug === data.hub.slug) || data.hub
             setLocalHub(found)
             setGeoDetected(true)
-
-            // If user hasn't explicitly chosen global mode, lock view to detected city
-            const userChoice = sessionStorage.getItem('sqg_mode')
-            if (userChoice !== 'global') {
-              setActiveMarket(found.market)
-              setClassifiedTab(found.slug)
-              setIsLocalMode(true)
-            }
+            setActiveMarket(found.market)
+            setClassifiedTab(found.slug)
+            setIsLocalMode(true)
+            sessionStorage.setItem('sqg_mode', 'local')
+            sessionStorage.setItem('sqg_hub', found.slug)
             return
+          }
+
+          // 2. If visitor is outside our 15 hubs (e.g. Philippines, UK, Europe, non-hub US) or prefers global:
+          if (!data?.detected || data?.isGlobal || userChoice === 'global') {
+            setIsLocalMode(false)
+            setGeoDetected(false)
+            if (userChoice !== 'global') {
+              sessionStorage.setItem('sqg_mode', 'global')
+            }
           }
         }
       } catch {
-        // Fallback: check browser timezone
+        // Fallback: check browser timezone strictly for local hubs
         try {
           const tz = Intl.DateTimeFormat().resolvedOptions().timeZone.toLowerCase()
           let matched: HubGeo | undefined
-          if (tz.includes('bangkok') || tz.includes('asia') || tz.includes('thailand')) {
+          if (tz.includes('bangkok')) {
             matched = REGIONAL_HUBS.find((h) => h.slug === 'bangkok')
-          } else if (tz.includes('bogota') || tz.includes('colombia')) {
+          } else if (tz.includes('bogota')) {
             matched = REGIONAL_HUBS.find((h) => h.slug === 'bogota')
-          } else if (tz.includes('sao_paulo') || tz.includes('brazil')) {
+          } else if (tz.includes('sao_paulo')) {
             matched = REGIONAL_HUBS.find((h) => h.slug === 'sao-paulo')
           } else if (tz.includes('new_york')) {
             matched = REGIONAL_HUBS.find((h) => h.slug === 'nyc')
           } else if (tz.includes('los_angeles')) {
             matched = REGIONAL_HUBS.find((h) => h.slug === 'la')
-          } else if (tz.includes('chicago') || tz.includes('austin')) {
+          } else if (tz.includes('austin')) {
             matched = REGIONAL_HUBS.find((h) => h.slug === 'austin')
           }
 
           if (matched) {
-            setLocalHub(matched)
-            setGeoDetected(true)
             const userChoice = sessionStorage.getItem('sqg_mode')
             if (userChoice !== 'global') {
+              setLocalHub(matched)
+              setGeoDetected(true)
               setActiveMarket(matched.market)
               setClassifiedTab(matched.slug)
               setIsLocalMode(true)
+              sessionStorage.setItem('sqg_mode', 'local')
+              sessionStorage.setItem('sqg_hub', matched.slug)
             }
           }
         } catch {
@@ -911,6 +943,7 @@ export default function App() {
   const handleSwitchToGlobal = () => {
     setIsLocalMode(false)
     sessionStorage.setItem('sqg_mode', 'global')
+    setClassifiedTab('all')
     recordClick('switch_to_global')
   }
 
@@ -921,6 +954,7 @@ export default function App() {
     setActiveMarket(target.market)
     setClassifiedTab(target.slug)
     sessionStorage.setItem('sqg_mode', 'local')
+    sessionStorage.setItem('sqg_hub', target.slug)
     recordClick(`switch_to_local_${target.slug}`)
   }
 
@@ -2021,7 +2055,10 @@ export default function App() {
                 <span>{localHub.name.toUpperCase()} LIVE RADAR • {localHub.flag} {localHub.pulse.toUpperCase()} TONIGHT</span>
               </>
             ) : (
-              <>{t.hero.trustBadge}</>
+              <>
+                <Globe size={14} color="#ec4899" />
+                <span>WORLDWIDE NIGHTLIFE RADAR • 15 CITIES ACROSS 4 CONTINENTS</span>
+              </>
             )}
           </div>
 
@@ -2118,8 +2155,8 @@ export default function App() {
             </a>
           </div>
 
-          {/* Toggle between Local & Global if in localMode */}
-          {isLocalMode && localHub && (
+          {/* Toggle between Local & Global if in localMode, or destination chips if in globalMode */}
+          {isLocalMode && localHub ? (
             <div style={{ marginBottom: 16 }}>
               <button
                 type="button"
@@ -2140,6 +2177,62 @@ export default function App() {
                 <Globe size={13} />
                 <span>Switch to Global Search (All 15 Cities)</span>
               </button>
+            </div>
+          ) : (
+            <div style={{
+              margin: '0 auto 20px',
+              maxWidth: 780,
+              padding: '12px 16px',
+              borderRadius: 14,
+              background: 'rgba(255, 255, 255, 0.03)',
+              border: '1px solid rgba(255, 255, 255, 0.08)',
+              textAlign: 'center',
+            }}>
+              <div style={{ fontSize: 12, color: '#94a3b8', marginBottom: 8, fontWeight: 600, letterSpacing: '0.04em', textTransform: 'uppercase' }}>
+                {visitorLocation.country && visitorLocation.country !== 'US' ? (
+                  <>Visiting from <span style={{ color: '#38bdf8' }}>{visitorLocation.city || visitorLocation.country}</span>? Select your nightlife destination:</>
+                ) : (
+                  <>Select a destination to unlock live local radar & VIP tables:</>
+                )}
+              </div>
+              <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6, justifyContent: 'center' }}>
+                {[
+                  { name: 'Bangkok', slug: 'bangkok', flag: '🇹🇭' },
+                  { name: 'Miami', slug: 'miami', flag: '🇺🇸' },
+                  { name: 'Rio de Janeiro', slug: 'rio', flag: '🇧🇷' },
+                  { name: 'Bogotá', slug: 'bogota', flag: '🇨🇴' },
+                  { name: 'Phuket', slug: 'phuket', flag: '🇹🇭' },
+                  { name: 'New York City', slug: 'nyc', flag: '🇺🇸' },
+                  { name: 'São Paulo', slug: 'sao-paulo', flag: '🇧🇷' },
+                  { name: 'Los Angeles', slug: 'la', flag: '🇺🇸' },
+                ].map((dest) => (
+                  <button
+                    key={dest.slug}
+                    type="button"
+                    onClick={() => {
+                      const target = REGIONAL_HUBS.find((h) => h.slug === dest.slug)
+                      if (target) handleSwitchToLocal(target)
+                    }}
+                    style={{
+                      background: 'rgba(255, 255, 255, 0.06)',
+                      border: '1px solid rgba(255, 255, 255, 0.14)',
+                      borderRadius: 18,
+                      padding: '4px 12px',
+                      color: '#e2e8f0',
+                      fontSize: 12,
+                      fontWeight: 600,
+                      cursor: 'pointer',
+                      display: 'inline-flex',
+                      alignItems: 'center',
+                      gap: 5,
+                      transition: 'all 0.15s ease',
+                    }}
+                  >
+                    <span>{dest.flag}</span>
+                    <span>{dest.name}</span>
+                  </button>
+                ))}
+              </div>
             </div>
           )}
 
@@ -2566,13 +2659,13 @@ export default function App() {
         }}>
           {CLASSIFIED_LISTINGS
             .filter((item) => {
-              if (classifiedTab === 'all') return true
+              if (classifiedTab === 'all' || !classifiedTab) return true
               if (classifiedTab === 'bangkok') return item.city.toLowerCase().includes('bangkok')
               if (classifiedTab === 'phuket') return item.city.toLowerCase().includes('phuket')
               if (classifiedTab === 'samui') return item.city.toLowerCase().includes('samui')
               if (classifiedTab === 'miami') return item.city.toLowerCase().includes('miami')
-              if (classifiedTab === 'global') return item.market !== 'thailand'
-              return true
+              if (classifiedTab === 'global') return true
+              return item.city.toLowerCase().includes(classifiedTab.toLowerCase())
             })
             .map((item) => (
               <div

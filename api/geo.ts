@@ -95,29 +95,43 @@ export default async function handler(req: IncomingMessage, res: ServerResponse)
     else if (c.includes('york') || c.includes('brooklyn') || c.includes('jersey')) matchedHub = REGIONAL_HUBS.find((h) => h.slug === 'nyc') || null
     else if (c.includes('austin') || c.includes('houston') || c.includes('dallas')) matchedHub = REGIONAL_HUBS.find((h) => h.slug === 'austin') || null
     else if (c.includes('nashville') || c.includes('memphis')) matchedHub = REGIONAL_HUBS.find((h) => h.slug === 'nashville') || null
-    else matchedHub = REGIONAL_HUBS.find((h) => h.slug === 'miami') || null
+    // Visitors in other US cities (e.g. Chicago, Denver, Seattle, San Francisco) are not forced into Miami
   }
 
-  // 2. Fallback to closest hub via coordinates
+  // 2. Proximity check via coordinates (only locks if within 350 km of an active hub)
   if (!matchedHub && clientLat !== null && clientLng !== null) {
     let minDistance = Infinity
+    let closestHub: HubMatch | null = null
     for (const hub of REGIONAL_HUBS) {
       const dist = calculateDistanceKm(clientLat, clientLng, hub.lat, hub.lng)
       if (dist < minDistance) {
         minDistance = dist
-        matchedHub = hub
+        closestHub = hub
       }
     }
+    // Only lock to local hub if within regional radius (350 km)
+    if (closestHub && minDistance <= 350) {
+      matchedHub = closestHub
+    }
   }
+
+  const isDetected = !!matchedHub
 
   res.statusCode = 200
   res.setHeader('Content-Type', 'application/json')
   res.end(
     JSON.stringify({
-      detected: !!matchedHub,
-      detectedCity: vercelCity || matchedHub?.name || null,
-      detectedCountry: vercelCountry || matchedHub?.country || null,
-      hub: matchedHub || REGIONAL_HUBS.find((h) => h.slug === 'bangkok'), // Default to Bangkok as featured hub if totally unknown
+      detected: isDetected,
+      isGlobal: !isDetected,
+      detectedCity: vercelCity ? decodeURIComponent(vercelCity) : (matchedHub?.name || null),
+      detectedCountry: vercelCountry || (matchedHub?.country || null),
+      hub: matchedHub || null,
+      suggestedHubs: [
+        { name: 'Bangkok', slug: 'bangkok', market: 'thailand', country: 'Thailand', flag: '🇹🇭' },
+        { name: 'Miami', slug: 'miami', market: 'usa', country: 'United States', flag: '🇺🇸' },
+        { name: 'Rio de Janeiro', slug: 'rio', market: 'brazil', country: 'Brazil', flag: '🇧🇷' },
+        { name: 'Bogotá', slug: 'bogota', market: 'colombia', country: 'Colombia', flag: '🇨🇴' },
+      ],
     })
   )
 }

@@ -1579,24 +1579,36 @@ export const HOST_TRANSLATIONS: Record<string, Partial<Record<Locale, HostTransl
 // Helpers
 export function getStoredLocale(): Locale {
   if (typeof window === 'undefined') return 'en'
-  const saved = localStorage.getItem('scanqr_locale') as Locale | null
-  if (saved && SUPPORTED_LOCALES.some((l) => l.code === saved)) {
-    return saved
+  try {
+    const saved = localStorage.getItem('scanqr_locale') as Locale | null
+    if (saved && SUPPORTED_LOCALES.some((l) => l.code === saved)) {
+      return saved
+    }
+  } catch {
+    // Private browsing mode storage protection
   }
   // Auto-detect browser language
-  const navLang = navigator.language.toLowerCase()
-  if (navLang.startsWith('th')) return 'th'
-  if (navLang.startsWith('es')) return 'es'
-  if (navLang.startsWith('pt')) return 'pt'
-  if (navLang.startsWith('fr')) return 'fr'
-  if (navLang.startsWith('de')) return 'de'
-  if (navLang.startsWith('ja')) return 'ja'
-  if (navLang.startsWith('zh')) return 'zh'
+  try {
+    const navLang = (navigator?.language || '').toLowerCase()
+    if (navLang.startsWith('th')) return 'th'
+    if (navLang.startsWith('es')) return 'es'
+    if (navLang.startsWith('pt')) return 'pt'
+    if (navLang.startsWith('fr')) return 'fr'
+    if (navLang.startsWith('de')) return 'de'
+    if (navLang.startsWith('ja')) return 'ja'
+    if (navLang.startsWith('zh')) return 'zh'
+  } catch {
+    // Fallback to default
+  }
   return 'en'
 }
 
 export function setStoredLocale(locale: Locale): void {
   if (typeof window !== 'undefined') {
-    localStorage.setItem('scanqr_locale', locale)
+    try {
+      localStorage.setItem('scanqr_locale', locale)
+    } catch {
+      // Private browsing mode safe
+    }
   }
 }
