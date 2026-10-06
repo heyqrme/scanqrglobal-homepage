@@ -1,6 +1,6 @@
 /// <reference types="node" />
 import type { IncomingMessage, ServerResponse } from 'http'
-import crypto from 'crypto'
+import { createHash } from 'crypto'
 
 const DEFAULT_SUPABASE_URL = 'https://rrbvtgqhzqqzzkwphpqd.supabase.co'
 const DEFAULT_SUPABASE_ANON_KEY = 'sb_publishable_0nUgFj3g_kBj-tgxPVFmeQ_lEq0y53A'
@@ -60,7 +60,7 @@ export default async function handler(req: IncomingMessage, res: ServerResponse)
   const clientIp = getHeader(req, 'x-forwarded-for')?.split(',')[0]?.trim() || ''
 
   // Anonymized hash for unique visitor metrics without storing raw PII
-  const ipHash = clientIp ? crypto.createHash('sha256').update(clientIp + 'sqg_salt').digest('hex').substring(0, 16) : null
+  const ipHash = clientIp ? createHash('sha256').update(clientIp + 'sqg_salt').digest('hex').substring(0, 16) : null
 
   const supabaseUrl = process.env.VITE_SUPABASE_URL || process.env.SUPABASE_URL || DEFAULT_SUPABASE_URL
   const supabaseKey = process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.VITE_SUPABASE_ANON_KEY || DEFAULT_SUPABASE_ANON_KEY

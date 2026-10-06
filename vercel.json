@@ -10,7 +10,7 @@
   ],
   "rewrites": [
     {
-      "source": "/((?!api/|assets/).*)",
+      "source": "/((?!api/|assets/|images/|robots\\.txt|sitemap\\.xml|llms\\.txt|favicon\\.ico).*)",
       "destination": "/index.html"
     }
   ]

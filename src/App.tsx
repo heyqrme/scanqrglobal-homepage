@@ -805,7 +805,7 @@ export default function App() {
   const [highlightedCitySlug, setHighlightedCitySlug] = useState<string | null>(null)
 
   // Classifieds & Community Board State
-  const [classifiedTab, setClassifiedTab] = useState<'all' | 'bangkok' | 'phuket' | 'samui' | 'global'>('all')
+  const [classifiedTab, setClassifiedTab] = useState<string>('all')
   const [showPostModal, setShowPostModal] = useState(false)
   const [postSuccess, setPostSuccess] = useState(false)
   const [postForm, setPostForm] = useState({
@@ -4285,7 +4285,7 @@ export default function App() {
                 }}>
                   <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 4 }}>
                     <span style={{ fontSize: 10.5, color: '#94a3b8', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
-                      {t.telemetryMonitor.actionsEngaged}
+                      {t.telemetryMonitor.appRoutes}
                     </span>
                     <TrendingUp size={14} color="#ec4899" />
                   </div>
