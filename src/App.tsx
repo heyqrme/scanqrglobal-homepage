@@ -577,46 +577,6 @@ export interface CommunityFlip {
 
 export const COMMUNITY_FLIPS: CommunityFlip[] = [
   {
-    id: 'flip-rio-parque-lage',
-    userName: 'Camila R.',
-    userHandle: 'camila_rio',
-    userAvatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=800&auto=format&fit=crop&q=80',
-    city: 'Rio de Janeiro',
-    country: 'Brazil',
-    flag: '🇧🇷',
-    market: 'brazil',
-    neighborhood: 'Santa Teresa / Jardim Botânico',
-    placeName: 'Parque Lage Mansion',
-    categoryBadge: '🎥 LIVE VIDEO FLIP',
-    glow: '#ec4899',
-    content: 'Just dropped a live 10-second flip from the courtyard pool at Parque Lage. Gorgeous afternoon light, live acoustic guitar under the palms. Say hi if you are around!',
-    previewImg: 'https://images.unsplash.com/photo-1483729558449-99ef09a8c325?w=800&auto=format&fit=crop&q=80',
-    timeAgo: '12m ago',
-    activeNearby: 34,
-    verified: true,
-    isLiveVideo: true,
-  },
-  {
-    id: 'flip-rio-lapa-samba',
-    userName: 'Thiago S.',
-    userHandle: 'thiago_lapa',
-    userAvatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=800&auto=format&fit=crop&q=80',
-    city: 'Rio de Janeiro',
-    country: 'Brazil',
-    flag: '🇧🇷',
-    market: 'brazil',
-    neighborhood: 'Lapa Arches',
-    placeName: 'Circo Voador',
-    categoryBadge: '⚡ MEETUP DROP',
-    glow: '#06b6d4',
-    content: 'Live samba de raiz circle warming up right beneath the Lapa Roman arches! 25+ locals and travelers dancing, cold chopp flowing. Drop by and join in!',
-    previewImg: 'https://images.unsplash.com/photo-1518609878373-06d740f60d8b?w=800&auto=format&fit=crop&q=80',
-    timeAgo: '26m ago',
-    activeNearby: 48,
-    verified: true,
-    isLiveVideo: true,
-  },
-  {
     id: 'flip-bkk-thonglor-sunset',
     userName: 'Marco D.',
     userHandle: 'marco_bkk',
@@ -631,29 +591,10 @@ export const COMMUNITY_FLIPS: CommunityFlip[] = [
     glow: '#a855f7',
     content: 'Golden hour melodic house session just kicked off. Glowing avatar tree and 360° sunset views over Sukhumvit skyline. Meeting other travelers here for drinks!',
     previewImg: 'https://images.unsplash.com/photo-1508009603885-50cf7c579365?w=800&auto=format&fit=crop&q=80',
-    timeAgo: '38m ago',
+    timeAgo: '15m ago',
     activeNearby: 52,
     verified: true,
     isLiveVideo: true,
-  },
-  {
-    id: 'flip-bogota-selina-nomad',
-    userName: 'Sofia M.',
-    userHandle: 'sofia_nomad',
-    userAvatar: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=800&auto=format&fit=crop&q=80',
-    city: 'Bogotá',
-    country: 'Colombia',
-    flag: '🇨🇴',
-    market: 'colombia',
-    neighborhood: 'Chapinero Alto',
-    placeName: 'Selina Garden Cafe',
-    categoryBadge: '☕ NOMAD MEETUP',
-    glow: '#10b981',
-    content: 'Co-working on the garden terrace at Selina Chapinero. High-speed fiber wifi, mountain breeze, fresh Huila pour-overs. Anyone in Chapinero up for lunch or coffee?',
-    previewImg: 'https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=800&auto=format&fit=crop&q=80',
-    timeAgo: '50m ago',
-    activeNearby: 29,
-    verified: true,
   },
   {
     id: 'flip-miami-south-beach',
@@ -670,9 +611,48 @@ export const COMMUNITY_FLIPS: CommunityFlip[] = [
     glow: '#f59e0b',
     content: 'Sunset rollerblade cruise heading down the boardwalk to South Pointe Park. Group of nomads meeting by the pier palms to catch golden hour and ocean breeze!',
     previewImg: 'https://images.unsplash.com/photo-1506929562872-bb421503ef21?w=800&auto=format&fit=crop&q=80',
-    timeAgo: '1h ago',
+    timeAgo: '28m ago',
     activeNearby: 41,
     verified: true,
+  },
+  {
+    id: 'flip-bogota-selina-nomad',
+    userName: 'Sofia M.',
+    userHandle: 'sofia_nomad',
+    userAvatar: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=800&auto=format&fit=crop&q=80',
+    city: 'Bogotá',
+    country: 'Colombia',
+    flag: '🇨🇴',
+    market: 'colombia',
+    neighborhood: 'Chapinero Alto',
+    placeName: 'Selina Garden Cafe',
+    categoryBadge: '☕ NOMAD MEETUP',
+    glow: '#10b981',
+    content: 'Co-working on the garden terrace at Selina Chapinero. High-speed fiber wifi, mountain breeze, fresh Huila pour-overs. Anyone in Chapinero up for lunch or coffee?',
+    previewImg: 'https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=800&auto=format&fit=crop&q=80',
+    timeAgo: '42m ago',
+    activeNearby: 29,
+    verified: true,
+  },
+  {
+    id: 'flip-rio-parque-lage',
+    userName: 'Camila R.',
+    userHandle: 'camila_rio',
+    userAvatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=800&auto=format&fit=crop&q=80',
+    city: 'Rio de Janeiro',
+    country: 'Brazil',
+    flag: '🇧🇷',
+    market: 'brazil',
+    neighborhood: 'Santa Teresa / Jardim Botânico',
+    placeName: 'Parque Lage Mansion',
+    categoryBadge: '🎥 LIVE VIDEO FLIP',
+    glow: '#ec4899',
+    content: 'Just dropped a live 10-second flip from the courtyard pool at Parque Lage. Gorgeous afternoon light, live acoustic guitar under the palms. Say hi if you are around!',
+    previewImg: 'https://images.unsplash.com/photo-1483729558449-99ef09a8c325?w=800&auto=format&fit=crop&q=80',
+    timeAgo: '50m ago',
+    activeNearby: 34,
+    verified: true,
+    isLiveVideo: true,
   },
   {
     id: 'flip-phuket-kamala-acoustic',
@@ -689,9 +669,29 @@ export const COMMUNITY_FLIPS: CommunityFlip[] = [
     glow: '#3b82f6',
     content: 'Barefoot sunset acoustic jam session right on the sand at Kamala. Waves rolling in, torches lit, fire spinners warming up for dusk. Incredible island energy.',
     previewImg: 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=800&auto=format&fit=crop&q=80',
-    timeAgo: '1h 15m ago',
+    timeAgo: '1h 10m ago',
     activeNearby: 36,
     verified: true,
+  },
+  {
+    id: 'flip-rio-lapa-samba',
+    userName: 'Thiago S.',
+    userHandle: 'thiago_lapa',
+    userAvatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=800&auto=format&fit=crop&q=80',
+    city: 'Rio de Janeiro',
+    country: 'Brazil',
+    flag: '🇧🇷',
+    market: 'brazil',
+    neighborhood: 'Lapa Arches',
+    placeName: 'Circo Voador',
+    categoryBadge: '⚡ MEETUP DROP',
+    glow: '#06b6d4',
+    content: 'Live samba de raiz circle warming up right beneath the Lapa Roman arches! 25+ locals and travelers dancing, cold chopp flowing. Drop by and join in!',
+    previewImg: 'https://images.unsplash.com/photo-1518609878373-06d740f60d8b?w=800&auto=format&fit=crop&q=80',
+    timeAgo: '1h 25m ago',
+    activeNearby: 48,
+    verified: true,
+    isLiveVideo: true,
   },
 ]
 
@@ -707,12 +707,12 @@ export interface CommunityTickerEvent {
 }
 
 export const COMMUNITY_TICKER_EVENTS: CommunityTickerEvent[] = [
-  { id: 'ct-1', flag: '🇧🇷', city: 'Rio de Janeiro', neighborhood: 'Santa Teresa', person: 'Camila R.', action: 'shared a live video flip under the palms', place: 'Parque Lage', timeAgo: '12m ago' },
-  { id: 'ct-2', flag: '🇧🇷', city: 'Rio de Janeiro', neighborhood: 'Lapa', person: 'Thiago S.', action: 'started a live samba roda meetup', place: 'Circo Voador Arches', timeAgo: '26m ago' },
-  { id: 'ct-3', flag: '🇹🇭', city: 'Bangkok', neighborhood: 'Thonglor', person: 'Marco D.', action: 'dropped a golden hour rooftop flip', place: 'Tichuca Skybar', timeAgo: '38m ago' },
-  { id: 'ct-4', flag: '🇨🇴', city: 'Bogotá', neighborhood: 'Chapinero', person: 'Sofia M.', action: 'co-working on terrace with 4 nomads', place: 'Selina Garden Cafe', timeAgo: '50m ago' },
-  { id: 'ct-5', flag: '🇺🇸', city: 'Miami', neighborhood: 'South Beach', person: 'Maya L.', action: 'organizing sunset rollerblade cruise', place: 'South Pointe Pier', timeAgo: '1h ago' },
-  { id: 'ct-6', flag: '🇹🇭', city: 'Phuket', neighborhood: 'Kamala', person: 'Elena V.', action: 'live beachfront acoustic jam session', place: 'Pine Beach Lounge', timeAgo: '1h ago' },
+  { id: 'ct-1', flag: '🇹🇭', city: 'Bangkok', neighborhood: 'Thonglor', person: 'Marco D.', action: 'dropped a golden hour rooftop flip', place: 'Tichuca Skybar', timeAgo: '15m ago' },
+  { id: 'ct-2', flag: '🇺🇸', city: 'Miami', neighborhood: 'South Beach', person: 'Maya L.', action: 'organizing sunset rollerblade cruise', place: 'South Pointe Pier', timeAgo: '28m ago' },
+  { id: 'ct-3', flag: '🇨🇴', city: 'Bogotá', neighborhood: 'Chapinero', person: 'Sofia M.', action: 'co-working on terrace with 4 nomads', place: 'Selina Garden Cafe', timeAgo: '42m ago' },
+  { id: 'ct-4', flag: '🇧🇷', city: 'Rio de Janeiro', neighborhood: 'Santa Teresa', person: 'Camila R.', action: 'shared a live video flip under the palms', place: 'Parque Lage', timeAgo: '50m ago' },
+  { id: 'ct-5', flag: '🇹🇭', city: 'Phuket', neighborhood: 'Kamala', person: 'Elena V.', action: 'live beachfront acoustic jam session', place: 'Pine Beach Lounge', timeAgo: '1h 10m ago' },
+  { id: 'ct-6', flag: '🇧🇷', city: 'Rio de Janeiro', neighborhood: 'Lapa', person: 'Thiago S.', action: 'started a live samba roda meetup', place: 'Circo Voador Arches', timeAgo: '1h 25m ago' },
 ]
 
 export interface ClassifiedListing {
@@ -1003,28 +1003,23 @@ export default function App() {
     isDetected: boolean
   }>({ city: null, country: null, isDetected: false })
 
-  const [isLocalMode, setIsLocalMode] = useState<boolean>(() => {
-    try {
-      const stored = sessionStorage.getItem('sqg_mode')
-      return stored === 'local' // Only starts in local mode if user explicitly selected it
-    } catch {
-      return false
-    }
-  })
+  const [isLocalMode, setIsLocalMode] = useState<boolean>(false)
   const [localHub, setLocalHub] = useState<HubGeo>(() => {
-    try {
-      const storedSlug = sessionStorage.getItem('sqg_hub')
-      if (storedSlug) {
-        const found = REGIONAL_HUBS.find((h) => h.slug === storedSlug)
-        if (found) return found
-      }
-    } catch {}
     return REGIONAL_HUBS.find((h) => h.slug === 'bangkok') || REGIONAL_HUBS[0]
   })
   const [geoDetected, setGeoDetected] = useState<boolean>(false)
 
-  // Auto-detect visitor location on landing: lock to hub if in city, otherwise activate Worldwide Explorer
+  // Auto-detect visitor location on landing: keep in Worldwide Explorer by default with 1-tap local hub availability
   useEffect(() => {
+    // Clear any stale local mode session storage from previous testing
+    try {
+      const stored = sessionStorage.getItem('sqg_mode')
+      if (stored === 'local') {
+        sessionStorage.removeItem('sqg_mode')
+        sessionStorage.removeItem('sqg_hub')
+      }
+    } catch {}
+
     async function detectVisitorLocation() {
       try {
         const res = await fetch('/api/geo')
@@ -1038,20 +1033,7 @@ export default function App() {
             })
           }
 
-          const userChoice = sessionStorage.getItem('sqg_mode')
-
-          // 1. If visitor explicitly selected local mode in a previous click and hub is detected:
-          if (userChoice === 'local' && data?.detected && data?.hub) {
-            const found = REGIONAL_HUBS.find((h) => h.slug === data.hub.slug) || data.hub
-            setLocalHub(found)
-            setGeoDetected(true)
-            setActiveMarket(found.market)
-            setClassifiedTab(found.slug)
-            setIsLocalMode(true)
-            return
-          }
-
-          // 2. Default behavior: Keep visitor in Worldwide Explorer (isLocalMode = false)
+          // Always default to Worldwide Explorer (isLocalMode = false)
           setIsLocalMode(false)
           setGeoDetected(false)
           if (data?.detected && data?.hub) {
@@ -1081,12 +1063,6 @@ export default function App() {
 
           if (matched) {
             setLocalHub(matched)
-            const userChoice = sessionStorage.getItem('sqg_mode')
-            if (userChoice === 'local') {
-              setGeoDetected(true)
-              setActiveMarket(matched.market)
-              setIsLocalMode(true)
-            }
           }
         } catch {
           // ignore
