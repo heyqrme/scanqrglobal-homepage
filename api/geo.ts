@@ -87,7 +87,8 @@ export default async function handler(req: IncomingMessage, res: ServerResponse)
     if (c.includes('paulo')) matchedHub = REGIONAL_HUBS.find((h) => h.slug === 'sao-paulo') || null
     else if (c.includes('florian')) matchedHub = REGIONAL_HUBS.find((h) => h.slug === 'florianopolis') || null
     else if (c.includes('salvador')) matchedHub = REGIONAL_HUBS.find((h) => h.slug === 'salvador') || null
-    else matchedHub = REGIONAL_HUBS.find((h) => h.slug === 'rio') || null
+    else if (c.includes('rio')) matchedHub = REGIONAL_HUBS.find((h) => h.slug === 'rio') || null
+    else matchedHub = null
   } else if (vercelCountry === 'US') {
     const c = vercelCity.toLowerCase()
     if (c.includes('miami') || c.includes('lauderdale') || c.includes('orlando')) matchedHub = REGIONAL_HUBS.find((h) => h.slug === 'miami') || null

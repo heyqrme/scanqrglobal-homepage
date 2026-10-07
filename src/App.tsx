@@ -554,6 +554,167 @@ export function buildConciergeMailto(subject: string, body: string) {
   return `mailto:${CONCIERGE_PRIMARY_EMAIL}?cc=${encodeURIComponent(CONCIERGE_CC_EMAIL)}&subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`
 }
 
+export interface CommunityFlip {
+  id: string
+  userName: string
+  userHandle: string
+  userAvatar: string
+  city: string
+  country: string
+  flag: string
+  market: 'brazil' | 'thailand' | 'usa' | 'colombia'
+  neighborhood: string
+  placeName: string
+  categoryBadge: string
+  glow: string
+  content: string
+  previewImg: string
+  timeAgo: string
+  activeNearby: number
+  verified: boolean
+  isLiveVideo?: boolean
+}
+
+export const COMMUNITY_FLIPS: CommunityFlip[] = [
+  {
+    id: 'flip-rio-parque-lage',
+    userName: 'Camila R.',
+    userHandle: 'camila_rio',
+    userAvatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=800&auto=format&fit=crop&q=80',
+    city: 'Rio de Janeiro',
+    country: 'Brazil',
+    flag: '🇧🇷',
+    market: 'brazil',
+    neighborhood: 'Santa Teresa / Jardim Botânico',
+    placeName: 'Parque Lage Mansion',
+    categoryBadge: '🎥 LIVE VIDEO FLIP',
+    glow: '#ec4899',
+    content: 'Just dropped a live 10-second flip from the courtyard pool at Parque Lage. Gorgeous afternoon light, live acoustic guitar under the palms. Say hi if you are around!',
+    previewImg: 'https://images.unsplash.com/photo-1483729558449-99ef09a8c325?w=800&auto=format&fit=crop&q=80',
+    timeAgo: '12m ago',
+    activeNearby: 34,
+    verified: true,
+    isLiveVideo: true,
+  },
+  {
+    id: 'flip-rio-lapa-samba',
+    userName: 'Thiago S.',
+    userHandle: 'thiago_lapa',
+    userAvatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=800&auto=format&fit=crop&q=80',
+    city: 'Rio de Janeiro',
+    country: 'Brazil',
+    flag: '🇧🇷',
+    market: 'brazil',
+    neighborhood: 'Lapa Arches',
+    placeName: 'Circo Voador',
+    categoryBadge: '⚡ MEETUP DROP',
+    glow: '#06b6d4',
+    content: 'Live samba de raiz circle warming up right beneath the Lapa Roman arches! 25+ locals and travelers dancing, cold chopp flowing. Drop by and join in!',
+    previewImg: 'https://images.unsplash.com/photo-1518609878373-06d740f60d8b?w=800&auto=format&fit=crop&q=80',
+    timeAgo: '26m ago',
+    activeNearby: 48,
+    verified: true,
+    isLiveVideo: true,
+  },
+  {
+    id: 'flip-bkk-thonglor-sunset',
+    userName: 'Marco D.',
+    userHandle: 'marco_bkk',
+    userAvatar: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=800&auto=format&fit=crop&q=80',
+    city: 'Bangkok',
+    country: 'Thailand',
+    flag: '🇹🇭',
+    market: 'thailand',
+    neighborhood: 'Thonglor',
+    placeName: 'Tichuca & Octave Rooftops',
+    categoryBadge: '🎥 LIVE VIDEO FLIP',
+    glow: '#a855f7',
+    content: 'Golden hour melodic house session just kicked off. Glowing avatar tree and 360° sunset views over Sukhumvit skyline. Meeting other travelers here for drinks!',
+    previewImg: 'https://images.unsplash.com/photo-1508009603885-50cf7c579365?w=800&auto=format&fit=crop&q=80',
+    timeAgo: '38m ago',
+    activeNearby: 52,
+    verified: true,
+    isLiveVideo: true,
+  },
+  {
+    id: 'flip-bogota-selina-nomad',
+    userName: 'Sofia M.',
+    userHandle: 'sofia_nomad',
+    userAvatar: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=800&auto=format&fit=crop&q=80',
+    city: 'Bogotá',
+    country: 'Colombia',
+    flag: '🇨🇴',
+    market: 'colombia',
+    neighborhood: 'Chapinero Alto',
+    placeName: 'Selina Garden Cafe',
+    categoryBadge: '☕ NOMAD MEETUP',
+    glow: '#10b981',
+    content: 'Co-working on the garden terrace at Selina Chapinero. High-speed fiber wifi, mountain breeze, fresh Huila pour-overs. Anyone in Chapinero up for lunch or coffee?',
+    previewImg: 'https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=800&auto=format&fit=crop&q=80',
+    timeAgo: '50m ago',
+    activeNearby: 29,
+    verified: true,
+  },
+  {
+    id: 'flip-miami-south-beach',
+    userName: 'Maya L.',
+    userHandle: 'maya_305',
+    userAvatar: 'https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=800&auto=format&fit=crop&q=80',
+    city: 'Miami',
+    country: 'USA',
+    flag: '🇺🇸',
+    market: 'usa',
+    neighborhood: 'South Beach',
+    placeName: 'South Pointe Park Pier',
+    categoryBadge: '⚡ SUNSET CRUISE',
+    glow: '#f59e0b',
+    content: 'Sunset rollerblade cruise heading down the boardwalk to South Pointe Park. Group of nomads meeting by the pier palms to catch golden hour and ocean breeze!',
+    previewImg: 'https://images.unsplash.com/photo-1506929562872-bb421503ef21?w=800&auto=format&fit=crop&q=80',
+    timeAgo: '1h ago',
+    activeNearby: 41,
+    verified: true,
+  },
+  {
+    id: 'flip-phuket-kamala-acoustic',
+    userName: 'Elena V.',
+    userHandle: 'elena_islands',
+    userAvatar: 'https://images.unsplash.com/photo-1517841905240-472988babdf9?w=800&auto=format&fit=crop&q=80',
+    city: 'Phuket',
+    country: 'Thailand',
+    flag: '🇹🇭',
+    market: 'thailand',
+    neighborhood: 'Kamala Beach',
+    placeName: 'Pine Beach Lounge',
+    categoryBadge: '🎵 LIVE ACOUSTIC',
+    glow: '#3b82f6',
+    content: 'Barefoot sunset acoustic jam session right on the sand at Kamala. Waves rolling in, torches lit, fire spinners warming up for dusk. Incredible island energy.',
+    previewImg: 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=800&auto=format&fit=crop&q=80',
+    timeAgo: '1h 15m ago',
+    activeNearby: 36,
+    verified: true,
+  },
+]
+
+export interface CommunityTickerEvent {
+  id: string
+  flag: string
+  city: string
+  neighborhood: string
+  person: string
+  action: string
+  place: string
+  timeAgo: string
+}
+
+export const COMMUNITY_TICKER_EVENTS: CommunityTickerEvent[] = [
+  { id: 'ct-1', flag: '🇧🇷', city: 'Rio de Janeiro', neighborhood: 'Santa Teresa', person: 'Camila R.', action: 'shared a live video flip under the palms', place: 'Parque Lage', timeAgo: '12m ago' },
+  { id: 'ct-2', flag: '🇧🇷', city: 'Rio de Janeiro', neighborhood: 'Lapa', person: 'Thiago S.', action: 'started a live samba roda meetup', place: 'Circo Voador Arches', timeAgo: '26m ago' },
+  { id: 'ct-3', flag: '🇹🇭', city: 'Bangkok', neighborhood: 'Thonglor', person: 'Marco D.', action: 'dropped a golden hour rooftop flip', place: 'Tichuca Skybar', timeAgo: '38m ago' },
+  { id: 'ct-4', flag: '🇨🇴', city: 'Bogotá', neighborhood: 'Chapinero', person: 'Sofia M.', action: 'co-working on terrace with 4 nomads', place: 'Selina Garden Cafe', timeAgo: '50m ago' },
+  { id: 'ct-5', flag: '🇺🇸', city: 'Miami', neighborhood: 'South Beach', person: 'Maya L.', action: 'organizing sunset rollerblade cruise', place: 'South Pointe Pier', timeAgo: '1h ago' },
+  { id: 'ct-6', flag: '🇹🇭', city: 'Phuket', neighborhood: 'Kamala', person: 'Elena V.', action: 'live beachfront acoustic jam session', place: 'Pine Beach Lounge', timeAgo: '1h ago' },
+]
+
 export interface ClassifiedListing {
   id: string
   title: string
@@ -879,26 +1040,24 @@ export default function App() {
 
           const userChoice = sessionStorage.getItem('sqg_mode')
 
-          // 1. If user is in/near one of our 15 regional hubs and hasn't chosen global mode:
-          if (data?.detected && data?.hub && userChoice !== 'global') {
+          // 1. If visitor explicitly selected local mode in a previous click and hub is detected:
+          if (userChoice === 'local' && data?.detected && data?.hub) {
             const found = REGIONAL_HUBS.find((h) => h.slug === data.hub.slug) || data.hub
             setLocalHub(found)
             setGeoDetected(true)
             setActiveMarket(found.market)
             setClassifiedTab(found.slug)
             setIsLocalMode(true)
-            sessionStorage.setItem('sqg_mode', 'local')
-            sessionStorage.setItem('sqg_hub', found.slug)
             return
           }
 
-          // 2. If visitor is outside our 15 hubs (e.g. Philippines, UK, Europe, non-hub US) or prefers global:
-          if (!data?.detected || data?.isGlobal || userChoice === 'global') {
-            setIsLocalMode(false)
-            setGeoDetected(false)
-            if (userChoice !== 'global') {
-              sessionStorage.setItem('sqg_mode', 'global')
-            }
+          // 2. Default behavior: Keep visitor in Worldwide Explorer (isLocalMode = false)
+          setIsLocalMode(false)
+          setGeoDetected(false)
+          if (data?.detected && data?.hub) {
+            // Keep matched hub in state so user can 1-tap switch, but do not force local lock
+            const found = REGIONAL_HUBS.find((h) => h.slug === data.hub.slug) || data.hub
+            setLocalHub(found)
           }
         }
       } catch {
@@ -921,15 +1080,12 @@ export default function App() {
           }
 
           if (matched) {
+            setLocalHub(matched)
             const userChoice = sessionStorage.getItem('sqg_mode')
-            if (userChoice !== 'global') {
-              setLocalHub(matched)
+            if (userChoice === 'local') {
               setGeoDetected(true)
               setActiveMarket(matched.market)
-              setClassifiedTab(matched.slug)
               setIsLocalMode(true)
-              sessionStorage.setItem('sqg_mode', 'local')
-              sessionStorage.setItem('sqg_hub', matched.slug)
             }
           }
         } catch {
@@ -1567,7 +1723,7 @@ export default function App() {
   useEffect(() => {
     if (isTelemetryPaused) return
     const timer = setInterval(() => {
-      setTelemetryIndex((prev) => (prev + 1) % TELEMETRY_EVENTS.length)
+      setTelemetryIndex((prev) => (prev + 1) % COMMUNITY_TICKER_EVENTS.length)
     }, 3800)
     return () => clearInterval(timer)
   }, [isTelemetryPaused])
@@ -1648,20 +1804,20 @@ export default function App() {
     }, 280)
   }
 
-  // Active spotlight listings for above-the-fold elevation (mobile & desktop)
-  const spotlightListing1 =
+  // Active spotlight flips for above-the-fold elevation (mobile & desktop)
+  const spotlightFlip1 =
     (isLocalMode && localHub
-      ? CLASSIFIED_LISTINGS.find((c) => c.venueSlug === localHub.slug)
-      : null) || CLASSIFIED_LISTINGS[0]
+      ? COMMUNITY_FLIPS.find((c) => c.city.toLowerCase().includes(localHub.name.toLowerCase()) || c.market === localHub.market)
+      : null) || COMMUNITY_FLIPS[0]
 
-  const spotlightListing2 =
-    CLASSIFIED_LISTINGS.find(
-      (c) => c.id !== spotlightListing1.id && (c.venueSlug === 'miami' || c.venueSlug === 'bangkok' || c.venueSlug === 'bogota')
-    ) || CLASSIFIED_LISTINGS[2]
+  const spotlightFlip2 =
+    COMMUNITY_FLIPS.find(
+      (c) => c.id !== spotlightFlip1.id && (c.city === 'Bangkok' || c.city === 'Miami' || c.city === 'Bogotá')
+    ) || COMMUNITY_FLIPS[2]
 
-  const renderSpotlightCard = (listing: ClassifiedListing, isDesktopOnly = false, isPrimary = true) => (
+  const renderSpotlightFlipCard = (flip: CommunityFlip, isDesktopOnly = false, isPrimary = true) => (
     <div
-      key={listing.id}
+      key={flip.id}
       className={`sqg-spotlight-card ${isDesktopOnly ? 'sqg-spotlight-card-desktop-only' : ''}`}
       style={{
         background: 'linear-gradient(135deg, rgba(20, 20, 32, 0.95), rgba(12, 12, 20, 0.98))',
@@ -1689,7 +1845,7 @@ export default function App() {
           : 'linear-gradient(90deg, #06b6d4, #3b82f6, #a855f7)',
       }} />
 
-      {/* Header row: Live indicator & Scarcity */}
+      {/* Header row: Live indicator & Nearby */}
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 6, marginBottom: 8 }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
           <span style={{
@@ -1710,7 +1866,7 @@ export default function App() {
           }}>
             {isPrimary && isLocalMode && localHub
               ? `LIVE IN ${localHub.name.toUpperCase()}`
-              : `LIVE SPOTLIGHT • ${listing.city.toUpperCase()}`}
+              : `LIVE FLIP • ${flip.city.toUpperCase()}`}
           </span>
           <span style={{
             fontSize: 9.5,
@@ -1721,7 +1877,7 @@ export default function App() {
             color: isPrimary ? '#f472b6' : '#22d3ee',
             border: isPrimary ? '1px solid rgba(236, 72, 153, 0.35)' : '1px solid rgba(6, 182, 212, 0.35)',
           }}>
-            {listing.categoryBadge}
+            {flip.categoryBadge}
           </span>
         </div>
         <span style={{
@@ -1729,16 +1885,16 @@ export default function App() {
           fontWeight: 800,
           padding: '2px 6px',
           borderRadius: 4,
-          background: 'rgba(239, 68, 68, 0.2)',
-          color: '#f87171',
-          border: '1px solid rgba(239, 68, 68, 0.4)',
+          background: 'rgba(34, 197, 94, 0.18)',
+          color: '#4ade80',
+          border: '1px solid rgba(34, 197, 94, 0.4)',
           whiteSpace: 'nowrap',
         }}>
-          🔥 {listing.scarcityBadge || 'Active Split'}
+          🟢 {flip.activeNearby} nearby
         </span>
       </div>
 
-      {/* Listing title & location */}
+      {/* Place name & location */}
       <div style={{ marginBottom: 8 }}>
         <h4 style={{
           margin: '0 0 4px',
@@ -1747,22 +1903,22 @@ export default function App() {
           color: '#ffffff',
           lineHeight: 1.35,
         }}>
-          {listing.title}
+          {flip.placeName}
         </h4>
         <div style={{ display: 'flex', alignItems: 'center', gap: 6, fontSize: 11.5, color: '#94a3b8' }}>
           <MapPin size={12} color="#06b6d4" />
-          <span>{listing.city}, {listing.country} {listing.flag}</span>
+          <span>{flip.neighborhood}, {flip.city} {flip.flag}</span>
           <span style={{ color: '#475569' }}>•</span>
-          <span style={{ color: '#e2e8f0', fontWeight: 600 }}>{listing.dateOrTime}</span>
+          <span style={{ color: '#e2e8f0', fontWeight: 600 }}>{flip.timeAgo}</span>
         </div>
       </div>
 
-      {/* Host info snippet */}
+      {/* User profile snippet */}
       <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 8 }}>
-        <div style={{ position: 'relative', width: 22, height: 22, borderRadius: '50%', flexShrink: 0 }}>
+        <div style={{ position: 'relative', width: 24, height: 24, borderRadius: '50%', flexShrink: 0 }}>
           <img
-            src={listing.hostImg}
-            alt={listing.hostName}
+            src={flip.userAvatar}
+            alt={flip.userName}
             style={{ width: '100%', height: '100%', borderRadius: '50%', objectFit: 'cover' }}
           />
           <span style={{ position: 'absolute', bottom: -2, right: -2, background: '#09090b', borderRadius: '50%', display: 'flex' }}>
@@ -1770,11 +1926,25 @@ export default function App() {
           </span>
         </div>
         <div style={{ fontSize: 11, color: '#cbd5e1' }}>
-          Hosted by <strong style={{ color: '#fff' }}>{listing.hostName}</strong> <span style={{ color: '#71717a' }}>({listing.hostBadge})</span>
+          Posted by <strong style={{ color: '#fff' }}>{flip.userName}</strong> <span style={{ color: '#71717a' }}>@{flip.userHandle}</span>
         </div>
       </div>
 
-      {/* Price & Action CTA row */}
+      {/* Flip content text */}
+      <p style={{
+        margin: '0 0 10px',
+        fontSize: 12,
+        color: '#94a3b8',
+        lineHeight: 1.45,
+        display: '-webkit-box',
+        WebkitLineClamp: 2,
+        WebkitBoxOrient: 'vertical',
+        overflow: 'hidden',
+      }}>
+        "{flip.content}"
+      </p>
+
+      {/* Actions row */}
       <div style={{
         display: 'flex',
         alignItems: 'center',
@@ -1784,22 +1954,13 @@ export default function App() {
         borderTop: '1px solid rgba(255, 255, 255, 0.08)',
         marginTop: 'auto',
       }}>
-        <div>
-          <div style={{ fontSize: 9.5, color: '#71717a', textTransform: 'uppercase', fontWeight: 700 }}>
-            Split Share
-          </div>
-          <div style={{ fontSize: 13, fontWeight: 800, color: '#34d399' }}>
-            💰 {listing.costPerPerson}
-          </div>
-        </div>
-
         <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
           <a
             href={buildConciergeMailto(
-              `[VIP Table Inquiry] ${listing.title} (${listing.city})`,
-              `Hi Darwin & ${listing.hostName},\n\nI saw the spotlight listing on ScanQR Global radar:\n\n"${listing.title}"\nLocation: ${listing.city}, ${listing.country}\nCost: ${listing.costPerPerson}\n\nI would like to join this VIP table split tonight.\n\nMy Details:\nGroup Size:\nPreferred Contact (WhatsApp/Email):\n\nThank you!`
+              `[Connect] ${flip.userName} at ${flip.placeName} (${flip.city})`,
+              `Hi Darwin & ${flip.userName},\n\nI saw your live flip on Cerca at ${flip.placeName} in ${flip.city}:\n\n"${flip.content}"\n\nI'm nearby and would like to say hi / connect!\n\nMy Handle / WhatsApp / Email:\n`
             )}
-            onClick={() => recordClick(`spotlight_inquire_${listing.id}`)}
+            onClick={() => recordClick(`spotlight_say_hi_${flip.id}`)}
             style={{
               padding: '6px 12px',
               borderRadius: 8,
@@ -1819,13 +1980,13 @@ export default function App() {
               whiteSpace: 'nowrap',
             }}
           >
-            <span>Join Split</span>
+            <span>👋 Say Hi</span>
             <ArrowRight size={11} />
           </a>
 
           <a
-            href="#classifieds"
-            onClick={() => recordClick('spotlight_view_all')}
+            href={`${CERCA_BASE_URL}/explore?q=${encodeURIComponent(flip.placeName)}`}
+            onClick={() => recordClick(`spotlight_view_place_${flip.id}`)}
             style={{
               padding: '6px 9px',
               borderRadius: 8,
@@ -1841,9 +2002,27 @@ export default function App() {
               whiteSpace: 'nowrap',
             }}
           >
-            <span>All Splits ↓</span>
+            <MapPin size={11} color="#38bdf8" />
+            <span>View Place</span>
           </a>
         </div>
+
+        <a
+          href="#classifieds"
+          onClick={() => recordClick('spotlight_view_all_flips')}
+          style={{
+            fontSize: 11,
+            color: '#38bdf8',
+            fontWeight: 700,
+            textDecoration: 'none',
+            display: 'inline-flex',
+            alignItems: 'center',
+            gap: 2,
+            whiteSpace: 'nowrap',
+          }}
+        >
+          <span>All Flips ↓</span>
+        </a>
       </div>
     </div>
   )
@@ -2246,35 +2425,31 @@ export default function App() {
           overflow: 'hidden',
         }}
       >
-        {/* Left: Glowing Red Live Beacon & Live Traveler Count */}
+        {/* Left: Glowing Red Live Beacon & Live Community Count */}
         <div style={{ display: 'flex', alignItems: 'center', gap: 8, flexShrink: 0 }}>
           <span style={{
             width: 8,
             height: 8,
             borderRadius: '50%',
-            background: '#ef4444',
-            boxShadow: '0 0 10px #ef4444',
+            background: '#22c55e',
+            boxShadow: '0 0 10px #22c55e',
             display: 'inline-block',
             animation: 'pulseDot 1.8s infinite',
           }} />
           <span className="sqg-fomo-desktop-only" style={{ color: '#f8fafc', fontWeight: 800, fontSize: 11.5, letterSpacing: '0.02em' }}>
-            🔴 LIVE NOW: <strong style={{ color: '#38bdf8' }}>{activeVisitorsCount} travelers</strong> checking nightlife in Bangkok & Miami
+            🔴 LIVE NOW: <strong style={{ color: '#38bdf8' }}>{activeVisitorsCount} people</strong> sharing live flips & meetups
           </span>
           <span className="sqg-fomo-mobile-only" style={{ color: '#f8fafc', fontWeight: 800, fontSize: 11, letterSpacing: '0.01em', whiteSpace: 'nowrap' }}>
-            🔴 LIVE: <strong style={{ color: '#38bdf8' }}>{activeVisitorsCount}</strong> active
+            🔴 LIVE: <strong style={{ color: '#38bdf8' }}>{activeVisitorsCount}</strong> active nearby
           </span>
         </div>
 
-        {/* Center: Dynamic FOMO Nightlife Highlights */}
+        {/* Center: Dynamic Community Drops & Live Moments */}
         {(() => {
-          const currentEvt = TELEMETRY_EVENTS[telemetryIndex]
-          const evtLoc = LOCATION_TRANSLATIONS[currentEvt.slug]?.[locale] || LOCATION_TRANSLATIONS[currentEvt.slug]?.en
-          const eventCityName = evtLoc?.name || currentEvt.city
+          const currentEvt = COMMUNITY_TICKER_EVENTS[telemetryIndex % COMMUNITY_TICKER_EVENTS.length]
           return (
             <div
               onClick={() => {
-                if (currentEvt.market) setActiveMarket(currentEvt.market)
-                if (currentEvt.slug) setHighlightedCitySlug(currentEvt.slug)
                 document.getElementById('classifieds')?.scrollIntoView({ behavior: 'smooth' })
               }}
               style={{
@@ -2292,53 +2467,56 @@ export default function App() {
                 transition: 'background 0.2s',
               }}
               className="sqg-fomo-center telemetry-hover"
-              title="Click to view live table splits and crowd status"
+              title="Click to view live flip feed & community moments"
             >
               <span style={{
                 padding: '2px 7px',
                 borderRadius: 4,
                 fontSize: 10,
                 fontWeight: 800,
-                background: 'rgba(244, 63, 94, 0.18)',
+                background: 'rgba(236, 72, 153, 0.18)',
                 color: '#f472b6',
-                border: '1px solid rgba(244, 63, 94, 0.4)',
+                border: '1px solid rgba(236, 72, 153, 0.4)',
               }}>
-                🔥 LIVE PULSE
+                🔥 LIVE DROP
               </span>
 
               <span style={{ color: '#e4e4e7', fontWeight: 700 }}>
-                {currentEvt.flag} [{eventCityName}]
+                {currentEvt.flag} [{currentEvt.city} • {currentEvt.neighborhood}]
               </span>
 
-              <span style={{ color: '#06b6d4', fontWeight: 600 }}>
-                {currentEvt.venue}
+              <span style={{ color: '#38bdf8', fontWeight: 600 }}>
+                {currentEvt.person}
               </span>
 
               <span className="sqg-fomo-desktop-only" style={{ color: '#a1a1aa', display: 'inline', overflow: 'hidden', textOverflow: 'ellipsis' }}>
-                — {currentEvt.message}
+                {currentEvt.action} @ <strong style={{ color: '#e2e8f0' }}>{currentEvt.place}</strong>
               </span>
 
               <span style={{
-                color: currentEvt.pulse === 'Peak' ? '#f43f5e' : currentEvt.pulse === 'Busy' ? '#fbbf24' : '#10b981',
-                fontWeight: 800,
+                color: '#22d3ee',
+                fontWeight: 700,
                 fontSize: 11,
               }}>
-                • {currentEvt.pulse.toUpperCase()}
+                • {currentEvt.timeAgo}
               </span>
 
-              <span style={{ color: '#38bdf8', fontSize: 11, display: 'inline-flex', alignItems: 'center', gap: 2 }}>
-                See Splits <ArrowRight size={10} />
+              <span style={{ color: '#ec4899', fontSize: 11, display: 'inline-flex', alignItems: 'center', gap: 2 }}>
+                View Feed <ArrowRight size={10} />
               </span>
             </div>
           )
         })()}
 
-        {/* Right: Quick Action Split Table CTA + Controls */}
+        {/* Right: Quick Action Drop Flip CTA + Controls */}
         <div style={{ display: 'flex', alignItems: 'center', gap: 8, flexShrink: 0 }}>
-          <a
+          <button
+            type="button"
             className="sqg-fomo-split-btn"
-            href="#classifieds"
-            onClick={() => recordClick('topbar_split_table')}
+            onClick={() => {
+              recordClick('topbar_drop_flip')
+              setShowPostModal(true)
+            }}
             style={{
               padding: '4px 11px',
               borderRadius: 6,
@@ -2346,15 +2524,16 @@ export default function App() {
               color: '#ffffff',
               fontWeight: 800,
               fontSize: 11,
-              textDecoration: 'none',
+              border: 'none',
+              cursor: 'pointer',
               boxShadow: '0 2px 8px rgba(236, 72, 153, 0.35)',
             }}
           >
-            🍾 Split a Table
-          </a>
+            ⚡ Drop a Flip
+          </button>
           <button
             className="sqg-fomo-controls-desktop"
-            onClick={() => setTelemetryIndex((prev) => (prev - 1 + TELEMETRY_EVENTS.length) % TELEMETRY_EVENTS.length)}
+            onClick={() => setTelemetryIndex((prev) => (prev - 1 + COMMUNITY_TICKER_EVENTS.length) % COMMUNITY_TICKER_EVENTS.length)}
             style={{
               width: 22,
               height: 22,
@@ -2373,7 +2552,7 @@ export default function App() {
           </button>
           <button
             className="sqg-fomo-controls-desktop"
-            onClick={() => setTelemetryIndex((prev) => (prev + 1) % TELEMETRY_EVENTS.length)}
+            onClick={() => setTelemetryIndex((prev) => (prev + 1) % COMMUNITY_TICKER_EVENTS.length)}
             style={{
               width: 22,
               height: 22,
@@ -2432,12 +2611,12 @@ export default function App() {
             {isLocalMode && localHub ? (
               <>
                 <MapPin size={14} color="#22d3ee" />
-                <span>{localHub.name.toUpperCase()} LIVE RADAR • {localHub.flag} {localHub.pulse.toUpperCase()} TONIGHT</span>
+                <span>{localHub.name.toUpperCase()} • LIVE PEOPLE & PLACES RADAR</span>
               </>
             ) : (
               <>
                 <Globe size={14} color="#ec4899" />
-                <span>WORLDWIDE NIGHTLIFE RADAR • 15 CITIES ACROSS 4 CONTINENTS</span>
+                <span>{t.hero.trustBadge}</span>
               </>
             )}
           </div>
@@ -2455,7 +2634,7 @@ export default function App() {
           }}>
             {isLocalMode && localHub ? (
               <>
-                Know Where the Party Is in {localHub.name} <span style={{ color: '#06b6d4', WebkitTextFillColor: '#06b6d4' }}>Tonight.</span>
+                Connect With What’s Happening in {localHub.name} <span style={{ color: '#06b6d4', WebkitTextFillColor: '#06b6d4' }}>Tonight.</span>
               </>
             ) : (
               <>{t.hero.headline} {t.hero.headlineHighlight}</>
@@ -2473,7 +2652,7 @@ export default function App() {
           }}>
             {isLocalMode && localHub ? (
               <>
-                Live crowd gauges, vetted expat hosts, and instant VIP table splits across {localHub.name}. Featuring {localHub.topSpot}. Know before you go.
+                Real people. Real places. Instant contact exchange, live neighborhood flips, and spontaneous meetups in {localHub.name}.
               </>
             ) : (
               <>{t.hero.subheadline}</>
@@ -2502,17 +2681,17 @@ export default function App() {
                 transition: 'transform 0.15s ease',
               }}
             >
-              <Flame size={16} color="#fff" />
+              <Compass size={17} color="#fff" />
               <span>{t.hero.ctaPrimary}</span>
               <ExternalLink size={15} />
             </a>
 
-            <a
+            <button
+              type="button"
               className="sqg-hero-btn"
-              href="#classifieds"
               onClick={() => {
-                if (isLocalMode && localHub) setClassifiedTab(localHub.slug as any)
-                recordClick('hero_cta_split_table')
+                setShowPostModal(true)
+                recordClick('hero_cta_drop_flip')
               }}
               style={{
                 height: 52,
@@ -2523,7 +2702,7 @@ export default function App() {
                 color: '#f8fafc',
                 fontSize: 15,
                 fontWeight: 700,
-                textDecoration: 'none',
+                cursor: 'pointer',
                 display: 'inline-flex',
                 alignItems: 'center',
                 gap: 8,
@@ -2532,9 +2711,9 @@ export default function App() {
                 transition: 'background 0.15s ease',
               }}
             >
-              <span>🍾 {t.hero.ctaSecondary}</span>
+              <span>{t.hero.ctaSecondary}</span>
               <ArrowRight size={15} />
-            </a>
+            </button>
           </div>
 
           {/* Toggle between Local & Global if in localMode, or destination chips if in globalMode */}
@@ -2572,9 +2751,9 @@ export default function App() {
             }}>
               <div className="sqg-dest-pills-label" style={{ fontSize: 12, color: '#94a3b8', marginBottom: 8, fontWeight: 600, letterSpacing: '0.04em', textTransform: 'uppercase' }}>
                 {visitorLocation.country && visitorLocation.country !== 'US' ? (
-                  <>Visiting from <span style={{ color: '#38bdf8' }}>{visitorLocation.city || visitorLocation.country}</span>? Select your nightlife destination:</>
+                  <>Visiting from <span style={{ color: '#38bdf8' }}>{visitorLocation.city || visitorLocation.country}</span>? Select your city to see nearby people & flips:</>
                 ) : (
-                  <>Select a destination to unlock live local radar & VIP tables:</>
+                  <>Select a destination to unlock live neighborhood flips & people:</>
                 )}
               </div>
               <div className="sqg-dest-chips-row" style={{ display: 'flex', flexWrap: 'wrap', gap: 6, justifyContent: 'center' }}>
@@ -2621,10 +2800,10 @@ export default function App() {
 
           {/* Trust Subline */}
           <div className="sqg-trust-subline" style={{ fontSize: 13, color: '#94a3b8', marginBottom: 36, fontWeight: 500 }}>
-            ⚡ No account required • Real-time crowd meter • 100% Free
+            ⚡ No account required • Private QR Contact Cards • 100% Free
           </div>
 
-          {/* DUAL LIVE TONIGHT VIP SPOTLIGHT SHOWCASE (MOBILE & DESKTOP) */}
+          {/* DUAL LIVE TONIGHT COMMUNITY FLIP SPOTLIGHT SHOWCASE (MOBILE & DESKTOP) */}
           <div style={{ maxWidth: 860, margin: '0 auto 8px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '0 4px' }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
               <span style={{
@@ -2637,7 +2816,7 @@ export default function App() {
                 animation: 'pulseDot 1.8s infinite',
               }} />
               <span style={{ fontSize: 11.5, fontWeight: 800, letterSpacing: '0.04em', textTransform: 'uppercase', color: '#f472b6' }}>
-                {isLocalMode && localHub ? `Active VIP Table Splits in ${localHub.name}` : "Tonight's Live VIP Table Splits"}
+                {isLocalMode && localHub ? `Live Community Flips in ${localHub.name}` : "Live Community Flips & Moments Right Now"}
               </span>
             </div>
             <a
@@ -2645,13 +2824,13 @@ export default function App() {
               onClick={() => recordClick('spotlight_header_view_all')}
               style={{ fontSize: 11, color: '#38bdf8', fontWeight: 700, textDecoration: 'none', display: 'inline-flex', alignItems: 'center', gap: 3 }}
             >
-              <span>See All Splits</span> <ArrowRight size={11} />
+              <span>See All Flips</span> <ArrowRight size={11} />
             </a>
           </div>
 
           <div className="sqg-spotlight-grid">
-            {renderSpotlightCard(spotlightListing1, false, true)}
-            {renderSpotlightCard(spotlightListing2, true, false)}
+            {renderSpotlightFlipCard(spotlightFlip1, false, true)}
+            {renderSpotlightFlipCard(spotlightFlip2, true, false)}
           </div>
 
           {/* CERCA AI QUERY BAR & NATURAL-LANGUAGE CONCIERGE */}
@@ -2695,7 +2874,7 @@ export default function App() {
                   color: '#f472b6',
                   border: '1px solid rgba(236, 72, 153, 0.35)',
                 }}>
-                  NIGHTLIFE INTELLIGENCE
+                  LOCAL INTELLIGENCE
                 </span>
               </div>
               <span style={{ fontSize: 11, color: '#71717a' }}>
@@ -2790,10 +2969,10 @@ export default function App() {
             }}>
               <span style={{ fontSize: 11, color: '#71717a', fontWeight: 600 }}>Suggested:</span>
               {[
-                { label: '🔥 Where is everyone going in Bangkok tonight?', q: 'Where is everyone going in Bangkok tonight?' },
-                { label: '🍸 Best hidden speakeasy with no cover charge', q: 'Best hidden speakeasy with no cover charge' },
-                { label: '🍾 Open VIP table splits under $50 right now', q: 'Open VIP table splits under $50 right now' },
-                { label: '💃 Best rooftop party in Bogotá this weekend', q: 'Best rooftop party in Bogotá this weekend' },
+                { label: '🔥 14 new flips in Santa Teresa, Rio', q: '14 new flips in Santa Teresa, Rio' },
+                { label: '🎵 Live acoustic & rooftop sunsets in Bangkok', q: 'Live acoustic and rooftop sunsets in Bangkok' },
+                { label: '☕ Best nomad terrace & cafes in Chapinero', q: 'Best nomad terrace and cafes in Chapinero Bogotá' },
+                { label: '🤝 How private QR handshake works', q: 'How private QR handshake works' },
               ].map((chip) => (
                 <button
                   key={chip.label}
@@ -2921,7 +3100,7 @@ export default function App() {
 
       {/* 2. TONIGHT'S LIVE VIP TABLE SPLITS & NIGHTLIFE COMMUNITY BOARD */}
       <section id="classifieds" style={{ maxWidth: 1200, margin: '0 auto 80px', padding: '0 24px' }}>
-        {/* Local mode VIP board banner */}
+        {/* Local mode community feed banner */}
         {isLocalMode && localHub && (
           <div style={{
             display: 'flex',
@@ -2929,19 +3108,19 @@ export default function App() {
             justifyContent: 'space-between',
             flexWrap: 'wrap',
             gap: 12,
-            background: 'rgba(236, 72, 153, 0.08)',
-            border: '1px solid rgba(236, 72, 153, 0.35)',
+            background: 'rgba(6, 182, 212, 0.08)',
+            border: '1px solid rgba(6, 182, 212, 0.35)',
             borderRadius: 12,
             padding: '12px 18px',
             marginBottom: 24,
             boxShadow: '0 4px 20px rgba(0, 0, 0, 0.3)',
           }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
-              <span style={{ fontSize: 20 }}>🍾</span>
+              <span style={{ fontSize: 20 }}>📍</span>
               <div>
-                <strong style={{ color: '#f472b6', fontSize: 13.5 }}>Local VIP Board: {localHub.name} {localHub.flag}</strong>
+                <strong style={{ color: '#38bdf8', fontSize: 13.5 }}>Local Feed: {localHub.name} {localHub.flag}</strong>
                 <div style={{ color: '#94a3b8', fontSize: 12 }}>
-                  Showing active table splits, nightlife guide bookings, and boat charters for {localHub.name}.
+                  Showing live neighborhood flips, local moments, and spontaneous meetups in {localHub.name}.
                 </div>
               </div>
             </div>
@@ -2959,7 +3138,7 @@ export default function App() {
                 cursor: 'pointer',
               }}
             >
-              View Global Listings 🌐
+              View Global Feed 🌐
             </button>
           </div>
         )}
@@ -2994,7 +3173,7 @@ export default function App() {
             </p>
           </div>
 
-          {/* Action button: Post Listing / Propose Table Split */}
+          {/* Action button: Drop a Flip / Post */}
           <button
             type="button"
             onClick={() => {
@@ -3034,24 +3213,25 @@ export default function App() {
           border: '1px solid rgba(255, 255, 255, 0.08)',
         }}>
           {[
-            { id: 'all', label: t.classifieds.allTab },
-            { id: 'bangkok', label: t.classifieds.bangkokTab },
-            { id: 'phuket', label: t.classifieds.phuketTab },
-            { id: 'samui', label: t.classifieds.samuiTab },
+            { id: 'all', label: 'All Flips & Posts' },
+            { id: 'rio', label: 'Rio de Janeiro 🇧🇷' },
+            { id: 'bangkok', label: 'Bangkok 🇹🇭' },
             { id: 'miami', label: 'Miami 🇺🇸' },
-            { id: 'global', label: t.classifieds.globalTab },
+            { id: 'bogota', label: 'Bogotá 🇨🇴' },
+            { id: 'phuket', label: 'Phuket 🇹🇭' },
+            { id: 'nightlife', label: '🍾 Nightlife & VIP Tables (Optional)' },
           ].map((tab) => (
             <button
               key={tab.id}
               onClick={() => {
-                recordClick(`classified_tab_${tab.id}`)
-                setClassifiedTab(tab.id as any)
+                recordClick(`community_tab_${tab.id}`)
+                setClassifiedTab(tab.id)
               }}
               style={{
                 padding: '8px 16px',
                 borderRadius: 8,
                 border: 'none',
-                background: classifiedTab === tab.id ? '#ec4899' : 'transparent',
+                background: classifiedTab === tab.id ? (tab.id === 'nightlife' ? '#8b5cf6' : '#ec4899') : 'transparent',
                 color: classifiedTab === tab.id ? '#fff' : '#a1a1aa',
                 fontWeight: 700,
                 fontSize: 12.5,
@@ -3064,23 +3244,14 @@ export default function App() {
           ))}
         </div>
 
-        {/* Listings Grid */}
-        <div style={{
-          display: 'grid',
-          gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))',
-          gap: 20,
-        }}>
-          {CLASSIFIED_LISTINGS
-            .filter((item) => {
-              if (classifiedTab === 'all' || !classifiedTab) return true
-              if (classifiedTab === 'bangkok') return item.city.toLowerCase().includes('bangkok')
-              if (classifiedTab === 'phuket') return item.city.toLowerCase().includes('phuket')
-              if (classifiedTab === 'samui') return item.city.toLowerCase().includes('samui')
-              if (classifiedTab === 'miami') return item.city.toLowerCase().includes('miami')
-              if (classifiedTab === 'global') return true
-              return item.city.toLowerCase().includes(classifiedTab.toLowerCase())
-            })
-            .map((item) => (
+        {/* Feed Grid: Flips by default, or VIP Table Splits when nightlife tab is active */}
+        {classifiedTab === 'nightlife' ? (
+          <div style={{
+            display: 'grid',
+            gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))',
+            gap: 20,
+          }}>
+            {CLASSIFIED_LISTINGS.map((item) => (
               <div
                 key={item.id}
                 style={{
@@ -3236,12 +3407,239 @@ export default function App() {
                     }}
                   >
                     <Mail size={13} />
-                    <span>{t.classifieds.contactConcierge}</span>
+                    <span>Inquire via Concierge</span>
                   </a>
                 </div>
               </div>
             ))}
-        </div>
+          </div>
+        ) : (
+          <div style={{
+            display: 'grid',
+            gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))',
+            gap: 20,
+          }}>
+            {COMMUNITY_FLIPS
+              .filter((flip) => {
+                if (classifiedTab === 'all' || !classifiedTab) return true
+                if (classifiedTab === 'rio') return flip.city.toLowerCase().includes('rio') || flip.market === 'brazil'
+                if (classifiedTab === 'bangkok') return flip.city.toLowerCase().includes('bangkok')
+                if (classifiedTab === 'miami') return flip.city.toLowerCase().includes('miami')
+                if (classifiedTab === 'bogota') return flip.city.toLowerCase().includes('bogot') || flip.market === 'colombia'
+                if (classifiedTab === 'phuket') return flip.city.toLowerCase().includes('phuket')
+                return flip.city.toLowerCase().includes(classifiedTab.toLowerCase())
+              })
+              .map((flip) => (
+                <div
+                  key={flip.id}
+                  style={{
+                    background: 'rgba(255, 255, 255, 0.02)',
+                    border: '1px solid rgba(255, 255, 255, 0.08)',
+                    borderRadius: 18,
+                    overflow: 'hidden',
+                    display: 'flex',
+                    flexDirection: 'column',
+                    boxShadow: '0 8px 30px rgba(0, 0, 0, 0.35)',
+                    transition: 'transform 0.2s ease, border-color 0.2s ease',
+                    position: 'relative',
+                  }}
+                >
+                  {/* Media preview thumbnail */}
+                  <div style={{ position: 'relative', width: '100%', height: 185, overflow: 'hidden' }}>
+                    <img
+                      src={flip.previewImg}
+                      alt={flip.placeName}
+                      style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                    />
+                    <div style={{
+                      position: 'absolute',
+                      inset: 0,
+                      background: 'linear-gradient(to top, rgba(12, 12, 20, 0.95) 0%, rgba(12, 12, 20, 0.2) 60%, transparent 100%)',
+                    }} />
+
+                    {/* Badge overlay on top of image */}
+                    <div style={{
+                      position: 'absolute',
+                      top: 12,
+                      left: 12,
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: 6,
+                    }}>
+                      <span style={{
+                        fontSize: 10,
+                        fontWeight: 800,
+                        letterSpacing: '0.05em',
+                        padding: '3px 8px',
+                        borderRadius: 6,
+                        background: `${flip.glow}dd`,
+                        color: '#ffffff',
+                        backdropFilter: 'blur(6px)',
+                        boxShadow: `0 2px 10px ${flip.glow}55`,
+                      }}>
+                        {flip.categoryBadge}
+                      </span>
+                      {flip.isLiveVideo && (
+                        <span style={{
+                          fontSize: 9.5,
+                          fontWeight: 800,
+                          padding: '3px 7px',
+                          borderRadius: 6,
+                          background: 'rgba(239, 68, 68, 0.9)',
+                          color: '#ffffff',
+                          display: 'inline-flex',
+                          alignItems: 'center',
+                          gap: 4,
+                        }}>
+                          <span style={{ width: 6, height: 6, borderRadius: '50%', background: '#ffffff', animation: 'pulseDot 1.5s infinite' }} />
+                          LIVE 10s
+                        </span>
+                      )}
+                    </div>
+
+                    {/* Time badge top right */}
+                    <div style={{
+                      position: 'absolute',
+                      top: 12,
+                      right: 12,
+                      fontSize: 11,
+                      fontWeight: 700,
+                      color: '#cbd5e1',
+                      background: 'rgba(0, 0, 0, 0.65)',
+                      padding: '3px 8px',
+                      borderRadius: 6,
+                      backdropFilter: 'blur(4px)',
+                    }}>
+                      {flip.timeAgo}
+                    </div>
+
+                    {/* Place name bar at bottom of thumbnail */}
+                    <div style={{
+                      position: 'absolute',
+                      bottom: 10,
+                      left: 12,
+                      right: 12,
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'space-between',
+                    }}>
+                      <div style={{ display: 'flex', alignItems: 'center', gap: 5, color: '#f8fafc', fontWeight: 800, fontSize: 13 }}>
+                        <MapPin size={13} color="#22d3ee" />
+                        <span>{flip.placeName}</span>
+                      </div>
+                      <span style={{ fontSize: 11, color: '#cbd5e1' }}>
+                        {flip.neighborhood}
+                      </span>
+                    </div>
+                  </div>
+
+                  {/* Card body */}
+                  <div style={{ padding: '16px 18px', display: 'flex', flexDirection: 'column', flex: 1, gap: 12 }}>
+                    {/* User profile row */}
+                    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                      <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+                        <div style={{ position: 'relative', width: 36, height: 36, borderRadius: '50%', flexShrink: 0 }}>
+                          <img
+                            src={flip.userAvatar}
+                            alt={flip.userName}
+                            style={{ width: '100%', height: '100%', borderRadius: '50%', objectFit: 'cover' }}
+                          />
+                          {flip.verified && (
+                            <span style={{ position: 'absolute', bottom: -2, right: -2, background: '#09090b', borderRadius: '50%', display: 'flex' }}>
+                              <ShieldCheck size={13} color="#22d3ee" />
+                            </span>
+                          )}
+                        </div>
+                        <div>
+                          <div style={{ fontSize: 13, fontWeight: 800, color: '#ffffff' }}>
+                            {flip.userName}
+                          </div>
+                          <div style={{ fontSize: 11, color: '#71717a' }}>
+                            @{flip.userHandle} • {flip.city} {flip.flag}
+                          </div>
+                        </div>
+                      </div>
+
+                      <div style={{
+                        fontSize: 11,
+                        color: '#4ade80',
+                        fontWeight: 700,
+                        display: 'inline-flex',
+                        alignItems: 'center',
+                        gap: 4,
+                        background: 'rgba(34, 197, 94, 0.12)',
+                        padding: '3px 8px',
+                        borderRadius: 6,
+                        border: '1px solid rgba(34, 197, 94, 0.25)',
+                      }}>
+                        <span>🟢 {flip.activeNearby} nearby</span>
+                      </div>
+                    </div>
+
+                    {/* Post text */}
+                    <p style={{ margin: 0, fontSize: 13, color: '#cbd5e1', lineHeight: 1.55 }}>
+                      "{flip.content}"
+                    </p>
+
+                    {/* Action buttons footer */}
+                    <div style={{
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'space-between',
+                      gap: 10,
+                      marginTop: 'auto',
+                      paddingTop: 12,
+                      borderTop: '1px solid rgba(255, 255, 255, 0.06)',
+                    }}>
+                      <a
+                        href={buildConciergeMailto(
+                          `[Say Hi] Connect with ${flip.userName} at ${flip.placeName} (${flip.city})`,
+                          `Hi Darwin & ${flip.userName},\n\nI saw your post on Cerca Live Flips at ${flip.placeName} (${flip.city}):\n\n"${flip.content}"\n\nI'm nearby and would like to connect!\n\nMy Handle/Contact:\n`
+                        )}
+                        onClick={() => recordClick(`say_hi_flip_${flip.id}`)}
+                        style={{
+                          padding: '8px 14px',
+                          borderRadius: 10,
+                          background: 'linear-gradient(135deg, #ec4899, #8b5cf6)',
+                          color: '#ffffff',
+                          fontSize: 12,
+                          fontWeight: 700,
+                          textDecoration: 'none',
+                          display: 'inline-flex',
+                          alignItems: 'center',
+                          gap: 6,
+                          boxShadow: '0 4px 12px rgba(236, 72, 153, 0.3)',
+                        }}
+                      >
+                        <span>👋 Say Hi</span>
+                      </a>
+
+                      <a
+                        href={`${CERCA_BASE_URL}/explore?q=${encodeURIComponent(flip.placeName)}`}
+                        onClick={() => recordClick(`view_place_flip_${flip.id}`)}
+                        style={{
+                          padding: '8px 14px',
+                          borderRadius: 10,
+                          background: 'rgba(255, 255, 255, 0.06)',
+                          border: '1px solid rgba(255, 255, 255, 0.14)',
+                          color: '#e2e8f0',
+                          fontSize: 12,
+                          fontWeight: 700,
+                          textDecoration: 'none',
+                          display: 'inline-flex',
+                          alignItems: 'center',
+                          gap: 6,
+                        }}
+                      >
+                        <MapPin size={13} color="#38bdf8" />
+                        <span>📍 View Place</span>
+                      </a>
+                    </div>
+                  </div>
+                </div>
+              ))}
+          </div>
+        )}
 
         {/* POST LISTING MODAL */}
         {showPostModal && (
@@ -3355,11 +3753,11 @@ export default function App() {
                           outline: 'none',
                         }}
                       >
-                        <option value="VIP Table Split">🍾 VIP Table Split</option>
-                        <option value="Curated Guide">🌴 Curated Tour / Guide</option>
-                        <option value="Guestlist / Event">🎟️ Event Guestlist</option>
-                        <option value="Nomad Sublet">🏡 Nomad Villa / Sublet</option>
-                        <option value="Other Nightlife">✦ Other Request</option>
+                        <option value="Live Video Flip">🎥 Live Video Flip</option>
+                        <option value="Spontaneous Meetup">⚡ Spontaneous Meetup</option>
+                        <option value="Hidden Gem Spot">📍 Hidden Gem / Local Spot</option>
+                        <option value="Nomad Cafe / Cowork">☕ Nomad Cafe / Cowork</option>
+                        <option value="VIP Table Split">🍾 VIP Table Split (Optional)</option>
                       </select>
                     </div>
 
@@ -3381,13 +3779,13 @@ export default function App() {
                           outline: 'none',
                         }}
                       >
+                        <option value="Rio de Janeiro">Rio de Janeiro 🇧🇷</option>
                         <option value="Bangkok">Bangkok 🇹🇭</option>
-                        <option value="Phuket">Phuket 🇹🇭</option>
-                        <option value="Koh Samui">Koh Samui 🇹🇭</option>
                         <option value="Miami">Miami 🇺🇸</option>
                         <option value="Bogotá">Bogotá 🇨🇴</option>
-                        <option value="Rio de Janeiro">Rio de Janeiro 🇧🇷</option>
-                        <option value="Other">Other Global Hub</option>
+                        <option value="Phuket">Phuket 🇹🇭</option>
+                        <option value="São Paulo">São Paulo 🇧🇷</option>
+                        <option value="Other">Other City</option>
                       </select>
                     </div>
                   </div>
@@ -3399,7 +3797,7 @@ export default function App() {
                     <input
                       type="text"
                       required
-                      placeholder="e.g. Sing Sing Theater VIP Booth Split (2 seats)"
+                      placeholder="e.g. Sunset acoustic guitar session at Parque Lage"
                       value={postForm.title}
                       onChange={(e) => setPostForm({ ...postForm, title: e.target.value })}
                       style={{
@@ -3423,7 +3821,7 @@ export default function App() {
                     <textarea
                       rows={3}
                       required
-                      placeholder="Details about the venue, time, group size, split cost per person..."
+                      placeholder="e.g. In the courtyard by the pool, meeting other travelers for coffee or drinks..."
                       value={postForm.details}
                       onChange={(e) => setPostForm({ ...postForm, details: e.target.value })}
                       style={{
@@ -3448,7 +3846,7 @@ export default function App() {
                     <input
                       type="text"
                       required
-                      placeholder="WhatsApp (+66...) or Email"
+                      placeholder="@your_handle, WhatsApp, or Email"
                       value={postForm.contact}
                       onChange={(e) => setPostForm({ ...postForm, contact: e.target.value })}
                       style={{
@@ -3513,9 +3911,9 @@ export default function App() {
           gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))',
           gap: 20,
         }}>
-          {/* Pillar 1: Guest Mode */}
+          {/* Pillar 1: Instant QR Handshake */}
           <a
-            href={`${CERCA_BASE_URL}/explore`}
+            href={`${CERCA_BASE_URL}/scan`}
             style={{
               textDecoration: 'none',
               background: '#ffffff',
@@ -3539,7 +3937,7 @@ export default function App() {
               justifyContent: 'center',
               color: '#fff',
             }}>
-              <Compass size={24} />
+              <QrCode size={24} />
             </div>
             <h3 style={{ margin: 0, fontSize: 19, fontWeight: 800 }}>{t.pillars.guestModeTitle}</h3>
             <p style={{ margin: 0, fontSize: 14, color: '#475569', lineHeight: 1.55 }}>
@@ -3550,9 +3948,46 @@ export default function App() {
             </span>
           </a>
 
-          {/* Pillar 2: Tourist Mode */}
+          {/* Pillar 2: Flip Videos & Live Drops */}
           <a
-            href={`${CERCA_BASE_URL}/travel-buddy`}
+            href="#classifieds"
+            style={{
+              textDecoration: 'none',
+              background: '#ffffff',
+              color: '#0f172a',
+              borderRadius: 18,
+              padding: '28px 22px',
+              display: 'flex',
+              flexDirection: 'column',
+              gap: 14,
+              boxShadow: '0 12px 35px rgba(0, 0, 0, 0.25)',
+              transition: 'transform 0.2s ease, box-shadow 0.2s ease',
+            }}
+          >
+            <div style={{
+              width: 48,
+              height: 48,
+              borderRadius: 12,
+              background: '#ec4899',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              color: '#fff',
+            }}>
+              <Flame size={24} />
+            </div>
+            <h3 style={{ margin: 0, fontSize: 19, fontWeight: 800 }}>{t.pillars.touristModeTitle}</h3>
+            <p style={{ margin: 0, fontSize: 14, color: '#475569', lineHeight: 1.55 }}>
+              {t.pillars.touristModeDesc}
+            </p>
+            <span style={{ fontSize: 13, fontWeight: 700, color: '#db2777', marginTop: 'auto' }}>
+              {t.pillars.touristModeCta} →
+            </span>
+          </a>
+
+          {/* Pillar 3: The People Map */}
+          <a
+            href={`${CERCA_BASE_URL}/explore`}
             style={{
               textDecoration: 'none',
               background: '#ffffff',
@@ -3576,57 +4011,20 @@ export default function App() {
               justifyContent: 'center',
               color: '#fff',
             }}>
-              <Globe size={24} />
-            </div>
-            <h3 style={{ margin: 0, fontSize: 19, fontWeight: 800 }}>{t.pillars.touristModeTitle}</h3>
-            <p style={{ margin: 0, fontSize: 14, color: '#475569', lineHeight: 1.55 }}>
-              {t.pillars.touristModeDesc}
-            </p>
-            <span style={{ fontSize: 13, fontWeight: 700, color: '#059669', marginTop: 'auto' }}>
-              {t.pillars.touristModeCta} →
-            </span>
-          </a>
-
-          {/* Pillar 3: Nightlife & Event Pulse */}
-          <a
-            href={`${CERCA_BASE_URL}/tonight`}
-            style={{
-              textDecoration: 'none',
-              background: '#ffffff',
-              color: '#0f172a',
-              borderRadius: 18,
-              padding: '28px 22px',
-              display: 'flex',
-              flexDirection: 'column',
-              gap: 14,
-              boxShadow: '0 12px 35px rgba(0, 0, 0, 0.25)',
-              transition: 'transform 0.2s ease, box-shadow 0.2s ease',
-            }}
-          >
-            <div style={{
-              width: 48,
-              height: 48,
-              borderRadius: 12,
-              background: '#f43f5e',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              color: '#fff',
-            }}>
-              <Flame size={24} />
+              <Compass size={24} />
             </div>
             <h3 style={{ margin: 0, fontSize: 19, fontWeight: 800 }}>{t.pillars.pulseModeTitle}</h3>
             <p style={{ margin: 0, fontSize: 14, color: '#475569', lineHeight: 1.55 }}>
               {t.pillars.pulseModeDesc}
             </p>
-            <span style={{ fontSize: 13, fontWeight: 700, color: '#e11d48', marginTop: 'auto' }}>
+            <span style={{ fontSize: 13, fontWeight: 700, color: '#059669', marginTop: 'auto' }}>
               {t.pillars.pulseModeCta} →
             </span>
           </a>
 
-          {/* Pillar 4: Optional QR Identity */}
+          {/* Pillar 4: Zero-Barrier Translation */}
           <a
-            href={`${CERCA_BASE_URL}/scan`}
+            href={`${CERCA_BASE_URL}/travel-buddy`}
             style={{
               textDecoration: 'none',
               background: '#ffffff',
@@ -3644,19 +4042,19 @@ export default function App() {
               width: 48,
               height: 48,
               borderRadius: 12,
-              background: '#f59e0b',
+              background: '#8b5cf6',
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
               color: '#fff',
             }}>
-              <QrCode size={24} />
+              <Globe size={24} />
             </div>
             <h3 style={{ margin: 0, fontSize: 19, fontWeight: 800 }}>{t.pillars.qrModeTitle}</h3>
             <p style={{ margin: 0, fontSize: 14, color: '#475569', lineHeight: 1.55 }}>
               {t.pillars.qrModeDesc}
             </p>
-            <span style={{ fontSize: 13, fontWeight: 700, color: '#d97706', marginTop: 'auto' }}>
+            <span style={{ fontSize: 13, fontWeight: 700, color: '#7c3aed', marginTop: 'auto' }}>
               {t.pillars.qrModeCta} →
             </span>
           </a>
