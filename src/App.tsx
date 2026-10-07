@@ -1648,11 +1648,205 @@ export default function App() {
     }, 280)
   }
 
-  // Active spotlight listing for mobile above-the-fold elevation
-  const spotlightListing =
+  // Active spotlight listings for above-the-fold elevation (mobile & desktop)
+  const spotlightListing1 =
     (isLocalMode && localHub
       ? CLASSIFIED_LISTINGS.find((c) => c.venueSlug === localHub.slug)
       : null) || CLASSIFIED_LISTINGS[0]
+
+  const spotlightListing2 =
+    CLASSIFIED_LISTINGS.find(
+      (c) => c.id !== spotlightListing1.id && (c.venueSlug === 'miami' || c.venueSlug === 'bangkok' || c.venueSlug === 'bogota')
+    ) || CLASSIFIED_LISTINGS[2]
+
+  const renderSpotlightCard = (listing: ClassifiedListing, isDesktopOnly = false, isPrimary = true) => (
+    <div
+      key={listing.id}
+      className={`sqg-spotlight-card ${isDesktopOnly ? 'sqg-spotlight-card-desktop-only' : ''}`}
+      style={{
+        background: 'linear-gradient(135deg, rgba(20, 20, 32, 0.95), rgba(12, 12, 20, 0.98))',
+        border: isPrimary ? '1px solid rgba(236, 72, 153, 0.45)' : '1px solid rgba(6, 182, 212, 0.4)',
+        borderRadius: 16,
+        padding: '14px 16px',
+        boxShadow: '0 8px 30px rgba(0, 0, 0, 0.5), 0 0 20px rgba(236, 72, 153, 0.12)',
+        position: 'relative',
+        overflow: 'hidden',
+        textAlign: 'left',
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'space-between',
+      }}
+    >
+      {/* Glowing accent bar at top */}
+      <div style={{
+        position: 'absolute',
+        top: 0,
+        left: 0,
+        right: 0,
+        height: 3,
+        background: isPrimary
+          ? 'linear-gradient(90deg, #ec4899, #a855f7, #06b6d4)'
+          : 'linear-gradient(90deg, #06b6d4, #3b82f6, #a855f7)',
+      }} />
+
+      {/* Header row: Live indicator & Scarcity */}
+      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 6, marginBottom: 8 }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
+          <span style={{
+            width: 7,
+            height: 7,
+            borderRadius: '50%',
+            background: '#ef4444',
+            boxShadow: '0 0 8px #ef4444',
+            display: 'inline-block',
+            animation: 'pulseDot 1.8s infinite',
+          }} />
+          <span style={{
+            fontSize: 10.5,
+            fontWeight: 800,
+            letterSpacing: '0.05em',
+            textTransform: 'uppercase',
+            color: isPrimary ? '#f472b6' : '#38bdf8',
+          }}>
+            {isPrimary && isLocalMode && localHub
+              ? `LIVE IN ${localHub.name.toUpperCase()}`
+              : `LIVE SPOTLIGHT • ${listing.city.toUpperCase()}`}
+          </span>
+          <span style={{
+            fontSize: 9.5,
+            fontWeight: 800,
+            padding: '2px 6px',
+            borderRadius: 4,
+            background: isPrimary ? 'rgba(236, 72, 153, 0.18)' : 'rgba(6, 182, 212, 0.18)',
+            color: isPrimary ? '#f472b6' : '#22d3ee',
+            border: isPrimary ? '1px solid rgba(236, 72, 153, 0.35)' : '1px solid rgba(6, 182, 212, 0.35)',
+          }}>
+            {listing.categoryBadge}
+          </span>
+        </div>
+        <span style={{
+          fontSize: 10,
+          fontWeight: 800,
+          padding: '2px 6px',
+          borderRadius: 4,
+          background: 'rgba(239, 68, 68, 0.2)',
+          color: '#f87171',
+          border: '1px solid rgba(239, 68, 68, 0.4)',
+          whiteSpace: 'nowrap',
+        }}>
+          🔥 {listing.scarcityBadge || 'Active Split'}
+        </span>
+      </div>
+
+      {/* Listing title & location */}
+      <div style={{ marginBottom: 8 }}>
+        <h4 style={{
+          margin: '0 0 4px',
+          fontSize: 14,
+          fontWeight: 800,
+          color: '#ffffff',
+          lineHeight: 1.35,
+        }}>
+          {listing.title}
+        </h4>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 6, fontSize: 11.5, color: '#94a3b8' }}>
+          <MapPin size={12} color="#06b6d4" />
+          <span>{listing.city}, {listing.country} {listing.flag}</span>
+          <span style={{ color: '#475569' }}>•</span>
+          <span style={{ color: '#e2e8f0', fontWeight: 600 }}>{listing.dateOrTime}</span>
+        </div>
+      </div>
+
+      {/* Host info snippet */}
+      <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 8 }}>
+        <div style={{ position: 'relative', width: 22, height: 22, borderRadius: '50%', flexShrink: 0 }}>
+          <img
+            src={listing.hostImg}
+            alt={listing.hostName}
+            style={{ width: '100%', height: '100%', borderRadius: '50%', objectFit: 'cover' }}
+          />
+          <span style={{ position: 'absolute', bottom: -2, right: -2, background: '#09090b', borderRadius: '50%', display: 'flex' }}>
+            <ShieldCheck size={10} color="#22d3ee" />
+          </span>
+        </div>
+        <div style={{ fontSize: 11, color: '#cbd5e1' }}>
+          Hosted by <strong style={{ color: '#fff' }}>{listing.hostName}</strong> <span style={{ color: '#71717a' }}>({listing.hostBadge})</span>
+        </div>
+      </div>
+
+      {/* Price & Action CTA row */}
+      <div style={{
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'space-between',
+        gap: 8,
+        paddingTop: 8,
+        borderTop: '1px solid rgba(255, 255, 255, 0.08)',
+        marginTop: 'auto',
+      }}>
+        <div>
+          <div style={{ fontSize: 9.5, color: '#71717a', textTransform: 'uppercase', fontWeight: 700 }}>
+            Split Share
+          </div>
+          <div style={{ fontSize: 13, fontWeight: 800, color: '#34d399' }}>
+            💰 {listing.costPerPerson}
+          </div>
+        </div>
+
+        <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
+          <a
+            href={buildConciergeMailto(
+              `[VIP Table Inquiry] ${listing.title} (${listing.city})`,
+              `Hi Darwin & ${listing.hostName},\n\nI saw the spotlight listing on ScanQR Global radar:\n\n"${listing.title}"\nLocation: ${listing.city}, ${listing.country}\nCost: ${listing.costPerPerson}\n\nI would like to join this VIP table split tonight.\n\nMy Details:\nGroup Size:\nPreferred Contact (WhatsApp/Email):\n\nThank you!`
+            )}
+            onClick={() => recordClick(`spotlight_inquire_${listing.id}`)}
+            style={{
+              padding: '6px 12px',
+              borderRadius: 8,
+              background: isPrimary
+                ? 'linear-gradient(135deg, #ec4899, #8b5cf6)'
+                : 'linear-gradient(135deg, #06b6d4, #3b82f6)',
+              color: '#ffffff',
+              fontWeight: 800,
+              fontSize: 11.5,
+              textDecoration: 'none',
+              display: 'inline-flex',
+              alignItems: 'center',
+              gap: 4,
+              boxShadow: isPrimary
+                ? '0 2px 10px rgba(236, 72, 153, 0.35)'
+                : '0 2px 10px rgba(6, 182, 212, 0.35)',
+              whiteSpace: 'nowrap',
+            }}
+          >
+            <span>Join Split</span>
+            <ArrowRight size={11} />
+          </a>
+
+          <a
+            href="#classifieds"
+            onClick={() => recordClick('spotlight_view_all')}
+            style={{
+              padding: '6px 9px',
+              borderRadius: 8,
+              background: 'rgba(255, 255, 255, 0.08)',
+              border: '1px solid rgba(255, 255, 255, 0.15)',
+              color: '#cbd5e1',
+              fontWeight: 700,
+              fontSize: 11,
+              textDecoration: 'none',
+              display: 'inline-flex',
+              alignItems: 'center',
+              gap: 3,
+              whiteSpace: 'nowrap',
+            }}
+          >
+            <span>All Splits ↓</span>
+          </a>
+        </div>
+      </div>
+    </div>
+  )
 
   return (
     <div style={{ minHeight: '100vh', background: '#030305', color: '#ffffff', overflowX: 'hidden', fontFamily: 'system-ui, -apple-system, sans-serif' }}>
@@ -1798,8 +1992,18 @@ export default function App() {
             margin-bottom: 10px !important;
           }
 
-          .sqg-mobile-elevated-card {
-            display: block !important;
+          .sqg-spotlight-grid {
+            display: grid !important;
+            grid-template-columns: 1fr !important;
+            max-width: 480px !important;
+            margin: 0 auto 14px !important;
+            gap: 10px !important;
+          }
+          .sqg-spotlight-card-desktop-only {
+            display: none !important;
+          }
+          .sqg-spotlight-card {
+            padding: 12px 14px !important;
           }
 
           .sqg-query-bar {
@@ -1812,8 +2016,21 @@ export default function App() {
           .sqg-fomo-mobile-only {
             display: none !important;
           }
-          .sqg-mobile-elevated-card {
-            display: none !important;
+          .sqg-spotlight-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 18px;
+            max-width: 860px;
+            margin: 0 auto 24px;
+            text-align: left;
+          }
+          .sqg-spotlight-card {
+            transition: all 0.2s ease;
+          }
+          .sqg-spotlight-card:hover {
+            border-color: rgba(6, 182, 212, 0.65) !important;
+            box-shadow: 0 10px 35px rgba(6, 182, 212, 0.2) !important;
+            transform: translateY(-2px);
           }
         }
       `}</style>
@@ -2407,159 +2624,34 @@ export default function App() {
             ⚡ No account required • Real-time crowd meter • 100% Free
           </div>
 
-          {/* MOBILE ELEVATED LIVE TONIGHT VIP SPOTLIGHT CARD (<768px VIEWPORTS) */}
-          <div className="sqg-mobile-elevated-card" style={{
-            margin: '0 auto 16px',
-            maxWidth: 480,
-            background: 'linear-gradient(135deg, rgba(20, 20, 32, 0.95), rgba(12, 12, 20, 0.98))',
-            border: '1px solid rgba(236, 72, 153, 0.45)',
-            borderRadius: 16,
-            padding: '12px 14px',
-            boxShadow: '0 8px 30px rgba(0, 0, 0, 0.5), 0 0 20px rgba(236, 72, 153, 0.15)',
-            position: 'relative',
-            overflow: 'hidden',
-            textAlign: 'left',
-          }}>
-            {/* Glowing accent bar at top */}
-            <div style={{
-              position: 'absolute',
-              top: 0,
-              left: 0,
-              right: 0,
-              height: 3,
-              background: 'linear-gradient(90deg, #ec4899, #a855f7, #06b6d4)',
-            }} />
-
-            {/* Header row: Live indicator & Scarcity */}
-            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 6, marginBottom: 8 }}>
-              <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
-                <span style={{
-                  width: 7,
-                  height: 7,
-                  borderRadius: '50%',
-                  background: '#ef4444',
-                  boxShadow: '0 0 8px #ef4444',
-                  display: 'inline-block',
-                  animation: 'pulseDot 1.8s infinite',
-                }} />
-                <span style={{
-                  fontSize: 10.5,
-                  fontWeight: 800,
-                  letterSpacing: '0.05em',
-                  textTransform: 'uppercase',
-                  color: '#f472b6',
-                }}>
-                  {isLocalMode && localHub ? `LIVE IN ${localHub.name.toUpperCase()}` : 'LIVE TONIGHT SPOTLIGHT'}
-                </span>
-                <span style={{
-                  fontSize: 9.5,
-                  fontWeight: 800,
-                  padding: '2px 6px',
-                  borderRadius: 4,
-                  background: 'rgba(236, 72, 153, 0.18)',
-                  color: '#f472b6',
-                  border: '1px solid rgba(236, 72, 153, 0.35)',
-                }}>
-                  {spotlightListing.categoryBadge}
-                </span>
-              </div>
+          {/* DUAL LIVE TONIGHT VIP SPOTLIGHT SHOWCASE (MOBILE & DESKTOP) */}
+          <div style={{ maxWidth: 860, margin: '0 auto 8px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '0 4px' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
               <span style={{
-                fontSize: 10,
-                fontWeight: 800,
-                padding: '2px 6px',
-                borderRadius: 4,
-                background: 'rgba(239, 68, 68, 0.2)',
-                color: '#f87171',
-                border: '1px solid rgba(239, 68, 68, 0.4)',
-              }}>
-                🔥 {spotlightListing.scarcityBadge || 'Active Split'}
+                width: 8,
+                height: 8,
+                borderRadius: '50%',
+                background: '#ef4444',
+                boxShadow: '0 0 10px #ef4444',
+                display: 'inline-block',
+                animation: 'pulseDot 1.8s infinite',
+              }} />
+              <span style={{ fontSize: 11.5, fontWeight: 800, letterSpacing: '0.04em', textTransform: 'uppercase', color: '#f472b6' }}>
+                {isLocalMode && localHub ? `Active VIP Table Splits in ${localHub.name}` : "Tonight's Live VIP Table Splits"}
               </span>
             </div>
+            <a
+              href="#classifieds"
+              onClick={() => recordClick('spotlight_header_view_all')}
+              style={{ fontSize: 11, color: '#38bdf8', fontWeight: 700, textDecoration: 'none', display: 'inline-flex', alignItems: 'center', gap: 3 }}
+            >
+              <span>See All Splits</span> <ArrowRight size={11} />
+            </a>
+          </div>
 
-            {/* Listing title & location */}
-            <div style={{ marginBottom: 6 }}>
-              <h4 style={{
-                margin: '0 0 2px',
-                fontSize: 13.5,
-                fontWeight: 800,
-                color: '#ffffff',
-                lineHeight: 1.3,
-              }}>
-                {spotlightListing.title}
-              </h4>
-              <div style={{ display: 'flex', alignItems: 'center', gap: 6, fontSize: 11, color: '#94a3b8' }}>
-                <MapPin size={11} color="#06b6d4" />
-                <span>{spotlightListing.city}, {spotlightListing.country} {spotlightListing.flag}</span>
-                <span style={{ color: '#475569' }}>•</span>
-                <span style={{ color: '#e2e8f0', fontWeight: 600 }}>{spotlightListing.dateOrTime}</span>
-              </div>
-            </div>
-
-            {/* Price, Host & Action CTA row */}
-            <div style={{
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'space-between',
-              gap: 8,
-              paddingTop: 8,
-              borderTop: '1px solid rgba(255, 255, 255, 0.08)',
-              marginTop: 4,
-            }}>
-              <div>
-                <div style={{ fontSize: 9.5, color: '#71717a', textTransform: 'uppercase', fontWeight: 700 }}>
-                  Split Share
-                </div>
-                <div style={{ fontSize: 12.5, fontWeight: 800, color: '#34d399' }}>
-                  💰 {spotlightListing.costPerPerson}
-                </div>
-              </div>
-
-              <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
-                <a
-                  href={buildConciergeMailto(
-                    `[VIP Table Inquiry] ${spotlightListing.title} (${spotlightListing.city})`,
-                    `Hi Darwin & ${spotlightListing.hostName},\n\nI saw the spotlight listing on ScanQR Global mobile radar:\n\n"${spotlightListing.title}"\nLocation: ${spotlightListing.city}, ${spotlightListing.country}\nCost: ${spotlightListing.costPerPerson}\n\nI would like to join this VIP table split tonight.\n\nMy Details:\nGroup Size:\nPreferred Contact (WhatsApp/Email):\n\nThank you!`
-                  )}
-                  onClick={() => recordClick(`mobile_spotlight_inquire_${spotlightListing.id}`)}
-                  style={{
-                    padding: '6px 11px',
-                    borderRadius: 8,
-                    background: 'linear-gradient(135deg, #ec4899, #8b5cf6)',
-                    color: '#ffffff',
-                    fontWeight: 800,
-                    fontSize: 11,
-                    textDecoration: 'none',
-                    display: 'inline-flex',
-                    alignItems: 'center',
-                    gap: 4,
-                    boxShadow: '0 2px 10px rgba(236, 72, 153, 0.35)',
-                  }}
-                >
-                  <span>Join Split</span>
-                  <ArrowRight size={11} />
-                </a>
-
-                <a
-                  href="#classifieds"
-                  onClick={() => recordClick('mobile_spotlight_view_all')}
-                  style={{
-                    padding: '6px 9px',
-                    borderRadius: 8,
-                    background: 'rgba(255, 255, 255, 0.08)',
-                    border: '1px solid rgba(255, 255, 255, 0.15)',
-                    color: '#cbd5e1',
-                    fontWeight: 700,
-                    fontSize: 10.5,
-                    textDecoration: 'none',
-                    display: 'inline-flex',
-                    alignItems: 'center',
-                    gap: 3,
-                  }}
-                >
-                  <span>All Splits ↓</span>
-                </a>
-              </div>
-            </div>
+          <div className="sqg-spotlight-grid">
+            {renderSpotlightCard(spotlightListing1, false, true)}
+            {renderSpotlightCard(spotlightListing2, true, false)}
           </div>
 
           {/* CERCA AI QUERY BAR & NATURAL-LANGUAGE CONCIERGE */}
