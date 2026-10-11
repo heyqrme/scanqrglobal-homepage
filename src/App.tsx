@@ -4,101 +4,20 @@ import {
   ChevronUp,
   ExternalLink,
 } from 'lucide-react'
+import { useGatewayI18n, GATEWAY_LOCALES, type GatewayLocale } from './gatewayI18n'
 
-interface FeaturePillar {
-  id: number
-  icon: string
-  badge: string
-  title: string
-  short: string
-  reveal: string
-}
-
-const PILLARS: FeaturePillar[] = [
-  {
-    id: 0,
-    icon: '🎭',
-    badge: 'DISCOVERY',
-    title: "Faces & 'Out to Meet'",
-    short:
-      'Visual proximity grid of travelers, nomads, and verified locals ready to meet right now.',
-    reveal:
-      "Filter by 'Live Now', 'Spots', or specific scenes (like Miami Afro-House or Bangkok Rooftops). Send an instant \"Say Hi 👋\" or knock to unlock mutual chat without sharing social media handles.",
-  },
-  {
-    id: 1,
-    icon: '🤖',
-    badge: 'AI BRIDGE',
-    title: 'The AI Wingman & Live Translation',
-    short:
-      'Two-way real-time voice, video, and text translation with contextual AI icebreakers.',
-    reveal:
-      'Chat effortlessly across Spanish, Thai, Portuguese, and English. The AI Wingman suggests smooth conversation starters, decodes venue menus, and bridges cultures so language is never a barrier.',
-  },
-  {
-    id: 2,
-    icon: '🔲',
-    badge: 'PRIVACY FIRST',
-    title: 'Knock, Share QR & Ghost Mode',
-    short:
-      'Connect via wearable/shareable personal QR codes without exposing your phone number or WhatsApp.',
-    reveal:
-      "Total privacy control. Use 'Window Open' to accept chat requests, or go full 'Invisible / Ghost Mode' to browse the live map and scout venues without displaying your presence to strangers.",
-  },
-  {
-    id: 3,
-    icon: '⚡',
-    badge: 'NIGHTLIFE',
-    title: 'Nightlife Hub & VIP Door Access',
-    short:
-      '10-second raw venue flips, table splits, guestlists, and 2 AM safe ride assistance.',
-    reveal:
-      'See unedited video drops posted in the last hour before paying cover, split bottle minimums with nearby verified groups, and access bilingual taxi placards when heading home safely.',
-  },
+const PILLARS_CONFIG = [
+  { id: 0, icon: '🎭' },
+  { id: 1, icon: '🤖' },
+  { id: 2, icon: '🔲' },
+  { id: 3, icon: '⚡' },
 ]
 
-interface HubCity {
-  city: string
-  country: string
-  flag: string
-  detail: string
-  badge: string
-  badgeColor: string
-}
-
-const GLOBAL_HUBS: HubCity[] = [
-  {
-    city: 'Bogotá',
-    country: 'Colombia',
-    flag: '🇨🇴',
-    detail: 'Chapinero Lounges • Out to Meet Active • Wi-Fi VoIP',
-    badge: 'LIVE NOW',
-    badgeColor: '#22c55e',
-  },
-  {
-    city: 'Bangkok',
-    country: 'Thailand',
-    flag: '🇹🇭',
-    detail: 'Thonglor Rooftops • Live Flips • Auto-Translation',
-    badge: 'TRENDING',
-    badgeColor: '#22d3ee',
-  },
-  {
-    city: 'Rio de Janeiro',
-    country: 'Brazil',
-    flag: '🇧🇷',
-    detail: 'Lapa Samba Circles • Table Splits • Free Chat',
-    badge: 'POPULAR',
-    badgeColor: '#ec4899',
-  },
-  {
-    city: 'Miami',
-    country: 'United States',
-    flag: '🇺🇸',
-    detail: 'South Beach & Wynwood • Afro-House Sessions • VIP Access',
-    badge: 'VIP ACTIVE',
-    badgeColor: '#22c55e',
-  },
+const GLOBAL_HUBS_CONFIG = [
+  { flag: '🇨🇴', badgeColor: '#22c55e' },
+  { flag: '🇹🇭', badgeColor: '#22d3ee' },
+  { flag: '🇧🇷', badgeColor: '#ec4899' },
+  { flag: '🇺🇸', badgeColor: '#22c55e' },
 ]
 
 const CERCA_WEB_URL = 'https://qr4luv.com'
@@ -107,7 +26,7 @@ const CERCA_PLAY_STORE_URL =
 
 export default function App() {
   const [expandedPillar, setExpandedPillar] = useState<number | null>(0)
-  const [selectedLang, setSelectedLang] = useState('English')
+  const { locale, setLocale, t } = useGatewayI18n()
 
   return (
     <div
@@ -214,7 +133,7 @@ export default function App() {
                   whiteSpace: 'nowrap',
                 }}
               >
-                Powered by Cerca Social
+                {t.nav.poweredBy}
               </span>
             </div>
           </a>
@@ -253,13 +172,14 @@ export default function App() {
                   display: 'inline-block',
                 }}
               />
-              <span>Live Radar Active</span>
+              <span>{t.nav.radarActive}</span>
             </div>
 
             {/* Language Dropdown */}
             <select
-              value={selectedLang}
-              onChange={(e) => setSelectedLang(e.target.value)}
+              value={locale}
+              onChange={(e) => setLocale(e.target.value as GatewayLocale)}
+              aria-label="Select Language"
               style={{
                 backgroundColor: 'rgba(255, 255, 255, 0.05)',
                 border: '1px solid rgba(255, 255, 255, 0.12)',
@@ -271,24 +191,11 @@ export default function App() {
                 outline: 'none',
               }}
             >
-              <option value="English" style={{ background: '#07080c', color: '#fff' }}>
-                English
-              </option>
-              <option value="Español" style={{ background: '#07080c', color: '#fff' }}>
-                Español
-              </option>
-              <option value="ภาษาไทย" style={{ background: '#07080c', color: '#fff' }}>
-                ภาษาไทย
-              </option>
-              <option value="Português" style={{ background: '#07080c', color: '#fff' }}>
-                Português
-              </option>
-              <option value="Français" style={{ background: '#07080c', color: '#fff' }}>
-                Français
-              </option>
-              <option value="Deutsch" style={{ background: '#07080c', color: '#fff' }}>
-                Deutsch
-              </option>
+              {GATEWAY_LOCALES.map((l) => (
+                <option key={l.code} value={l.code} style={{ background: '#07080c', color: '#fff' }}>
+                  {l.flag} {l.label}
+                </option>
+              ))}
             </select>
 
             {/* Primary CTA Button: Explore Map Free -> */}
@@ -313,7 +220,7 @@ export default function App() {
                 whiteSpace: 'nowrap',
               }}
             >
-              <span>Explore Map Free</span>
+              <span>{t.nav.exploreMap}</span>
               <span>→</span>
             </a>
           </div>
@@ -348,7 +255,7 @@ export default function App() {
             marginBottom: '24px',
           }}
         >
-          <span>🌐 AI-POWERED PROXIMITY RADAR • FREE ON WI-FI WORLDWIDE</span>
+          <span>{t.hero.trustBadge}</span>
         </div>
 
         {/* Main Headline */}
@@ -363,7 +270,7 @@ export default function App() {
             maxWidth: '920px',
           }}
         >
-          See Who’s Out Tonight. Knock to Connect.{' '}
+          {t.hero.headlineStart}{' '}
           <span
             style={{
               background: 'linear-gradient(90deg, #ec4899 0%, #22d3ee 100%)',
@@ -372,7 +279,7 @@ export default function App() {
               display: 'inline',
             }}
           >
-            Never Leak Your Number.
+            {t.hero.headlineGradient}
           </span>
         </h1>
 
@@ -386,9 +293,7 @@ export default function App() {
             margin: '0 auto 40px',
           }}
         >
-          Real-time social map of nightlife, trending spots, and verified people nearby.
-          Watch 10-second live flips, break language barriers with the AI Wingman, and
-          exchange personal QR contact cards with zero cellular charges.
+          {t.hero.subheadline}
         </p>
 
         {/* Dual Action Buttons */}
@@ -422,7 +327,7 @@ export default function App() {
               transition: 'all 0.15s ease',
             }}
           >
-            <span>🗺️ Launch Live Map (Guest Mode)</span>
+            <span>{t.hero.ctaMap}</span>
             <ExternalLink size={16} />
           </a>
 
@@ -447,7 +352,7 @@ export default function App() {
               transition: 'all 0.15s ease',
             }}
           >
-            <span>📱 Google Play App (4.8★)</span>
+            <span>{t.hero.ctaPlay}</span>
             <ExternalLink size={16} />
           </a>
         </div>
@@ -475,7 +380,7 @@ export default function App() {
               textTransform: 'uppercase',
             }}
           >
-            INSIDE THE CERCA ECOSYSTEM
+            {t.pillars.tag}
           </span>
           <h2
             style={{
@@ -486,18 +391,19 @@ export default function App() {
               letterSpacing: '-0.5px',
             }}
           >
-            Tap to Preview How It Works
+            {t.pillars.heading}
           </h2>
         </div>
 
         {/* 4 Interactive Cards */}
         <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
-          {PILLARS.map((pillar) => {
-            const isExpanded = expandedPillar === pillar.id
+          {PILLARS_CONFIG.map((cfg) => {
+            const isExpanded = expandedPillar === cfg.id
+            const item = t.pillars.items[cfg.id]
             return (
               <div
-                key={pillar.id}
-                onClick={() => setExpandedPillar(isExpanded ? null : pillar.id)}
+                key={cfg.id}
+                onClick={() => setExpandedPillar(isExpanded ? null : cfg.id)}
                 className="hover-card"
                 style={{
                   backgroundColor: isExpanded
@@ -531,7 +437,7 @@ export default function App() {
                       flexWrap: 'wrap',
                     }}
                   >
-                    <span style={{ fontSize: '26px' }}>{pillar.icon}</span>
+                    <span style={{ fontSize: '26px' }}>{cfg.icon}</span>
                     <span
                       style={{
                         backgroundColor: isExpanded
@@ -545,7 +451,7 @@ export default function App() {
                         borderRadius: '6px',
                       }}
                     >
-                      {pillar.badge}
+                      {item.badge}
                     </span>
                     <h3
                       style={{
@@ -555,7 +461,7 @@ export default function App() {
                         color: isExpanded ? '#ffffff' : '#f4f4f5',
                       }}
                     >
-                      {pillar.title}
+                      {item.title}
                     </h3>
                   </div>
                   <div
@@ -578,7 +484,7 @@ export default function App() {
                     lineHeight: 1.55,
                   }}
                 >
-                  {pillar.short}
+                  {item.short}
                 </p>
 
                 {/* Expanded Reveal */}
@@ -596,7 +502,7 @@ export default function App() {
                       gap: '14px',
                     }}
                   >
-                    <div>{pillar.reveal}</div>
+                    <div>{item.reveal}</div>
                     <div style={{ display: 'flex', gap: '12px', flexWrap: 'wrap' }}>
                       <a
                         href={CERCA_WEB_URL}
@@ -613,7 +519,7 @@ export default function App() {
                           textDecoration: 'none',
                         }}
                       >
-                        <span>Open Feature in Cerca Web</span>
+                        <span>{t.pillars.openFeature}</span>
                         <span>→</span>
                       </a>
                     </div>
@@ -647,7 +553,7 @@ export default function App() {
               textTransform: 'uppercase',
             }}
           >
-            ACTIVE PROXIMITY NETWORKS
+            {t.hubs.tag}
           </span>
           <h2
             style={{
@@ -658,7 +564,7 @@ export default function App() {
               letterSpacing: '-0.5px',
             }}
           >
-            Live Global Hubs &amp; Nightlife
+            {t.hubs.heading}
           </h2>
           <p
             style={{
@@ -668,8 +574,7 @@ export default function App() {
               maxWidth: '600px',
             }}
           >
-            Real-time radar feeds, verified checked-in crowds, and AI auto-translation
-            active across major nightlife destinations worldwide.
+            {t.hubs.subheadline}
           </p>
         </div>
 
@@ -681,84 +586,87 @@ export default function App() {
             gap: '16px',
           }}
         >
-          {GLOBAL_HUBS.map((hub, idx) => (
-            <a
-              key={idx}
-              href={CERCA_WEB_URL}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="hover-card"
-              style={{
-                backgroundColor: '#07080c',
-                border: '1px solid rgba(255, 255, 255, 0.08)',
-                borderRadius: '16px',
-                padding: '22px',
-                display: 'flex',
-                flexDirection: 'column',
-                justifyContent: 'space-between',
-                minHeight: '140px',
-                textDecoration: 'none',
-                transition: 'all 0.2s ease',
-              }}
-            >
-              <div>
-                <div
-                  style={{
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'space-between',
-                    marginBottom: '10px',
-                  }}
-                >
-                  <span style={{ fontSize: '28px' }}>{hub.flag}</span>
-                  <span
-                    style={{
-                      fontSize: '10px',
-                      fontWeight: 800,
-                      color: hub.badgeColor,
-                      backgroundColor: 'rgba(255, 255, 255, 0.04)',
-                      padding: '3px 8px',
-                      borderRadius: '6px',
-                      border: `1px solid ${hub.badgeColor}40`,
-                    }}
-                  >
-                    {hub.badge}
-                  </span>
-                </div>
-                <h3
-                  style={{
-                    fontSize: '19px',
-                    fontWeight: 900,
-                    color: '#ffffff',
-                    margin: '0 0 4px',
-                  }}
-                >
-                  {hub.city}
-                </h3>
-                <span
-                  style={{
-                    fontSize: '11px',
-                    color: '#71717a',
-                    fontWeight: 600,
-                    display: 'block',
-                    marginBottom: '8px',
-                  }}
-                >
-                  {hub.country}
-                </span>
-              </div>
-              <p
+          {GLOBAL_HUBS_CONFIG.map((cfg, idx) => {
+            const item = t.hubs.items[idx]
+            return (
+              <a
+                key={idx}
+                href={CERCA_WEB_URL}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="hover-card"
                 style={{
-                  fontSize: '12.5px',
-                  color: '#a1a1aa',
-                  margin: 0,
-                  lineHeight: 1.45,
+                  backgroundColor: '#07080c',
+                  border: '1px solid rgba(255, 255, 255, 0.08)',
+                  borderRadius: '16px',
+                  padding: '22px',
+                  display: 'flex',
+                  flexDirection: 'column',
+                  justifyContent: 'space-between',
+                  minHeight: '140px',
+                  textDecoration: 'none',
+                  transition: 'all 0.2s ease',
                 }}
               >
-                {hub.detail}
-              </p>
-            </a>
-          ))}
+                <div>
+                  <div
+                    style={{
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'space-between',
+                      marginBottom: '10px',
+                    }}
+                  >
+                    <span style={{ fontSize: '28px' }}>{cfg.flag}</span>
+                    <span
+                      style={{
+                        fontSize: '10px',
+                        fontWeight: 800,
+                        color: cfg.badgeColor,
+                        backgroundColor: 'rgba(255, 255, 255, 0.04)',
+                        padding: '3px 8px',
+                        borderRadius: '6px',
+                        border: `1px solid ${cfg.badgeColor}40`,
+                      }}
+                    >
+                      {item.badge}
+                    </span>
+                  </div>
+                  <h3
+                    style={{
+                      fontSize: '19px',
+                      fontWeight: 900,
+                      color: '#ffffff',
+                      margin: '0 0 4px',
+                    }}
+                  >
+                    {item.city}
+                  </h3>
+                  <span
+                    style={{
+                      fontSize: '11px',
+                      color: '#71717a',
+                      fontWeight: 600,
+                      display: 'block',
+                      marginBottom: '8px',
+                    }}
+                  >
+                    {item.country}
+                  </span>
+                </div>
+                <p
+                  style={{
+                    fontSize: '12.5px',
+                    color: '#a1a1aa',
+                    margin: 0,
+                    lineHeight: 1.45,
+                  }}
+                >
+                  {item.detail}
+                </p>
+              </a>
+            )
+          })}
         </div>
       </section>
 
@@ -808,7 +716,7 @@ export default function App() {
                 gap: '6px',
               }}
             >
-              <span>Open Cerca Web App</span>
+              <span>{t.footer.openWeb}</span>
               <ExternalLink size={14} />
             </a>
 
@@ -828,7 +736,7 @@ export default function App() {
                 gap: '6px',
               }}
             >
-              <span>Download on Google Play</span>
+              <span>{t.footer.downloadPlay}</span>
               <ExternalLink size={14} />
             </a>
           </div>
@@ -842,7 +750,7 @@ export default function App() {
               lineHeight: 1.6,
             }}
           >
-            © 2026 ScanQRGlobal.ai • Official Gateway for Cerca Social (qr4luv.com)
+            {t.footer.copyright}
           </p>
         </div>
       </footer>
