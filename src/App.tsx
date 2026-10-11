@@ -3,8 +3,6 @@ import {
   ChevronDown,
   ChevronUp,
   ExternalLink,
-  MapPin,
-  Sparkles,
 } from 'lucide-react'
 
 interface FeaturePillar {
