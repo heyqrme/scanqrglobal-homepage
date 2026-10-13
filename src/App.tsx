@@ -205,14 +205,15 @@ export default function App() {
             }}
           >
             <img
-              src="/cerca-logo.png"
-              alt="Cerca Social"
+              src="/images/logo/scanqr-logo.jpg"
+              alt="ScanQR Global"
               style={{
-                width: '36px',
-                height: '36px',
+                width: '38px',
+                height: '38px',
                 borderRadius: '10px',
                 objectFit: 'cover',
-                boxShadow: '0 0 16px rgba(244, 63, 94, 0.45)',
+                boxShadow: '0 0 18px rgba(217, 70, 239, 0.45)',
+                border: '1px solid rgba(217, 70, 239, 0.35)',
                 flexShrink: 0,
               }}
             />
