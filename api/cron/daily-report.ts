@@ -4,8 +4,8 @@ import type { IncomingMessage, ServerResponse } from 'http'
 const DEFAULT_SUPABASE_URL = 'https://rrbvtgqhzqqzzkwphpqd.supabase.co'
 const DEFAULT_SUPABASE_ANON_KEY = 'sb_publishable_0nUgFj3g_kBj-tgxPVFmeQ_lEq0y53A'
 
-const RECIPIENT_PRIMARY = 'darwinscerca@gmail.com'
-const RECIPIENT_CC = 'qr4luv@gmail.com'
+const RECIPIENT_PRIMARY = 'admin@scanqrglobal.ai'
+const RECIPIENT_CC = 'reports@scanqrglobal.ai'
 
 function getQueryParam(url: string | undefined, param: string): string | null {
   if (!url) return null

@@ -5,891 +5,999 @@ export type GatewayLocale = 'en' | 'es' | 'th' | 'pt' | 'fr' | 'de' | 'ja' | 'zh
 export interface LocaleOption {
   code: GatewayLocale
   label: string
-  flag: string
 }
 
+// Sleek minimal selector options - NO raw flag emojis
 export const GATEWAY_LOCALES: LocaleOption[] = [
-  { code: 'en', label: 'English', flag: '🇺🇸' },
-  { code: 'es', label: 'Español', flag: '🇨🇴' },
-  { code: 'th', label: 'ภาษาไทย', flag: '🇹🇭' },
-  { code: 'pt', label: 'Português', flag: '🇧🇷' },
-  { code: 'fr', label: 'Français', flag: '🇫🇷' },
-  { code: 'de', label: 'Deutsch', flag: '🇩🇪' },
-  { code: 'ja', label: '日本語', flag: '🇯🇵' },
-  { code: 'zh', label: '中文', flag: '🇨🇳' },
+  { code: 'en', label: 'English' },
+  { code: 'es', label: 'Español' },
+  { code: 'th', label: 'ภาษาไทย' },
+  { code: 'pt', label: 'Português' },
+  { code: 'fr', label: 'Français' },
+  { code: 'de', label: 'Deutsch' },
+  { code: 'ja', label: '日本語' },
+  { code: 'zh', label: '中文' },
 ]
 
 export interface GatewayTranslations {
   nav: {
-    radarActive: string
-    exploreMap: string
-    poweredBy: string
+    brand: string
+    badge: string
+    navButton: string
   }
   hero: {
-    trustBadge: string
-    headlineStart: string
-    headlineGradient: string
-    subheadline: string
-    ctaMap: string
-    ctaPlay: string
-  }
-  pillars: {
     tag: string
-    heading: string
-    openFeature: string
-    items: {
-      badge: string
+    headlineLine1: string
+    headlineLine2: string
+    subheadline: string
+    ctaPrimary: string
+    ctaSecondary: string
+  }
+  ticker: {
+    guests: string
+    knocks: string
+    lounges: string
+  }
+  features: {
+    eyebrow: string
+    title: string
+    cards: {
+      rule: string
+      tag: string
       title: string
-      short: string
-      reveal: string
+      body: string
+      action: string
     }[]
   }
   hubs: {
-    tag: string
-    heading: string
-    subheadline: string
-    items: {
+    eyebrow: string
+    title: string
+    cards: {
       city: string
-      country: string
-      detail: string
-      badge: string
+      neighborhood: string
+      status: string
+      icon: string
     }[]
   }
+  bottomCta: {
+    headline: string
+    subheadline: string
+    primaryBtn: string
+    secondaryLink: string
+  }
   footer: {
-    openWeb: string
-    downloadPlay: string
     copyright: string
+  }
+  modals: {
+    radarTitle: string
+    radarSubtitle: string
+    badgeTitle: string
+    badgeSubtitle: string
+    appTitle: string
+    appSubtitle: string
+    ghostModeActive: string
+    ghostModeInactive: string
+    knockSent: string
+    copied: string
+    close: string
   }
 }
 
 export const GATEWAY_TRANSLATIONS: Record<GatewayLocale, GatewayTranslations> = {
-  // 1. ENGLISH (Default / USA)
+  // 1. ENGLISH (Official master copy)
   en: {
     nav: {
-      radarActive: 'Live Radar Active',
-      exploreMap: 'Explore Map Free',
-      poweredBy: 'Powered by Cerca Social',
+      brand: 'ScanQR Global',
+      badge: '● Radar Live in 4 Cities',
+      navButton: 'Enter Radar →',
     },
     hero: {
-      trustBadge: '🌐 AI-POWERED PROXIMITY RADAR • FREE ON WI-FI WORLDWIDE',
-      headlineStart: 'See Who’s Out Tonight. Knock to Connect.',
-      headlineGradient: 'Never Leak Your Number.',
+      tag: 'EXCLUSIVE ACCESS • REAL-TIME NIGHTLIFE PROXIMITY',
+      headlineLine1: 'Stop Guessing Who’s Out Tonight.',
+      headlineLine2: 'See the Room. Make Your Move.',
       subheadline:
-        'Real-time social map of nightlife, trending spots, and verified people nearby. Watch 10-second live flips, break language barriers with the AI Wingman, and exchange personal QR contact cards with zero cellular charges.',
-      ctaMap: '🗺️ Launch Live Map (Guest Mode)',
-      ctaPlay: '📱 Google Play App (4.8★)',
+        'An electric map of real people, trending lounges, and private radar knocks happening around you right now. No phone numbers shared. No paper trails. Just instant chemistry.',
+      ctaPrimary: 'See Who’s Out Tonight →',
+      ctaSecondary: 'Scan Private QR Badge',
     },
-    pillars: {
-      tag: 'INSIDE THE CERCA ECOSYSTEM',
-      heading: 'Tap to Preview How It Works',
-      openFeature: 'Open Feature in Cerca Web',
-      items: [
+    ticker: {
+      guests: '🔥 312 Active Guests Nearby',
+      knocks: '🍸 84 Knocks Exchanged Tonight',
+      lounges: '⚡ 19 VIP Lounges Trending Now',
+    },
+    features: {
+      eyebrow: 'THE RULES OF ENGAGEMENT',
+      title: 'Everything Happens in the Moment',
+      cards: [
         {
-          badge: 'DISCOVERY',
-          title: "Faces & 'Out to Meet'",
-          short:
-            'Visual proximity grid of travelers, nomads, and verified locals ready to meet right now.',
-          reveal:
-            "Filter by 'Live Now', 'Spots', or specific scenes (like Miami Afro-House or Bangkok Rooftops). Send an instant \"Say Hi 👋\" or knock to unlock mutual chat without sharing social media handles.",
+          rule: 'RULE 01',
+          tag: 'PRIVATE KNOCK',
+          title: 'Catch Someone’s Eye Across the Room',
+          body:
+            'Spot someone intriguing nearby? Send a private Knock. Mutual intrigue opens a direct line instantly—no awkward rejections, no handles traded, zero strings attached.',
+          action: 'Simulate Knock',
         },
         {
-          badge: 'AI BRIDGE',
-          title: 'The AI Wingman & Live Translation',
-          short:
-            'Two-way real-time voice, video, and text translation with contextual AI icebreakers.',
-          reveal:
-            'Chat effortlessly across Spanish, Thai, Portuguese, and English. The AI Wingman suggests smooth conversation starters, decodes venue menus, and bridges cultures so language is never a barrier.',
+          rule: 'RULE 02',
+          tag: 'LIVE FLIPS',
+          title: 'Feel the Vibe Before You Walk In',
+          body:
+            '10-second raw clips from inside the hottest rooms tonight. See who’s at the bar, what the crowd looks like, and where the energy is shifting before you even call your ride.',
+          action: 'Watch 10s Clip',
         },
         {
-          badge: 'PRIVACY FIRST',
-          title: 'Knock, Share QR & Ghost Mode',
-          short:
-            'Connect via wearable/shareable personal QR codes without exposing your phone number or WhatsApp.',
-          reveal:
-            "Total privacy control. Use 'Window Open' to accept chat requests, or go full 'Invisible / Ghost Mode' to browse the live map and scout venues without displaying your presence to strangers.",
+          rule: 'RULE 03',
+          tag: 'GHOST MODE',
+          title: 'Total Control. Never Leak Your Number.',
+          body:
+            'Connect using your private encrypted QR badge. Step into Ghost Mode with a single tap to vanish from the radar whenever you want. Your real contacts and identity stay completely shielded.',
+          action: 'Toggle Ghost Mode',
         },
         {
-          badge: 'NIGHTLIFE',
-          title: 'Nightlife Hub & VIP Door Access',
-          short:
-            '10-second raw venue flips, table splits, guestlists, and 2 AM safe ride assistance.',
-          reveal:
-            'See unedited video drops posted in the last hour before paying cover, split bottle minimums with nearby verified groups, and access bilingual taxi placards when heading home safely.',
+          rule: 'RULE 04',
+          tag: 'ZERO BARRIERS',
+          title: 'Chemistry Needs No Translation',
+          body:
+            'Two-way real-time voice, video, and text translation running live in-feed. Talk effortlessly with anyone in the room, whether you\'re in a rooftop lounge in Bangkok or a speakeasy in Bogotá.',
+          action: 'Live Translation',
         },
       ],
     },
     hubs: {
-      tag: 'ACTIVE PROXIMITY NETWORKS',
-      heading: 'Live Global Hubs & Nightlife',
-      subheadline:
-        'Real-time radar feeds, verified checked-in crowds, and AI auto-translation active across major nightlife destinations worldwide.',
-      items: [
+      eyebrow: 'ACTIVE RADAR NETWORKS',
+      title: 'Where the Night Is Moving',
+      cards: [
         {
           city: 'Bogotá',
-          country: 'Colombia',
-          detail: 'Chapinero Lounges • Out to Meet Active • Wi-Fi VoIP',
-          badge: 'LIVE NOW',
+          neighborhood: 'Zona T & Chapinero',
+          status: '🔴 42 Knocks Tonight • High Energy • Afro-House & Speakeasy Lounges',
+          icon: '🔴',
         },
         {
           city: 'Bangkok',
-          country: 'Thailand',
-          detail: 'Thonglor Rooftops • Live Flips • Auto-Translation',
-          badge: 'TRENDING',
+          neighborhood: 'Thonglor & Sukhumvit',
+          status: '🔥 88 Checked In • VIP Rooftops Active • Real-Time Translation Live',
+          icon: '🔥',
         },
         {
           city: 'Rio de Janeiro',
-          country: 'Brazil',
-          detail: 'Lapa Samba Circles • Table Splits • Free Chat',
-          badge: 'POPULAR',
+          neighborhood: 'Ipanema & Lapa',
+          status: '⚡ Samba Lounges Packed • 24 Live Flips Posted • Beach Heat',
+          icon: '⚡',
         },
         {
           city: 'Miami',
-          country: 'United States',
-          detail: 'South Beach & Wynwood • Afro-House Sessions • VIP Access',
-          badge: 'VIP ACTIVE',
+          neighborhood: 'South Beach & Wynwood',
+          status: '🍸 Late-Night Rush • Velvet Rope Access • Guestlists Moving',
+          icon: '🍸',
         },
       ],
     },
+    bottomCta: {
+      headline: 'The room is already talking. Step inside.',
+      subheadline: 'Join guests in your city on the live proximity map tonight.',
+      primaryBtn: 'Unlock Live Proximity Radar →',
+      secondaryLink: 'Get the Mobile App (4.8★)',
+    },
     footer: {
-      openWeb: 'Open Cerca Web App',
-      downloadPlay: 'Download on Google Play',
-      copyright: '© 2026 ScanQRGlobal.ai • Official Gateway for Cerca Social (qr4luv.com)',
+      copyright: '© 2026 ScanQRGlobal.ai • Discretion Guaranteed.',
+    },
+    modals: {
+      radarTitle: 'Live Proximity Radar',
+      radarSubtitle: 'Real-time encrypted room telemetry',
+      badgeTitle: 'Private Encrypted QR Badge',
+      badgeSubtitle: 'Zero phone numbers shared. Step into Ghost Mode anytime.',
+      appTitle: 'ScanQR Global Mobile',
+      appSubtitle: 'Live Nightlife Proximity • iOS & Android Progressive App',
+      ghostModeActive: 'Ghost Mode Active — Completely Invisible',
+      ghostModeInactive: 'Radar Visible — Accepting Private Knocks',
+      knockSent: 'Knock Dispatched — Direct line opens upon mutual intrigue',
+      copied: 'Private badge link copied to clipboard',
+      close: 'Close',
     },
   },
 
-  // 2. ESPAÑOL (Colombia / LatAm / Spain)
+  // 2. ESPAÑOL
   es: {
     nav: {
-      radarActive: 'Radar en Vivo Activo',
-      exploreMap: 'Explorar Mapa Gratis',
-      poweredBy: 'Desarrollado por Cerca Social',
+      brand: 'ScanQR Global',
+      badge: '● Radar en Vivo en 4 Ciudades',
+      navButton: 'Entrar al Radar →',
     },
     hero: {
-      trustBadge: '🌐 RADAR DE PROXIMIDAD CON IA • GRATIS EN WI-FI EN TODO EL MUNDO',
-      headlineStart: 'Mira quién sale esta noche. Llama para conectar.',
-      headlineGradient: 'Nunca reveles tu número.',
+      tag: 'ACCESO EXCLUSIVO • PROXIMIDAD NOCTURNA EN TIEMPO REAL',
+      headlineLine1: 'Deja de adivinar quién sale esta noche.',
+      headlineLine2: 'Mira la sala. Da tu paso.',
       subheadline:
-        'Mapa social en tiempo real de la vida nocturna, lugares de moda y personas verificadas cerca de ti. Mira videos en vivo de 10 segundos, rompe las barreras del idioma con el Wingman de IA e intercambia códigos QR personales sin cargos celulares.',
-      ctaMap: '🗺️ Abrir Mapa en Vivo (Modo Invitado)',
-      ctaPlay: '📱 App en Google Play (4.8★)',
+        'Un mapa eléctrico de personas reales, lounges en tendencia y toques de radar privados sucediendo a tu alrededor ahora mismo. Sin números compartidos. Sin rastros. Solo química instantánea.',
+      ctaPrimary: 'Mira quién sale esta noche →',
+      ctaSecondary: 'Escanear QR Privado',
     },
-    pillars: {
-      tag: 'DENTRO DEL ECOSISTEMA CERCA',
-      heading: 'Toca para ver cómo funciona',
-      openFeature: 'Abrir función en Cerca Web',
-      items: [
+    ticker: {
+      guests: '🔥 312 Invitados Activos a tu Alrededor',
+      knocks: '🍸 84 Knocks Intercambiados Esta Noche',
+      lounges: '⚡ 19 Lounges VIP en Tendencia Ahora',
+    },
+    features: {
+      eyebrow: 'LAS REGLAS DEL JUEGO',
+      title: 'Todo Sucede en el Momento',
+      cards: [
         {
-          badge: 'DESCUBRIMIENTO',
-          title: "Rostros y 'Listos para Conocer'",
-          short:
-            'Cuadrícula visual de proximidad con viajeros, nómadas y locales verificados listos para encontrarse ahora.',
-          reveal:
-            "Filtra por 'En Vivo', 'Lugares' o escenas específicas (como Afro-House en Miami o Rooftops en Bangkok). Envía un \"Saludar 👋\" o llama para desbloquear chat mutuo sin compartir tus redes sociales.",
+          rule: 'REGLA 01',
+          tag: 'KNOCK PRIVADO',
+          title: 'Cruza miradas desde el otro lado de la sala',
+          body:
+            '¿Ves a alguien intrigante en la sala? Envía un Knock privado. El interés mutuo abre una línea directa al instante: sin rechazos incómodos, sin intercambiar redes, sin ataduras.',
+          action: 'Simular Knock',
         },
         {
-          badge: 'PUENTE DE IA',
-          title: 'El Wingman de IA y Traducción en Vivo',
-          short:
-            'Traducción bidireccional en tiempo real de voz, video y texto con iniciadores de conversación inteligentes.',
-          reveal:
-            'Chatea sin esfuerzo en español, inglés, tailandés y portugués. El Wingman de IA te sugiere temas fluidos, traduce menús de bares y conecta culturas para que el idioma nunca sea una barrera.',
+          rule: 'REGLA 02',
+          tag: 'VIDEOS EN VIVO',
+          title: 'Siente la vibra antes de entrar',
+          body:
+            'Clips reales de 10 segundos desde las salas más exclusivas de esta noche. Mira quién está en la barra, cómo es la gente y adónde se mueve la energía antes de pedir tu transporte.',
+          action: 'Ver Clip de 10s',
         },
         {
-          badge: 'PRIVACIDAD TOTAL',
-          title: 'Llamar, Código QR y Modo Fantasma',
-          short:
-            'Conecta mediante códigos QR personales sin exponer tu número de teléfono ni WhatsApp.',
-          reveal:
-            "Control absoluto de privacidad. Usa 'Ventana Abierta' para recibir solicitudes o activa el 'Modo Fantasma / Invisible' para explorar el mapa y locales sin mostrar tu presencia a extraños.",
+          rule: 'REGLA 03',
+          tag: 'MODO FANTASMA',
+          title: 'Control total. Nunca reveles tu número.',
+          body:
+            'Conéctate con tu badge QR privado encriptado. Activa el Modo Fantasma con un solo toque para desaparecer del radar cuando quieras. Tus contactos e identidad real quedan 100% blindados.',
+          action: 'Alternar Modo Fantasma',
         },
         {
-          badge: 'VIDA NOCTURNA',
-          title: 'Hub Nocturno y Acceso VIP',
-          short:
-            'Videos reales de 10 segundos, división de cuentas de mesas, listas VIP y transporte seguro a las 2 AM.',
-          reveal:
-            'Mira videos sin editar subidos en la última hora antes de pagar la entrada, comparte mesas con grupos verificados y accede a tarjetas bilingües para taxis al volver seguro a casa.',
+          rule: 'REGLA 04',
+          tag: 'CERO BARRERAS',
+          title: 'La química no necesita traducción',
+          body:
+            'Traducción bidireccional en tiempo real de voz, video y texto en vivo en el feed. Habla con fluidez con cualquiera en la sala, ya sea en un rooftop en Bangkok o en un speakeasy en Bogotá.',
+          action: 'Traducción en Vivo',
         },
       ],
     },
     hubs: {
-      tag: 'REDES DE PROXIMIDAD ACTIVAS',
-      heading: 'Hubs Globales en Vivo y Vida Nocturna',
-      subheadline:
-        'Radares en tiempo real, personas verificadas presentes y auto-traducción con IA activa en los principales destinos del mundo.',
-      items: [
+      eyebrow: 'REDES DE RADAR ACTIVAS',
+      title: 'Hacia Dónde se Mueve la Noche',
+      cards: [
         {
           city: 'Bogotá',
-          country: 'Colombia',
-          detail: 'Lounges en Chapinero • Conexiones Activas • VoIP Wi-Fi',
-          badge: 'EN VIVO',
+          neighborhood: 'Zona T y Chapinero',
+          status: '🔴 42 Knocks Esta Noche • Alta Energía • Afro-House y Speakeasies',
+          icon: '🔴',
         },
         {
           city: 'Bangkok',
-          country: 'Tailandia',
-          detail: 'Rooftops en Thonglor • Videos en Vivo • Auto-Traducción',
-          badge: 'TENDENCIA',
+          neighborhood: 'Thonglor y Sukhumvit',
+          status: '🔥 88 Registrados • Rooftops VIP Activos • Auto-Traducción en Vivo',
+          icon: '🔥',
         },
         {
           city: 'Río de Janeiro',
-          country: 'Brasil',
-          detail: 'Ruedas de Samba en Lapa • División de Mesas • Chat Gratis',
-          badge: 'POPULAR',
+          neighborhood: 'Ipanema y Lapa',
+          status: '⚡ Samba Lounges Llenos • 24 Flips en Vivo • Calor de Playa',
+          icon: '⚡',
         },
         {
           city: 'Miami',
-          country: 'Estados Unidos',
-          detail: 'South Beach y Wynwood • Afro-House • Acceso VIP',
-          badge: 'VIP ACTIVO',
+          neighborhood: 'South Beach y Wynwood',
+          status: '🍸 Fiebre Nocturna • Acceso Velvet Rope • Listas VIP en Movimiento',
+          icon: '🍸',
         },
       ],
     },
+    bottomCta: {
+      headline: 'La sala ya está hablando. Entra.',
+      subheadline: 'Únete a los invitados en tu ciudad en el mapa de proximidad en vivo esta noche.',
+      primaryBtn: 'Desbloquear Radar de Proximidad en Vivo →',
+      secondaryLink: 'Obtener la App Móvil (4.8★)',
+    },
     footer: {
-      openWeb: 'Abrir Aplicación Web Cerca',
-      downloadPlay: 'Descargar en Google Play',
-      copyright: '© 2026 ScanQRGlobal.ai • Portal Oficial de Cerca Social (qr4luv.com)',
+      copyright: '© 2026 ScanQRGlobal.ai • Discreción Garantizada.',
+    },
+    modals: {
+      radarTitle: 'Radar de Proximidad en Vivo',
+      radarSubtitle: 'Telemetría de sala encriptada en tiempo real',
+      badgeTitle: 'Badge QR Encriptado Privado',
+      badgeSubtitle: 'Sin números de teléfono compartidos. Modo Fantasma en cualquier momento.',
+      appTitle: 'ScanQR Global Móvil',
+      appSubtitle: 'Proximidad Nocturna en Vivo • iOS y Android PWA',
+      ghostModeActive: 'Modo Fantasma Activo — Completamente Invisible',
+      ghostModeInactive: 'Radar Visible — Aceptando Knocks Privados',
+      knockSent: 'Knock Enviado — Línea directa abierta con intriga mutua',
+      copied: 'Enlace de badge privado copiado al portapapeles',
+      close: 'Cerrar',
     },
   },
 
-  // 3. ภาษาไทย (Thailand)
+  // 3. THAI
   th: {
     nav: {
-      radarActive: 'เรดาร์สดเปิดใช้งาน',
-      exploreMap: 'สำรวจแผนที่ฟรี',
-      poweredBy: 'ขับเคลื่อนโดย Cerca Social',
+      brand: 'ScanQR Global',
+      badge: '● เรดาร์สดใน 4 เมืองหลัก',
+      navButton: 'เข้าสู่เรดาร์ →',
     },
     hero: {
-      trustBadge: '🌐 เรดาร์ค้นหาคนใกล้เคียงด้วย AI • ฟรีบน Wi-Fi ทั่วโลก',
-      headlineStart: 'ดูว่าใครออกไปเที่ยวคืนนี้ เคาะเพื่อเชื่อมต่อ',
-      headlineGradient: 'ไม่ต้องเปิดเผยเบอร์โทรศัพท์',
+      tag: 'สิทธิ์พิเศษเฉพาะ • เรดาร์ไนท์ไลฟ์ตามระยะใกล้เคียงแบบเรียลไทม์',
+      headlineLine1: 'เลิกเดาว่าคืนนี้ใครออกไปเที่ยวข้างนอก',
+      headlineLine2: 'มองเห็นบรรยากาศในร้าน แล้วเริ่มก้าวของคุณ',
       subheadline:
-        'แผนที่โซเชียลแบบเรียลไทม์สำหรับไนท์ไลฟ์ จุดยอดนิยม และผู้คนที่ได้รับการยืนยันใกล้เคียง ชมคลิปสั้นสด 10 วินาที ทลายกำแพงภาษาด้วย AI Wingman และแลกเปลี่ยน QR โค้ดส่วนตัวโดยไม่มีค่าบริการเซลลูลาร์',
-      ctaMap: '🗺️ เปิดแผนที่สด (โหมดผู้เยี่ยมชม)',
-      ctaPlay: '📱 ดาวน์โหลดบน Google Play (4.8★)',
+        'แผนที่เรดาร์สดของคนจริง เลานจ์สุดฮิต และการส่งสัญญาณ Knock ส่วนตัวรอบตัวคุณตอนนี้ ไม่ต้องเปิดเผยเบอร์โทรศัพท์ ไร้ร่องรอยดิจิทัล มีเพียงเคมีที่ตรงกันทันที',
+      ctaPrimary: 'ดูว่าใครกำลังเที่ยวคืนนี้ →',
+      ctaSecondary: 'สแกน QR Badge ส่วนตัว',
     },
-    pillars: {
-      tag: 'ภายในระบบนิเวศ CERCA',
-      heading: 'แตะเพื่อดูตัวอย่างการทำงาน',
-      openFeature: 'เปิดฟีเจอร์ใน Cerca Web',
-      items: [
+    ticker: {
+      guests: '🔥 312 แขกใกล้คุณกำลังใช้งาน',
+      knocks: '🍸 84 Knocks แลกเปลี่ยนกันคืนนี้',
+      lounges: '⚡ 19 VIP เลานจ์กำลังมาแรง',
+    },
+    features: {
+      eyebrow: 'กฎแห่งการเชื่อมต่อ',
+      title: 'ทุกสิ่งเกิดขึ้นในช่วงเวลานี้',
+      cards: [
         {
-          badge: 'การค้นพบ',
-          title: "ใบหน้า & 'พร้อมพบปะ'",
-          short:
-            'กริดระยะใกล้แสดงนักเดินทาง ดิจิทัลโนแมด และคนท้องถิ่นที่ยืนยันตัวตนแล้ว พร้อมพบเจอกันทันที',
-          reveal:
-            "กรองตาม 'กำลังออนไลน์', 'สถานที่' หรือบรรยากาศเฉพาะ (เช่น รูฟท็อปทองหล่อ หรือ Afro-House ไมอามี) ส่ง \"ทักทาย 👋\" ทันทีหรือเคาะเพื่อปลดล็อกแชทคู่โดยไม่ต้องแชร์โซเชียลมีเดีย",
+          rule: 'กฎข้อที่ 01',
+          tag: 'PRIVATE KNOCK',
+          title: 'สบตากับใครบางคนจากอีกฟากของร้าน',
+          body:
+            'เจอใครน่าสนใจอยู่ใกล้ๆ ไหม? ส่ง Knock ส่วนตัวไป ความสนใจที่ตรงกันจะเปิดแชทลับทันที โดยไม่ต้องแลกคอนแทกต์ ไม่มีการปฏิเสธที่น่าอึดอัด',
+          action: 'จำลองการ Knock',
         },
         {
-          badge: 'สะพาน AI',
-          title: 'AI Wingman & การแปลสด',
-          short:
-            'การแปลเสียง วิดีโอ และข้อความแบบเรียลไทม์สองทาง พร้อมประโยคเปิดบทสนทนาอันชาญฉลาด',
-          reveal:
-            'แชทได้อย่างง่ายดายทั้งภาษาไทย อังกฤษ สเปน และโปรตุเกส AI Wingman แนะนำหัวข้อสนทนาที่ลื่นไหล แปลเมนูในร้าน และเชื่อมโยงวัฒนธรรมโดยไม่มีอุปสรรคทางภาษา',
+          rule: 'กฎข้อที่ 02',
+          tag: 'LIVE FLIPS',
+          title: 'สัมผัสบรรยากาศจริงก่อนก้าวขาเข้าไป',
+          body:
+            'คลิปดิบความยาว 10 วินาทีจากข้างในคลับคืนนี้ ดูว่าใครอยู่ที่บาร์ บรรยากาศเป็นอย่างไร และพลังงานเคลื่อนไปทางไหนก่อนเรียกรถ',
+          action: 'ดูคลิปสด 10 วินาที',
         },
         {
-          badge: 'ความเป็นส่วนตัวสูงสุด',
-          title: 'เคาะ แลก QR & โหมดซ่อนตัว',
-          short:
-            'เชื่อมต่อผ่าน QR โค้ดส่วนตัวโดยไม่ต้องเปิดเผยเบอร์โทรศัพท์หรือ WhatsApp',
-          reveal:
-            "ควบคุมความเป็นส่วนตัวอย่างสมบูรณ์ ใช้ 'เปิดหน้าต่าง' เพื่อรับคำขอแชท หรือใช้ 'โหมดล่องหน / ผี' เพื่อดูแผนที่สดและสำรวจสถานที่โดยไม่เปิดเผยตำแหน่งของคุณ",
+          rule: 'กฎข้อที่ 03',
+          tag: 'GHOST MODE',
+          title: 'ควบคุมความเป็นส่วนตัว ไม่หลุดเบอร์โทรศัพท์',
+          body:
+            'เชื่อมต่อด้วย QR Badge ที่เข้ารหัสเฉพาะตัว แตะครั้งเดียวเพื่อเข้าสู่ Ghost Mode และหายไปจากเรดาร์ได้ทุกเมื่อ ตัวตนจริงของคุณจะถูกปกป้องเสมอ',
+          action: 'สลับ Ghost Mode',
         },
         {
-          badge: 'ไนท์ไลฟ์',
-          title: 'ศูนย์รวมไนท์ไลฟ์ & ทางเข้า VIP',
-          short:
-            'คลิปบรรยากาศสด 10 วินาที แชร์เปิดโต๊ะ เกสต์ลิสต์ และตัวช่วยเรียกรถปลอดภัยตอนตี 2',
-          reveal:
-            'ดูคลิปวิดีโอสดที่โพสต์ในชั่วโมงที่ผ่านมา ก่อนตัดสินใจจ่ายค่าเข้า แชร์ขั้นต่ำเปิดขวดกับกลุ่มใกล้เคียง และแสดงป้ายบอกทางสองภาษาให้แท็กซี่เพื่อกลับบ้านอย่างปลอดภัย',
+          rule: 'กฎข้อที่ 04',
+          tag: 'ZERO BARRIERS',
+          title: 'เคมีตรงกันไม่จำเป็นต้องมีล่าม',
+          body:
+            'ระบบแปลภาษาเสียง วิดีโอ และข้อความสด 2 ทางในฟีด พูดคุยอย่างเป็นธรรมชาติได้กับทุกคนในห้อง ไม่ว่าจะเป็นรูฟท็อปในทองหล่อหรือสปีกอีซี่ในโบโกตา',
+          action: 'แปลภาษาสด',
         },
       ],
     },
     hubs: {
-      tag: 'เครือข่ายระยะใกล้ที่ใช้งานอยู่',
-      heading: 'ศูนย์กลางไนท์ไลฟ์ระดับโลกสด',
-      subheadline:
-        'ฟีดเรดาร์แบบเรียลไทม์ ผู้คนที่เช็คอินจริง และการแปลภาษาอัตโนมัติด้วย AI ในจุดหมายปลายทางไนท์ไลฟ์ชั้นนำทั่วโลก',
-      items: [
+      eyebrow: 'เครือข่ายเรดาร์ที่เปิดใช้งาน',
+      title: 'ที่ที่ค่ำคืนกำลังเคลื่อนไหว',
+      cards: [
         {
           city: 'โบโกตา',
-          country: 'โคลอมเบีย',
-          detail: 'เลานจ์ Chapinero • กำลังออกเที่ยว • Wi-Fi VoIP',
-          badge: 'กำลังสด',
+          neighborhood: 'โซนา ที & ชาปิเนโร',
+          status: '🔴 42 Knocks คืนนี้ • พลังงานสูง • Afro-House & Speakeasy',
+          icon: '🔴',
         },
         {
           city: 'กรุงเทพฯ',
-          country: 'ไทย',
-          detail: 'รูฟท็อปทองหล่อ • คลิปบรรยากาศสด • แปลภาษาอัตโนมัติ',
-          badge: 'มาแรง',
+          neighborhood: 'ทองหล่อ & สุขุมวิท',
+          status: '🔥 88 เช็คอินแล้ว • VIP รูฟท็อปเปิดใช้งาน • ระบบแปลสดพร้อมใช้งาน',
+          icon: '🔥',
         },
         {
           city: 'ริโอเดจาเนโร',
-          country: 'บราซิล',
-          detail: 'วงดนตรีแซมบ้า Lapa • แชร์โต๊ะ • แชทฟรี',
-          badge: 'ยอดนิยม',
+          neighborhood: 'อิปาเนมา & ลาปา',
+          status: '⚡ แซมบ้าเลานจ์แน่นขนัด • 24 คลิปสดถูกโพสต์ • บรรยากาศชายหาด',
+          icon: '⚡',
         },
         {
           city: 'ไมอามี',
-          country: 'สหรัฐอเมริกา',
-          detail: 'South Beach & Wynwood • ปาร์ตี้ Afro-House • สิทธิ์ VIP',
-          badge: 'VIP ออนไลน์',
+          neighborhood: 'เซาท์บีช & วินวู้ด',
+          status: '🍸 ความคึกคักรอบดึก • ทางเข้า Velvet Rope • เกสต์ลิสต์ขยับตัว',
+          icon: '🍸',
         },
       ],
     },
+    bottomCta: {
+      headline: 'ในห้องกำลังเริ่มบทสนทนา ก้าวเข้ามาเลย',
+      subheadline: 'เข้าร่วมกับแขกในเมืองของคุณบนแผนที่เรดาร์ระยะใกล้เคียงคืนนี้',
+      primaryBtn: 'ปลดล็อกเรดาร์ระยะใกล้เคียงสด →',
+      secondaryLink: 'ดาวน์โหลดแอปมือถือ (4.8★)',
+    },
     footer: {
-      openWeb: 'เปิด Cerca Web App',
-      downloadPlay: 'ดาวน์โหลดบน Google Play',
-      copyright: '© 2026 ScanQRGlobal.ai • ประตูทางการสำหรับ Cerca Social (qr4luv.com)',
+      copyright: '© 2026 ScanQRGlobal.ai • รับประกันความเป็นส่วนตัวระดับสูงสุด',
+    },
+    modals: {
+      radarTitle: 'เรดาร์ระยะใกล้เคียงสด',
+      radarSubtitle: 'การส่งข้อมูลเรดาร์ห้องแบบเข้ารหัสสด',
+      badgeTitle: 'QR Badge ส่วนตัวที่เข้ารหัส',
+      badgeSubtitle: 'ไม่แชร์เบอร์โทรศัพท์ เปิด Ghost Mode ได้ทุกเวลา',
+      appTitle: 'ScanQR Global บนมือถือ',
+      appSubtitle: 'เรดาร์ไนท์ไลฟ์สด • สำหรับ iOS และ Android',
+      ghostModeActive: 'เปิดใช้งาน Ghost Mode — ล่องหนสมบูรณ์แบบ',
+      ghostModeInactive: 'แสดงบนเรดาร์ — พร้อมรับ Knock ส่วนตัว',
+      knockSent: 'ส่ง Knock สำเร็จ — สัญญาณเปิดทันทีเมื่อทั้งสองฝ่ายสนใจตรงกัน',
+      copied: 'คัดลอกลิงก์ Badge ส่วนตัวแล้ว',
+      close: 'ปิด',
     },
   },
 
-  // 4. PORTUGUÊS (Brazil / Portugal)
+  // 4. PORTUGUÊS
   pt: {
     nav: {
-      radarActive: 'Radar ao Vivo Ativo',
-      exploreMap: 'Explorar Mapa Grátis',
-      poweredBy: 'Desenvolvido por Cerca Social',
+      brand: 'ScanQR Global',
+      badge: '● Radar ao Vivo em 4 Cidades',
+      navButton: 'Entrar no Radar →',
     },
     hero: {
-      trustBadge: '🌐 RADAR DE PROXIMIDADE COM IA • GRÁTIS NO WI-FI NO MUNDO INTEIRO',
-      headlineStart: 'Veja quem está saindo hoje. Toque para conectar.',
-      headlineGradient: 'Nunca revele seu número.',
+      tag: 'ACESSO EXCLUSIVO • PROXIMIDADE NOTURNA EM TEMPO REAL',
+      headlineLine1: 'Pare de adivinhar quem vai sair hoje.',
+      headlineLine2: 'Veja o ambiente. Faça sua jogada.',
       subheadline:
-        'Mapa social em tempo real da vida noturna, picos em alta e pessoas verificadas por perto. Veja flips de 10 segundos ao vivo, quebre barreiras linguísticas com o AI Wingman e troque cartões QR de contato sem gastar dados móveis.',
-      ctaMap: '🗺️ Abrir Mapa ao Vivo (Modo Convidado)',
-      ctaPlay: '📱 App no Google Play (4.8★)',
+        'Um mapa elétrico de pessoas reais, lounges em alta e knocks privados no radar acontecendo ao seu redor agora. Sem números compartilhados. Sem rastros. Apenas química instantânea.',
+      ctaPrimary: 'Veja Quem Saiu Hoje →',
+      ctaSecondary: 'Escanear QR Badge Privado',
     },
-    pillars: {
-      tag: 'DENTRO DO ECOSSISTEMA CERCA',
-      heading: 'Toque para ver como funciona',
-      openFeature: 'Abrir no Cerca Web',
-      items: [
+    ticker: {
+      guests: '🔥 312 Convidados Ativos Por Perto',
+      knocks: '🍸 84 Knocks Trocados Hoje',
+      lounges: '⚡ 19 Lounges VIP em Alta Agora',
+    },
+    features: {
+      eyebrow: 'AS REGRAS DO JOGO',
+      title: 'Tudo Acontece no Momento',
+      cards: [
         {
-          badge: 'DESCOBERTA',
-          title: "Rostos & 'A fim de Encontrar'",
-          short:
-            'Grade visual de proximidade com viajantes, nômades e moradores verificados prontos para se encontrar agora.',
-          reveal:
-            "Filtre por 'Ao Vivo', 'Lugares' ou cenários específicos (como Afro-House em Miami ou Rooftops em Bangkok). Envie um \"Dar um Oi 👋\" ou bata na porta para liberar chat mútuo sem compartilhar redes sociais.",
+          rule: 'REGRA 01',
+          tag: 'KNOCK PRIVADO',
+          title: 'Troque olhares do outro lado do salão',
+          body:
+            'Avistou alguém interessante por perto? Envie um Knock privado. O interesse mútuo abre uma linha direta imediata—sem foras constrangedores, sem trocar arrobas, sem amarras.',
+          action: 'Simular Knock',
         },
         {
-          badge: 'PONTE DE IA',
-          title: 'O AI Wingman & Tradução ao Vivo',
-          short:
-            'Tradução bidirecional em tempo real de voz, vídeo e texto com quebra-gelos inteligentes de IA.',
-          reveal:
-            'Converse facilmente em português, inglês, espanhol e tailandês. O AI Wingman sugere assuntos naturais, traduz cardápios e conecta culturas sem que o idioma seja uma barreira.',
+          rule: 'REGRA 02',
+          tag: 'VÍDEOS AO VIVO',
+          title: 'Sinta a vibe antes de entrar',
+          body:
+            'Clipes crus de 10 segundos direto das casas mais disputadas desta noite. Veja quem está no bar, como está o público e para onde a energia está indo antes de chamar seu carro.',
+          action: 'Ver Clipe de 10s',
         },
         {
-          badge: 'PRIVACIDADE EM 1º LUGAR',
-          title: 'Bater na Porta, QR Code & Modo Fantasma',
-          short:
-            'Conecte-se por QR codes pessoais sem expor seu telefone ou WhatsApp.',
-          reveal:
-            "Controle total da privacidade. Ative a 'Janela Aberta' para receber mensagens ou o 'Modo Fantasma / Invisível' para explorar o mapa sem mostrar sua presença a estranhos.",
+          rule: 'REGRA 03',
+          tag: 'MODO FANTASMA',
+          title: 'Controle total. Nunca vaze seu número.',
+          body:
+            'Conecte-se pelo seu QR badge criptografado privado. Ative o Modo Fantasma com um toque para sumir do radar quando quiser. Seus contatos e identidade real continuam 100% blindados.',
+          action: 'Alternar Modo Fantasma',
         },
         {
-          badge: 'VIDA NOTURNA',
-          title: 'Hub Noturno & Acesso VIP',
-          short:
-            'Vídeos reais de 10 segundos, divisão de mesa/camarote, listas VIP e volta segura para casa às 2h.',
-          reveal:
-            'Veja drops de vídeo sem filtro da última hora antes de pagar a entrada, rache camarotes com grupos verificados e mostre cartões bilíngues para motoristas voltarem seguros.',
+          rule: 'REGRA 04',
+          tag: 'SEM BARREIRAS',
+          title: 'Química não precisa de tradução',
+          body:
+            'Tradução bidirecional em tempo real de voz, vídeo e texto ao vivo no feed. Converse com tranquilidade com qualquer pessoa, seja em um rooftop em Bangkok ou em um speakeasy em Bogotá.',
+          action: 'Tradução ao Vivo',
         },
       ],
     },
     hubs: {
-      tag: 'REDES DE PROXIMIDADE ATIVAS',
-      heading: 'Hubs Globais ao Vivo & Baladas',
-      subheadline:
-        'Radares em tempo real, galera verificada presente e tradução automática com IA nos principais destinos do mundo.',
-      items: [
+      eyebrow: 'REDES DE RADAR ATIVAS',
+      title: 'Onde a Noite Está Acontecendo',
+      cards: [
         {
           city: 'Bogotá',
-          country: 'Colômbia',
-          detail: 'Lounges em Chapinero • Ativos para Encontro • Wi-Fi VoIP',
-          badge: 'AO VIVO',
+          neighborhood: 'Zona T & Chapinero',
+          status: '🔴 42 Knocks Esta Noite • Alta Energia • Afro-House & Speakeasy Lounges',
+          icon: '🔴',
         },
         {
           city: 'Bangkok',
-          country: 'Tailândia',
-          detail: 'Rooftops em Thonglor • Flips ao Vivo • Tradução Automática',
-          badge: 'EM ALTA',
+          neighborhood: 'Thonglor & Sukhumvit',
+          status: '🔥 88 Presentes • Rooftops VIP Ativos • Tradução ao Vivo',
+          icon: '🔥',
         },
         {
           city: 'Rio de Janeiro',
-          country: 'Brasil',
-          detail: 'Rodas de Samba na Lapa • Divisão de Mesas • Chat Grátis',
-          badge: 'POPULAR',
+          neighborhood: 'Ipanema & Lapa',
+          status: '⚡ Rodas de Samba Lotadas • 24 Flips ao Vivo • Calor de Praia',
+          icon: '⚡',
         },
         {
           city: 'Miami',
-          country: 'Estados Unidos',
-          detail: 'South Beach e Wynwood • Afro-House • Acesso VIP',
-          badge: 'VIP ATIVO',
+          neighborhood: 'South Beach & Wynwood',
+          status: '🍸 Corrida Noturna • Acesso Velvet Rope • Listas VIP Girando',
+          icon: '🍸',
         },
       ],
     },
+    bottomCta: {
+      headline: 'A casa já está comentando. Dê o primeiro passo.',
+      subheadline: 'Junte-se aos convidados da sua cidade no mapa de proximidade ao vivo hoje.',
+      primaryBtn: 'Desbloquear Radar de Proximidade ao Vivo →',
+      secondaryLink: 'Baixar o App Móvel (4.8★)',
+    },
     footer: {
-      openWeb: 'Abrir App Web Cerca',
-      downloadPlay: 'Baixar no Google Play',
-      copyright: '© 2026 ScanQRGlobal.ai • Portal Oficial do Cerca Social (qr4luv.com)',
+      copyright: '© 2026 ScanQRGlobal.ai • Discrição Garantida.',
+    },
+    modals: {
+      radarTitle: 'Radar de Proximidade ao Vivo',
+      radarSubtitle: 'Telemetria do ambiente criptografada em tempo real',
+      badgeTitle: 'QR Badge Privado Criptografado',
+      badgeSubtitle: 'Sem números compartilhados. Ative o Modo Fantasma a qualquer instante.',
+      appTitle: 'ScanQR Global Mobile',
+      appSubtitle: 'Radar de Vida Noturna ao Vivo • iOS e Android',
+      ghostModeActive: 'Modo Fantasma Ativo — Totalmente Invisível',
+      ghostModeInactive: 'Visível no Radar — Aceitando Knocks Privados',
+      knockSent: 'Knock Enviado — Linha aberta com interesse mútuo',
+      copied: 'Link do badge copiado com sucesso',
+      close: 'Fechar',
     },
   },
 
-  // 5. FRANÇAIS (France / Worldwide)
+  // 5. FRANÇAIS
   fr: {
     nav: {
-      radarActive: 'Radar en Direct Actif',
-      exploreMap: 'Explorer la Carte Gratuitement',
-      poweredBy: 'Propulsé par Cerca Social',
+      brand: 'ScanQR Global',
+      badge: '● Radar en Direct dans 4 Villes',
+      navButton: 'Entrer sur le Radar →',
     },
     hero: {
-      trustBadge: '🌐 RADAR DE PROXIMITÉ IA • GRATUIT SUR WI-FI DANS LE MONDE ENTIER',
-      headlineStart: 'Voyez qui sort ce soir. Frappez pour vous connecter.',
-      headlineGradient: 'Ne donnez jamais votre numéro.',
+      tag: 'ACCÈS EXCLUSIF • PROXIMITÉ NOCTURNE EN TEMPS RÉEL',
+      headlineLine1: 'Ne devinez plus qui sort ce soir.',
+      headlineLine2: 'Observez la salle. Faites votre mouvement.',
       subheadline:
-        'Carte sociale en temps réel de la vie nocturne, des lieux branchés et des personnes vérifiées à proximité. Regardez des aperçus vidéo de 10 secondes, franchissez la barrière de la langue avec l’AI Wingman et échangez des QR codes personnels sans frais de données.',
-      ctaMap: '🗺️ Lancer la Carte en Direct (Mode Invité)',
-      ctaPlay: '📱 Application Google Play (4.8★)',
+        'Une carte électrique de vraies personnes, de salons branchés et de knocks privés sur radar autour de vous maintenant. Aucun numéro partagé. Zéro trace. Juste une alchimie immédiate.',
+      ctaPrimary: 'Voir Qui Sort Ce Soir →',
+      ctaSecondary: 'Scanner le Badge QR Privé',
     },
-    pillars: {
-      tag: 'AU CŒUR DE L’ÉCOSYSTÈME CERCA',
-      heading: 'Touchez pour découvrir le fonctionnement',
-      openFeature: 'Ouvrir la fonction sur Cerca Web',
-      items: [
+    ticker: {
+      guests: '🔥 312 Invités Actifs à Proximité',
+      knocks: '🍸 84 Knocks Échangés Ce Soir',
+      lounges: '⚡ 19 Salons VIP Très Tendance',
+    },
+    features: {
+      eyebrow: 'LES RÈGLES DU JEU',
+      title: 'Tout se Passe dans l’Instant',
+      cards: [
         {
-          badge: 'DÉCOUVERTE',
-          title: "Visages & 'Prêts à se Rencontrer'",
-          short:
-            'Grille visuelle de proximité de voyageurs, nomades et habitants vérifiés prêts à se rencontrer dès maintenant.',
-          reveal:
-            "Filtrez par 'En Direct', 'Lieux' ou ambiances spécifiques (comme Afro-House à Miami ou Rooftops à Bangkok). Envoyez un \"Dire Bonjour 👋\" ou frappez pour débloquer le chat sans partager vos réseaux sociaux.",
+          rule: 'RÈGLE 01',
+          tag: 'KNOCK PRIVÉ',
+          title: 'Croisez un regard à l’autre bout de la pièce',
+          body:
+            'Une présence intrigante à proximité ? Envoyez un Knock privé. L’intérêt réciproque ouvre instantanément un salon direct—sans rejet embarrassant, sans identifiants partagés, sans engagement.',
+          action: 'Simuler un Knock',
         },
         {
-          badge: 'PASSERELLE IA',
-          title: 'AI Wingman & Traduction en Direct',
-          short:
-            'Traduction bidirectionnelle voix, vidéo et texte en temps réel avec amorces de conversation contextuelles.',
-          reveal:
-            'Discutez sans effort en espagnol, thaï, portugais, français et anglais. L’AI Wingman suggère des sujets fluides, traduit les menus et élimine toute barrière linguistique.',
+          rule: 'RÈGLE 02',
+          tag: 'VIDÉOS EN DIRECT',
+          title: 'Ressentez l’ambiance avant d’entrer',
+          body:
+            'Des vidéos brutes de 10 secondes depuis les clubs les plus sélects de la soirée. Voyez qui est au bar, l’énergie ambiante et la foule avant même d’appeler votre chauffeur.',
+          action: 'Voir le Clip 10s',
         },
         {
-          badge: 'CONFIDENTIALITÉ D’ABORD',
-          title: 'Frapper, Partager QR & Mode Fantôme',
-          short:
-            'Connectez-vous via des codes QR personnels sans exposer votre numéro de téléphone ni WhatsApp.',
-          reveal:
-            "Contrôle total de la vie privée. Utilisez 'Fenêtre Ouverte' pour accepter les discussions, ou passez en 'Mode Fantôme / Invisible' pour explorer les lieux sans signaler votre présence.",
+          rule: 'RÈGLE 03',
+          tag: 'MODE FANTÔME',
+          title: 'Contrôle total. Ne donnez jamais votre numéro.',
+          body:
+            'Connectez-vous via votre badge QR chiffré privé. Basculez en Mode Fantôme d’un seul clic pour disparaître du radar à tout moment. Votre identité et vos contacts réels restent totalement protégés.',
+          action: 'Activer Mode Fantôme',
         },
         {
-          badge: 'VIE NOCTURNE',
-          title: 'Hub Nocturne & Accès Portes VIP',
-          short:
-            'Aperçus vidéo bruts de 10 secondes, partage d’additions, listes VIP et retour sécurisé à 2h du matin.',
-          reveal:
-            'Regardez des vidéos non filtrées publiées dans la dernière heure avant de payer l’entrée, partagez des tables avec des groupes vérifiés et profitez de fiches bilingues pour les taxis.',
+          rule: 'RÈGLE 04',
+          tag: 'ZÉRO BARRIÈRE',
+          title: 'La séduction se passe de traduction',
+          body:
+            'Traduction bidirectionnelle voix, vidéo et texte en direct dans le flux. Discutez avec aisance avec n’importe qui, que vous soyez sur un rooftop à Bangkok ou dans un speakeasy à Bogotá.',
+          action: 'Traduction en Direct',
         },
       ],
     },
     hubs: {
-      tag: 'RÉSEAUX DE PROXIMITÉ ACTIFS',
-      heading: 'Hubs Mondiaux en Direct & Vie Nocturne',
-      subheadline:
-        'Flux radar en temps réel, foules vérifiées et traduction automatique par IA dans les plus grandes destinations nocturnes du monde.',
-      items: [
-        {
-          city: 'Bogota',
-          country: 'Colombie',
-          detail: 'Lounges à Chapinero • Prêts à se Rencontrer • VoIP Wi-Fi',
-          badge: 'EN DIRECT',
-        },
-        {
-          city: 'Bangkok',
-          country: 'Thaïlande',
-          detail: 'Rooftops à Thonglor • Vidéos en Direct • Traduction Auto',
-          badge: 'TENDANCE',
-        },
-        {
-          city: 'Rio de Janeiro',
-          country: 'Brésil',
-          detail: 'Cercles de Samba à Lapa • Partage de Tables • Chat Gratuit',
-          badge: 'POPULAIRE',
-        },
-        {
-          city: 'Miami',
-          country: 'États-Unis',
-          detail: 'South Beach & Wynwood • Soirées Afro-House • Accès VIP',
-          badge: 'VIP ACTIF',
-        },
-      ],
-    },
-    footer: {
-      openWeb: 'Ouvrir l’Application Web Cerca',
-      downloadPlay: 'Télécharger sur Google Play',
-      copyright: '© 2026 ScanQRGlobal.ai • Portail Officiel de Cerca Social (qr4luv.com)',
-    },
-  },
-
-  // 6. DEUTSCH (Germany / Austria / Switzerland)
-  de: {
-    nav: {
-      radarActive: 'Live-Radar Aktiv',
-      exploreMap: 'Karte Kostenlos Erkunden',
-      poweredBy: 'Unterstützt von Cerca Social',
-    },
-    hero: {
-      trustBadge: '🌐 KI-GESTÜTZTES NAHBEREICHS-RADAR • WELTWEIT KOSTENLOS IM WLAN',
-      headlineStart: 'Sieh, wer heute Nacht unterwegs ist. Anklopfen zum Verbinden.',
-      headlineGradient: 'Gib niemals deine Nummer preis.',
-      subheadline:
-        'Soziale Echtzeitkarte für Nachtleben, Trend-Locations und verifizierte Personen in deiner Nähe. Sieh dir 10-Sekunden-Live-Flips an, überbrücke Sprachbarrieren mit dem KI-Wingman und tausche persönliche QR-Karten ohne Roaminggebühren aus.',
-      ctaMap: '🗺️ Live-Karte Starten (Gastmodus)',
-      ctaPlay: '📱 Google Play App (4.8★)',
-    },
-    pillars: {
-      tag: 'DAS CERCA-ÖKOSYSTEM',
-      heading: 'Tippen für Funktionsübersicht',
-      openFeature: 'Funktion in Cerca Web öffnen',
-      items: [
-        {
-          badge: 'ENTDECKUNG',
-          title: "Gesichter & 'Offen für Treffen'",
-          short:
-            'Visuelles Nahbereichs-Raster von Reisenden, Nomaden und verifizierten Einheimischen, die sich jetzt treffen möchten.',
-          reveal:
-            "Filtere nach 'Jetzt Live', 'Locations' oder Szenen (wie Miami Afro-House oder Bangkok Rooftops). Sende ein sofortiges \"Hallo 👋\" oder klopfe an für gemeinsamen Chat ohne Social-Media-Handles.",
-        },
-        {
-          badge: 'KI-BRÜCKE',
-          title: 'Der KI-Wingman & Live-Übersetzung',
-          short:
-            'Zwei-Wege-Echtzeitübersetzung für Sprache, Video und Text mit intelligenten Gesprächseinstiegen.',
-          reveal:
-            'Chatte mühelos auf Spanisch, Thailändisch, Portugiesisch und Englisch. Der KI-Wingman schlägt Eisbrecher vor, übersetzt Speisekarten und verbindet Kulturen ohne Sprachbarrieren.',
-        },
-        {
-          badge: 'DATENSCHUTZ ZUERST',
-          title: 'Anklopfen, QR Teilen & Geistermodus',
-          short:
-            'Verbinde dich über persönliche QR-Codes, ohne Handynummer oder WhatsApp weiterzugeben.',
-          reveal:
-            "Volle Kontrolle: Öffne das 'Fenster' für Anfragen oder nutze den 'Geister- / Unsichtbarmodus', um Locations zu scouten, ohne anderen deine Anwesenheit zu zeigen.",
-        },
-        {
-          badge: 'NACHTLEBEN',
-          title: 'Nightlife-Hub & VIP-Einlass',
-          short:
-            '10-Sekunden-Videos aus Clubs, Tisch-Splits, Gästelisten und sichere Heimfahrt um 2 Uhr nachts.',
-          reveal:
-            'Sieh unverfälschte Videos der letzten Stunde vor dem Eintritt, teile Mindestverzehr mit verifizierten Gruppen und zeige zweisprachige Taxikarten für eine sichere Heimfahrt.',
-        },
-      ],
-    },
-    hubs: {
-      tag: 'AKTIVE NAHBEREICHS-NETZWERKE',
-      heading: 'Live Globale Hubs & Nachtleben',
-      subheadline:
-        'Echtzeit-Radar-Feeds, verifizierte Check-ins und automatische KI-Übersetzung an weltweiten Top-Nightlife-Zielen.',
-      items: [
+      eyebrow: 'RÉSEAUX DE RADAR ACTIFS',
+      title: 'Où la Nuit s’Anime',
+      cards: [
         {
           city: 'Bogotá',
-          country: 'Kolumbien',
-          detail: 'Chapinero Lounges • Offen für Treffen • WLAN VoIP',
-          badge: 'JETZT LIVE',
+          neighborhood: 'Zona T & Chapinero',
+          status: '🔴 42 Knocks Ce Soir • Énergie Intense • Afro-House & Speakeasies',
+          icon: '🔴',
         },
         {
           city: 'Bangkok',
-          country: 'Thailand',
-          detail: 'Thonglor Rooftops • Live-Flips • Auto-Übersetzung',
-          badge: 'TREND',
+          neighborhood: 'Thonglor & Sukhumvit',
+          status: '🔥 88 Enregistrés • Rooftops VIP Actifs • Traduction en Direct',
+          icon: '🔥',
         },
         {
           city: 'Rio de Janeiro',
-          country: 'Brasilien',
-          detail: 'Lapa Samba-Runden • Tisch-Splits • Gratis-Chat',
-          badge: 'BELIEBT',
+          neighborhood: 'Ipanema & Lapa',
+          status: '⚡ Bars de Samba Combles • 24 Vidéos Partagées • Ambiance Plage',
+          icon: '⚡',
         },
         {
           city: 'Miami',
-          country: 'Vereinigte Staaten',
-          detail: 'South Beach & Wynwood • Afro-House • VIP-Zugang',
-          badge: 'VIP AKTIV',
+          neighborhood: 'South Beach & Wynwood',
+          status: '🍸 Effervescence Nocturne • Accès Cordon de Sécurité • Listes VIP',
+          icon: '🍸',
         },
       ],
     },
+    bottomCta: {
+      headline: 'La salle murmure déjà. Entrez.',
+      subheadline: 'Rejoignez les invités de votre ville sur la carte de proximité en direct ce soir.',
+      primaryBtn: 'Déverrouiller le Radar de Proximité en Direct →',
+      secondaryLink: 'Obtenir l’App Mobile (4.8★)',
+    },
     footer: {
-      openWeb: 'Cerca Web-App öffnen',
-      downloadPlay: 'Auf Google Play herunterladen',
-      copyright: '© 2026 ScanQRGlobal.ai • Offizielles Gateway für Cerca Social (qr4luv.com)',
+      copyright: '© 2026 ScanQRGlobal.ai • Discrétion Garantie.',
+    },
+    modals: {
+      radarTitle: 'Radar de Proximité en Direct',
+      radarSubtitle: 'Télémétrie de salle chiffrée en temps réel',
+      badgeTitle: 'Badge QR Chiffré Privé',
+      badgeSubtitle: 'Aucun numéro partagé. Mode Fantôme disponible à tout instant.',
+      appTitle: 'ScanQR Global Mobile',
+      appSubtitle: 'Radar Nocturne en Direct • Application iOS & Android',
+      ghostModeActive: 'Mode Fantôme Actif — Totalement Invisible',
+      ghostModeInactive: 'Visible sur le Radar — Prêt pour les Knocks Privés',
+      knockSent: 'Knock Envoyé — Connexion directe ouverte dès accord réciproque',
+      copied: 'Lien du badge privé copié',
+      close: 'Fermer',
     },
   },
 
-  // 7. 日本語 (Japan)
-  ja: {
+  // 6. DEUTSCH
+  de: {
     nav: {
-      radarActive: 'リアルタイムレーダー稼働中',
-      exploreMap: 'マップを無料で探索',
-      poweredBy: 'Powered by Cerca Social',
+      brand: 'ScanQR Global',
+      badge: '● Radar Live in 4 Städten',
+      navButton: 'Radar Starten →',
     },
     hero: {
-      trustBadge: '🌐 AI近接レーダー • 世界中のWi-Fiで完全無料',
-      headlineStart: '今夜街に出ている人を見つけよう。ノックして繋がる。',
-      headlineGradient: '電話番号を公開する必要はありません。',
+      tag: 'EXKLUSIVER ZUGANG • ECHTZEIT-NACHTLEBEN-PROXIMITÄT',
+      headlineLine1: 'Rätsle nicht mehr, wer heute ausgeht.',
+      headlineLine2: 'Sieh den Raum. Mach deinen Zug.',
       subheadline:
-        'ナイトライフ、話題のスポット、近くの認証済みユーザーを表示するリアルタイムソーシャルマップ。10秒のライブフリップをチェックし、AIウィングマンで言語の壁を越え、通信料ゼロで個人QRコードを交換。',
-      ctaMap: '🗺️ ライブマップを開く (ゲストモード)',
-      ctaPlay: '📱 Google Playアプリ (4.8★)',
+        'Eine elektrisierende Karte mit echten Menschen, angesagten Lounges und privaten Radar-Knocks direkt um dich herum. Keine Telefonnummern geteilt. Keine Papierspuren. Reine spontane Chemie.',
+      ctaPrimary: 'Sieh, Wer Heute Ausgeht →',
+      ctaSecondary: 'Privaten QR-Badge Scannen',
     },
-    pillars: {
-      tag: 'CERCA エコシステム',
-      heading: 'タップして使い方をプレビュー',
-      openFeature: 'Cerca Webで機能を開く',
-      items: [
+    ticker: {
+      guests: '🔥 312 Aktive Gäste in der Nähe',
+      knocks: '🍸 84 Knocks Heute Ausgetauscht',
+      lounges: '⚡ 19 VIP-Lounges im Trend',
+    },
+    features: {
+      eyebrow: 'DIE SPIELREGELN',
+      title: 'Alles Passiert im Augenblick',
+      cards: [
         {
-          badge: '発見',
-          title: "顔写真 & '今会える人'",
-          short: '今すぐ合流できる旅行者、ノマド、認証済みローカルの近接グリッド。',
-          reveal:
-            "「今ライブ」「スポット」「特定のシーン」（マイアミのAfro-Houseやバンコクのルーフトップなど）で絞り込み。SNSアカウントを教えることなく、「挨拶 👋」やノックでチャットを開始できます。",
+          rule: 'REGEL 01',
+          tag: 'PRIVATER KNOCK',
+          title: 'Blicke quer durch den Raum auffangen',
+          body:
+            'Jemanden Faszinierenden entdeckt? Sende einen privaten Knock. Gegenseitiges Interesse öffnet sofort eine direkte Verbindung—ohne peinliche Abfuhren, ohne Social-Media-Handles, ohne Verpflichtungen.',
+          action: 'Knock Simulieren',
         },
         {
-          badge: 'AIブリッジ',
-          title: 'AIウィングマン & リアルタイム翻訳',
-          short: '双方向のリアルタイム音声・ビデオ・テキスト翻訳とスマートな話題提案。',
-          reveal:
-            '英語、スペイン語、タイ語、ポルトガル語など自在に会話。AIウィングマンが会話のきっかけを提案し、メニューを翻訳して異文化交流をサポートします。',
+          rule: 'REGEL 02',
+          tag: 'LIVE-CLIPS',
+          title: 'Spüre den Vibe, bevor du reingehst',
+          body:
+            '10-Sekunden-Rohclips direkt aus den heißesten Clubs von heute Nacht. Sieh, wer an der Bar steht, wie die Crowd aussieht und wohin die Energie wandert, bevor du dein Taxi rufst.',
+          action: '10s-Clip Ansehen',
         },
         {
-          badge: 'プライバシー重視',
-          title: 'ノック、QR共有 & ゴーストモード',
-          short: '電話番号やWhatsAppを教えずに個人QRコードで瞬時に接続。',
-          reveal:
-            "完全なプライバシー管理。「ウィンドウオープン」でチャットを受け付けるか、「ゴースト / インビジブルモード」で居場所を隠したままマップを閲覧可能。",
+          rule: 'REGEL 03',
+          tag: 'GHOST-MODUS',
+          title: 'Volle Kontrolle. Gib niemals deine Nummer preis.',
+          body:
+            'Verbinde dich über deinen privaten verschlüsselten QR-Badge. Aktiviere mit einem Fingertipp den Ghost-Modus, um unsichtbar zu werden. Deine echten Kontakte und Identität bleiben absolut geschützt.',
+          action: 'Ghost-Modus Umschalten',
         },
         {
-          badge: 'ナイトライフ',
-          title: 'ナイトライフHub & VIP入場',
-          short: '10秒のリアルな会場動画、テーブル割り勘、ゲストリスト、深夜2時の安全帰宅支援。',
-          reveal:
-            '入場料を払う前に直近1時間に投稿された動画を確認し、認証済みグループとボトル代をシェア。帰宅時はタクシー用の2言語カードを表示できます。',
+          rule: 'REGEL 04',
+          tag: 'KEINE BARRIEREN',
+          title: 'Chemie braucht keine Übersetzung',
+          body:
+            'Echtzeit-Sprach-, Video- und Textübersetzung direkt im Feed. Unterhalte dich mühelos mit jedem im Raum, egal ob in einer Rooftop-Bar in Bangkok oder einem Speakeasy in Bogotá.',
+          action: 'Live-Übersetzung',
         },
       ],
     },
     hubs: {
-      tag: 'アクティブ近接ネットワーク',
-      heading: 'グローバルHub & ナイトライフ',
+      eyebrow: 'AKTIVE RADAR-NETZWERKE',
+      title: 'Wohin die Nacht Sich Bewegt',
+      cards: [
+        {
+          city: 'Bogotá',
+          neighborhood: 'Zona T & Chapinero',
+          status: '🔴 42 Knocks Heute • Hohe Energie • Afro-House & Speakeasies',
+          icon: '🔴',
+        },
+        {
+          city: 'Bangkok',
+          neighborhood: 'Thonglor & Sukhumvit',
+          status: '🔥 88 Eingecheckt • VIP-Rooftops Aktiv • Live-Übersetzung Bereit',
+          icon: '🔥',
+        },
+        {
+          city: 'Rio de Janeiro',
+          neighborhood: 'Ipanema & Lapa',
+          status: '⚡ Samba-Lounges Voll • 24 Live-Flips Geteilt • Strandwärme',
+          icon: '⚡',
+        },
+        {
+          city: 'Miami',
+          neighborhood: 'South Beach & Wynwood',
+          status: '🍸 Nacht-Rush • Velvet-Rope-Zugang • VIP-Gästelisten in Bewegung',
+          icon: '🍸',
+        },
+      ],
+    },
+    bottomCta: {
+      headline: 'Der Raum spricht bereits. Tritt ein.',
+      subheadline: 'Triff heute Abend Gäste in deiner Stadt auf der Live-Proximitätskarte.',
+      primaryBtn: 'Live-Proximitäts-Radar Freischalten →',
+      secondaryLink: 'Mobile App Holen (4.8★)',
+    },
+    footer: {
+      copyright: '© 2026 ScanQRGlobal.ai • Diskretion Garantiert.',
+    },
+    modals: {
+      radarTitle: 'Live-Proximitäts-Radar',
+      radarSubtitle: 'Verschlüsselte Raum-Telemetrie in Echtzeit',
+      badgeTitle: 'Privater Verschlüsselter QR-Badge',
+      badgeSubtitle: 'Keine Telefonnummern geteilt. Ghost-Modus jederzeit verfügbar.',
+      appTitle: 'ScanQR Global Mobile',
+      appSubtitle: 'Live-Nachtleben-Radar • Für iOS & Android',
+      ghostModeActive: 'Ghost-Modus Aktiv — Völlig Unsichtbar',
+      ghostModeInactive: 'Auf Radar Sichtbar — Bereit für Private Knocks',
+      knockSent: 'Knock Gesendet — Direkte Leitung öffnet sich bei beidseitigem Interesse',
+      copied: 'Privater Badge-Link kopiert',
+      close: 'Schließen',
+    },
+  },
+
+  // 7. 日本語
+  ja: {
+    nav: {
+      brand: 'ScanQR Global',
+      badge: '● 4都市でレーダー稼働中',
+      navButton: 'レーダーを開く →',
+    },
+    hero: {
+      tag: '限定アクセス • リアルタイム・ナイトライフ近接レーダー',
+      headlineLine1: '今夜誰が出かけているか、推測するのは終わり。',
+      headlineLine2: 'フロアの気配を感じ、行動を起こそう。',
       subheadline:
-        '世界中の主要ナイトライフ都市でリアルタイムレーダーとAI自動翻訳が稼働中。',
-      items: [
+        '本物の人々、人気ラウンジ、そして周囲で交わされるプライベートKnockを捉えるエレクトリックマップ。電話番号の共有なし。痕跡ゼロ。純粋な瞬間のケミストリー。',
+      ctaPrimary: '今夜出ている人を見る →',
+      ctaSecondary: 'プライベートQRバッジをスキャン',
+    },
+    ticker: {
+      guests: '🔥 312名のゲストが近くで接続中',
+      knocks: '🍸 今夜84件のKnockを交換',
+      lounges: '⚡ 19箇所のVIPラウンジが盛り上がり中',
+    },
+    features: {
+      eyebrow: 'エンゲージメントの掟',
+      title: 'すべてはその瞬間に起こる',
+      cards: [
+        {
+          rule: '掟 01',
+          tag: 'プライベートKNOCK',
+          title: 'フロアの向こうの視線を捉える',
+          body:
+            '近くに気になる人が？ プライベートKnockを送信。お互いの関心があれば瞬時にダイレクトラインが開設—気まずい拒絶もSNS交換も不要、完全ノートレース。',
+          action: 'Knockを試す',
+        },
+        {
+          rule: '掟 02',
+          tag: 'ライブ動画',
+          title: '入店前にその場のバイブスを体感',
+          body:
+            '今夜最も熱いフロアから届く10秒の無加工動画。タクシーを呼ぶ前に、バーカウンターの様子や客層、熱気の行方をリアルに把握。',
+          action: '10秒動画を見る',
+        },
+        {
+          rule: '掟 03',
+          tag: 'ゴーストモード',
+          title: '完全なコントロール。番号は一切漏洩しない。',
+          body:
+            '暗号化されたプライベートQRバッジで接続。ワンタップでゴーストモードに移行し、レーダーからいつでも姿を消去。本名や連絡先は完全に保護されます。',
+          action: 'ゴーストモード切替',
+        },
+        {
+          rule: '掟 04',
+          tag: '言語の壁ゼロ',
+          title: 'ケミストリーに通訳は不要',
+          body:
+            'フィード内で双方向リアルタイム音声・ビデオ・テキスト翻訳が稼働。バンコクのルーフトップでもボゴタのスピークイージーでも、目の前の相手と言葉の壁なく会話。',
+          action: 'リアルタイム翻訳',
+        },
+      ],
+    },
+    hubs: {
+      eyebrow: '稼働中のレーダーネットワーク',
+      title: '夜が動き出す場所',
+      cards: [
         {
           city: 'ボゴタ',
-          country: 'コロンビア',
-          detail: 'Chapineroラウンジ • 出会い受付中 • Wi-Fi VoIP',
-          badge: 'ライブ中',
+          neighborhood: 'ソナT & チャピネロ',
+          status: '🔴 今夜42件のKnock • 高エネルギー • Afro-House & Speakeasy',
+          icon: '🔴',
         },
         {
           city: 'バンコク',
-          country: 'タイ',
-          detail: 'Thonglorルーフトップ • ライブ動画 • 自動翻訳',
-          badge: '急上昇',
+          neighborhood: 'トンロー & スクンビット',
+          status: '🔥 88名チェックイン • VIPルーフトップ稼働中 • リアルタイム翻訳稼働',
+          icon: '🔥',
         },
         {
           city: 'リオデジャネイロ',
-          country: 'ブラジル',
-          detail: 'Lapaサンバ • テーブル割り勘 • 無料チャット',
-          badge: '人気',
+          neighborhood: 'イパネマ & ラパ',
+          status: '⚡ サンバラウンジ満席 • 24件のライブ動画投稿 • ビーチの熱気',
+          icon: '⚡',
         },
         {
           city: 'マイアミ',
-          country: 'アメリカ',
-          detail: 'サウスビーチ & Wynwood • Afro-House • VIPアクセス',
-          badge: 'VIP稼働中',
+          neighborhood: 'サウスビーチ & ウィンウッド',
+          status: '🍸 深夜のラッシュ • ベルベットロープ入場 • ゲストリスト稼働中',
+          icon: '🍸',
         },
       ],
     },
+    bottomCta: {
+      headline: 'フロアはすでに盛り上がっています。中へどうぞ。',
+      subheadline: '今夜、あなたの街のゲストと近接マップで合流しましょう。',
+      primaryBtn: '近接レーダーのロックを解除 →',
+      secondaryLink: 'モバイルアプリを入手 (4.8★)',
+    },
     footer: {
-      openWeb: 'Cerca Webアプリを開く',
-      downloadPlay: 'Google Playでダウンロード',
-      copyright: '© 2026 ScanQRGlobal.ai • Official Gateway for Cerca Social (qr4luv.com)',
+      copyright: '© 2026 ScanQRGlobal.ai • 完全なプライバシーを保証',
+    },
+    modals: {
+      radarTitle: 'ライブ近接レーダー',
+      radarSubtitle: 'リアルタイム暗号化フロアテレメトリ',
+      badgeTitle: 'プライベート暗号化QRバッジ',
+      badgeSubtitle: '電話番号の共有なし。いつでもゴーストモードへ移行可能。',
+      appTitle: 'ScanQR Global モバイル',
+      appSubtitle: 'ライブナイトライフレーダー • iOS & Android',
+      ghostModeActive: 'ゴーストモード作動中 — 完全ステルス状態',
+      ghostModeInactive: 'レーダー表示中 — プライベートKnock受付中',
+      knockSent: 'Knockを送信しました — 相互関心でラインが開設されます',
+      copied: 'プライベートバッジリンクをコピーしました',
+      close: '閉じる',
     },
   },
 
-  // 8. 中文 (China / Taiwan / Singapore)
+  // 8. 中文
   zh: {
     nav: {
-      radarActive: '实时雷达已启动',
-      exploreMap: '免费探索地图',
-      poweredBy: '由 Cerca Social 提供支持',
+      brand: 'ScanQR Global',
+      badge: '● 4大城市实时雷达已开启',
+      navButton: '进入雷达 →',
     },
     hero: {
-      trustBadge: '🌐 AI近距离雷达 • 全球Wi-Fi完全免费',
-      headlineStart: '查看今晚谁在外面。敲门即连。',
-      headlineGradient: '绝不泄露您的电话号码。',
+      tag: '独家权限 • 实时夜生活近邻雷达',
+      headlineLine1: '不再猜测今晚谁在外狂欢。',
+      headlineLine2: '洞悉全场。果断出击。',
       subheadline:
-        '汇集夜生活、热门地点及附近已验证人群的实时社交地图。观看10秒实时视频快照，借助AI僚机跨越语言障碍，在无蜂窝漫游费用的情况下交换个人QR名片。',
-      ctaMap: '🗺️ 打开实时地图 (访客模式)',
-      ctaPlay: '📱 Google Play 客户端 (4.8★)',
+        '一张由真实人群、潮流酒廊和身边私密雷达Knock组成的实时动态地图。无需透露手机号，不留任何痕迹，只有瞬间点燃的默契。',
+      ctaPrimary: '看看今晚谁在现场 →',
+      ctaSecondary: '扫描私密QR徽章',
     },
-    pillars: {
-      tag: 'CERCA 生态系统',
-      heading: '点击预览工作原理',
-      openFeature: '在 Cerca Web 中打开功能',
-      items: [
+    ticker: {
+      guests: '🔥 附近 312 位活跃宾客',
+      knocks: '🍸 今晚已传递 84 次 Knock',
+      lounges: '⚡ 19 家 VIP 酒廊正在升温',
+    },
+    features: {
+      eyebrow: '互动准则',
+      title: '一切发生在此刻',
+      cards: [
         {
-          badge: '发现',
-          title: "面孔与'随时见面'",
-          short: '准备立即见面的旅行者、数字游民和已验证当地人的视觉距离网格。',
-          reveal:
-            "按“当前在线”、“地点”或特定场景（如迈阿密Afro-House或曼谷屋顶酒吧）进行筛选。发送即时“打招呼 👋”或敲门以解锁双方聊天，无需透露社交账号。",
+          rule: '规则 01',
+          tag: '私密KNOCK',
+          title: '隔着人群锁定目光',
+          body:
+            '在附近发现了令人心动的人？发送私密 Knock。双方互生好感即刻开启私聊专线—无需尴尬拒绝，无需交换社交账号，全无羁绊。',
+          action: '模拟 Knock',
         },
         {
-          badge: 'AI 桥梁',
-          title: 'AI僚机与实时翻译',
-          short: '双向实时语音、视频和文字翻译，附带情境化AI破冰话题。',
-          reveal:
-            '在西班牙语、泰语、葡萄牙语和英语之间顺畅交流。AI僚机建议流畅开场白，解码酒吧菜单，消除语言隔阂。',
+          rule: '规则 02',
+          tag: '现场快拍',
+          title: '进门前感受现场气氛',
+          body:
+            '来自今晚最热门夜场的10秒未经剪辑快拍。在打车出门之前，先看看吧台前有谁、人群画像如何，以及热度正在往哪里涌动。',
+          action: '观看10秒现场',
         },
         {
-          badge: '隐私优先',
-          title: '敲门、分享QR与幽灵隐身模式',
-          short: '通过可佩戴/可分享的个人QR码连接，无需暴露您的手机号或微信。',
-          reveal:
-            "完全隐私控制。使用“开窗”接受聊天请求，或进入完全“隐身/幽灵模式”查看实时地图和探店，而不向陌生人展示您的行踪。",
+          rule: '规则 03',
+          tag: '幽灵模式',
+          title: '全面掌控。绝不泄露个人号码。',
+          body:
+            '使用你的专属加密QR徽章连接。轻点一下进入幽灵模式，随时从雷达中隐身。你的真实联系方式和个人身份始终受到绝对保护。',
+          action: '切换幽灵模式',
         },
         {
-          badge: '夜生活',
-          title: '夜生活中心与VIP入场通道',
-          short: '10秒未剪辑现场快照、拼卡座包厢、嘉宾名单与凌晨2点安全返程协助。',
-          reveal:
-            '在支付门票前查看过去一小时上传的真实视频，与附近的认证群体平摊酒水最低消费，并在安全返程时向司机出示双语乘车卡。',
+          rule: '规则 04',
+          tag: '零阻隔沟通',
+          title: '心动无需翻译',
+          body:
+            '流内运行的双向实时语音、视频与文字翻译。无论是在曼谷的高空天台还是波哥大的地下清吧，都能与全场宾客无缝畅聊。',
+          action: '实时翻译演示',
         },
       ],
     },
     hubs: {
-      tag: '活跃近距离网络',
-      heading: '全球实时夜生活枢纽',
-      subheadline:
-        '全球主要夜生活目的地均已激活实时雷达信息流、已签到人群和AI自动翻译。',
-      items: [
+      eyebrow: '已激活雷达网络',
+      title: '今夜狂欢流向何方',
+      cards: [
         {
           city: '波哥大',
-          country: '哥伦比亚',
-          detail: 'Chapinero 酒廊 • 活跃社交 • Wi-Fi VoIP',
-          badge: '正在进行',
+          neighborhood: 'T区 & 查皮内罗',
+          status: '🔴 今晚 42 次 Knocks • 高能现场 • 非洲浩室 & 地下清吧',
+          icon: '🔴',
         },
         {
           city: '曼谷',
-          country: '泰国',
-          detail: 'Thonglor 屋顶酒吧 • 现场快照 • 自动翻译',
-          badge: '热门趋势',
+          neighborhood: '通罗 & 素坤逸',
+          status: '🔥 88 人已签到 • VIP高空露台活跃 • 实时双向翻译就绪',
+          icon: '🔥',
         },
         {
           city: '里约热内卢',
-          country: '巴西',
-          detail: 'Lapa 桑巴圈 • 拼桌消费 • 免费聊天',
-          badge: '热门',
+          neighborhood: '伊帕内玛 & 拉帕',
+          status: '⚡ 桑巴酒廊爆满 • 24 条现场快拍 • 海滩狂热',
+          icon: '⚡',
         },
         {
           city: '迈阿密',
-          country: '美国',
-          detail: '南海滩与温伍德 • Afro-House • VIP通道',
-          badge: 'VIP活跃',
+          neighborhood: '南海滩 & 温伍德',
+          status: '🍸 深夜热潮 • 丝绒红绳特权通道 • VIP宾客名单流动中',
+          icon: '🍸',
         },
       ],
     },
+    bottomCta: {
+      headline: '全场已在耳语。即刻步入。',
+      subheadline: '今晚与你所在城市的宾客在实时近邻地图上相聚。',
+      primaryBtn: '解锁实时近邻雷达 →',
+      secondaryLink: '获取移动端应用 (4.8★)',
+    },
     footer: {
-      openWeb: '打开 Cerca Web 应用',
-      downloadPlay: '在 Google Play 下载',
-      copyright: '© 2026 ScanQRGlobal.ai • Official Gateway for Cerca Social (qr4luv.com)',
+      copyright: '© 2026 ScanQRGlobal.ai • 隐私绝密保障',
+    },
+    modals: {
+      radarTitle: '实时近邻雷达',
+      radarSubtitle: '全场实时加密热度感知',
+      badgeTitle: '专属加密QR徽章',
+      badgeSubtitle: '无需交换电话号码。随时进入幽灵隐身模式。',
+      appTitle: 'ScanQR Global 移动端',
+      appSubtitle: '实时夜生活近邻雷达 • 适用于 iOS 与 Android',
+      ghostModeActive: '幽灵隐身已开启 — 完全不可见',
+      ghostModeInactive: '雷达显示中 — 随时接收私密 Knock',
+      knockSent: 'Knock已发送 — 双方心动即刻开启专属连线',
+      copied: '专属徽章链接已复制到剪贴板',
+      close: '关闭',
     },
   },
 }
 
-// ----------------------------------------------------------------------
-// Geolocation & Fallback Detection Engine
-// ----------------------------------------------------------------------
-
-export function getInitialLocale(): GatewayLocale {
+function getInitialLocale(): GatewayLocale {
   if (typeof window === 'undefined') return 'en'
-
-  // 1. Manual user override stored in localStorage always takes highest priority!
   try {
     const saved = localStorage.getItem('scanqr_locale') as GatewayLocale | null
-    if (saved && GATEWAY_LOCALES.some((l) => l.code === saved)) {
-      return saved
-    }
-  } catch {}
+    if (saved && GATEWAY_TRANSLATIONS[saved]) return saved
 
-  // 2. Synchronous Geolocation detection via Device TimeZone
-  try {
-    const tz = Intl.DateTimeFormat().resolvedOptions().timeZone.toLowerCase()
-    if (
-      tz.includes('bogota') ||
-      tz.includes('colombia') ||
-      tz.includes('buenos_aires') ||
-      tz.includes('santiago') ||
-      tz.includes('lima') ||
-      tz.includes('mexico') ||
-      tz.includes('caracas') ||
-      tz.includes('madrid') ||
-      tz.includes('panama') ||
-      tz.includes('guatemala') ||
-      tz.includes('havana') ||
-      tz.includes('santo_domingo')
-    ) {
-      return 'es'
-    }
-
-    if (
-      tz.includes('bangkok') ||
-      tz.includes('thailand') ||
-      tz.includes('indochina')
-    ) {
-      return 'th'
-    }
-
-    if (
-      tz.includes('sao_paulo') ||
-      tz.includes('brazil') ||
-      tz.includes('recife') ||
-      tz.includes('belem') ||
-      tz.includes('fortaleza') ||
-      tz.includes('manaus') ||
-      tz.includes('lisbon')
-    ) {
-      return 'pt'
-    }
-
-    if (tz.includes('paris') || tz.includes('brussels') || tz.includes('geneva')) {
-      return 'fr'
-    }
-
-    if (tz.includes('berlin') || tz.includes('vienna') || tz.includes('zurich')) {
-      return 'de'
-    }
-
-    if (tz.includes('tokyo')) {
-      return 'ja'
-    }
-
-    if (
-      tz.includes('shanghai') ||
-      tz.includes('beijing') ||
-      tz.includes('taipei') ||
-      tz.includes('hong_kong')
-    ) {
-      return 'zh'
-    }
-  } catch {}
-
-  // 3. Browser language detection
-  try {
-    const nav = (navigator?.language || '').toLowerCase()
-    if (nav.startsWith('th')) return 'th'
+    const nav = (navigator.language || '').toLowerCase()
     if (nav.startsWith('es')) return 'es'
+    if (nav.startsWith('th')) return 'th'
     if (nav.startsWith('pt')) return 'pt'
     if (nav.startsWith('fr')) return 'fr'
     if (nav.startsWith('de')) return 'de'
@@ -911,14 +1019,12 @@ export function useGatewayI18n() {
   }, [])
 
   useEffect(() => {
-    // If user has already made an explicit selection, never override it
     try {
       if (localStorage.getItem('scanqr_locale')) {
         return
       }
     } catch {}
 
-    // Asynchronous edge geolocation probe
     let active = true
     async function probeGeo() {
       try {
@@ -930,7 +1036,6 @@ export function useGatewayI18n() {
               const data = await res.json()
               if (!active) return
 
-              // Guard again in case user picked language while request was in-flight
               try {
                 if (localStorage.getItem('scanqr_locale')) return
               } catch {}
@@ -938,7 +1043,13 @@ export function useGatewayI18n() {
               const market = (data?.market || data?.hub?.market || '').toLowerCase()
               const country = (data?.countryCode || data?.hub?.countryCode || '').toUpperCase()
 
-              if (market === 'colombia' || country === 'CO' || country === 'ES' || country === 'MX' || country === 'AR') {
+              if (
+                market === 'colombia' ||
+                country === 'CO' ||
+                country === 'ES' ||
+                country === 'MX' ||
+                country === 'AR'
+              ) {
                 setLocaleState('es')
                 return
               }
@@ -951,9 +1062,7 @@ export function useGatewayI18n() {
                 return
               }
             }
-          } catch {
-            // probe next endpoint
-          }
+          } catch {}
         }
       } catch {}
     }
