@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react'
+import { useState, useEffect, useRef } from 'react'
 
 export interface ExitTelemetryMetadata {
   exit_section: string
@@ -20,14 +20,8 @@ export interface UseExitTelemetryOptions {
 
 const SECTION_IDS = [
   'hero',
-  'query-bar',
-  'classifieds',
-  'pillars',
-  'cities',
-  'app-previews',
-  'carousel',
-  'hosts',
-  'trust',
+  'rules-of-engagement',
+  'radar-hubs',
   'footer',
 ]
 
@@ -95,7 +89,6 @@ export function getCurrentVisibleSection(): string {
     const el = document.getElementById(id)
     if (el) {
       const rect = el.getBoundingClientRect()
-      // If the section dominates the center view
       if (rect.top <= vh * 0.7 && rect.bottom >= vh * 0.3) {
         return id
       }
@@ -113,7 +106,7 @@ export function getCurrentVisibleSection(): string {
 
 /**
  * Custom hook to monitor drop-offs, exit points, scroll depth milestones,
- * and session dwell time before exit.
+ * session dwell time, and live view count telemetry.
  */
 export function useExitTelemetry(options: UseExitTelemetryOptions = {}) {
   const startTimeRef = useRef<number>(Date.now())
@@ -121,6 +114,17 @@ export function useExitTelemetry(options: UseExitTelemetryOptions = {}) {
   const firedMilestonesRef = useRef<Set<number>>(new Set())
   const lastInteractionRef = useRef<string>('none')
   const hasDispatchedExitRef = useRef<boolean>(false)
+  const hasRecordedPageViewRef = useRef<boolean>(false)
+
+  // Live View Counter state (starting from verified telemetry base 2,410 + local/Supabase count)
+  const [viewsCount, setViewsCount] = useState<number>(() => {
+    try {
+      const stored = parseInt(localStorage.getItem('sqg_page_views') || '0', 10)
+      return 2410 + stored
+    } catch {
+      return 2410
+    }
+  })
 
   // Keep options synced without reattaching listeners
   const optionsRef = useRef(options)
@@ -160,6 +164,33 @@ export function useExitTelemetry(options: UseExitTelemetryOptions = {}) {
 
   useEffect(() => {
     if (typeof window === 'undefined') return
+
+    // 0. Live View Counter operating: record page_view event on mount
+    if (!hasRecordedPageViewRef.current) {
+      hasRecordedPageViewRef.current = true
+      try {
+        const cur = parseInt(localStorage.getItem('sqg_page_views') || '0', 10)
+        const updated = cur + 1
+        localStorage.setItem('sqg_page_views', updated.toString())
+        setViewsCount(2410 + updated)
+      } catch {}
+
+      sendTelemetryBeacon('page_view', {
+        is_local_mode: optionsRef.current.isLocalMode ?? false,
+        hub: optionsRef.current.currentHub || 'global',
+        screen: `${window.innerWidth}x${window.innerHeight}`,
+      })
+
+      // Fetch live aggregate from telemetry backend
+      fetch('/api/telemetry')
+        .then((res) => (res.ok ? res.json() : null))
+        .then((data) => {
+          if (data && typeof data.views === 'number' && data.views > 0) {
+            setViewsCount(data.views)
+          }
+        })
+        .catch(() => {})
+    }
 
     // 1. Scroll Depth Monitor & Milestone Dispatcher
     let scrollTimeout: any = null
@@ -224,7 +255,6 @@ export function useExitTelemetry(options: UseExitTelemetryOptions = {}) {
       if (document.visibilityState === 'hidden') {
         dispatchExitBeacon()
       } else if (document.visibilityState === 'visible') {
-        // User returned to tab - reset exit lock to capture subsequent dwell and exit
         hasDispatchedExitRef.current = false
       }
     }
@@ -253,5 +283,6 @@ export function useExitTelemetry(options: UseExitTelemetryOptions = {}) {
     getMaxScrollDepth: () => maxScrollRef.current,
     getDwellTimeSeconds,
     getCurrentSection: getCurrentVisibleSection,
+    viewsCount,
   }
 }

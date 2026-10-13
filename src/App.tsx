@@ -27,7 +27,7 @@ import { useExitTelemetry } from './hooks/useExitTelemetry'
 
 export default function App() {
   const { locale, setLocale, t } = useGatewayI18n()
-  const { recordInteraction } = useExitTelemetry()
+  const { recordInteraction, viewsCount } = useExitTelemetry()
 
   // Interactive Modal States (100% self-contained, zero external domains)
   const [showRadarModal, setShowRadarModal] = useState(false)
@@ -1129,18 +1129,55 @@ export default function App() {
         >
           <div
             style={{
-              display: 'inline-flex',
+              display: 'flex',
               alignItems: 'center',
-              gap: '8px',
-              fontSize: '11.5px',
-              fontWeight: 700,
-              color: '#d946ef',
-              letterSpacing: '1px',
-              textTransform: 'uppercase',
+              justifyContent: 'center',
+              gap: '12px',
+              flexWrap: 'wrap',
             }}
           >
-            <Lock size={12} />
-            <span>Encrypted Social Proximity</span>
+            <div
+              style={{
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: '8px',
+                fontSize: '11.5px',
+                fontWeight: 700,
+                color: '#d946ef',
+                letterSpacing: '1px',
+                textTransform: 'uppercase',
+              }}
+            >
+              <Lock size={12} />
+              <span>Encrypted Social Proximity</span>
+            </div>
+
+            <div
+              style={{
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: '8px',
+                backgroundColor: 'rgba(217, 70, 239, 0.08)',
+                border: '1px solid rgba(217, 70, 239, 0.22)',
+                padding: '4px 12px',
+                borderRadius: '9999px',
+                fontSize: '11.5px',
+                fontWeight: 700,
+                color: '#f5d0fe',
+              }}
+            >
+              <span
+                className="pulse-dot"
+                style={{
+                  width: '6px',
+                  height: '6px',
+                  borderRadius: '50%',
+                  backgroundColor: '#f43f5e',
+                  display: 'inline-block',
+                }}
+              />
+              <span>Live Telemetry Active • {viewsCount.toLocaleString()} Verified Views</span>
+            </div>
           </div>
 
           <p

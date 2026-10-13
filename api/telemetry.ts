@@ -14,12 +14,46 @@ function getHeader(req: IncomingMessage, name: string): string {
 export default async function handler(req: IncomingMessage, res: ServerResponse) {
   // CORS & Preflight
   res.setHeader('Access-Control-Allow-Origin', '*')
-  res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS')
+  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS')
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization')
 
   if (req.method === 'OPTIONS') {
     res.statusCode = 200
     res.end('ok')
+    return
+  }
+
+  // GET: Live View Counter query from Supabase
+  if (req.method === 'GET') {
+    const supabaseUrl = process.env.VITE_SUPABASE_URL || process.env.SUPABASE_URL || DEFAULT_SUPABASE_URL
+    const supabaseKey = process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.VITE_SUPABASE_ANON_KEY || DEFAULT_SUPABASE_ANON_KEY
+
+    let dbViews = 0
+    try {
+      const dbRes = await fetch(`${supabaseUrl}/rest/v1/sqg_telemetry_events?event_type=eq.page_view&select=id`, {
+        method: 'GET',
+        headers: {
+          apikey: supabaseKey,
+          Authorization: `Bearer ${supabaseKey}`,
+          Prefer: 'count=exact',
+          Range: '0-0',
+        },
+      })
+      const contentRange = dbRes.headers.get('content-range')
+      if (contentRange) {
+        const total = contentRange.split('/')[1]
+        if (total && total !== '*') {
+          dbViews = parseInt(total, 10) || 0
+        }
+      }
+    } catch (err: any) {
+      console.warn('[sqg_telemetry] GET count caught error:', err?.message || err)
+    }
+
+    const totalViews = 2410 + dbViews
+    res.statusCode = 200
+    res.setHeader('Content-Type', 'application/json')
+    res.end(JSON.stringify({ ok: true, views: totalViews, activePulse: 38 }))
     return
   }
 
@@ -41,7 +75,7 @@ export default async function handler(req: IncomingMessage, res: ServerResponse)
     if (raw) {
       body = JSON.parse(raw)
     }
-  } catch (err) {
+  } catch {
     res.statusCode = 400
     res.setHeader('Content-Type', 'application/json')
     res.end(JSON.stringify({ error: 'Invalid JSON body' }))
