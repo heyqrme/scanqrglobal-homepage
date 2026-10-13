@@ -192,36 +192,32 @@ export default function App() {
             flexWrap: 'wrap',
           }}
         >
-          {/* Brand: ScanQR Global */}
+          {/* Brand: Cerca Social Logo + ScanQR Global + Powered by Cerca Social */}
           <a
             href="/"
             data-track-action="header_brand_logo"
             style={{
               display: 'flex',
               alignItems: 'center',
-              gap: '10px',
+              gap: '12px',
               textDecoration: 'none',
               flexShrink: 0,
             }}
           >
-            <div
+            <img
+              src="/cerca-logo.png"
+              alt="Cerca Social"
               style={{
-                width: '34px',
-                height: '34px',
+                width: '36px',
+                height: '36px',
                 borderRadius: '10px',
-                background: 'linear-gradient(135deg, #F43F5E 0%, #D946EF 60%, #7C3AED 100%)',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                color: '#ffffff',
-                boxShadow: '0 0 16px rgba(217, 70, 239, 0.35)',
+                objectFit: 'cover',
+                boxShadow: '0 0 16px rgba(244, 63, 94, 0.45)',
                 flexShrink: 0,
               }}
-            >
-              <Radio size={18} strokeWidth={2.4} />
-            </div>
+            />
 
-            <div style={{ display: 'flex', alignItems: 'center' }}>
+            <div style={{ display: 'flex', alignItems: 'baseline', gap: '8px', flexWrap: 'wrap' }}>
               <span
                 style={{
                   fontSize: '18px',
@@ -240,6 +236,16 @@ export default function App() {
                 >
                   Global
                 </span>
+              </span>
+              <span
+                style={{
+                  fontSize: '12px',
+                  fontWeight: 600,
+                  color: '#a1a1aa',
+                  whiteSpace: 'nowrap',
+                }}
+              >
+                {t.nav.poweredBy}
               </span>
             </div>
           </a>

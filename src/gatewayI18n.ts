@@ -24,6 +24,7 @@ export interface GatewayTranslations {
     brand: string
     badge: string
     navButton: string
+    poweredBy: string
   }
   hero: {
     tag: string
@@ -90,6 +91,7 @@ export const GATEWAY_TRANSLATIONS: Record<GatewayLocale, GatewayTranslations> = 
       brand: 'ScanQR Global',
       badge: '● Radar Live in 4 Cities',
       navButton: 'Enter Radar →',
+      poweredBy: 'Powered by Cerca Social',
     },
     hero: {
       tag: 'EXCLUSIVE ACCESS • REAL-TIME NIGHTLIFE PROXIMITY',
@@ -203,6 +205,7 @@ export const GATEWAY_TRANSLATIONS: Record<GatewayLocale, GatewayTranslations> = 
       brand: 'ScanQR Global',
       badge: '● Radar en Vivo en 4 Ciudades',
       navButton: 'Entrar al Radar →',
+      poweredBy: 'Powered by Cerca Social',
     },
     hero: {
       tag: 'ACCESO EXCLUSIVO • PROXIMIDAD NOCTURNA EN TIEMPO REAL',
@@ -316,6 +319,7 @@ export const GATEWAY_TRANSLATIONS: Record<GatewayLocale, GatewayTranslations> = 
       brand: 'ScanQR Global',
       badge: '● เรดาร์สดใน 4 เมืองหลัก',
       navButton: 'เข้าสู่เรดาร์ →',
+      poweredBy: 'Powered by Cerca Social',
     },
     hero: {
       tag: 'สิทธิ์พิเศษเฉพาะ • เรดาร์ไนท์ไลฟ์ตามระยะใกล้เคียงแบบเรียลไทม์',
@@ -429,6 +433,7 @@ export const GATEWAY_TRANSLATIONS: Record<GatewayLocale, GatewayTranslations> = 
       brand: 'ScanQR Global',
       badge: '● Radar ao Vivo em 4 Cidades',
       navButton: 'Entrar no Radar →',
+      poweredBy: 'Powered by Cerca Social',
     },
     hero: {
       tag: 'ACESSO EXCLUSIVO • PROXIMIDADE NOTURNA EM TEMPO REAL',
@@ -542,6 +547,7 @@ export const GATEWAY_TRANSLATIONS: Record<GatewayLocale, GatewayTranslations> = 
       brand: 'ScanQR Global',
       badge: '● Radar en Direct dans 4 Villes',
       navButton: 'Entrer sur le Radar →',
+      poweredBy: 'Powered by Cerca Social',
     },
     hero: {
       tag: 'ACCÈS EXCLUSIF • PROXIMITÉ NOCTURNE EN TEMPS RÉEL',
@@ -655,6 +661,7 @@ export const GATEWAY_TRANSLATIONS: Record<GatewayLocale, GatewayTranslations> = 
       brand: 'ScanQR Global',
       badge: '● Radar Live in 4 Städten',
       navButton: 'Radar Starten →',
+      poweredBy: 'Powered by Cerca Social',
     },
     hero: {
       tag: 'EXKLUSIVER ZUGANG • ECHTZEIT-NACHTLEBEN-PROXIMITÄT',
@@ -768,6 +775,7 @@ export const GATEWAY_TRANSLATIONS: Record<GatewayLocale, GatewayTranslations> = 
       brand: 'ScanQR Global',
       badge: '● 4都市でレーダー稼働中',
       navButton: 'レーダーを開く →',
+      poweredBy: 'Powered by Cerca Social',
     },
     hero: {
       tag: '限定アクセス • リアルタイム・ナイトライフ近接レーダー',
@@ -881,6 +889,7 @@ export const GATEWAY_TRANSLATIONS: Record<GatewayLocale, GatewayTranslations> = 
       brand: 'ScanQR Global',
       badge: '● 4大城市实时雷达已开启',
       navButton: '进入雷达 →',
+      poweredBy: 'Powered by Cerca Social',
     },
     hero: {
       tag: '独家权限 • 实时夜生活近邻雷达',
