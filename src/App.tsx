@@ -1698,6 +1698,33 @@ export default function App() {
               </button>
             </div>
 
+            <div style={{ marginTop: '18px', marginBottom: '14px' }}>
+              <a
+                href="https://www.qr4luv.com/register"
+                onClick={handleOpenRegistration}
+                style={{
+                  background: 'linear-gradient(135deg, #F43F5E 0%, #D946EF 100%)',
+                  color: '#ffffff',
+                  borderRadius: '12px',
+                  padding: '12px 20px',
+                  fontSize: '13.5px',
+                  fontWeight: 800,
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  gap: '8px',
+                  boxShadow: '0 8px 24px rgba(244, 63, 94, 0.35)',
+                  textDecoration: 'none',
+                  cursor: 'pointer',
+                  width: '100%',
+                  boxSizing: 'border-box',
+                }}
+              >
+                <QrCode size={16} />
+                <span>Get Your Personal QR Code on Cerca →</span>
+              </a>
+            </div>
+
             <div style={{ fontSize: '11.5px', color: '#71717a' }}>
               🔒 No Phone Numbers Shared • Zero Paper Trails • Discretion Guaranteed
             </div>
