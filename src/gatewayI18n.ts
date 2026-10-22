@@ -100,7 +100,7 @@ export const GATEWAY_TRANSLATIONS: Record<GatewayLocale, GatewayTranslations> = 
       subheadline:
         'An electric map of real people, trending lounges, and private radar knocks happening around you right now. No phone numbers shared. No paper trails. Just instant chemistry.',
       ctaPrimary: 'See Who’s Out Tonight →',
-      ctaSecondary: 'Scan Private QR Badge',
+      ctaSecondary: 'Get Your Personal QR Code',
     },
     ticker: {
       guests: '🔥 312 Active Guests Nearby',
@@ -214,7 +214,7 @@ export const GATEWAY_TRANSLATIONS: Record<GatewayLocale, GatewayTranslations> = 
       subheadline:
         'Un mapa eléctrico de personas reales, lounges en tendencia y toques de radar privados sucediendo a tu alrededor ahora mismo. Sin números compartidos. Sin rastros. Solo química instantánea.',
       ctaPrimary: 'Mira quién sale esta noche →',
-      ctaSecondary: 'Escanear QR Privado',
+      ctaSecondary: 'Obtén tu Código QR Personal',
     },
     ticker: {
       guests: '🔥 312 Invitados Activos a tu Alrededor',
@@ -328,7 +328,7 @@ export const GATEWAY_TRANSLATIONS: Record<GatewayLocale, GatewayTranslations> = 
       subheadline:
         'แผนที่เรดาร์สดของคนจริง เลานจ์สุดฮิต และการส่งสัญญาณ Knock ส่วนตัวรอบตัวคุณตอนนี้ ไม่ต้องเปิดเผยเบอร์โทรศัพท์ ไร้ร่องรอยดิจิทัล มีเพียงเคมีที่ตรงกันทันที',
       ctaPrimary: 'ดูว่าใครกำลังเที่ยวคืนนี้ →',
-      ctaSecondary: 'สแกน QR Badge ส่วนตัว',
+      ctaSecondary: 'รับรหัส QR ส่วนตัวของคุณ',
     },
     ticker: {
       guests: '🔥 312 แขกใกล้คุณกำลังใช้งาน',
@@ -442,7 +442,7 @@ export const GATEWAY_TRANSLATIONS: Record<GatewayLocale, GatewayTranslations> = 
       subheadline:
         'Um mapa elétrico de pessoas reais, lounges em alta e knocks privados no radar acontecendo ao seu redor agora. Sem números compartilhados. Sem rastros. Apenas química instantânea.',
       ctaPrimary: 'Veja Quem Saiu Hoje →',
-      ctaSecondary: 'Escanear QR Badge Privado',
+      ctaSecondary: 'Obtenha seu Código QR Pessoal',
     },
     ticker: {
       guests: '🔥 312 Convidados Ativos Por Perto',
@@ -556,7 +556,7 @@ export const GATEWAY_TRANSLATIONS: Record<GatewayLocale, GatewayTranslations> = 
       subheadline:
         'Une carte électrique de vraies personnes, de salons branchés et de knocks privés sur radar autour de vous maintenant. Aucun numéro partagé. Zéro trace. Juste une alchimie immédiate.',
       ctaPrimary: 'Voir Qui Sort Ce Soir →',
-      ctaSecondary: 'Scanner le Badge QR Privé',
+      ctaSecondary: 'Obtenez votre Code QR Personnel',
     },
     ticker: {
       guests: '🔥 312 Invités Actifs à Proximité',
@@ -670,7 +670,7 @@ export const GATEWAY_TRANSLATIONS: Record<GatewayLocale, GatewayTranslations> = 
       subheadline:
         'Eine elektrisierende Karte mit echten Menschen, angesagten Lounges und privaten Radar-Knocks direkt um dich herum. Keine Telefonnummern geteilt. Keine Papierspuren. Reine spontane Chemie.',
       ctaPrimary: 'Sieh, Wer Heute Ausgeht →',
-      ctaSecondary: 'Privaten QR-Badge Scannen',
+      ctaSecondary: 'Holen Sie sich Ihren persönlichen QR-Code',
     },
     ticker: {
       guests: '🔥 312 Aktive Gäste in der Nähe',
@@ -784,7 +784,7 @@ export const GATEWAY_TRANSLATIONS: Record<GatewayLocale, GatewayTranslations> = 
       subheadline:
         '本物の人々、人気ラウンジ、そして周囲で交わされるプライベートKnockを捉えるエレクトリックマップ。電話番号の共有なし。痕跡ゼロ。純粋な瞬間のケミストリー。',
       ctaPrimary: '今夜出ている人を見る →',
-      ctaSecondary: 'プライベートQRバッジをスキャン',
+      ctaSecondary: '個人用QRコードを取得',
     },
     ticker: {
       guests: '🔥 312名のゲストが近くで接続中',
@@ -898,7 +898,7 @@ export const GATEWAY_TRANSLATIONS: Record<GatewayLocale, GatewayTranslations> = 
       subheadline:
         '一张由真实人群、潮流酒廊和身边私密雷达Knock组成的实时动态地图。无需透露手机号，不留任何痕迹，只有瞬间点燃的默契。',
       ctaPrimary: '看看今晚谁在现场 →',
-      ctaSecondary: '扫描私密QR徽章',
+      ctaSecondary: '获取您的个人QR码',
     },
     ticker: {
       guests: '🔥 附近 312 位活跃宾客',

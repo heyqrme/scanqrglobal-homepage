@@ -50,9 +50,12 @@ export default function App() {
     recordInteraction(`open_radar_hub_${hubIdx}`)
   }
 
-  const handleOpenBadge = () => {
-    setShowBadgeModal(true)
-    recordInteraction('open_private_qr_badge')
+  const handleOpenRegistration = (e?: React.MouseEvent) => {
+    recordInteraction('get_personal_qr_code')
+    const registerUrl = 'https://www.qr4luv.com/register'
+    if (typeof window !== 'undefined') {
+      window.location.href = registerUrl
+    }
   }
 
   const handleOpenApp = () => {
@@ -467,10 +470,11 @@ export default function App() {
             <span>{t.hero.ctaPrimary}</span>
           </button>
 
-          {/* Secondary CTA: Scan Private QR Badge */}
-          <button
-            onClick={handleOpenBadge}
-            data-track-action="hero_scan_private_badge"
+          {/* Secondary CTA: Get Your Personal QR Code */}
+          <a
+            href="https://www.qr4luv.com/register"
+            onClick={handleOpenRegistration}
+            data-track-action="hero_get_personal_qr_code"
             className="btn-secondary-glow"
             style={{
               backgroundColor: 'rgba(255, 255, 255, 0.04)',
@@ -486,11 +490,12 @@ export default function App() {
               cursor: 'pointer',
               backdropFilter: 'blur(10px)',
               boxShadow: '0 4px 20px rgba(124, 58, 237, 0.14)',
+              textDecoration: 'none',
             }}
           >
             <QrCode size={18} style={{ color: '#d946ef' }} />
             <span>{t.hero.ctaSecondary}</span>
-          </button>
+          </a>
         </div>
 
         {/* ========================================================= */}
@@ -1490,6 +1495,34 @@ export default function App() {
                 </span>
               </div>
             )}
+
+            {/* Direct CTA into Cerca Live Tonight Map */}
+            <div style={{ marginTop: '20px', paddingTop: '16px', borderTop: '1px solid rgba(255, 255, 255, 0.08)' }}>
+              <a
+                href="https://www.qr4luv.com/tonight"
+                onClick={() => recordInteraction('open_live_cerca_map')}
+                style={{
+                  background: 'linear-gradient(135deg, #F43F5E 0%, #D946EF 100%)',
+                  color: '#ffffff',
+                  borderRadius: '12px',
+                  padding: '13px 20px',
+                  fontSize: '14px',
+                  fontWeight: 800,
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  gap: '8px',
+                  boxShadow: '0 8px 24px rgba(244, 63, 94, 0.35)',
+                  textDecoration: 'none',
+                  cursor: 'pointer',
+                  width: '100%',
+                  boxSizing: 'border-box',
+                }}
+              >
+                <Compass size={16} />
+                <span>Enter Live Cerca Map ({t.hubs.cards[selectedHubIndex].city}) →</span>
+              </a>
+            </div>
           </div>
         </div>
       )}
