@@ -470,11 +470,11 @@ export default function App() {
             <span>{t.hero.ctaPrimary}</span>
           </button>
 
-          {/* Secondary CTA: Get Your Personal QR Code */}
+          {/* Secondary CTA: ENTER CERCA */}
           <a
             href="https://www.qr4luv.com/register"
             onClick={handleOpenRegistration}
-            data-track-action="hero_get_personal_qr_code"
+            data-track-action="hero_enter_cerca"
             className="btn-secondary-glow"
             style={{
               backgroundColor: 'rgba(255, 255, 255, 0.04)',
@@ -1721,7 +1721,7 @@ export default function App() {
                 }}
               >
                 <QrCode size={16} />
-                <span>Get Your Personal QR Code on Cerca →</span>
+                <span>ENTER CERCA →</span>
               </a>
             </div>
 
