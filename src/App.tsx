@@ -2,11 +2,10 @@ import React, { useState } from 'react'
 import {
   Globe,
   Compass,
-  QrCode,
   Check,
-  Heart,
   X,
   ChevronRight,
+  Sparkles,
 } from 'lucide-react'
 import { useGatewayI18n, GATEWAY_LOCALES } from './gatewayI18n'
 import { useExitTelemetry } from './hooks/useExitTelemetry'
@@ -27,183 +26,57 @@ export default function App() {
   }
 
   const handleOpenRegistration = () => {
-    recordInteraction('get_personal_qr_code')
+    recordInteraction('enter_cerca')
     const registerUrl = 'https://www.qr4luv.com/register'
     if (typeof window !== 'undefined') {
       window.location.href = registerUrl
     }
   }
 
+  const handleOpenDating = () => {
+    recordInteraction('enter_cerca_dating')
+    const datingUrl = 'https://www.qr4luv.com/faces?dating=1'
+    if (typeof window !== 'undefined') {
+      window.location.href = datingUrl
+    }
+  }
+
   return (
-    <div
-      style={{
-        backgroundColor: '#050507',
-        color: '#f4f4f6',
-        minHeight: '100vh',
-        fontFamily: "'Plus Jakarta Sans', sans-serif",
-        display: 'flex',
-        flexDirection: 'column',
-        justifyContent: 'space-between',
-        alignItems: 'center',
-        overflowX: 'hidden',
-        position: 'relative',
-        boxSizing: 'border-box',
-      }}
-    >
-      {/* Ambient Cinematic Lighting & Shimmer Keyframes */}
-      <style>{`
-        @keyframes ambientPulse {
-          0% { transform: translate(-50%, -50%) scale(0.85); opacity: 0.5; }
-          100% { transform: translate(-50%, -50%) scale(1.15); opacity: 0.9; }
-        }
+    <div className="min-h-screen bg-[#05050A] text-slate-100 flex flex-col justify-between items-center px-6 py-8 relative overflow-hidden selection:bg-rose-500/30 font-sans">
+      {/* Ambient Atmospheric Glow */}
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[70vw] h-[70vw] bg-gradient-to-tr from-rose-600/15 via-purple-600/10 to-cyan-500/5 rounded-full blur-[150px] pointer-events-none animate-pulse" />
 
-        @keyframes textShimmer {
-          0% { filter: brightness(1); }
-          100% { filter: brightness(1.25); }
-        }
-
-        .ambient-lighting {
-          content: '';
-          position: fixed;
-          top: 50%;
-          left: 50%;
-          transform: translate(-50%, -50%);
-          width: 70vw;
-          height: 70vw;
-          background: radial-gradient(circle, rgba(255, 42, 109, 0.15) 0%, rgba(5, 217, 232, 0.04) 45%, transparent 70%);
-          filter: blur(90px);
-          z-index: 0;
-          pointer-events: none;
-          animation: ambientPulse 10s ease-in-out infinite alternate;
-        }
-
-        .label-line {
-          font-size: clamp(0.9rem, 1.6vw, 1.15rem);
-          text-transform: uppercase;
-          letter-spacing: 0.3em;
-          color: #9494a0;
-          font-weight: 400;
-          transition: all 0.4s ease;
-          display: inline-block;
-        }
-
-        .label-line.primary {
-          color: #f4f4f6;
-          font-weight: 500;
-          text-shadow: 0 0 20px rgba(255, 255, 255, 0.35);
-        }
-
-        .label-line:hover {
-          color: #ffffff;
-          text-shadow: 0 0 25px rgba(255, 42, 109, 0.7);
-          transform: scale(1.02);
-        }
-
-        .cta-btn-glow {
-          transition: all 0.25s ease;
-        }
-        .cta-btn-glow:hover {
-          transform: translateY(-2px) scale(1.02);
-          box-shadow: 0 12px 35px rgba(255, 42, 109, 0.5) !important;
-        }
-      `}</style>
-
-      <div className="ambient-lighting" />
-
-      {/* ========================================================= */}
-      {/* HEADER AREA */}
-      {/* ========================================================= */}
-      <header
-        style={{
-          position: 'relative',
-          zIndex: 10,
-          width: '100%',
-          maxWidth: '1200px',
-          paddingTop: '5vh',
-          paddingLeft: '20px',
-          paddingRight: '20px',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'space-between',
-          boxSizing: 'border-box',
-        }}
-      >
-        {/* Brand Title + Subtitle */}
-        <a
-          href="https://qr4luv.com"
-          target="_blank"
-          rel="noopener noreferrer"
-          style={{ textDecoration: 'none', textAlign: 'left', cursor: 'pointer' }}
+      {/* Top Header — Minimalist & Weightless */}
+      <header className="relative z-10 w-full max-w-4xl flex justify-between items-center">
+        <div
+          className="cursor-pointer group"
+          onClick={handleOpenRegistration}
+          style={{ textDecoration: 'none' }}
         >
           <h1
-            style={{
-              fontFamily: "'Cinzel', serif",
-              fontSize: 'clamp(1.6rem, 3.2vw, 2.4rem)',
-              fontWeight: 700,
-              letterSpacing: '0.35em',
-              color: '#ffffff',
-              marginBottom: '0.3rem',
-              textShadow: '0 0 25px rgba(255, 255, 255, 0.25)',
-            }}
+            style={{ fontFamily: "'Cinzel', serif" }}
+            className="text-xl md:text-2xl tracking-[0.35em] font-bold text-white group-hover:text-rose-400 transition-colors"
           >
             SCANQR GLOBAL
           </h1>
-          <p
-            style={{
-              fontSize: '0.75rem',
-              textTransform: 'uppercase',
-              letterSpacing: '0.3em',
-              color: '#9494a0',
-              fontWeight: 400,
-              margin: 0,
-              transition: 'color 0.3s ease',
-            }}
-          >
+          <p className="text-[9px] uppercase tracking-[0.3em] text-slate-500 mt-0.5">
             Powered by Cerca
           </p>
-        </a>
+        </div>
 
-        {/* Language Switcher Pill */}
-        <div style={{ position: 'relative' }}>
+        {/* Working Language Selector */}
+        <div className="relative">
           <button
             type="button"
             onClick={() => setLangDropdownOpen(!langDropdownOpen)}
-            style={{
-              display: 'flex',
-              alignItems: 'center',
-              gap: '6px',
-              backgroundColor: 'rgba(255, 255, 255, 0.05)',
-              border: '1px solid rgba(255, 255, 255, 0.12)',
-              color: '#ffffff',
-              padding: '6px 14px',
-              borderRadius: '999px',
-              fontSize: '12px',
-              fontWeight: 600,
-              cursor: 'pointer',
-              backdropFilter: 'blur(10px)',
-              transition: 'all 0.15s ease',
-            }}
+            className="flex items-center space-x-1.5 text-xs text-slate-400 hover:text-white transition-colors cursor-pointer bg-white/5 border border-white/10 px-3 py-1.5 rounded-full"
           >
-            <Globe size={13} style={{ color: '#ff2a6d' }} />
-            <span>{locale.toUpperCase()}</span>
-            <span style={{ fontSize: '9px', opacity: 0.7 }}>▾</span>
+            <Globe className="w-3.5 h-3.5 text-rose-400" />
+            <span className="tracking-widest uppercase font-medium">{locale} ▾</span>
           </button>
 
           {langDropdownOpen && (
-            <div
-              style={{
-                position: 'absolute',
-                top: 'calc(100% + 8px)',
-                right: 0,
-                backgroundColor: '#0a0a0f',
-                border: '1px solid rgba(255, 42, 109, 0.3)',
-                borderRadius: '14px',
-                padding: '6px',
-                zIndex: 100,
-                minWidth: '130px',
-                boxShadow: '0 12px 30px rgba(0,0,0,0.85)',
-              }}
-            >
+            <div className="absolute top-full right-0 mt-2 bg-[#0a0a0f] border border-rose-500/30 rounded-xl p-1.5 z-50 min-w-[130px] shadow-2xl">
               {GATEWAY_LOCALES.map((l) => (
                 <button
                   key={l.code}
@@ -212,24 +85,14 @@ export default function App() {
                     setLocale(l.code)
                     setLangDropdownOpen(false)
                   }}
-                  style={{
-                    width: '100%',
-                    padding: '8px 12px',
-                    borderRadius: '8px',
-                    backgroundColor: locale === l.code ? 'rgba(255, 42, 109, 0.2)' : 'transparent',
-                    border: 'none',
-                    color: locale === l.code ? '#ffffff' : '#9494a0',
-                    fontSize: '12.5px',
-                    fontWeight: locale === l.code ? 700 : 500,
-                    textAlign: 'left',
-                    cursor: 'pointer',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'space-between',
-                  }}
+                  className={`w-full px-3 py-1.5 text-left text-xs rounded-lg flex items-center justify-between ${
+                    locale === l.code
+                      ? 'bg-rose-500/20 text-white font-bold'
+                      : 'text-slate-400 hover:text-white'
+                  }`}
                 >
                   <span>{l.label}</span>
-                  {locale === l.code && <Check size={12} color="#ff2a6d" />}
+                  {locale === l.code && <Check size={12} className="text-rose-400" />}
                 </button>
               ))}
             </div>
@@ -237,260 +100,94 @@ export default function App() {
         </div>
       </header>
 
-      {/* ========================================================= */}
-      {/* CORE CENTER STAGE */}
-      {/* ========================================================= */}
-      <main
-        style={{
-          position: 'relative',
-          zIndex: 10,
-          display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'center',
-          textAlign: 'center',
-          padding: '2rem 1.5rem',
-          maxWidth: '950px',
-          width: '100%',
-          margin: 'auto',
-          boxSizing: 'border-box',
-        }}
-      >
-        {/* Hero Headline */}
+      {/* Center Stage — Pure Vertical Typography, No Boxes, No Cards */}
+      <main className="relative z-10 flex flex-col items-center text-center max-w-3xl my-auto">
+        {/* Immersive Cinematic Headline */}
         <h2
-          style={{
-            fontFamily: "'Cinzel', serif",
-            fontSize: 'clamp(2rem, 4.5vw, 3.6rem)',
-            fontWeight: 600,
-            letterSpacing: '0.06em',
-            lineHeight: 1.25,
-            marginBottom: '2rem',
-            background: 'linear-gradient(135deg, #ffffff 20%, #ffc857 60%, #ff2a6d 100%)',
-            WebkitBackgroundClip: 'text',
-            WebkitTextFillColor: 'transparent',
-            animation: 'textShimmer 8s ease infinite alternate',
-          }}
+          style={{ fontFamily: "'Cinzel', serif" }}
+          className="text-3xl md:text-5xl font-normal tracking-wide text-transparent bg-clip-text bg-gradient-to-r from-white via-slate-100 to-rose-300 leading-tight mb-6"
         >
           THE ROOM IS BLIND UNTIL YOU STEP IN.
         </h2>
 
         {/* Vertical Label Stack */}
-        <div
-          style={{
-            display: 'flex',
-            flexDirection: 'column',
-            gap: '1.4rem',
-            alignItems: 'center',
-            marginBottom: '2.5rem',
-          }}
-        >
-          <span className="label-line primary">
+        <div className="space-y-2 text-xs md:text-sm uppercase tracking-[0.3em] text-slate-400 font-light mb-8">
+          <p className="text-slate-200 font-medium tracking-[0.35em]">
             FREE LIVE VIDEO • GLOBAL CHAT • UNTOLD PLACES
-          </span>
-          <span className="label-line">
+          </p>
+          <p className="text-slate-500 tracking-[0.3em]">
             NO VIP WALLS. NO PAPER TRAILS. JUST CHEMISTRY.
-          </span>
+          </p>
         </div>
 
-        {/* Featured Centerpiece Image */}
-        <div
-          style={{
-            position: 'relative',
-            maxWidth: '740px',
-            width: '100%',
-            borderRadius: '22px',
-            overflow: 'hidden',
-            border: '1px solid rgba(255, 42, 109, 0.35)',
-            boxShadow: '0 24px 70px rgba(0, 0, 0, 0.9), 0 0 45px rgba(255, 42, 109, 0.22)',
-            marginBottom: '2.8rem',
-            background: '#09090d',
-          }}
-        >
+        {/* Cinematic Centerpiece Image (Borderless, Floating Glass Glow) */}
+        <div className="w-full max-w-md aspect-video rounded-2xl overflow-hidden mb-8 shadow-[0_0_50px_rgba(255,42,109,0.15)] relative group border border-white/10 bg-slate-950">
           <img
-            src="https://lh3.googleusercontent.com/gg-dl/AHiVA1naNfi1PnEzSHp_2YH1FlgFBjFh5cE_jI0pT9RyMIHWSii2v3RzpCV5yNKDSsgtMLsge7jX7zp_vO_awlvu2ijFhFeA8RmmqFSniYknkqgPWfrDnUYELgLzVHNX4UXA03KqIitOQogM_F0tyQ99AtY2npgW3XaqYc3W1tunaW2fGUXS=s1024-rj"
-            alt="The Blind Room — ScanQR Global"
-            style={{
-              width: '100%',
-              height: 'auto',
-              display: 'block',
-              objectFit: 'cover',
-              maxHeight: '440px',
-            }}
+            src="https://lh3.googleusercontent.com/rd-gg-dl/AHiVA1m1OsiPeRQmjTgWwv4045bqGdQQG2-qfFjcQdbTaJ4l4EpbD0J4EEhy7OGaOnUWWuBm6KUiOBfoKLFXHuOir6Axu0XTGwXhUf0tkA_xV40KEHWx-3gUSijQtCJ7_ney5eBredLpjEUE98404NSw0VjMN_W1ZczT9yrMFnL3jdpZwqqqBjEhZfmR67xHclhEs96RJ8sJLGlLICHAe6B0RnIHjKW75sahE5UjQLAFe22uxZZSnjNFYsfCeAtn6WLMtgYiy7SjnzEVqf1IkC1JyyAXAdONeYfc3QKphgzr65elcmj3Cc6MZXHzCLj4sgPTC7SRYiLVXyTDY6EsGwCIYsgHQK2Ki8l5_wozKujaZiHGdG6wG0Ya0FEvyvZDT14rujkwLP6IS4S1-YnJYiaaeSaKdGPJxQnCG72EjZeQu--ekfUcqesQE_RdMXNN0nGTv-pLh3DEJNw_O8IZEbHalR8ktsG26NnK9SCF6St9TXWvrzzD0RewORf4cOSRldE2S58JjqkzVPrATSxp6eSP5nBVPp9XkcWhGaJ7J2vu0Iqp_wtfyBZRUr5sZOdLuXhL0pYlEkxdxEupSSsVjbZZ8_XIMF8QabxKMdQrjS59UmCRdQZUDGfCiarSYMV_KvYrwoLHL_5t_CuBOdOVPuoE52bOBOL0Jr0CREkuI9v_FRSrX-Wg6BLTq1jPfo2y6xiH_NgPBcqxGMzwIwrNwWI7J5Qky1oW27l6EGlLTpdP5jlOek1kyapMEb2BIZILzaAREgke_k53nEIEVTNRAiy1hmNs5PqkNN_qQXzmiO24ctIW6z_6ssZ9z8yvLtS7SAttd4lbWRFP27sW3r8kvOnSNJa7Gju2c2TXjmsS3kXzwDBmGSokXVCPqGvtWpfdzPpFuV4IYTo3Ey28nJGBp39kquSAiijBgEaB38RhuonA_DonTmwB29h88BrBJahLTgCDuY_43__uqNzasK7ef2yg_zKc8KhDg8ScrhdDm5v1N_Zgs7CEoYMg4SAcYjGieo3K1bIEoCpZI8rUqLj1WMS7RGlCHmbQ2oB1MoUbGJel6NXSG6Lfmmquzb5cWMXPuMANoYUHQZm1ecz-yA3RecOUlaewecu5_l_lz8U1DE3rph4eMb7_IjwnI2A6mTh7unwxR3ra0PsEWapIHj8aHp1bBJfKdkSKGrsfmnwPrZQZY14DckOOUcJBfOpBsFzKhwAPxrVQBj8Eczq29nzr9fiYBL_E3FPhTLkXU0oKvMxk6TJZgbQdLDAEMN7w1onBYLCkAdN3zxXqIU2vxYWJG_ebKqHqJWwHgW-HtNj4rEo4WQ=s1024-rj"
+            alt="The Blind Room"
+            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 opacity-95"
           />
-          <div
-            style={{
-              position: 'absolute',
-              inset: 0,
-              background: 'linear-gradient(to top, rgba(5, 5, 7, 0.7) 0%, transparent 45%, rgba(5, 5, 7, 0.2) 100%)',
-              pointerEvents: 'none',
-            }}
-          />
+          <div className="absolute inset-0 bg-gradient-to-t from-[#05050A] via-transparent to-transparent opacity-60 pointer-events-none" />
         </div>
 
-        {/* ========================================================= */}
-        {/* DIRECT ACTION BUTTONS (ENTER CERCA / DATING / RADAR) */}
-        {/* ========================================================= */}
-        <div
-          style={{
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            gap: '14px',
-            flexWrap: 'wrap',
-            maxWidth: '850px',
-            margin: '0 auto 2.5rem',
-            width: '100%',
-          }}
-        >
-          {/* CTA 1: ENTER CERCA */}
-          <a
-            href="https://www.qr4luv.com/register"
-            onClick={handleOpenRegistration}
-            data-track-action="hero_enter_cerca"
-            className="cta-btn-glow"
-            style={{
-              background: 'linear-gradient(135deg, #ff2a6d 0%, #d946ef 100%)',
-              color: '#ffffff',
-              border: 'none',
-              borderRadius: '14px',
-              padding: '16px 32px',
-              fontSize: '14.5px',
-              fontWeight: 800,
-              letterSpacing: '0.05em',
-              display: 'inline-flex',
-              alignItems: 'center',
-              gap: '10px',
-              boxShadow: '0 8px 30px rgba(255, 42, 109, 0.4)',
-              textDecoration: 'none',
-              cursor: 'pointer',
-            }}
-          >
-            <QrCode size={18} />
-            <span>ENTER CERCA →</span>
-          </a>
-
-          {/* CTA 2: CERCA DATING */}
-          <a
-            href="https://www.qr4luv.com/faces?dating=1"
-            data-track-action="hero_cerca_dating"
-            className="cta-btn-glow"
-            style={{
-              background: 'linear-gradient(135deg, rgba(255, 42, 109, 0.2) 0%, rgba(217, 70, 239, 0.16) 100%)',
-              border: '1.5px solid rgba(255, 42, 109, 0.55)',
-              color: '#ffffff',
-              borderRadius: '14px',
-              padding: '16px 28px',
-              fontSize: '14.5px',
-              fontWeight: 800,
-              letterSpacing: '0.05em',
-              display: 'inline-flex',
-              alignItems: 'center',
-              gap: '10px',
-              boxShadow: '0 6px 25px rgba(255, 42, 109, 0.22)',
-              textDecoration: 'none',
-              cursor: 'pointer',
-              backdropFilter: 'blur(10px)',
-            }}
-          >
-            <Heart size={18} style={{ color: '#ff2a6d' }} />
-            <span>CERCA DATING →</span>
-          </a>
-
-          {/* CTA 3: SEE WHO'S OUT TONIGHT */}
+        {/* Clean, Velvet-Rope Entry Actions */}
+        <div className="flex flex-col sm:flex-row items-center justify-center gap-4 w-full max-w-md mb-6">
           <button
             type="button"
-            onClick={() => handleOpenRadar(0)}
-            data-track-action="hero_see_whos_out_tonight"
-            className="cta-btn-glow"
-            style={{
-              background: 'rgba(255, 255, 255, 0.05)',
-              border: '1px solid rgba(255, 255, 255, 0.14)',
-              color: '#ffffff',
-              borderRadius: '14px',
-              padding: '16px 28px',
-              fontSize: '14.5px',
-              fontWeight: 700,
-              letterSpacing: '0.04em',
-              display: 'inline-flex',
-              alignItems: 'center',
-              gap: '10px',
-              cursor: 'pointer',
-              backdropFilter: 'blur(10px)',
-              boxShadow: '0 4px 20px rgba(0, 0, 0, 0.5)',
-            }}
+            onClick={handleOpenRegistration}
+            className="w-full sm:w-auto flex-1 bg-gradient-to-r from-rose-600 to-purple-600 hover:from-rose-500 hover:to-purple-500 text-white font-medium py-3 px-6 rounded-full shadow-[0_0_25px_rgba(255,42,109,0.3)] hover:scale-[1.02] transition-all flex items-center justify-center space-x-2 text-xs tracking-[0.25em] uppercase cursor-pointer"
           >
-            <Compass size={18} style={{ color: '#05d9e8' }} />
-            <span>SEE WHO’S OUT TONIGHT</span>
+            <Sparkles className="w-4 h-4 text-rose-200" />
+            <span>ENTER CERCA</span>
+          </button>
+
+          <button
+            type="button"
+            onClick={handleOpenDating}
+            className="w-full sm:w-auto flex-1 bg-transparent hover:bg-white/5 border border-white/20 text-white font-medium py-3 px-6 rounded-full hover:scale-[1.02] transition-all flex items-center justify-center space-x-2 text-xs tracking-[0.25em] uppercase cursor-pointer"
+          >
+            <span className="text-rose-400">♥</span>
+            <span>CERCA DATING</span>
           </button>
         </div>
 
-        {/* Feature Badges */}
-        <div
-          style={{
-            display: 'flex',
-            justifyContent: 'center',
-            alignItems: 'center',
-            gap: '10px',
-            flexWrap: 'wrap',
-            maxWidth: '780px',
-            margin: '0 auto',
-          }}
+        {/* Secondary Proximity Trigger */}
+        <button
+          type="button"
+          onClick={() => handleOpenRadar(0)}
+          className="text-[11px] uppercase tracking-[0.3em] text-slate-400 hover:text-white transition-colors flex items-center space-x-2 cursor-pointer pb-2"
         >
+          <Compass
+            className="w-3.5 h-3.5 text-cyan-400 animate-spin"
+            style={{ animationDuration: '12s' }}
+          />
+          <span>SEE WHO’S OUT TONIGHT</span>
+        </button>
+
+        {/* Minimal Discretion Badges */}
+        <div className="flex flex-wrap justify-center items-center gap-2 max-w-lg mt-6">
           {[
-            { icon: '🔒', text: 'Zero Phone Numbers Shared' },
-            { icon: '🛡️', text: 'Discretion Guaranteed' },
-            { icon: '⚡', text: 'Live Proximity Radar' },
-            { icon: '🌐', text: '8-Language Real-Time Translation' },
-          ].map((badge, idx) => (
-            <div
+            'Zero Phone Numbers Shared',
+            'Discretion Guaranteed',
+            'Live Proximity Radar',
+            '8-Language Real-Time Translation',
+          ].map((text, idx) => (
+            <span
               key={idx}
-              style={{
-                display: 'inline-flex',
-                alignItems: 'center',
-                gap: '6px',
-                padding: '7px 14px',
-                borderRadius: '999px',
-                background: 'rgba(255, 255, 255, 0.03)',
-                border: '1px solid rgba(255, 255, 255, 0.07)',
-                fontSize: '11.5px',
-                color: '#9494a0',
-                letterSpacing: '0.02em',
-              }}
+              className="text-[10px] tracking-wider uppercase text-slate-500 px-3 py-1 rounded-full border border-white/5 bg-white/[0.02]"
             >
-              <span>{badge.icon}</span>
-              <span>{badge.text}</span>
-            </div>
+              {text}
+            </span>
           ))}
         </div>
       </main>
 
-      {/* ========================================================= */}
-      {/* MINIMAL DISCRETION FOOTER */}
-      {/* ========================================================= */}
-      <footer
-        style={{
-          position: 'relative',
-          zIndex: 10,
-          paddingBottom: '5vh',
-          paddingTop: '2rem',
-          textAlign: 'center',
-          fontSize: '0.7rem',
-          letterSpacing: '0.25em',
-          color: 'rgba(148, 148, 160, 0.45)',
-          textTransform: 'uppercase',
-          width: '100%',
-          borderTop: '1px solid rgba(255, 255, 255, 0.04)',
-          boxSizing: 'border-box',
-        }}
-      >
-        <p style={{ margin: '0 0 5px' }}>Discretion Guaranteed • 2026</p>
-        <p style={{ margin: 0, fontSize: '0.65rem', color: 'rgba(148, 148, 160, 0.3)' }}>
-          Powered by Cerca
-        </p>
+      {/* Subtle Bottom Discretion Footer */}
+      <footer className="relative z-10 text-center text-[9px] tracking-[0.35em] text-slate-600 uppercase pt-6">
+        DISCRETION GUARANTEED • 2026 • POWERED BY CERCA
       </footer>
 
-      {/* ========================================================= */}
-      {/* INTERACTIVE RADAR MODAL */}
-      {/* ========================================================= */}
+      {/* Interactive Radar Scanner Modal */}
       {showRadarModal && (
         <div
           role="dialog"
@@ -561,7 +258,14 @@ export default function App() {
                   marginBottom: '10px',
                 }}
               >
-                <span style={{ width: '6px', height: '6px', borderRadius: '50%', backgroundColor: '#ff2a6d' }} />
+                <span
+                  style={{
+                    width: '6px',
+                    height: '6px',
+                    borderRadius: '50%',
+                    backgroundColor: '#ff2a6d',
+                  }}
+                />
                 <span>● Radar Active Feed</span>
               </div>
               <h3 style={{ fontSize: '22px', fontWeight: 900, margin: '0 0 6px', color: '#fff' }}>
