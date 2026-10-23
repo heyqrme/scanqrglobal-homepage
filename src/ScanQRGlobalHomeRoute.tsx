@@ -10,148 +10,142 @@ import {
 import { useGatewayI18n, GATEWAY_LOCALES } from './gatewayI18n'
 import { useExitTelemetry } from './hooks/useExitTelemetry'
 
-export function CercaProximityRadarPreview({ onOpenRadar }: { onOpenRadar: () => void }) {
+export function CercaFriendMapPreview({ onOpenMap }: { onOpenMap: () => void }) {
   return (
     <div
-      onClick={onOpenRadar}
-      className="w-full max-w-lg aspect-[16/10] sm:aspect-[16/9] rounded-2xl overflow-hidden mb-8 shadow-[0_0_60px_rgba(255,42,109,0.22)] relative group border border-rose-500/30 bg-[#06060c] cursor-pointer transition-all duration-300 hover:border-rose-400/60 hover:shadow-[0_0_75px_rgba(255,42,109,0.35)]"
+      onClick={onOpenMap}
+      className="w-full max-w-lg aspect-[16/10] sm:aspect-[16/9] rounded-2xl overflow-hidden mb-8 shadow-[0_0_50px_rgba(255,42,109,0.18)] relative group border border-white/10 bg-[#06060c] cursor-pointer transition-all duration-300 hover:border-rose-500/40 hover:shadow-[0_0_70px_rgba(255,42,109,0.28)]"
     >
-      <style>{`
-        @keyframes radarSweepAnim {
-          from { transform: rotate(0deg); }
-          to { transform: rotate(360deg); }
-        }
-      `}</style>
-
-      {/* SVG Map Grid Aesthetic */}
+      {/* SVG Dark Obsidian Map Background & Subtle Grid Lines */}
       <svg
-        className="absolute inset-0 w-full h-full opacity-35 pointer-events-none"
+        className="absolute inset-0 w-full h-full opacity-30 pointer-events-none"
         xmlns="http://www.w3.org/2000/svg"
       >
         <defs>
-          <pattern id="radarGrid" width="40" height="40" patternUnits="userSpaceOnUse">
-            <path d="M 40 0 L 0 0 0 40" fill="none" stroke="rgba(255, 255, 255, 0.08)" strokeWidth="0.8" />
+          <pattern id="friendMapGrid" width="46" height="46" patternUnits="userSpaceOnUse">
+            <path d="M 46 0 L 0 0 0 46" fill="none" stroke="rgba(255, 255, 255, 0.08)" strokeWidth="0.75" />
           </pattern>
         </defs>
-        <rect width="100%" height="100%" fill="url(#radarGrid)" />
-        {/* Subtle Map Roads & Contours */}
+        <rect width="100%" height="100%" fill="url(#friendMapGrid)" />
+
+        {/* Subtle Map Roads & Transit Routes */}
         <path
-          d="M -20 180 Q 140 160 260 210 T 540 180"
+          d="M -30 200 C 110 160, 250 250, 560 170"
           fill="none"
-          stroke="rgba(5, 217, 232, 0.15)"
+          stroke="rgba(255, 42, 109, 0.14)"
+          strokeWidth="2"
+        />
+        <path
+          d="M 150 -20 C 190 120, 170 240, 270 420"
+          fill="none"
+          stroke="rgba(5, 217, 232, 0.14)"
+          strokeWidth="2"
+        />
+        <path
+          d="M 370 -20 C 330 130, 410 230, 470 380"
+          fill="none"
+          stroke="rgba(255, 255, 255, 0.06)"
           strokeWidth="1.5"
           strokeDasharray="4 4"
         />
-        <path
-          d="M 120 -20 Q 180 120 220 260 T 310 400"
-          fill="none"
-          stroke="rgba(255, 42, 109, 0.12)"
-          strokeWidth="1.5"
-        />
-        <path
-          d="M 380 -20 Q 340 140 410 280"
-          fill="none"
-          stroke="rgba(255, 255, 255, 0.07)"
-          strokeWidth="1.2"
-        />
       </svg>
 
-      {/* Radar Concentric Rings */}
+      {/* Subtle Proximity Range Rings Centered on You */}
       <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-        {/* Ring 1 - 28% */}
-        <div className="w-[28%] aspect-square rounded-full border border-rose-500/20" />
-        {/* Ring 2 - 56% */}
-        <div className="absolute w-[56%] aspect-square rounded-full border border-dashed border-rose-500/25" />
-        {/* Ring 3 - 86% */}
-        <div className="absolute w-[86%] aspect-square rounded-full border border-rose-500/15" />
-        {/* Crosshairs */}
-        <div className="absolute w-full h-[1px] bg-gradient-to-r from-transparent via-rose-500/20 to-transparent" />
-        <div className="absolute h-full w-[1px] bg-gradient-to-b from-transparent via-rose-500/20 to-transparent" />
+        <div className="w-[30%] aspect-square rounded-full border border-white/5" />
+        <div className="absolute w-[60%] aspect-square rounded-full border border-dashed border-white/5" />
+        <div className="absolute w-[88%] aspect-square rounded-full border border-white/5" />
       </div>
 
-      {/* Rotating Radar Sweep Line & Cone */}
-      <div
-        className="absolute inset-0 pointer-events-none"
-        style={{
-          background:
-            'conic-gradient(from 0deg at 50% 50%, transparent 0deg, transparent 270deg, rgba(255, 42, 109, 0.04) 310deg, rgba(255, 42, 109, 0.28) 360deg)',
-          animation: 'radarSweepAnim 5s linear infinite',
-        }}
-      />
-
-      {/* Glowing Radial Pulsing Points (Nearby Hotspots & People) */}
-      
-      {/* 1. Center / You Node */}
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-10 flex flex-col items-center">
-        <span className="relative flex h-4 w-4 items-center justify-center">
-          <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-cyan-400 opacity-75" />
-          <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-cyan-300 shadow-[0_0_12px_#06b6d4]" />
+      {/* Center "YOU" Marker */}
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-10 flex flex-col items-center pointer-events-none">
+        <span className="relative flex h-3.5 w-3.5 items-center justify-center">
+          <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-cyan-400 opacity-60" />
+          <span className="relative inline-flex rounded-full h-2 w-2 bg-cyan-300 shadow-[0_0_10px_#06b6d4]" />
         </span>
-        <span className="text-[8px] font-black tracking-widest text-cyan-300 uppercase mt-0.5 bg-black/60 px-1 rounded">
+        <span className="text-[7.5px] font-bold tracking-widest text-cyan-300 uppercase mt-0.5 bg-black/70 px-1.5 py-0.2 rounded border border-cyan-500/30">
           YOU
         </span>
       </div>
 
-      {/* 2. Hotspot 1: Sing Sing Speakeasy */}
-      <div className="absolute top-[28%] left-[66%] z-10">
-        <div className="relative flex items-center gap-1.5">
-          <span className="relative flex h-3 w-3 items-center justify-center">
-            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-rose-500 opacity-80" />
-            <span className="relative inline-flex rounded-full h-2 w-2 bg-rose-500 shadow-[0_0_10px_#ff2a6d]" />
-          </span>
-          <div className="bg-[#0b0b14]/90 border border-rose-500/40 rounded-full px-2 py-0.5 text-[8.5px] font-bold text-rose-200 tracking-wider shadow-md backdrop-blur-sm whitespace-nowrap">
-            🔥 Sing Sing • 0.3 mi
+      {/* Glowing Circular User Avatar Pins */}
+
+      {/* 1. Sofia Delgado */}
+      <div className="absolute top-[24%] left-[64%] z-10 group/avatar">
+        <div className="relative flex items-center gap-2">
+          <div className="relative w-11 h-11 rounded-full p-0.5 border-2 border-rose-500 shadow-[0_0_18px_rgba(255,42,109,0.55)] bg-slate-900 group-hover/avatar:scale-110 transition-transform">
+            <img
+              src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=200&auto=format&fit=crop&q=80"
+              alt="Sofia"
+              className="w-full h-full rounded-full object-cover"
+            />
+            <span className="absolute bottom-0 right-0 w-2.5 h-2.5 rounded-full bg-emerald-400 border border-black shadow-[0_0_6px_#34d399]" />
+          </div>
+          <div className="bg-[#0b0b14]/90 border border-rose-500/40 rounded-full px-2.5 py-0.5 text-[9px] font-semibold text-rose-200 tracking-wider shadow-md backdrop-blur-sm whitespace-nowrap">
+            Sofia • 0.2 mi
           </div>
         </div>
       </div>
 
-      {/* 3. Hotspot 2: Beam Underground */}
-      <div className="absolute top-[64%] left-[24%] z-10">
-        <div className="relative flex items-center gap-1.5">
-          <span className="relative flex h-3 w-3 items-center justify-center">
-            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-purple-500 opacity-75" />
-            <span className="relative inline-flex rounded-full h-2 w-2 bg-purple-400 shadow-[0_0_10px_#a855f7]" />
-          </span>
-          <div className="bg-[#0b0b14]/90 border border-purple-500/40 rounded-full px-2 py-0.5 text-[8.5px] font-bold text-purple-200 tracking-wider shadow-md backdrop-blur-sm whitespace-nowrap">
-            🎧 Beam Club • 0.6 mi
+      {/* 2. Julian Chen */}
+      <div className="absolute top-[60%] left-[20%] z-10 group/avatar">
+        <div className="relative flex items-center gap-2">
+          <div className="relative w-11 h-11 rounded-full p-0.5 border-2 border-cyan-400 shadow-[0_0_18px_rgba(5,217,232,0.5)] bg-slate-900 group-hover/avatar:scale-110 transition-transform">
+            <img
+              src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=200&auto=format&fit=crop&q=80"
+              alt="Julian"
+              className="w-full h-full rounded-full object-cover"
+            />
+            <span className="absolute bottom-0 right-0 w-2.5 h-2.5 rounded-full bg-emerald-400 border border-black shadow-[0_0_6px_#34d399]" />
+          </div>
+          <div className="bg-[#0b0b14]/90 border border-cyan-500/40 rounded-full px-2.5 py-0.5 text-[9px] font-semibold text-cyan-200 tracking-wider shadow-md backdrop-blur-sm whitespace-nowrap">
+            Julian • 0.5 mi
           </div>
         </div>
       </div>
 
-      {/* 4. Hotspot 3: Sky VIP Lounge */}
-      <div className="absolute top-[22%] left-[30%] z-10">
-        <div className="relative flex items-center gap-1.5">
-          <span className="relative flex h-2.5 w-2.5 items-center justify-center">
-            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-cyan-400 opacity-75" />
-            <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-cyan-300 shadow-[0_0_8px_#06b6d4]" />
-          </span>
-          <div className="bg-[#0b0b14]/90 border border-cyan-500/30 rounded-full px-1.5 py-0.5 text-[8px] font-semibold text-cyan-200 tracking-wider shadow-sm backdrop-blur-sm whitespace-nowrap">
-            🍸 Sky Lounge
+      {/* 3. Elena Vance */}
+      <div className="absolute top-[28%] left-[24%] z-10 group/avatar">
+        <div className="relative flex items-center gap-2">
+          <div className="relative w-10 h-10 rounded-full p-0.5 border-2 border-purple-400 shadow-[0_0_16px_rgba(168,85,247,0.5)] bg-slate-900 group-hover/avatar:scale-110 transition-transform">
+            <img
+              src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=200&auto=format&fit=crop&q=80"
+              alt="Elena"
+              className="w-full h-full rounded-full object-cover"
+            />
+            <span className="absolute bottom-0 right-0 w-2 h-2 rounded-full bg-emerald-400 border border-black shadow-[0_0_6px_#34d399]" />
+          </div>
+          <div className="bg-[#0b0b14]/90 border border-purple-500/40 rounded-full px-2 py-0.5 text-[8.5px] font-semibold text-purple-200 tracking-wider shadow-sm backdrop-blur-sm whitespace-nowrap">
+            Elena • 0.4 mi
           </div>
         </div>
       </div>
 
-      {/* 5. Hotspot 4: Secret Patio */}
-      <div className="absolute top-[72%] left-[70%] z-10">
-        <div className="relative flex items-center gap-1.5">
-          <span className="relative flex h-2.5 w-2.5 items-center justify-center">
-            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-amber-400 opacity-75" />
-            <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-amber-400 shadow-[0_0_8px_#f59e0b]" />
-          </span>
-          <div className="bg-[#0b0b14]/90 border border-amber-500/30 rounded-full px-1.5 py-0.5 text-[8px] font-semibold text-amber-200 tracking-wider shadow-sm backdrop-blur-sm whitespace-nowrap">
-            ✨ Secret Patio • 0.9 mi
+      {/* 4. Travis Sterling */}
+      <div className="absolute top-[65%] left-[66%] z-10 group/avatar">
+        <div className="relative flex items-center gap-2">
+          <div className="relative w-10 h-10 rounded-full p-0.5 border-2 border-amber-400 shadow-[0_0_16px_rgba(245,158,11,0.5)] bg-slate-900 group-hover/avatar:scale-110 transition-transform">
+            <img
+              src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=200&auto=format&fit=crop&q=80"
+              alt="Travis"
+              className="w-full h-full rounded-full object-cover"
+            />
+            <span className="absolute bottom-0 right-0 w-2 h-2 rounded-full bg-emerald-400 border border-black shadow-[0_0_6px_#34d399]" />
+          </div>
+          <div className="bg-[#0b0b14]/90 border border-amber-500/40 rounded-full px-2 py-0.5 text-[8.5px] font-semibold text-amber-200 tracking-wider shadow-sm backdrop-blur-sm whitespace-nowrap">
+            Travis • 0.7 mi
           </div>
         </div>
       </div>
 
-      {/* Primary Label Overlay Required: "CERCA PROXIMITY RADAR • LIVE NEARBY" */}
-      <div className="absolute top-3 left-3 z-20 flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#05050ab8] backdrop-blur-md border border-rose-500/40 shadow-[0_4px_25px_rgba(0,0,0,0.8)]">
+      {/* Required Clean Label at the Top: "CERCA FRIEND MAP • LIVE NEARBY" */}
+      <div className="absolute top-3 left-3 z-20 flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#05050ab8] backdrop-blur-md border border-white/15 shadow-[0_4px_25px_rgba(0,0,0,0.8)]">
         <span className="relative flex h-2 w-2">
-          <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-rose-400 opacity-80" />
-          <span className="relative inline-flex rounded-full h-2 w-2 bg-rose-500 shadow-[0_0_8px_#ff2a6d]" />
+          <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-80" />
+          <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-400 shadow-[0_0_8px_#34d399]" />
         </span>
-        <span className="text-[9px] sm:text-[10.5px] font-bold tracking-[0.22em] text-rose-200 uppercase">
-          CERCA PROXIMITY RADAR • LIVE NEARBY
+        <span className="text-[9px] sm:text-[10.5px] font-bold tracking-[0.22em] text-slate-200 uppercase">
+          CERCA FRIEND MAP • LIVE NEARBY
         </span>
       </div>
 
@@ -159,10 +153,10 @@ export function CercaProximityRadarPreview({ onOpenRadar }: { onOpenRadar: () =>
       <div className="absolute bottom-3 inset-x-3 z-20 flex items-center justify-between pointer-events-none px-1 text-[9px] font-mono tracking-widest text-slate-400 uppercase">
         <span className="flex items-center gap-1.5 bg-black/60 px-2 py-0.5 rounded-md backdrop-blur-sm border border-white/5">
           <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
-          <span>Active Scanner • 142 in Range</span>
+          <span>Live Nearby • 4 Friends Active</span>
         </span>
-        <span className="text-rose-400 group-hover:text-rose-300 transition-colors bg-black/60 px-2 py-0.5 rounded-md backdrop-blur-sm border border-rose-500/20">
-          Tap to Open Radar ↗
+        <span className="text-slate-300 group-hover:text-white transition-colors bg-black/60 px-2 py-0.5 rounded-md backdrop-blur-sm border border-white/10">
+          Tap to Open Map ↗
         </span>
       </div>
 
@@ -282,8 +276,8 @@ export function ScanQRGlobalHomeRoute() {
           </p>
         </div>
 
-        {/* Dynamic Cerca Proximity Radar Preview Component */}
-        <CercaProximityRadarPreview onOpenRadar={() => handleOpenRadar(0)} />
+        {/* Static Cerca Friend Map Preview Card */}
+        <CercaFriendMapPreview onOpenMap={() => handleOpenRadar(0)} />
 
         {/* Clean, Velvet-Rope Entry Actions */}
         <div className="flex flex-col sm:flex-row items-center justify-center gap-4 w-full max-w-md mb-6">
