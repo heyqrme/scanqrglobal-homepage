@@ -1,32 +1,19 @@
 import React, { useState } from 'react'
 import {
   Globe,
-  Radio,
-  Eye,
-  ShieldCheck,
-  Flame,
-  Sparkles,
-  Lock,
   Compass,
   QrCode,
-  Languages,
   Check,
-  X,
-  Copy,
-  Smartphone,
-  ChevronRight,
-  Sliders,
   Heart,
-  MapPin,
-  Send,
-  Zap,
+  X,
+  ChevronRight,
 } from 'lucide-react'
-import { useGatewayI18n, GATEWAY_LOCALES, type GatewayLocale } from './gatewayI18n'
+import { useGatewayI18n, GATEWAY_LOCALES } from './gatewayI18n'
 import { useExitTelemetry } from './hooks/useExitTelemetry'
 
 export default function App() {
   const { locale, setLocale, t } = useGatewayI18n()
-  const { recordInteraction, viewsCount } = useExitTelemetry()
+  const { recordInteraction } = useExitTelemetry()
 
   // Interactive Modal States
   const [showRadarModal, setShowRadarModal] = useState(false)
@@ -50,10 +37,10 @@ export default function App() {
   return (
     <div
       style={{
-        backgroundColor: '#08080a',
-        color: '#f3f3f6',
+        backgroundColor: '#050507',
+        color: '#f4f4f6',
         minHeight: '100vh',
-        fontFamily: "'Plus Jakarta Sans', system-ui, sans-serif",
+        fontFamily: "'Plus Jakarta Sans', sans-serif",
         display: 'flex',
         flexDirection: 'column',
         justifyContent: 'space-between',
@@ -63,89 +50,113 @@ export default function App() {
         boxSizing: 'border-box',
       }}
     >
-      {/* Ambient Pulsing Background Glow */}
+      {/* Ambient Cinematic Lighting & Shimmer Keyframes */}
       <style>{`
-        @keyframes pulseGlow {
-          0% { transform: translate(-50%, -50%) scale(0.9); opacity: 0.6; }
-          100% { transform: translate(-50%, -50%) scale(1.1); opacity: 0.95; }
+        @keyframes ambientPulse {
+          0% { transform: translate(-50%, -50%) scale(0.85); opacity: 0.5; }
+          100% { transform: translate(-50%, -50%) scale(1.15); opacity: 0.9; }
         }
 
-        @keyframes colorShift {
-          0% { filter: hue-rotate(0deg); }
-          100% { filter: hue-rotate(25deg); }
+        @keyframes textShimmer {
+          0% { filter: brightness(1); }
+          100% { filter: brightness(1.25); }
         }
 
-        @keyframes pulse-seductive-glow {
-          0%, 100% { opacity: 0.4; transform: scale(0.98); }
-          50% { opacity: 0.85; transform: scale(1.02); }
-        }
-
-        .ambient-glow-layer {
+        .ambient-lighting {
+          content: '';
           position: fixed;
           top: 50%;
           left: 50%;
           transform: translate(-50%, -50%);
-          width: 65vw;
-          height: 65vw;
-          max-width: 900px;
-          max-height: 900px;
-          background: radial-gradient(circle, rgba(255, 42, 109, 0.22) 0%, rgba(212, 175, 55, 0.08) 40%, rgba(5, 217, 232, 0.04) 60%, transparent 75%);
+          width: 70vw;
+          height: 70vw;
+          background: radial-gradient(circle, rgba(255, 42, 109, 0.15) 0%, rgba(5, 217, 232, 0.04) 45%, transparent 70%);
           filter: blur(90px);
           z-index: 0;
           pointer-events: none;
-          animation: pulseGlow 9s ease-in-out infinite alternate;
+          animation: ambientPulse 10s ease-in-out infinite alternate;
         }
 
-        .cta-btn-hover:hover {
-          transform: translateY(-2px);
-          filter: brightness(1.1);
+        .label-line {
+          font-size: clamp(0.9rem, 1.6vw, 1.15rem);
+          text-transform: uppercase;
+          letter-spacing: 0.3em;
+          color: #9494a0;
+          font-weight: 400;
+          transition: all 0.4s ease;
+          display: inline-block;
+        }
+
+        .label-line.primary {
+          color: #f4f4f6;
+          font-weight: 500;
+          text-shadow: 0 0 20px rgba(255, 255, 255, 0.35);
+        }
+
+        .label-line:hover {
+          color: #ffffff;
+          text-shadow: 0 0 25px rgba(255, 42, 109, 0.7);
+          transform: scale(1.02);
+        }
+
+        .cta-btn-glow {
+          transition: all 0.25s ease;
+        }
+        .cta-btn-glow:hover {
+          transform: translateY(-2px) scale(1.02);
+          box-shadow: 0 12px 35px rgba(255, 42, 109, 0.5) !important;
         }
       `}</style>
 
-      <div className="ambient-glow-layer" />
+      <div className="ambient-lighting" />
 
       {/* ========================================================= */}
-      {/* 1. TOP HEADER & LANGUAGE SELECTOR */}
+      {/* HEADER AREA */}
       {/* ========================================================= */}
       <header
         style={{
           position: 'relative',
-          zIndex: 20,
+          zIndex: 10,
           width: '100%',
           maxWidth: '1200px',
-          padding: '24px 20px 10px',
+          paddingTop: '5vh',
+          paddingLeft: '20px',
+          paddingRight: '20px',
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'space-between',
           boxSizing: 'border-box',
         }}
       >
-        {/* Brand Center/Left */}
+        {/* Brand Title + Subtitle */}
         <a
-          href="https://www.qr4luv.com"
+          href="https://qr4luv.com"
+          target="_blank"
+          rel="noopener noreferrer"
           style={{ textDecoration: 'none', textAlign: 'left', cursor: 'pointer' }}
         >
           <h1
             style={{
               fontFamily: "'Cinzel', serif",
-              fontSize: 'clamp(1.3rem, 2.8vw, 1.9rem)',
+              fontSize: 'clamp(1.6rem, 3.2vw, 2.4rem)',
               fontWeight: 700,
-              letterSpacing: '0.3em',
+              letterSpacing: '0.35em',
               color: '#ffffff',
-              margin: 0,
-              textShadow: '0 0 20px rgba(255,255,255,0.25)',
+              marginBottom: '0.3rem',
+              textShadow: '0 0 25px rgba(255, 255, 255, 0.25)',
             }}
           >
             SCANQR GLOBAL
           </h1>
           <p
             style={{
-              fontSize: '0.72rem',
-              letterSpacing: '0.25em',
-              color: '#8e8e99',
-              fontWeight: 400,
+              fontSize: '0.75rem',
               textTransform: 'uppercase',
-              margin: '3px 0 0',
+              letterSpacing: '0.3em',
+              color: '#9494a0',
+              fontWeight: 400,
+              margin: 0,
+              transition: 'color 0.3s ease',
             }}
           >
             Powered by Cerca
@@ -161,8 +172,8 @@ export default function App() {
               display: 'flex',
               alignItems: 'center',
               gap: '6px',
-              backgroundColor: 'rgba(255, 255, 255, 0.06)',
-              border: '1px solid rgba(255, 255, 255, 0.14)',
+              backgroundColor: 'rgba(255, 255, 255, 0.05)',
+              border: '1px solid rgba(255, 255, 255, 0.12)',
               color: '#ffffff',
               padding: '6px 14px',
               borderRadius: '999px',
@@ -173,7 +184,7 @@ export default function App() {
               transition: 'all 0.15s ease',
             }}
           >
-            <Globe size={13} style={{ color: '#fda4af' }} />
+            <Globe size={13} style={{ color: '#ff2a6d' }} />
             <span>{locale.toUpperCase()}</span>
             <span style={{ fontSize: '9px', opacity: 0.7 }}>▾</span>
           </button>
@@ -184,13 +195,13 @@ export default function App() {
                 position: 'absolute',
                 top: 'calc(100% + 8px)',
                 right: 0,
-                backgroundColor: '#0e0c16',
-                border: '1px solid rgba(217, 70, 239, 0.3)',
+                backgroundColor: '#0a0a0f',
+                border: '1px solid rgba(255, 42, 109, 0.3)',
                 borderRadius: '14px',
                 padding: '6px',
                 zIndex: 100,
                 minWidth: '130px',
-                boxShadow: '0 12px 30px rgba(0,0,0,0.8)',
+                boxShadow: '0 12px 30px rgba(0,0,0,0.85)',
               }}
             >
               {GATEWAY_LOCALES.map((l) => (
@@ -205,9 +216,9 @@ export default function App() {
                     width: '100%',
                     padding: '8px 12px',
                     borderRadius: '8px',
-                    backgroundColor: locale === l.code ? 'rgba(217, 70, 239, 0.2)' : 'transparent',
+                    backgroundColor: locale === l.code ? 'rgba(255, 42, 109, 0.2)' : 'transparent',
                     border: 'none',
-                    color: locale === l.code ? '#ffffff' : '#a1a1aa',
+                    color: locale === l.code ? '#ffffff' : '#9494a0',
                     fontSize: '12.5px',
                     fontWeight: locale === l.code ? 700 : 500,
                     textAlign: 'left',
@@ -218,7 +229,7 @@ export default function App() {
                   }}
                 >
                   <span>{l.label}</span>
-                  {locale === l.code && <Check size={12} color="#f43f5e" />}
+                  {locale === l.code && <Check size={12} color="#ff2a6d" />}
                 </button>
               ))}
             </div>
@@ -227,7 +238,7 @@ export default function App() {
       </header>
 
       {/* ========================================================= */}
-      {/* 2. MAIN HERO CENTER STAGE */}
+      {/* CORE CENTER STAGE */}
       {/* ========================================================= */}
       <main
         style={{
@@ -237,79 +248,61 @@ export default function App() {
           flexDirection: 'column',
           alignItems: 'center',
           textAlign: 'center',
-          padding: '2.5rem 1.5rem 1.5rem',
-          maxWidth: '920px',
+          padding: '2rem 1.5rem',
+          maxWidth: '950px',
           width: '100%',
           margin: 'auto',
           boxSizing: 'border-box',
         }}
       >
-        {/* Ultra-Luxe Animated Headline */}
+        {/* Hero Headline */}
         <h2
           style={{
             fontFamily: "'Cinzel', serif",
-            fontSize: 'clamp(1.9rem, 4.4vw, 3.4rem)',
-            fontWeight: 700,
-            letterSpacing: '0.08em',
+            fontSize: 'clamp(2rem, 4.5vw, 3.6rem)',
+            fontWeight: 600,
+            letterSpacing: '0.06em',
             lineHeight: 1.25,
-            marginBottom: '1.4rem',
-            background: 'linear-gradient(135deg, #ffffff 25%, #e2b714 68%, #ff2a6d 100%)',
+            marginBottom: '2rem',
+            background: 'linear-gradient(135deg, #ffffff 20%, #ffc857 60%, #ff2a6d 100%)',
             WebkitBackgroundClip: 'text',
             WebkitTextFillColor: 'transparent',
-            animation: 'colorShift 10s ease infinite alternate',
-            maxWidth: '850px',
+            animation: 'textShimmer 8s ease infinite alternate',
           }}
         >
           THE ROOM IS BLIND UNTIL YOU STEP IN.
         </h2>
 
-        {/* Seductive Subtext Labels */}
+        {/* Vertical Label Stack */}
         <div
           style={{
             display: 'flex',
             flexDirection: 'column',
-            gap: '0.9rem',
+            gap: '1.4rem',
             alignItems: 'center',
-            marginBottom: '2rem',
+            marginBottom: '2.5rem',
           }}
         >
-          <span
-            style={{
-              fontSize: 'clamp(0.85rem, 1.6vw, 1.05rem)',
-              textTransform: 'uppercase',
-              letterSpacing: '0.25em',
-              color: '#ffffff',
-              fontWeight: 600,
-              textShadow: '0 0 16px rgba(255, 255, 255, 0.4)',
-            }}
-          >
+          <span className="label-line primary">
             FREE LIVE VIDEO • GLOBAL CHAT • UNTOLD PLACES
           </span>
-          <span
-            style={{
-              fontSize: 'clamp(0.8rem, 1.4vw, 0.95rem)',
-              textTransform: 'uppercase',
-              letterSpacing: '0.22em',
-              color: '#8e8e99',
-              fontWeight: 400,
-            }}
-          >
+          <span className="label-line">
             NO VIP WALLS. NO PAPER TRAILS. JUST CHEMISTRY.
           </span>
         </div>
 
-        {/* Centerpiece Image Showcase */}
+        {/* Featured Centerpiece Image */}
         <div
           style={{
             position: 'relative',
-            maxWidth: '720px',
+            maxWidth: '740px',
             width: '100%',
             borderRadius: '22px',
             overflow: 'hidden',
             border: '1px solid rgba(255, 42, 109, 0.35)',
-            boxShadow: '0 20px 60px rgba(0, 0, 0, 0.85), 0 0 40px rgba(255, 42, 109, 0.25)',
-            marginBottom: '2.5rem',
-            background: '#0e0c16',
+            boxShadow: '0 24px 70px rgba(0, 0, 0, 0.9), 0 0 45px rgba(255, 42, 109, 0.22)',
+            marginBottom: '2.8rem',
+            background: '#09090d',
           }}
         >
           <img
@@ -323,19 +316,18 @@ export default function App() {
               maxHeight: '440px',
             }}
           />
-          {/* Subtle bottom vignette overlay */}
           <div
             style={{
               position: 'absolute',
               inset: 0,
-              background: 'linear-gradient(to top, rgba(8, 8, 10, 0.65) 0%, transparent 45%, rgba(8, 8, 10, 0.25) 100%)',
+              background: 'linear-gradient(to top, rgba(5, 5, 7, 0.7) 0%, transparent 45%, rgba(5, 5, 7, 0.2) 100%)',
               pointerEvents: 'none',
             }}
           />
         </div>
 
         {/* ========================================================= */}
-        {/* 3. DIRECT ACTION BUTTONS (ENTER CERCA / DATING / RADAR) */}
+        {/* DIRECT ACTION BUTTONS (ENTER CERCA / DATING / RADAR) */}
         {/* ========================================================= */}
         <div
           style={{
@@ -344,7 +336,7 @@ export default function App() {
             justifyContent: 'center',
             gap: '14px',
             flexWrap: 'wrap',
-            maxWidth: '820px',
+            maxWidth: '850px',
             margin: '0 auto 2.5rem',
             width: '100%',
           }}
@@ -354,23 +346,22 @@ export default function App() {
             href="https://www.qr4luv.com/register"
             onClick={handleOpenRegistration}
             data-track-action="hero_enter_cerca"
-            className="cta-btn-hover"
+            className="cta-btn-glow"
             style={{
-              background: 'linear-gradient(135deg, #f43f5e 0%, #d946ef 100%)',
+              background: 'linear-gradient(135deg, #ff2a6d 0%, #d946ef 100%)',
               color: '#ffffff',
               border: 'none',
               borderRadius: '14px',
               padding: '16px 32px',
-              fontSize: '15px',
+              fontSize: '14.5px',
               fontWeight: 800,
-              letterSpacing: '0.04em',
+              letterSpacing: '0.05em',
               display: 'inline-flex',
               alignItems: 'center',
               gap: '10px',
-              boxShadow: '0 8px 30px rgba(244, 63, 94, 0.45)',
+              boxShadow: '0 8px 30px rgba(255, 42, 109, 0.4)',
               textDecoration: 'none',
               cursor: 'pointer',
-              transition: 'all 0.15s ease',
             }}
           >
             <QrCode size={18} />
@@ -381,27 +372,26 @@ export default function App() {
           <a
             href="https://www.qr4luv.com/faces?dating=1"
             data-track-action="hero_cerca_dating"
-            className="cta-btn-hover"
+            className="cta-btn-glow"
             style={{
-              background: 'linear-gradient(135deg, rgba(244, 63, 94, 0.2) 0%, rgba(217, 70, 239, 0.18) 100%)',
-              border: '1.5px solid rgba(244, 63, 94, 0.55)',
+              background: 'linear-gradient(135deg, rgba(255, 42, 109, 0.2) 0%, rgba(217, 70, 239, 0.16) 100%)',
+              border: '1.5px solid rgba(255, 42, 109, 0.55)',
               color: '#ffffff',
               borderRadius: '14px',
               padding: '16px 28px',
-              fontSize: '15px',
+              fontSize: '14.5px',
               fontWeight: 800,
-              letterSpacing: '0.04em',
+              letterSpacing: '0.05em',
               display: 'inline-flex',
               alignItems: 'center',
               gap: '10px',
-              boxShadow: '0 6px 24px rgba(244, 63, 94, 0.25)',
+              boxShadow: '0 6px 25px rgba(255, 42, 109, 0.22)',
               textDecoration: 'none',
               cursor: 'pointer',
               backdropFilter: 'blur(10px)',
-              transition: 'all 0.15s ease',
             }}
           >
-            <Heart size={18} style={{ color: '#fb7185' }} />
+            <Heart size={18} style={{ color: '#ff2a6d' }} />
             <span>CERCA DATING →</span>
           </a>
 
@@ -410,14 +400,14 @@ export default function App() {
             type="button"
             onClick={() => handleOpenRadar(0)}
             data-track-action="hero_see_whos_out_tonight"
-            className="cta-btn-hover"
+            className="cta-btn-glow"
             style={{
               background: 'rgba(255, 255, 255, 0.05)',
-              border: '1px solid rgba(255, 255, 255, 0.16)',
+              border: '1px solid rgba(255, 255, 255, 0.14)',
               color: '#ffffff',
               borderRadius: '14px',
               padding: '16px 28px',
-              fontSize: '15px',
+              fontSize: '14.5px',
               fontWeight: 700,
               letterSpacing: '0.04em',
               display: 'inline-flex',
@@ -425,16 +415,15 @@ export default function App() {
               gap: '10px',
               cursor: 'pointer',
               backdropFilter: 'blur(10px)',
-              boxShadow: '0 4px 20px rgba(0, 0, 0, 0.4)',
-              transition: 'all 0.15s ease',
+              boxShadow: '0 4px 20px rgba(0, 0, 0, 0.5)',
             }}
           >
-            <Compass size={18} style={{ color: '#38bdf8' }} />
+            <Compass size={18} style={{ color: '#05d9e8' }} />
             <span>SEE WHO’S OUT TONIGHT</span>
           </button>
         </div>
 
-        {/* Feature Pill Highlights */}
+        {/* Feature Badges */}
         <div
           style={{
             display: 'flex',
@@ -461,9 +450,9 @@ export default function App() {
                 padding: '7px 14px',
                 borderRadius: '999px',
                 background: 'rgba(255, 255, 255, 0.03)',
-                border: '1px solid rgba(255, 255, 255, 0.08)',
+                border: '1px solid rgba(255, 255, 255, 0.07)',
                 fontSize: '11.5px',
-                color: '#a1a1aa',
+                color: '#9494a0',
                 letterSpacing: '0.02em',
               }}
             >
@@ -475,31 +464,32 @@ export default function App() {
       </main>
 
       {/* ========================================================= */}
-      {/* 4. DISCREET MINIMAL FOOTER */}
+      {/* MINIMAL DISCRETION FOOTER */}
       {/* ========================================================= */}
       <footer
         style={{
           position: 'relative',
           zIndex: 10,
+          paddingBottom: '5vh',
+          paddingTop: '2rem',
           textAlign: 'center',
-          padding: '2.5rem 1rem 3rem',
-          fontSize: '0.75rem',
-          letterSpacing: '0.22em',
-          color: 'rgba(142, 142, 153, 0.55)',
+          fontSize: '0.7rem',
+          letterSpacing: '0.25em',
+          color: 'rgba(148, 148, 160, 0.45)',
           textTransform: 'uppercase',
-          borderTop: '1px solid rgba(255, 255, 255, 0.05)',
           width: '100%',
+          borderTop: '1px solid rgba(255, 255, 255, 0.04)',
           boxSizing: 'border-box',
         }}
       >
-        <p style={{ margin: '0 0 6px' }}>Discretion Guaranteed • 2026</p>
-        <p style={{ margin: 0, fontSize: '0.7rem', color: 'rgba(142, 142, 153, 0.35)' }}>
-          Powered by Cerca Social
+        <p style={{ margin: '0 0 5px' }}>Discretion Guaranteed • 2026</p>
+        <p style={{ margin: 0, fontSize: '0.65rem', color: 'rgba(148, 148, 160, 0.3)' }}>
+          Powered by Cerca
         </p>
       </footer>
 
       {/* ========================================================= */}
-      {/* 5. INTERACTIVE LIVE RADAR MODAL */}
+      {/* INTERACTIVE RADAR MODAL */}
       {/* ========================================================= */}
       {showRadarModal && (
         <div
@@ -509,7 +499,7 @@ export default function App() {
             position: 'fixed',
             inset: 0,
             zIndex: 1000,
-            backgroundColor: 'rgba(5, 5, 8, 0.88)',
+            backgroundColor: 'rgba(5, 5, 7, 0.9)',
             backdropFilter: 'blur(16px)',
             display: 'flex',
             alignItems: 'center',
@@ -520,14 +510,14 @@ export default function App() {
         >
           <div
             style={{
-              backgroundColor: '#0d0b14',
-              border: '1px solid rgba(217, 70, 239, 0.3)',
+              backgroundColor: '#09090f',
+              border: '1px solid rgba(255, 42, 109, 0.35)',
               borderRadius: '22px',
               maxWidth: '560px',
               width: '100%',
               padding: '28px',
               position: 'relative',
-              boxShadow: '0 24px 60px rgba(0, 0, 0, 0.8), 0 0 40px rgba(217, 70, 239, 0.2)',
+              boxShadow: '0 24px 60px rgba(0, 0, 0, 0.9), 0 0 40px rgba(255, 42, 109, 0.2)',
             }}
             onClick={(e) => e.stopPropagation()}
           >
@@ -561,23 +551,23 @@ export default function App() {
                   display: 'inline-flex',
                   alignItems: 'center',
                   gap: '6px',
-                  backgroundColor: 'rgba(244, 63, 94, 0.1)',
-                  border: '1px solid rgba(244, 63, 94, 0.28)',
+                  backgroundColor: 'rgba(255, 42, 109, 0.1)',
+                  border: '1px solid rgba(255, 42, 109, 0.3)',
                   padding: '4px 12px',
                   borderRadius: '9999px',
                   fontSize: '11px',
                   fontWeight: 800,
-                  color: '#fda4af',
+                  color: '#ff2a6d',
                   marginBottom: '10px',
                 }}
               >
-                <span style={{ width: '6px', height: '6px', borderRadius: '50%', backgroundColor: '#f43f5e' }} />
+                <span style={{ width: '6px', height: '6px', borderRadius: '50%', backgroundColor: '#ff2a6d' }} />
                 <span>● Radar Active Feed</span>
               </div>
               <h3 style={{ fontSize: '22px', fontWeight: 900, margin: '0 0 6px', color: '#fff' }}>
                 {t.modals.radarTitle}
               </h3>
-              <p style={{ margin: 0, fontSize: '13px', color: '#a1a1aa' }}>
+              <p style={{ margin: 0, fontSize: '13px', color: '#9494a0' }}>
                 {t.modals.radarSubtitle}
               </p>
             </div>
@@ -598,15 +588,15 @@ export default function App() {
                   style={{
                     backgroundColor:
                       selectedHubIndex === idx
-                        ? 'rgba(217, 70, 239, 0.22)'
+                        ? 'rgba(255, 42, 109, 0.22)'
                         : 'rgba(255, 255, 255, 0.03)',
                     border:
                       selectedHubIndex === idx
-                        ? '1px solid #d946ef'
+                        ? '1px solid #ff2a6d'
                         : '1px solid rgba(255, 255, 255, 0.08)',
                     borderRadius: '10px',
                     padding: '8px 4px',
-                    color: selectedHubIndex === idx ? '#fff' : '#a1a1aa',
+                    color: selectedHubIndex === idx ? '#fff' : '#9494a0',
                     fontSize: '11.5px',
                     fontWeight: 700,
                     cursor: 'pointer',
@@ -623,8 +613,8 @@ export default function App() {
             {/* Simulated Live Radar Scanner Display */}
             <div
               style={{
-                backgroundColor: 'rgba(7, 7, 9, 0.85)',
-                border: '1px solid rgba(217, 70, 239, 0.2)',
+                backgroundColor: 'rgba(5, 5, 7, 0.9)',
+                border: '1px solid rgba(255, 42, 109, 0.2)',
                 borderRadius: '16px',
                 padding: '24px',
                 textAlign: 'center',
@@ -638,7 +628,7 @@ export default function App() {
                   width: '150px',
                   height: '150px',
                   borderRadius: '50%',
-                  border: '1px dashed rgba(217, 70, 239, 0.35)',
+                  border: '1px dashed rgba(255, 42, 109, 0.35)',
                   margin: '0 auto',
                   position: 'relative',
                   display: 'flex',
@@ -651,7 +641,7 @@ export default function App() {
                     width: '85px',
                     height: '85px',
                     borderRadius: '50%',
-                    border: '1px solid rgba(124, 58, 237, 0.4)',
+                    border: '1px solid rgba(5, 217, 232, 0.4)',
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'center',
@@ -662,8 +652,8 @@ export default function App() {
                       width: '16px',
                       height: '16px',
                       borderRadius: '50%',
-                      backgroundColor: '#f43f5e',
-                      boxShadow: '0 0 16px #f43f5e',
+                      backgroundColor: '#ff2a6d',
+                      boxShadow: '0 0 16px #ff2a6d',
                     }}
                   />
                 </div>
@@ -673,12 +663,12 @@ export default function App() {
                   marginTop: '14px',
                   fontSize: '13px',
                   fontWeight: 700,
-                  color: '#f0abfc',
+                  color: '#ff2a6d',
                 }}
               >
                 {t.hubs.cards[selectedHubIndex]?.city} • {t.hubs.cards[selectedHubIndex]?.badge}
               </div>
-              <div style={{ fontSize: '11.5px', color: '#a1a1aa', marginTop: '2px' }}>
+              <div style={{ fontSize: '11.5px', color: '#9494a0', marginTop: '2px' }}>
                 {t.hubs.cards[selectedHubIndex]?.vibe}
               </div>
             </div>
@@ -688,7 +678,7 @@ export default function App() {
               href="https://www.qr4luv.com/register"
               onClick={handleOpenRegistration}
               style={{
-                background: 'linear-gradient(135deg, #F43F5E 0%, #D946EF 100%)',
+                background: 'linear-gradient(135deg, #ff2a6d 0%, #d946ef 100%)',
                 color: '#ffffff',
                 borderRadius: '12px',
                 padding: '13px 20px',
@@ -698,7 +688,7 @@ export default function App() {
                 alignItems: 'center',
                 justifyContent: 'center',
                 gap: '8px',
-                boxShadow: '0 8px 24px rgba(244, 63, 94, 0.35)',
+                boxShadow: '0 8px 24px rgba(255, 42, 109, 0.35)',
                 textDecoration: 'none',
                 cursor: 'pointer',
                 width: '100%',
