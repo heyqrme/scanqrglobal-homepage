@@ -20,25 +20,25 @@ const WARP_WORDS = [
     word: 'LOVE',
     sub: 'Proximity & Chemistry',
     gradient: 'from-rose-400 via-pink-300 to-amber-200',
-    glowColor: 'rgba(255, 42, 109, 0.85)',
-    startMs: 120,
-    durationMs: 820,
+    glowColor: 'rgba(255, 42, 109, 0.9)',
+    startMs: 250,
+    durationMs: 1150,
   },
   {
     word: 'CLUBS',
     sub: 'Live Nightlife & Secret Places',
     gradient: 'from-cyan-300 via-blue-400 to-purple-400',
-    glowColor: 'rgba(5, 217, 232, 0.85)',
-    startMs: 880,
-    durationMs: 820,
+    glowColor: 'rgba(5, 217, 232, 0.9)',
+    startMs: 1350,
+    durationMs: 1150,
   },
   {
     word: 'LIVE CHAT',
     sub: 'Zero Phone Numbers • Instant Knox',
     gradient: 'from-fuchsia-400 via-rose-300 to-cyan-300',
-    glowColor: 'rgba(217, 70, 239, 0.85)',
-    startMs: 1640,
-    durationMs: 840,
+    glowColor: 'rgba(217, 70, 239, 0.9)',
+    startMs: 2450,
+    durationMs: 1200,
   },
 ]
 
@@ -54,7 +54,7 @@ export function StarfieldTunnelTransition({
   const animFrameRef = useRef<number | null>(null)
   const hasRedirectedRef = useRef(false)
 
-  // Trigger words sequence and final redirection
+  // Trigger words sequence and final redirection at a majestic, cinematic pace
   useEffect(() => {
     if (!active) {
       setCurrentWordIdx(-1)
@@ -91,7 +91,7 @@ export function StarfieldTunnelTransition({
       setTimeout(() => {
         setCurrentWordIdx(3)
         setIsFlashing(true)
-      }, 2350)
+      }, 3650)
     )
 
     // Resolution: Navigation into Cerca Social
@@ -104,7 +104,7 @@ export function StarfieldTunnelTransition({
             window.location.href = targetUrl
           }
         }
-      }, 2650)
+      }, 4000)
     )
 
     return () => {
@@ -112,7 +112,7 @@ export function StarfieldTunnelTransition({
     }
   }, [active, targetUrl, onComplete])
 
-  // Canvas 3D Space Warp Starfield Engine
+  // Canvas 3D Space Warp Starfield Engine (Slower Majestic Drift in Deep Dark Space)
   useEffect(() => {
     if (!active) return
 
@@ -131,18 +131,18 @@ export function StarfieldTunnelTransition({
     }
     window.addEventListener('resize', handleResize)
 
-    // Palette of vibrant hyperspace hues
+    // Vibrant star colors preserved against pitch-black space
     const starColors = [
       '#ffffff',
       '#ffffff',
-      '#ff2a6d',
-      '#05d9e8',
-      '#d946ef',
-      '#facc15',
-      '#38bdf8',
+      '#ff2a6d', // Neon Rose
+      '#05d9e8', // Electric Cyan
+      '#e879f9', // Radiant Violet
+      '#fde047', // Warm Gold
+      '#38bdf8', // Cosmic Sky Blue
     ]
 
-    const NUM_STARS = 320
+    const NUM_STARS = 300
     const stars: Star[] = []
     for (let i = 0; i < NUM_STARS; i++) {
       stars.push({
@@ -158,11 +158,12 @@ export function StarfieldTunnelTransition({
 
     const render = () => {
       const elapsed = performance.now() - startTime
-      // Accelerate warp speed from 24 to 58
-      const speed = Math.min(24 + (elapsed / 2200) * 36, 62)
 
-      // Translucent clear to leave subtle light streak trails
-      ctx.fillStyle = 'rgba(5, 5, 10, 0.28)'
+      // Gentle, majestic acceleration (starting at 10, capping at 26 instead of 62)
+      const speed = Math.min(10 + (elapsed / 3400) * 16, 26)
+
+      // Deep obsidian void clear: pure dark space with crisp streaks
+      ctx.fillStyle = 'rgba(2, 2, 4, 0.38)'
       ctx.fillRect(0, 0, width, height)
 
       const cx = width / 2
@@ -197,32 +198,24 @@ export function StarfieldTunnelTransition({
 
         // Draw light streak line towards camera
         const depthRatio = 1 - star.z / 1000
-        const strokeW = Math.max(0.6, depthRatio * 3.4)
+        const strokeW = Math.max(0.6, depthRatio * 3.0)
 
         ctx.beginPath()
         ctx.strokeStyle = star.color
         ctx.lineWidth = strokeW
-        ctx.globalAlpha = Math.min(1, depthRatio * 1.4)
+        ctx.globalAlpha = Math.min(1, depthRatio * 1.5)
         ctx.moveTo(ppx, ppy)
         ctx.lineTo(px, py)
         ctx.stroke()
 
-        // Core star head
+        // Crisp glowing star head
         ctx.beginPath()
-        ctx.fillStyle = '#ffffff'
-        ctx.arc(px, py, strokeW * 0.7, 0, Math.PI * 2)
+        ctx.fillStyle = star.color === '#ffffff' ? '#ffffff' : star.color
+        ctx.arc(px, py, strokeW * 0.75, 0, Math.PI * 2)
         ctx.fill()
       }
 
       ctx.globalAlpha = 1.0
-
-      // Radial Center Warp Portal Iris Glow
-      const portalGrad = ctx.createRadialGradient(cx, cy, 0, cx, cy, Math.min(width, height) * 0.45)
-      portalGrad.addColorStop(0, 'rgba(255, 42, 109, 0.12)')
-      portalGrad.addColorStop(0.35, 'rgba(5, 217, 232, 0.08)')
-      portalGrad.addColorStop(1, 'rgba(5, 5, 10, 0)')
-      ctx.fillStyle = portalGrad
-      ctx.fillRect(0, 0, width, height)
 
       animFrameRef.current = requestAnimationFrame(render)
     }
@@ -243,41 +236,41 @@ export function StarfieldTunnelTransition({
     <div
       role="dialog"
       aria-modal="true"
-      className="fixed inset-0 z-[999999] overflow-hidden bg-[#05050A] select-none cursor-wait flex items-center justify-center"
+      className="fixed inset-0 z-[999999] overflow-hidden bg-[#020204] select-none cursor-wait flex items-center justify-center"
       style={{ perspective: '1000px', transformStyle: 'preserve-3d' }}
     >
       {/* Keyframe Styles for Typographic Starfield Warp & Light Bloom */}
       <style>{`
         @keyframes starfieldWordDrift {
           0% {
-            transform: translate3d(-50%, -50%, -750px) scale(0.1);
+            transform: translate3d(-50%, -50%, -700px) scale(0.12);
             opacity: 0;
-            filter: blur(16px);
+            filter: blur(14px);
           }
-          18% {
+          20% {
             opacity: 0.95;
             filter: blur(0px);
           }
-          62% {
+          60% {
             opacity: 1;
-            transform: translate3d(-50%, -50%, 0px) scale(1.15);
+            transform: translate3d(-50%, -50%, 0px) scale(1.1);
             filter: blur(0px);
           }
-          82% {
+          80% {
             opacity: 0.85;
-            filter: blur(3px);
+            filter: blur(2px);
           }
           100% {
-            transform: translate3d(-50%, -50%, 700px) scale(4.4);
+            transform: translate3d(-50%, -50%, 650px) scale(3.8);
             opacity: 0;
-            filter: blur(24px);
+            filter: blur(20px);
           }
         }
 
         @keyframes warpTunnelExpand {
-          0% { transform: scale(0.7) rotate(0deg); opacity: 0.4; }
-          50% { transform: scale(1.15) rotate(180deg); opacity: 0.8; }
-          100% { transform: scale(0.7) rotate(360deg); opacity: 0.4; }
+          0% { transform: scale(0.75) rotate(0deg); opacity: 0.25; }
+          50% { transform: scale(1.1) rotate(180deg); opacity: 0.45; }
+          100% { transform: scale(0.75) rotate(360deg); opacity: 0.25; }
         }
 
         @keyframes resolveFlashLight {
@@ -287,22 +280,22 @@ export function StarfieldTunnelTransition({
         }
       `}</style>
 
-      {/* 1. Fullscreen Warp Canvas */}
+      {/* 1. Fullscreen Dark Space Warp Canvas */}
       <canvas ref={canvasRef} className="absolute inset-0 w-full h-full pointer-events-none block" />
 
-      {/* 2. Concentric Hyperspace Tunnel Energy Rings */}
+      {/* 2. Concentric Ethereal Tunnel Energy Rings (Low Opacity to Keep Space Dark) */}
       <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
         <div
-          className="w-[70vw] h-[70vw] max-w-[700px] max-h-[700px] rounded-full border border-rose-500/25 blur-[1px]"
+          className="w-[70vw] h-[70vw] max-w-[700px] max-h-[700px] rounded-full border border-rose-500/10 blur-[1px]"
+          style={{ animation: 'warpTunnelExpand 6s ease-in-out infinite' }}
+        />
+        <div
+          className="absolute w-[45vw] h-[45vw] max-w-[450px] max-h-[450px] rounded-full border border-dashed border-cyan-400/10"
+          style={{ animation: 'warpTunnelExpand 5s linear infinite reverse' }}
+        />
+        <div
+          className="absolute w-[25vw] h-[25vw] max-w-[250px] max-h-[250px] rounded-full border border-purple-500/12"
           style={{ animation: 'warpTunnelExpand 4s ease-in-out infinite' }}
-        />
-        <div
-          className="absolute w-[45vw] h-[45vw] max-w-[450px] max-h-[450px] rounded-full border border-dashed border-cyan-400/25"
-          style={{ animation: 'warpTunnelExpand 3s linear infinite reverse' }}
-        />
-        <div
-          className="absolute w-[25vw] h-[25vw] max-w-[250px] max-h-[250px] rounded-full border border-purple-500/30"
-          style={{ animation: 'warpTunnelExpand 2s ease-in-out infinite' }}
         />
       </div>
 
@@ -334,7 +327,7 @@ export function StarfieldTunnelTransition({
 
       {/* 4. Teleport Target Destination Badge at Bottom Center */}
       <div className="absolute bottom-10 inset-x-0 flex flex-col items-center justify-center z-20 pointer-events-none">
-        <div className="flex items-center gap-2.5 px-4 py-2 rounded-full bg-black/60 backdrop-blur-md border border-white/15 shadow-2xl">
+        <div className="flex items-center gap-2.5 px-4 py-2 rounded-full bg-black/75 backdrop-blur-md border border-white/15 shadow-2xl">
           <span className="w-2 h-2 rounded-full bg-cyan-400 animate-ping" />
           <span className="text-[10px] sm:text-[11px] font-mono tracking-[0.3em] text-slate-200 uppercase">
             {destinationLabel}
@@ -363,7 +356,7 @@ export function StarfieldTunnelTransition({
             window.location.href = targetUrl
           }
         }}
-        className="absolute top-6 right-6 z-50 text-[10px] tracking-widest uppercase text-slate-400 hover:text-white bg-black/40 hover:bg-black/80 border border-white/10 px-3.5 py-1.5 rounded-full backdrop-blur-md transition-colors cursor-pointer"
+        className="absolute top-6 right-6 z-50 text-[10px] tracking-widest uppercase text-slate-400 hover:text-white bg-black/50 hover:bg-black/90 border border-white/10 px-3.5 py-1.5 rounded-full backdrop-blur-md transition-colors cursor-pointer"
       >
         Skip ↗
       </button>
