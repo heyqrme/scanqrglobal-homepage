@@ -115,7 +115,7 @@ export function CercaFriendMapPreview({ onOpenMap }: { onOpenMap: () => void }) 
             />
             <span className="absolute bottom-0 right-0 w-2 h-2 rounded-full bg-emerald-400 border border-black shadow-[0_0_6px_#34d399]" />
           </div>
-          <div className="bg-[#0b0b14]/90 border border-purple-500/40 rounded-full px-2 py-0.5 text-[8.5px] font-semibold text-purple-200 tracking-wider shadow-sm backdrop-blur-sm whitespace-nowrap">
+          <div className="bg-[#0b0b14]/90 border border-purple-500/40 rounded-full px-2.5 py-0.5 text-[8.5px] font-semibold text-purple-200 tracking-wider shadow-sm backdrop-blur-sm whitespace-nowrap">
             Elena • 0.4 mi
           </div>
         </div>
@@ -132,7 +132,7 @@ export function CercaFriendMapPreview({ onOpenMap }: { onOpenMap: () => void }) 
             />
             <span className="absolute bottom-0 right-0 w-2 h-2 rounded-full bg-emerald-400 border border-black shadow-[0_0_6px_#34d399]" />
           </div>
-          <div className="bg-[#0b0b14]/90 border border-amber-500/40 rounded-full px-2 py-0.5 text-[8.5px] font-semibold text-amber-200 tracking-wider shadow-sm backdrop-blur-sm whitespace-nowrap">
+          <div className="bg-[#0b0b14]/90 border border-amber-500/40 rounded-full px-2.5 py-0.5 text-[8.5px] font-semibold text-amber-200 tracking-wider shadow-sm backdrop-blur-sm whitespace-nowrap">
             Travis • 0.7 mi
           </div>
         </div>
@@ -170,10 +170,34 @@ export function ScanQRGlobalHomeRoute() {
   const { locale, setLocale, t } = useGatewayI18n()
   const { recordInteraction } = useExitTelemetry()
 
-  // Interactive Modal States
+  // Interactive Modal & Teleport States
   const [showRadarModal, setShowRadarModal] = useState(false)
   const [selectedHubIndex, setSelectedHubIndex] = useState(0)
   const [langDropdownOpen, setLangDropdownOpen] = useState(false)
+
+  // ⚡ Spin Entrance Teleport States ⚡
+  const [isWarping, setIsWarping] = useState(false)
+  const [warpInfo, setWarpInfo] = useState({
+    title: 'ENTERING CERCA',
+    subtitle: 'Connecting to Live Proximity',
+    icon: '⚡',
+  })
+
+  const triggerWarpEntrance = (
+    targetUrl: string,
+    title = 'ENTERING CERCA',
+    subtitle = 'Connecting to Live Proximity',
+    icon = '⚡'
+  ) => {
+    if (isWarping) return
+    setWarpInfo({ title, subtitle, icon })
+    setIsWarping(true)
+    setTimeout(() => {
+      if (typeof window !== 'undefined') {
+        window.location.href = targetUrl
+      }
+    }, 800)
+  }
 
   const handleOpenRadar = (hubIdx: number = 0) => {
     setSelectedHubIndex(hubIdx)
@@ -183,22 +207,55 @@ export function ScanQRGlobalHomeRoute() {
 
   const handleOpenRegistration = () => {
     recordInteraction('enter_cerca')
-    const registerUrl = 'https://www.qr4luv.com/register'
-    if (typeof window !== 'undefined') {
-      window.location.href = registerUrl
-    }
+    triggerWarpEntrance('https://www.qr4luv.com/register', 'ENTERING CERCA', 'Free Live Video & Proximity', '✨')
   }
 
   const handleOpenDating = () => {
     recordInteraction('enter_cerca_dating')
-    const datingUrl = 'https://www.qr4luv.com/faces?dating=1'
-    if (typeof window !== 'undefined') {
-      window.location.href = datingUrl
-    }
+    triggerWarpEntrance('https://www.qr4luv.com/faces?dating=1', 'CERCA DATING', 'Verified 1-Click Access', '💖')
+  }
+
+  const handleMapCardClick = () => {
+    recordInteraction('map_card_teleport')
+    triggerWarpEntrance('https://www.qr4luv.com/faces?market=nearby', 'NEARBY PROXIMITY', 'Opening Live Friend Radar', '🗺️')
   }
 
   return (
     <div className="min-h-screen bg-[#05050A] text-slate-100 flex flex-col justify-between items-center px-6 py-8 relative overflow-hidden selection:bg-rose-500/30 font-sans">
+      {/* Keyframe Styles for Ambient Glow & Spin Entrance Portal */}
+      <style>{`
+        @keyframes warpSpin {
+          0% { transform: rotate(0deg); }
+          100% { transform: rotate(1080deg); }
+        }
+        @keyframes warpPulse {
+          0%, 100% { opacity: 0.75; transform: scale(0.98); }
+          50% { opacity: 1; transform: scale(1.04); }
+        }
+        @keyframes warpExpandIris {
+          0% {
+            transform: scale(0.06);
+            opacity: 0.2;
+            filter: blur(8px);
+          }
+          25% {
+            transform: scale(0.45);
+            opacity: 1;
+            filter: blur(0px);
+          }
+          70% {
+            transform: scale(1.35);
+            opacity: 1;
+            filter: blur(1px);
+          }
+          100% {
+            transform: scale(4.4);
+            opacity: 1;
+            filter: blur(16px);
+          }
+        }
+      `}</style>
+
       {/* Ambient Atmospheric Glow */}
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[70vw] h-[70vw] bg-gradient-to-tr from-rose-600/15 via-purple-600/10 to-cyan-500/5 rounded-full blur-[150px] pointer-events-none animate-pulse" />
 
@@ -206,7 +263,10 @@ export function ScanQRGlobalHomeRoute() {
       <header className="relative z-10 w-full max-w-4xl flex justify-between items-center">
         <div
           className="cursor-pointer group"
-          onClick={handleOpenRegistration}
+          onClick={() => {
+            recordInteraction('header_cerca')
+            triggerWarpEntrance('https://qr4luv.com', 'SCANQR GLOBAL', 'Powered by Cerca', '🌐')
+          }}
           style={{ textDecoration: 'none' }}
         >
           <h1
@@ -276,8 +336,8 @@ export function ScanQRGlobalHomeRoute() {
           </p>
         </div>
 
-        {/* Static Cerca Friend Map Preview Card */}
-        <CercaFriendMapPreview onOpenMap={() => handleOpenRadar(0)} />
+        {/* Static Cerca Friend Map Preview Card (Tapping triggers warp entrance) */}
+        <CercaFriendMapPreview onOpenMap={handleMapCardClick} />
 
         {/* Clean, Velvet-Rope Entry Actions */}
         <div className="flex flex-col sm:flex-row items-center justify-center gap-4 w-full max-w-md mb-6">
@@ -526,10 +586,18 @@ export function ScanQRGlobalHomeRoute() {
               </div>
             </div>
 
-            {/* Launch into Cerca Button */}
-            <a
-              href="https://www.qr4luv.com/register"
-              onClick={handleOpenRegistration}
+            {/* Launch into Cerca Button with Spin Entrance */}
+            <button
+              type="button"
+              onClick={() => {
+                setShowRadarModal(false)
+                triggerWarpEntrance(
+                  'https://www.qr4luv.com/register',
+                  `LAUNCHING ${t.hubs.cards[selectedHubIndex]?.city?.toUpperCase() || 'CERCA'}`,
+                  'Live Proximity Nightlife',
+                  '⚡'
+                )
+              }}
               style={{
                 background: 'linear-gradient(135deg, #ff2a6d 0%, #d946ef 100%)',
                 color: '#ffffff',
@@ -542,7 +610,7 @@ export function ScanQRGlobalHomeRoute() {
                 justifyContent: 'center',
                 gap: '8px',
                 boxShadow: '0 8px 24px rgba(255, 42, 109, 0.35)',
-                textDecoration: 'none',
+                border: 'none',
                 cursor: 'pointer',
                 width: '100%',
                 boxSizing: 'border-box',
@@ -550,7 +618,148 @@ export function ScanQRGlobalHomeRoute() {
             >
               <span>{t.modals.radarLaunchButton}</span>
               <ChevronRight size={16} />
-            </a>
+            </button>
+          </div>
+        </div>
+      )}
+
+      {/* ⚡ RADAR CENTER-EXPANSION TELEPORT SPIN ENTRANCE PORTAL OVERLAY ⚡ */}
+      {isWarping && (
+        <div
+          role="dialog"
+          aria-modal="true"
+          style={{
+            position: 'fixed',
+            inset: 0,
+            zIndex: 999999,
+            backgroundColor: 'rgba(5, 5, 12, 0.96)',
+            backdropFilter: 'blur(24px)',
+            WebkitBackdropFilter: 'blur(24px)',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            overflow: 'hidden',
+            pointerEvents: 'all',
+          }}
+        >
+          {/* Center Expanding & Spinning Radar Core */}
+          <div
+            style={{
+              position: 'relative',
+              width: 380,
+              height: 380,
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              animation: 'warpExpandIris 820ms cubic-bezier(0.2, 0.8, 0.2, 1) forwards',
+              transformOrigin: 'center center',
+            }}
+          >
+            {/* Spinning Outer Radar Sweep Cones */}
+            <div
+              style={{
+                position: 'absolute',
+                inset: -40,
+                borderRadius: '50%',
+                background:
+                  'conic-gradient(from 0deg, transparent 0deg, rgba(244, 63, 94, 0.8) 180deg, rgba(217, 70, 239, 0.9) 270deg, #38bdf8 360deg)',
+                animation: 'warpSpin 750ms linear infinite',
+                filter: 'drop-shadow(0 0 50px rgba(217, 70, 239, 0.9))',
+                opacity: 0.9,
+              }}
+            />
+
+            {/* Glowing Secondary Counter-Spinning Reticle */}
+            <div
+              style={{
+                position: 'absolute',
+                inset: -20,
+                borderRadius: '50%',
+                border: '3px dashed #38bdf8',
+                animation: 'warpSpin 550ms linear infinite reverse',
+                boxShadow: '0 0 40px rgba(56, 189, 248, 0.8), inset 0 0 30px rgba(244, 63, 94, 0.6)',
+              }}
+            />
+
+            {/* Glowing Target Badge in Center */}
+            <div
+              style={{
+                position: 'relative',
+                zIndex: 2,
+                width: 250,
+                height: 250,
+                borderRadius: '50%',
+                background:
+                  'radial-gradient(circle, rgba(244, 63, 94, 0.4) 0%, rgba(217, 70, 239, 0.3) 40%, #080816 85%)',
+                border: '2px solid rgba(255, 255, 255, 0.5)',
+                boxShadow: '0 0 60px rgba(236, 72, 153, 0.95), inset 0 0 40px rgba(56, 189, 248, 0.7)',
+                display: 'flex',
+                flexDirection: 'column',
+                alignItems: 'center',
+                justifyContent: 'center',
+                textAlign: 'center',
+                padding: '20px',
+                animation: 'warpPulse 600ms ease-in-out infinite',
+              }}
+            >
+              <div
+                style={{
+                  fontSize: 44,
+                  marginBottom: 6,
+                  filter: 'drop-shadow(0 0 16px rgba(255,255,255,0.9))',
+                }}
+              >
+                {warpInfo.icon}
+              </div>
+              <div
+                style={{
+                  fontSize: 14,
+                  fontWeight: 900,
+                  letterSpacing: '0.12em',
+                  color: '#ffffff',
+                  textTransform: 'uppercase',
+                  textShadow: '0 0 15px rgba(56, 189, 248, 0.9)',
+                }}
+              >
+                {warpInfo.title}
+              </div>
+              <div
+                style={{
+                  fontSize: 11.5,
+                  fontWeight: 700,
+                  color: '#f0abfc',
+                  marginTop: 4,
+                  textShadow: '0 0 10px rgba(217, 70, 239, 0.8)',
+                }}
+              >
+                {warpInfo.subtitle}
+              </div>
+              <div
+                style={{
+                  fontSize: 10,
+                  fontWeight: 600,
+                  color: '#93c5fd',
+                  marginTop: 8,
+                  padding: '3px 10px',
+                  borderRadius: 999,
+                  background: 'rgba(56, 189, 248, 0.2)',
+                  border: '1px solid rgba(56, 189, 248, 0.4)',
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  gap: 6,
+                }}
+              >
+                <span>Entering Cerca Social</span>
+                <span
+                  style={{
+                    display: 'inline-block',
+                    animation: 'warpSpin 400ms linear infinite',
+                  }}
+                >
+                  ⚡
+                </span>
+              </div>
+            </div>
           </div>
         </div>
       )}
