@@ -7,11 +7,197 @@ import {
   ChevronRight,
   Sparkles,
 } from 'lucide-react'
-import { useGatewayI18n, GATEWAY_LOCALES } from './gatewayI18n'
+import { useGatewayI18n, GATEWAY_LOCALES, type GatewayLocale } from './gatewayI18n'
 import { useExitTelemetry } from './hooks/useExitTelemetry'
 import { StarfieldTunnelTransition } from './components/StarfieldTunnelTransition'
 
-export function CercaFriendMapPreview({ onOpenMap }: { onOpenMap: () => void }) {
+interface GatewaySurfaceCopy {
+  poweredBy: string
+  headline: string
+  subLine1: string
+  subLine2: string
+  mapHeaderBadge: string
+  mapLiveNearby: string
+  mapTapToOpen: string
+  youLabel: string
+  enterCerca: string
+  cercaDating: string
+  seeWhosOut: string
+  badges: [string, string, string, string]
+  footer: string
+}
+
+const SURFACE_COPY: Record<GatewayLocale, GatewaySurfaceCopy> = {
+  en: {
+    poweredBy: 'Powered by Cerca',
+    headline: 'THE ROOM IS BLIND UNTIL YOU STEP IN.',
+    subLine1: 'FREE LIVE VIDEO • GLOBAL CHAT • UNTOLD PLACES',
+    subLine2: 'NO VIP WALLS. NO PAPER TRAILS. JUST CHEMISTRY.',
+    mapHeaderBadge: 'CERCA FRIEND MAP • LIVE NEARBY',
+    mapLiveNearby: 'Live Nearby • 4 Friends Active',
+    mapTapToOpen: 'Tap to Open Map ↗',
+    youLabel: 'YOU',
+    enterCerca: 'ENTER CERCA',
+    cercaDating: 'CERCA DATING',
+    seeWhosOut: 'SEE WHO’S OUT TONIGHT',
+    badges: [
+      'Zero Phone Numbers Shared',
+      'Discretion Guaranteed',
+      'Live Proximity Radar',
+      '8-Language Real-Time Translation',
+    ],
+    footer: 'DISCRETION GUARANTEED • 2026 • POWERED BY CERCA',
+  },
+  es: {
+    poweredBy: 'Impulsado por Cerca',
+    headline: 'LA SALA ESTÁ CIEGA HASTA QUE ENTRAS.',
+    subLine1: 'VIDEO EN VIVO GRATIS • CHAT GLOBAL • LUGARES SECRETOS',
+    subLine2: 'SIN MUROS VIP. SIN RASTROS. SOLO QUÍMICA.',
+    mapHeaderBadge: 'MAPA DE AMIGOS CERCA • EN VIVO',
+    mapLiveNearby: 'En Vivo Cerca • 4 Amigos Activos',
+    mapTapToOpen: 'Toca para Abrir el Mapa ↗',
+    youLabel: 'TÚ',
+    enterCerca: 'ENTRAR A CERCA',
+    cercaDating: 'CERCA DATING',
+    seeWhosOut: 'MIRA QUIÉN SALIÓ ESTA NOCHE',
+    badges: [
+      'Cero Números Compartidos',
+      'Discreción Garantizada',
+      'Radar de Proximidad en Vivo',
+      'Traducción en Tiempo Real (8 Idiomas)',
+    ],
+    footer: 'DISCRECIÓN GARANTIZADA • 2026 • IMPULSADO POR CERCA',
+  },
+  th: {
+    poweredBy: 'ขับเคลื่อนโดย Cerca',
+    headline: 'ค่ำคืนนี้ยังเป็นความลับ จนกว่าคุณจะก้าวเข้ามา',
+    subLine1: 'วิดีโอสดฟรี • แชททั่วโลก • สถานที่ลับใกล้คุณ',
+    subLine2: 'ไม่ต้องแลกเบอร์ • เป็นส่วนตัว • เชื่อมต่อทันที',
+    mapHeaderBadge: 'แผนที่เพื่อน CERCA • สดใกล้คุณ',
+    mapLiveNearby: 'ออนไลน์ใกล้คุณ • เพื่อน 4 คน',
+    mapTapToOpen: 'แตะเพื่อเปิดแผนที่ ↗',
+    youLabel: 'คุณ',
+    enterCerca: 'เข้าสู่ CERCA',
+    cercaDating: 'CERCA เดทติ้ง',
+    seeWhosOut: 'ดูว่าใครออกเที่ยวคืนนี้',
+    badges: [
+      'ไม่ต้องเปิดเผยเบอร์โทรศัพท์',
+      'รับประกันความเป็นส่วนตัว',
+      'เรดาร์ค้นหาคนใกล้เคียงแบบสด',
+      'แปลภาษาอัตโนมัติแบบเรียลไทม์ 8 ภาษา',
+    ],
+    footer: 'รับประกันความเป็นส่วนตัว • 2026 • ขับเคลื่อนโดย CERCA',
+  },
+  pt: {
+    poweredBy: 'Desenvolvido por Cerca',
+    headline: 'A SALA ESTÁ ÀS ESCURAS ATÉ VOCÊ ENTRAR.',
+    subLine1: 'VÍDEO AO VIVO GRÁTIS • CHAT GLOBAL • LUGARES SECRETOS',
+    subLine2: 'SEM LISTAS VIP. SEM RASTROS. APENAS QUÍMICA.',
+    mapHeaderBadge: 'MAPA DE AMIGOS CERCA • AO VIVO PERTO',
+    mapLiveNearby: 'Ao Vivo Perto • 4 Amigos Ativos',
+    mapTapToOpen: 'Toque para Abrir o Mapa ↗',
+    youLabel: 'VOCÊ',
+    enterCerca: 'ENTRAR NO CERCA',
+    cercaDating: 'CERCA DATING',
+    seeWhosOut: 'VEJA QUEM SAIU ESTA NOITE',
+    badges: [
+      'Zero Números de Telefone',
+      'Discrição Garantida',
+      'Radar de Proximidade ao Vivo',
+      'Tradução em Tempo Real em 8 Idiomas',
+    ],
+    footer: 'DISCRIÇÃO GARANTIDA • 2026 • POWERED BY CERCA',
+  },
+  fr: {
+    poweredBy: 'Propulsé par Cerca',
+    headline: 'LA PIÈCE EST AVEUGLE JUSQU’À VOTRE ENTRÉE.',
+    subLine1: 'VIDÉO EN DIRECT GRATUITE • CHAT GLOBAL • LIEUX SECRETS',
+    subLine2: 'PAS DE MURS VIP. AUCUNE TRACE. JUSTE L’ALCHIMIE.',
+    mapHeaderBadge: 'CARTE D’AMIS CERCA • EN DIRECT À PROXIMITÉ',
+    mapLiveNearby: 'En Direct • 4 Amis Actifs',
+    mapTapToOpen: 'Appuyez pour Ouvrir la Carte ↗',
+    youLabel: 'VOUS',
+    enterCerca: 'ENTRER DANS CERCA',
+    cercaDating: 'CERCA DATING',
+    seeWhosOut: 'VOIR QUI SORT CE SOIR',
+    badges: [
+      'Aucun Numéro Partagé',
+      'Discrétion Garantie',
+      'Radar de Proximité en Direct',
+      'Traduction Instantanée en 8 Langues',
+    ],
+    footer: 'DISCRÉTION GARANTIE • 2026 • PROPULSÉ PAR CERCA',
+  },
+  de: {
+    poweredBy: 'Powered by Cerca',
+    headline: 'DER RAUM IST BLIND, BIS DU IHN BETRITTST.',
+    subLine1: 'KOSTENLOSES LIVE-VIDEO • GLOBALER CHAT • GEHEIME ORTE',
+    subLine2: 'KEINE VIP-MAUERN. KEINE SPUREN. NUR CHEMIE.',
+    mapHeaderBadge: 'CERCA FREUNDESKARTE • LIVE IN DER NÄHE',
+    mapLiveNearby: 'Live in der Nähe • 4 Freunde Aktiv',
+    mapTapToOpen: 'Tippen zum Öffnen der Karte ↗',
+    youLabel: 'DU',
+    enterCerca: 'CERCA BETRETEN',
+    cercaDating: 'CERCA DATING',
+    seeWhosOut: 'SIEH WER HEUTE NACHT UNTERWEGS IST',
+    badges: [
+      'Keine Telefonnummern Geteilt',
+      'Diskretion Garantiert',
+      'Live-Näherungsradar',
+      'Echtzeit-Übersetzung in 8 Sprachen',
+    ],
+    footer: 'DISKRETION GARANTERT • 2026 • POWERED BY CERCA',
+  },
+  ja: {
+    poweredBy: 'Powered by Cerca',
+    headline: '足を踏み入れるまで、その部屋は見えない。',
+    subLine1: '無料ライブビデオ • グローバルチャット • 秘密のスポット',
+    subLine2: 'VIPの壁なし。履歴なし。純粋なケミストリーだけ。',
+    mapHeaderBadge: 'CERCA フレンドマップ • 周辺ライブ',
+    mapLiveNearby: '周辺でライブ中 • 4人の友達がアクティブ',
+    mapTapToOpen: 'タップしてマップを開く ↗',
+    youLabel: 'あなた',
+    enterCerca: 'CERCAに入る',
+    cercaDating: 'CERCA デーティング',
+    seeWhosOut: '今夜誰が出かけているか見る',
+    badges: [
+      '電話番号の共有ゼロ',
+      '完全なプライバシー保護',
+      'ライブ近接レーダー',
+      '8言語リアルタイム翻訳',
+    ],
+    footer: 'プライバシー保証 • 2026 • POWERED BY CERCA',
+  },
+  zh: {
+    poweredBy: '由 Cerca 驱动',
+    headline: '在你踏入之前，房间一片未知。',
+    subLine1: '免费实时视频 • 全球聊天 • 隐秘之地',
+    subLine2: '无VIP门槛。无痕迹留存。只有纯粹的默契。',
+    mapHeaderBadge: 'CERCA 好友地图 • 附近实时动态',
+    mapLiveNearby: '附近实时 • 4位好友在线',
+    mapTapToOpen: '点击打开地图 ↗',
+    youLabel: '你',
+    enterCerca: '进入 CERCA',
+    cercaDating: 'CERCA 约会',
+    seeWhosOut: '看看今晚谁在外面',
+    badges: [
+      '零电话号码共享',
+      '绝对隐私保障',
+      '实时近距雷达',
+      '8种语言实时翻译',
+    ],
+    footer: '绝对隐私保障 • 2026 • POWERED BY CERCA',
+  },
+}
+
+export function CercaFriendMapPreview({
+  onOpenMap,
+  locale = 'en',
+}: {
+  onOpenMap: () => void
+  locale?: GatewayLocale
+}) {
+  const c = SURFACE_COPY[locale] ?? SURFACE_COPY.en
   return (
     <div
       onClick={onOpenMap}
@@ -65,7 +251,7 @@ export function CercaFriendMapPreview({ onOpenMap }: { onOpenMap: () => void }) 
           <span className="relative inline-flex rounded-full h-2 w-2 bg-cyan-300 shadow-[0_0_10px_#06b6d4]" />
         </span>
         <span className="text-[7.5px] font-bold tracking-widest text-cyan-300 uppercase mt-0.5 bg-black/70 px-1.5 py-0.2 rounded border border-cyan-500/30">
-          YOU
+          {c.youLabel}
         </span>
       </div>
 
@@ -146,7 +332,7 @@ export function CercaFriendMapPreview({ onOpenMap }: { onOpenMap: () => void }) 
           <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-400 shadow-[0_0_8px_#34d399]" />
         </span>
         <span className="text-[9px] sm:text-[10.5px] font-bold tracking-[0.22em] text-slate-200 uppercase">
-          CERCA FRIEND MAP • LIVE NEARBY
+          {c.mapHeaderBadge}
         </span>
       </div>
 
@@ -154,10 +340,10 @@ export function CercaFriendMapPreview({ onOpenMap }: { onOpenMap: () => void }) 
       <div className="absolute bottom-3 inset-x-3 z-20 flex items-center justify-between pointer-events-none px-1 text-[9px] font-mono tracking-widest text-slate-400 uppercase">
         <span className="flex items-center gap-1.5 bg-black/60 px-2 py-0.5 rounded-md backdrop-blur-sm border border-white/5">
           <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
-          <span>Live Nearby • 4 Friends Active</span>
+          <span>{c.mapLiveNearby}</span>
         </span>
         <span className="text-slate-300 group-hover:text-white transition-colors bg-black/60 px-2 py-0.5 rounded-md backdrop-blur-sm border border-white/10">
-          Tap to Open Map ↗
+          {c.mapTapToOpen}
         </span>
       </div>
 
@@ -170,6 +356,7 @@ export function CercaFriendMapPreview({ onOpenMap }: { onOpenMap: () => void }) 
 export function ScanQRGlobalHomeRoute() {
   const { locale, setLocale, t } = useGatewayI18n()
   const { recordInteraction } = useExitTelemetry()
+  const copy = SURFACE_COPY[locale] ?? SURFACE_COPY.en
 
   // Interactive Modal States
   const [showRadarModal, setShowRadarModal] = useState(false)
@@ -218,7 +405,7 @@ export function ScanQRGlobalHomeRoute() {
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[70vw] h-[70vw] bg-gradient-to-tr from-rose-600/15 via-purple-600/10 to-cyan-500/5 rounded-full blur-[150px] pointer-events-none animate-pulse" />
 
       {/* Top Header — Minimalist & Weightless */}
-      <header className="relative z-10 w-full max-w-4xl flex justify-between items-center">
+      <header className="relative z-50 w-full max-w-4xl flex justify-between items-center">
         <div
           className="cursor-pointer group"
           onClick={() => {
@@ -234,7 +421,7 @@ export function ScanQRGlobalHomeRoute() {
             SCANQR GLOBAL
           </h1>
           <p className="text-[9px] uppercase tracking-[0.3em] text-slate-500 mt-0.5">
-            Powered by Cerca
+            {copy.poweredBy}
           </p>
         </div>
 
@@ -243,33 +430,43 @@ export function ScanQRGlobalHomeRoute() {
           <button
             type="button"
             onClick={() => setLangDropdownOpen(!langDropdownOpen)}
+            aria-expanded={langDropdownOpen}
             className="flex items-center space-x-1.5 text-xs text-slate-400 hover:text-white transition-colors cursor-pointer bg-white/5 border border-white/10 px-3 py-1.5 rounded-full"
           >
             <Globe className="w-3.5 h-3.5 text-rose-400" />
-            <span className="tracking-widest uppercase font-medium">{locale} ▾</span>
+            <span className="tracking-widest uppercase font-medium">
+              {GATEWAY_LOCALES.find((l) => l.code === locale)?.label ?? locale.toUpperCase()} ▾
+            </span>
           </button>
 
           {langDropdownOpen && (
-            <div className="absolute top-full right-0 mt-2 bg-[#0a0a0f] border border-rose-500/30 rounded-xl p-1.5 z-50 min-w-[130px] shadow-2xl">
-              {GATEWAY_LOCALES.map((l) => (
-                <button
-                  key={l.code}
-                  type="button"
-                  onClick={() => {
-                    setLocale(l.code)
-                    setLangDropdownOpen(false)
-                  }}
-                  className={`w-full px-3 py-1.5 text-left text-xs rounded-lg flex items-center justify-between ${
-                    locale === l.code
-                      ? 'bg-rose-500/20 text-white font-bold'
-                      : 'text-slate-400 hover:text-white'
-                  }`}
-                >
-                  <span>{l.label}</span>
-                  {locale === l.code && <Check size={12} className="text-rose-400" />}
-                </button>
-              ))}
-            </div>
+            <>
+              <div
+                className="fixed inset-0 z-40"
+                onClick={() => setLangDropdownOpen(false)}
+              />
+              <div className="absolute top-full right-0 mt-2 bg-[#0a0a0f] border border-rose-500/30 rounded-xl p-1.5 z-50 min-w-[160px] shadow-2xl">
+                {GATEWAY_LOCALES.map((l) => (
+                  <button
+                    key={l.code}
+                    type="button"
+                    onClick={() => {
+                      setLocale(l.code)
+                      setLangDropdownOpen(false)
+                      recordInteraction(`switch_locale_${l.code}`)
+                    }}
+                    className={`w-full px-3 py-2 text-left text-xs rounded-lg flex items-center justify-between cursor-pointer transition-colors ${
+                      locale === l.code
+                        ? 'bg-rose-500/20 text-white font-bold'
+                        : 'text-slate-400 hover:text-white hover:bg-white/5'
+                    }`}
+                  >
+                    <span>{l.label}</span>
+                    {locale === l.code && <Check size={12} className="text-rose-400" />}
+                  </button>
+                ))}
+              </div>
+            </>
           )}
         </div>
       </header>
@@ -281,21 +478,21 @@ export function ScanQRGlobalHomeRoute() {
           style={{ fontFamily: "'Cinzel', serif" }}
           className="text-3xl md:text-5xl font-normal tracking-wide text-transparent bg-clip-text bg-gradient-to-r from-white via-slate-100 to-rose-300 leading-tight mb-6"
         >
-          THE ROOM IS BLIND UNTIL YOU STEP IN.
+          {copy.headline}
         </h2>
 
         {/* Vertical Label Stack */}
         <div className="space-y-2 text-xs md:text-sm uppercase tracking-[0.3em] text-slate-400 font-light mb-8">
           <p className="text-slate-200 font-medium tracking-[0.35em]">
-            FREE LIVE VIDEO • GLOBAL CHAT • UNTOLD PLACES
+            {copy.subLine1}
           </p>
           <p className="text-slate-500 tracking-[0.3em]">
-            NO VIP WALLS. NO PAPER TRAILS. JUST CHEMISTRY.
+            {copy.subLine2}
           </p>
         </div>
 
         {/* Static Cerca Friend Map Preview Card (Tapping triggers Starfield Space Warp) */}
-        <CercaFriendMapPreview onOpenMap={handleMapCardClick} />
+        <CercaFriendMapPreview onOpenMap={handleMapCardClick} locale={locale} />
 
         {/* Clean, Velvet-Rope Entry Actions */}
         <div className="flex flex-col sm:flex-row items-center justify-center gap-4 w-full max-w-md mb-6">
@@ -305,7 +502,7 @@ export function ScanQRGlobalHomeRoute() {
             className="w-full sm:w-auto flex-1 bg-gradient-to-r from-rose-600 to-purple-600 hover:from-rose-500 hover:to-purple-500 text-white font-medium py-3 px-6 rounded-full shadow-[0_0_25px_rgba(255,42,109,0.3)] hover:scale-[1.02] transition-all flex items-center justify-center space-x-2 text-xs tracking-[0.25em] uppercase cursor-pointer"
           >
             <Sparkles className="w-4 h-4 text-rose-200" />
-            <span>ENTER CERCA</span>
+            <span>{copy.enterCerca}</span>
           </button>
 
           <button
@@ -314,7 +511,7 @@ export function ScanQRGlobalHomeRoute() {
             className="w-full sm:w-auto flex-1 bg-transparent hover:bg-white/5 border border-white/20 text-white font-medium py-3 px-6 rounded-full hover:scale-[1.02] transition-all flex items-center justify-center space-x-2 text-xs tracking-[0.25em] uppercase cursor-pointer"
           >
             <span className="text-rose-400">♥</span>
-            <span>CERCA DATING</span>
+            <span>{copy.cercaDating}</span>
           </button>
         </div>
 
@@ -328,17 +525,12 @@ export function ScanQRGlobalHomeRoute() {
             className="w-3.5 h-3.5 text-cyan-400 animate-spin"
             style={{ animationDuration: '12s' }}
           />
-          <span>SEE WHO’S OUT TONIGHT</span>
+          <span>{copy.seeWhosOut}</span>
         </button>
 
         {/* Minimal Discretion Badges */}
         <div className="flex flex-wrap justify-center items-center gap-2 max-w-lg mt-6">
-          {[
-            'Zero Phone Numbers Shared',
-            'Discretion Guaranteed',
-            'Live Proximity Radar',
-            '8-Language Real-Time Translation',
-          ].map((text, idx) => (
+          {copy.badges.map((text, idx) => (
             <span
               key={idx}
               className="text-[10px] tracking-wider uppercase text-slate-500 px-3 py-1 rounded-full border border-white/5 bg-white/[0.02]"
@@ -351,7 +543,7 @@ export function ScanQRGlobalHomeRoute() {
 
       {/* Subtle Bottom Discretion Footer */}
       <footer className="relative z-10 text-center text-[9px] tracking-[0.35em] text-slate-600 uppercase pt-6">
-        DISCRETION GUARANTEED • 2026 • POWERED BY CERCA
+        {copy.footer}
       </footer>
 
       {/* Interactive Radar Scanner Modal */}
