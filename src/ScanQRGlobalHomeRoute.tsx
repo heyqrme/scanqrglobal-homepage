@@ -365,7 +365,7 @@ export function ScanQRGlobalHomeRoute() {
 
   // ⚡ Cinematic Starfield Space Warp States ⚡
   const [isWarping, setIsWarping] = useState(false)
-  const [warpTargetUrl, setWarpTargetUrl] = useState('https://www.qr4luv.com/register')
+  const [warpTargetUrl, setWarpTargetUrl] = useState('https://www.qr4luv.com/?enter=1')
   const [warpDestinationLabel, setWarpDestinationLabel] = useState('ENTERING CERCA SOCIAL')
 
   const triggerWarpEntrance = (
@@ -386,17 +386,20 @@ export function ScanQRGlobalHomeRoute() {
 
   const handleOpenRegistration = () => {
     recordInteraction('enter_cerca')
-    triggerWarpEntrance('https://www.qr4luv.com/register', 'ENTERING CERCA SOCIAL')
+    const langParam = locale === 'th' ? '&lang=TH' : locale === 'es' ? '&lang=ES' : ''
+    triggerWarpEntrance(`https://www.qr4luv.com/?enter=1${langParam}`, 'ENTERING CERCA SOCIAL')
   }
 
   const handleOpenDating = () => {
     recordInteraction('enter_cerca_dating')
-    triggerWarpEntrance('https://www.qr4luv.com/faces?dating=1', 'CERCA DATING • VERIFIED ACCESS')
+    const langParam = locale === 'th' ? '&lang=TH' : locale === 'es' ? '&lang=ES' : ''
+    triggerWarpEntrance(`https://www.qr4luv.com/?enter=1&dating=1${langParam}`, 'CERCA DATING • VERIFIED ACCESS')
   }
 
   const handleMapCardClick = () => {
     recordInteraction('map_card_teleport')
-    triggerWarpEntrance('https://www.qr4luv.com/faces?market=nearby', 'NEARBY PROXIMITY MAP')
+    const langParam = locale === 'th' ? '&lang=TH' : locale === 'es' ? '&lang=ES' : ''
+    triggerWarpEntrance(`https://www.qr4luv.com/?enter=1&market=nearby${langParam}`, 'NEARBY PROXIMITY MAP')
   }
 
   return (
@@ -741,9 +744,10 @@ export function ScanQRGlobalHomeRoute() {
               type="button"
               onClick={() => {
                 setShowRadarModal(false)
+                const hubCity = t.hubs.cards[selectedHubIndex]?.city || ''
                 triggerWarpEntrance(
-                  'https://www.qr4luv.com/register',
-                  `LAUNCHING ${t.hubs.cards[selectedHubIndex]?.city?.toUpperCase() || 'CERCA'}`
+                  `https://www.qr4luv.com/?enter=1&hub=${encodeURIComponent(hubCity)}`,
+                  `LAUNCHING ${hubCity.toUpperCase() || 'CERCA'}`
                 )
               }}
               style={{
