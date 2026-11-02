@@ -1050,7 +1050,14 @@ export function useGatewayI18n() {
               } catch {}
 
               const market = (data?.market || data?.hub?.market || '').toLowerCase()
-              const country = (data?.countryCode || data?.hub?.countryCode || '').toUpperCase()
+              const country = (
+                data?.countryCode ||
+                (typeof data?.detectedCountry === 'string' && data.detectedCountry.length === 2
+                  ? data.detectedCountry
+                  : '') ||
+                data?.hub?.countryCode ||
+                ''
+              ).toUpperCase()
 
               if (
                 market === 'colombia' ||
@@ -1062,12 +1069,28 @@ export function useGatewayI18n() {
                 setLocaleState('es')
                 return
               }
-              if (market === 'thailand' || country === 'TH') {
+              if (country === 'TH' || (market === 'thailand' && (!country || country === 'TH'))) {
                 setLocaleState('th')
                 return
               }
               if (market === 'brazil' || country === 'BR' || country === 'PT') {
                 setLocaleState('pt')
+                return
+              }
+              if (country === 'FR') {
+                setLocaleState('fr')
+                return
+              }
+              if (country === 'DE' || country === 'AT') {
+                setLocaleState('de')
+                return
+              }
+              if (country === 'JP') {
+                setLocaleState('ja')
+                return
+              }
+              if (country === 'CN' || country === 'TW' || country === 'HK') {
+                setLocaleState('zh')
                 return
               }
             }

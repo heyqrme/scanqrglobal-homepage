@@ -6,6 +6,7 @@ export interface HubMatch {
   slug: string
   market: 'usa' | 'colombia' | 'brazil' | 'thailand'
   country: string
+  countryCode: string
   flag: string
   vibe: string
   topSpot: string
@@ -14,21 +15,21 @@ export interface HubMatch {
 }
 
 const REGIONAL_HUBS: HubMatch[] = [
-  { name: 'Bogotá', slug: 'bogota', market: 'colombia', country: 'Colombia', flag: '🇨🇴', lat: 4.711, lng: -74.0721, vibe: 'Theatron & Andean Nightlife', topSpot: 'Theatron Chapinero' },
-  { name: 'Los Angeles', slug: 'la', market: 'usa', country: 'United States', flag: '🇺🇸', lat: 34.0522, lng: -118.2437, vibe: 'Rooftops & Melodic House', topSpot: 'Élephante Santa Monica' },
-  { name: 'Miami', slug: 'miami', market: 'usa', country: 'United States', flag: '🇺🇸', lat: 25.7617, lng: -80.1918, vibe: 'Afro-House & VIP Nightlife', topSpot: 'Club Space Terrace' },
-  { name: 'New York City', slug: 'nyc', market: 'usa', country: 'United States', flag: '🇺🇸', lat: 40.7128, lng: -74.006, vibe: 'Underground & Speakeasies', topSpot: 'House of Yes' },
-  { name: 'Austin', slug: 'austin', market: 'usa', country: 'United States', flag: '🇺🇸', lat: 30.2672, lng: -97.7431, vibe: 'Live Music & Patio Bars', topSpot: 'The Continental Club' },
-  { name: 'Nashville', slug: 'nashville', market: 'usa', country: 'United States', flag: '🇺🇸', lat: 36.1627, lng: -86.7816, vibe: 'Honky Tonk & Bluegrass', topSpot: "Robert's Western World" },
-  { name: 'São Paulo', slug: 'sao-paulo', market: 'brazil', country: 'Brazil', flag: '🇧🇷', lat: -23.5505, lng: -46.6333, vibe: 'Underground Electronic Temples', topSpot: 'D-Edge Barra Funda' },
-  { name: 'Rio de Janeiro', slug: 'rio', market: 'brazil', country: 'Brazil', flag: '🇧🇷', lat: -22.9068, lng: -43.1729, vibe: 'Samba Rodas & Beach Lounges', topSpot: 'Circo Voador Lapa' },
-  { name: 'Florianópolis', slug: 'florianopolis', market: 'brazil', country: 'Brazil', flag: '🇧🇷', lat: -27.5954, lng: -48.548, vibe: 'Electronic Beach Clubs', topSpot: 'P12 Jurerê Internacional' },
-  { name: 'Salvador da Bahia', slug: 'salvador', market: 'brazil', country: 'Brazil', flag: '🇧🇷', lat: -12.9777, lng: -38.5016, vibe: 'Afro-Beats & Culture', topSpot: 'Pelourinho Rhythms' },
-  { name: 'Bangkok', slug: 'bangkok', market: 'thailand', country: 'Thailand', flag: '🇹🇭', lat: 13.7563, lng: 100.5018, vibe: 'Theatrical Speakeasies & RCA', topSpot: 'Sing Sing Theater' },
-  { name: 'Phuket', slug: 'phuket', market: 'thailand', country: 'Thailand', flag: '🇹🇭', lat: 7.8804, lng: 98.3923, vibe: 'Sunset Beach Clubs & Islands', topSpot: 'Café del Mar Kamala' },
-  { name: 'Koh Samui', slug: 'koh-samui', market: 'thailand', country: 'Thailand', flag: '🇹🇭', lat: 9.512, lng: 100.0136, vibe: 'Oceanfront Day Clubs & Fire Shows', topSpot: 'Ark Bar Beach Club' },
-  { name: 'Krabi', slug: 'krabi', market: 'thailand', country: 'Thailand', flag: '🇹🇭', lat: 8.0863, lng: 98.9063, vibe: 'Cliff Bars & Quiet Coasts', topSpot: 'Tew Lay Bar Railay' },
-  { name: 'Pattaya', slug: 'pattaya', market: 'thailand', country: 'Thailand', flag: '🇹🇭', lat: 12.9276, lng: 100.8771, vibe: '34th-Floor Sky Bars & EDM', topSpot: 'Horizon Rooftop' },
+  { name: 'Bogotá', slug: 'bogota', market: 'colombia', country: 'Colombia', countryCode: 'CO', flag: '🇨🇴', lat: 4.711, lng: -74.0721, vibe: 'Theatron & Andean Nightlife', topSpot: 'Theatron Chapinero' },
+  { name: 'Los Angeles', slug: 'la', market: 'usa', country: 'United States', countryCode: 'US', flag: '🇺🇸', lat: 34.0522, lng: -118.2437, vibe: 'Rooftops & Melodic House', topSpot: 'Élephante Santa Monica' },
+  { name: 'Miami', slug: 'miami', market: 'usa', country: 'United States', countryCode: 'US', flag: '🇺🇸', lat: 25.7617, lng: -80.1918, vibe: 'Afro-House & VIP Nightlife', topSpot: 'Club Space Terrace' },
+  { name: 'New York City', slug: 'nyc', market: 'usa', country: 'United States', countryCode: 'US', flag: '🇺🇸', lat: 40.7128, lng: -74.006, vibe: 'Underground & Speakeasies', topSpot: 'House of Yes' },
+  { name: 'Austin', slug: 'austin', market: 'usa', country: 'United States', countryCode: 'US', flag: '🇺🇸', lat: 30.2672, lng: -97.7431, vibe: 'Live Music & Patio Bars', topSpot: 'The Continental Club' },
+  { name: 'Nashville', slug: 'nashville', market: 'usa', country: 'United States', countryCode: 'US', flag: '🇺🇸', lat: 36.1627, lng: -86.7816, vibe: 'Honky Tonk & Bluegrass', topSpot: "Robert's Western World" },
+  { name: 'São Paulo', slug: 'sao-paulo', market: 'brazil', country: 'Brazil', countryCode: 'BR', flag: '🇧🇷', lat: -23.5505, lng: -46.6333, vibe: 'Underground Electronic Temples', topSpot: 'D-Edge Barra Funda' },
+  { name: 'Rio de Janeiro', slug: 'rio', market: 'brazil', country: 'Brazil', countryCode: 'BR', flag: '🇧🇷', lat: -22.9068, lng: -43.1729, vibe: 'Samba Rodas & Beach Lounges', topSpot: 'Circo Voador Lapa' },
+  { name: 'Florianópolis', slug: 'florianopolis', market: 'brazil', country: 'Brazil', countryCode: 'BR', flag: '🇧🇷', lat: -27.5954, lng: -48.548, vibe: 'Electronic Beach Clubs', topSpot: 'P12 Jurerê Internacional' },
+  { name: 'Salvador da Bahia', slug: 'salvador', market: 'brazil', country: 'Brazil', countryCode: 'BR', flag: '🇧🇷', lat: -12.9777, lng: -38.5016, vibe: 'Afro-Beats & Culture', topSpot: 'Pelourinho Rhythms' },
+  { name: 'Bangkok', slug: 'bangkok', market: 'thailand', country: 'Thailand', countryCode: 'TH', flag: '🇹🇭', lat: 13.7563, lng: 100.5018, vibe: 'Theatrical Speakeasies & RCA', topSpot: 'Sing Sing Theater' },
+  { name: 'Phuket', slug: 'phuket', market: 'thailand', country: 'Thailand', countryCode: 'TH', flag: '🇹🇭', lat: 7.8804, lng: 98.3923, vibe: 'Sunset Beach Clubs & Islands', topSpot: 'Café del Mar Kamala' },
+  { name: 'Koh Samui', slug: 'koh-samui', market: 'thailand', country: 'Thailand', countryCode: 'TH', flag: '🇹🇭', lat: 9.512, lng: 100.0136, vibe: 'Oceanfront Day Clubs & Fire Shows', topSpot: 'Ark Bar Beach Club' },
+  { name: 'Krabi', slug: 'krabi', market: 'thailand', country: 'Thailand', countryCode: 'TH', flag: '🇹🇭', lat: 8.0863, lng: 98.9063, vibe: 'Cliff Bars & Quiet Coasts', topSpot: 'Tew Lay Bar Railay' },
+  { name: 'Pattaya', slug: 'pattaya', market: 'thailand', country: 'Thailand', countryCode: 'TH', flag: '🇹🇭', lat: 12.9276, lng: 100.8771, vibe: '34th-Floor Sky Bars & EDM', topSpot: 'Horizon Rooftop' },
 ]
 
 function getHeader(req: IncomingMessage, name: string): string {
@@ -124,6 +125,8 @@ export default async function handler(req: IncomingMessage, res: ServerResponse)
     JSON.stringify({
       detected: isDetected,
       isGlobal: !isDetected,
+      countryCode: vercelCountry || matchedHub?.countryCode || null,
+      market: matchedHub?.market || null,
       detectedCity: vercelCity ? decodeURIComponent(vercelCity) : (matchedHub?.name || null),
       detectedCountry: vercelCountry || (matchedHub?.country || null),
       hub: matchedHub || null,
