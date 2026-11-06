@@ -23,6 +23,7 @@ interface GatewaySurfaceCopy {
   enterCerca: string
   cercaDating: string
   seeWhosOut: string
+  contestCta: string
   badges: [string, string, string, string]
   footer: string
 }
@@ -40,6 +41,7 @@ const SURFACE_COPY: Record<GatewayLocale, GatewaySurfaceCopy> = {
     enterCerca: 'ENTER CERCA',
     cercaDating: 'CERCA DATING',
     seeWhosOut: 'SEE WHO’S OUT TONIGHT',
+    contestCta: '🎁 Enter to win prizes — Add friends & get free gear!',
     badges: [
       'Zero Phone Numbers Shared',
       'Discretion Guaranteed',
@@ -60,6 +62,7 @@ const SURFACE_COPY: Record<GatewayLocale, GatewaySurfaceCopy> = {
     enterCerca: 'ENTRAR A CERCA',
     cercaDating: 'CERCA DATING',
     seeWhosOut: 'MIRA QUIÉN SALIÓ ESTA NOCHE',
+    contestCta: '🎁 Entra para ganar premios — ¡Agrega amigos y obtén mercancía gratis!',
     badges: [
       'Cero Números Compartidos',
       'Discreción Garantizada',
@@ -80,6 +83,7 @@ const SURFACE_COPY: Record<GatewayLocale, GatewaySurfaceCopy> = {
     enterCerca: 'เข้าสู่ CERCA',
     cercaDating: 'CERCA เดทติ้ง',
     seeWhosOut: 'ดูว่าใครออกเที่ยวคืนนี้',
+    contestCta: '🎁 ลุ้นรับของรางวัล — เพิ่มเพื่อนและรับเสื้อผ้าฟรี!',
     badges: [
       'ไม่ต้องเปิดเผยเบอร์โทรศัพท์',
       'รับประกันความเป็นส่วนตัว',
@@ -94,12 +98,13 @@ const SURFACE_COPY: Record<GatewayLocale, GatewaySurfaceCopy> = {
     subLine1: 'VÍDEO AO VIVO GRÁTIS • CHAT GLOBAL • LUGARES SECRETOS',
     subLine2: 'SEM LISTAS VIP. SEM RASTROS. APENAS QUÍMICA.',
     mapHeaderBadge: 'MAPA DE AMIGOS CERCA • AO VIVO PERTO',
-    mapLiveNearby: 'Ao Vivo Perto • 4 Amigos Ativos',
+    mapLiveNearby: 'Ao Vivo Perto • 4 Amigos Activos',
     mapTapToOpen: 'Toque para Abrir o Mapa ↗',
     youLabel: 'VOCÊ',
     enterCerca: 'ENTRAR NO CERCA',
     cercaDating: 'CERCA DATING',
     seeWhosOut: 'VEJA QUEM SAIU ESTA NOITE',
+    contestCta: '🎁 Concorra a prêmios — Adicione amigos e ganhe produtos grátis!',
     badges: [
       'Zero Números de Telefone',
       'Discrição Garantida',
@@ -120,6 +125,7 @@ const SURFACE_COPY: Record<GatewayLocale, GatewaySurfaceCopy> = {
     enterCerca: 'ENTRER DANS CERCA',
     cercaDating: 'CERCA DATING',
     seeWhosOut: 'VOIR QUI SORT CE SOIR',
+    contestCta: '🎁 Gagnez des cadeaux — Ajoutez des amis et recevez du merch gratuit !',
     badges: [
       'Aucun Numéro Partagé',
       'Discrétion Garantie',
@@ -140,6 +146,7 @@ const SURFACE_COPY: Record<GatewayLocale, GatewaySurfaceCopy> = {
     enterCerca: 'CERCA BETRETEN',
     cercaDating: 'CERCA DATING',
     seeWhosOut: 'SIEH WER HEUTE NACHT UNTERWEGS IST',
+    contestCta: '🎁 Gewinne Preise — Füge Freunde hinzu & sichere dir Gratis-Merch!',
     badges: [
       'Keine Telefonnummern Geteilt',
       'Diskretion Garantiert',
@@ -160,6 +167,7 @@ const SURFACE_COPY: Record<GatewayLocale, GatewaySurfaceCopy> = {
     enterCerca: 'CERCAに入る',
     cercaDating: 'CERCA デーティング',
     seeWhosOut: '今夜誰が出かけているか見る',
+    contestCta: '🎁 賞品を当てよう — 友達を追加して限定グッズを無料でゲット！',
     badges: [
       '電話番号の共有ゼロ',
       '完全なプライバシー保護',
@@ -180,6 +188,7 @@ const SURFACE_COPY: Record<GatewayLocale, GatewaySurfaceCopy> = {
     enterCerca: '进入 CERCA',
     cercaDating: 'CERCA 约会',
     seeWhosOut: '看看今晚谁在外面',
+    contestCta: '🎁 参与赢取大奖 — 添加好友免费领取官方周边！',
     badges: [
       '零电话号码共享',
       '绝对隐私保障',
@@ -386,20 +395,29 @@ export function ScanQRGlobalHomeRoute() {
 
   const handleOpenRegistration = () => {
     recordInteraction('enter_cerca')
-    const langParam = locale === 'th' ? '&lang=TH' : locale === 'es' ? '&lang=ES' : ''
-    triggerWarpEntrance(`https://www.qr4luv.com/?enter=1${langParam}`, 'ENTERING CERCA SOCIAL')
+    const langParam = `&lang=${encodeURIComponent(locale)}`
+    triggerWarpEntrance(`https://www.qr4luv.com/register?enter=1${langParam}`, 'ENTERING CERCA SOCIAL')
   }
 
   const handleOpenDating = () => {
     recordInteraction('enter_cerca_dating')
-    const langParam = locale === 'th' ? '&lang=TH' : locale === 'es' ? '&lang=ES' : ''
-    triggerWarpEntrance(`https://www.qr4luv.com/?enter=1&dating=1${langParam}`, 'CERCA DATING • VERIFIED ACCESS')
+    const langParam = `&lang=${encodeURIComponent(locale)}`
+    triggerWarpEntrance(`https://www.qr4luv.com/register?enter=1&dating=1${langParam}`, 'CERCA DATING • VERIFIED ACCESS')
   }
 
   const handleMapCardClick = () => {
     recordInteraction('map_card_teleport')
-    const langParam = locale === 'th' ? '&lang=TH' : locale === 'es' ? '&lang=ES' : ''
-    triggerWarpEntrance(`https://www.qr4luv.com/?enter=1&market=nearby${langParam}`, 'NEARBY PROXIMITY MAP')
+    const langParam = `&lang=${encodeURIComponent(locale)}`
+    triggerWarpEntrance(`https://www.qr4luv.com/register?enter=1&market=nearby${langParam}`, 'NEARBY PROXIMITY MAP')
+  }
+
+  const handleContestClick = () => {
+    recordInteraction('contest_cta')
+    const langParam = `&lang=${encodeURIComponent(locale)}`
+    triggerWarpEntrance(
+      `https://www.qr4luv.com/register?ref=contest${langParam}`,
+      "WHO'S POPULAR CONTEST"
+    )
   }
 
   return (
@@ -413,7 +431,7 @@ export function ScanQRGlobalHomeRoute() {
           className="cursor-pointer group"
           onClick={() => {
             recordInteraction('header_cerca')
-            triggerWarpEntrance('https://qr4luv.com', 'SCANQR GLOBAL • CERCA')
+            triggerWarpEntrance(`https://www.qr4luv.com/register?enter=1&lang=${encodeURIComponent(locale)}`, 'SCANQR GLOBAL • CERCA')
           }}
           style={{ textDecoration: 'none' }}
         >
@@ -529,6 +547,15 @@ export function ScanQRGlobalHomeRoute() {
             style={{ animationDuration: '12s' }}
           />
           <span>{copy.seeWhosOut}</span>
+        </button>
+
+        {/* Contest Link */}
+        <button
+          type="button"
+          onClick={handleContestClick}
+          className="mt-3 text-xs font-semibold tracking-wide text-pink-400 hover:text-pink-300 animate-pulse transition-colors bg-transparent border-none cursor-pointer"
+        >
+          {copy.contestCta}
         </button>
 
         {/* Minimal Discretion Badges */}
@@ -746,7 +773,11 @@ export function ScanQRGlobalHomeRoute() {
                 setShowRadarModal(false)
                 const hubCity = t.hubs.cards[selectedHubIndex]?.city || ''
                 triggerWarpEntrance(
+<<<<<<< HEAD
                   `https://www.qr4luv.com/?enter=1&hub=${encodeURIComponent(hubCity)}`,
+=======
+                  `https://www.qr4luv.com/register?enter=1&hub=${encodeURIComponent(hubCity)}&lang=${encodeURIComponent(locale)}`,
+>>>>>>> fd98a6c (fix(contest): route contest and entry CTAs to /register with ref=contest and lang preserved)
                   `LAUNCHING ${hubCity.toUpperCase() || 'CERCA'}`
                 )
               }}
