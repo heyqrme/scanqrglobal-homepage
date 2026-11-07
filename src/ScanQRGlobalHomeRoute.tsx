@@ -374,7 +374,7 @@ export function ScanQRGlobalHomeRoute() {
 
   // ⚡ Cinematic Starfield Space Warp States ⚡
   const [isWarping, setIsWarping] = useState(false)
-  const [warpTargetUrl, setWarpTargetUrl] = useState('https://www.qr4luv.com/?enter=1')
+  const [warpTargetUrl, setWarpTargetUrl] = useState('https://www.qr4luv.com/faces')
   const [warpDestinationLabel, setWarpDestinationLabel] = useState('ENTERING CERCA SOCIAL')
 
   const triggerWarpEntrance = (
@@ -395,27 +395,23 @@ export function ScanQRGlobalHomeRoute() {
 
   const handleOpenRegistration = () => {
     recordInteraction('enter_cerca')
-    const langParam = `&lang=${encodeURIComponent(locale)}`
-    triggerWarpEntrance(`https://www.qr4luv.com/register?enter=1${langParam}`, 'ENTERING CERCA SOCIAL')
+    triggerWarpEntrance('https://www.qr4luv.com/faces?concierge=1', 'ENTERING CERCA SOCIAL')
   }
 
   const handleOpenDating = () => {
     recordInteraction('enter_cerca_dating')
-    const langParam = `&lang=${encodeURIComponent(locale)}`
-    triggerWarpEntrance(`https://www.qr4luv.com/register?enter=1&dating=1${langParam}`, 'CERCA DATING • VERIFIED ACCESS')
+    triggerWarpEntrance('https://www.qr4luv.com/faces?dating=1', 'CERCA DATING • VERIFIED ACCESS')
   }
 
   const handleMapCardClick = () => {
     recordInteraction('map_card_teleport')
-    const langParam = `&lang=${encodeURIComponent(locale)}`
-    triggerWarpEntrance(`https://www.qr4luv.com/register?enter=1&market=nearby${langParam}`, 'NEARBY PROXIMITY MAP')
+    triggerWarpEntrance('https://www.qr4luv.com/faces?market=nearby', 'NEARBY PROXIMITY MAP')
   }
 
   const handleContestClick = () => {
     recordInteraction('contest_cta')
-    const langParam = `&lang=${encodeURIComponent(locale)}`
     triggerWarpEntrance(
-      `https://www.qr4luv.com/register?ref=contest${langParam}`,
+      `https://www.qr4luv.com/contest?lang=${locale}`,
       "WHO'S POPULAR CONTEST"
     )
   }
@@ -431,7 +427,7 @@ export function ScanQRGlobalHomeRoute() {
           className="cursor-pointer group"
           onClick={() => {
             recordInteraction('header_cerca')
-            triggerWarpEntrance(`https://www.qr4luv.com/register?enter=1&lang=${encodeURIComponent(locale)}`, 'SCANQR GLOBAL • CERCA')
+            triggerWarpEntrance('https://www.qr4luv.com/faces', 'SCANQR GLOBAL • CERCA')
           }}
           style={{ textDecoration: 'none' }}
         >
@@ -773,11 +769,7 @@ export function ScanQRGlobalHomeRoute() {
                 setShowRadarModal(false)
                 const hubCity = t.hubs.cards[selectedHubIndex]?.city || ''
                 triggerWarpEntrance(
-<<<<<<< HEAD
-                  `https://www.qr4luv.com/?enter=1&hub=${encodeURIComponent(hubCity)}`,
-=======
-                  `https://www.qr4luv.com/register?enter=1&hub=${encodeURIComponent(hubCity)}&lang=${encodeURIComponent(locale)}`,
->>>>>>> fd98a6c (fix(contest): route contest and entry CTAs to /register with ref=contest and lang preserved)
+                  `https://www.qr4luv.com/faces?hub=${encodeURIComponent(hubCity)}`,
                   `LAUNCHING ${hubCity.toUpperCase() || 'CERCA'}`
                 )
               }}
