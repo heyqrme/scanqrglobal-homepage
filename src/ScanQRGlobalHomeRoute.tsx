@@ -411,7 +411,7 @@ export function ScanQRGlobalHomeRoute() {
   const handleContestClick = () => {
     recordInteraction('contest_cta')
     triggerWarpEntrance(
-      `https://www.qr4luv.com/contest?lang=${locale}`,
+      `https://www.qr4luv.com/register?ref=contest&lang=${encodeURIComponent(locale)}`,
       "WHO'S POPULAR CONTEST"
     )
   }
