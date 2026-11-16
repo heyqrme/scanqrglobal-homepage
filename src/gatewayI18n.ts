@@ -1012,6 +1012,12 @@ function getInitialLocale(): GatewayLocale {
     if (nav.startsWith('de')) return 'de'
     if (nav.startsWith('ja')) return 'ja'
     if (nav.startsWith('zh')) return 'zh'
+
+    const tz = Intl.DateTimeFormat().resolvedOptions().timeZone.toLowerCase()
+    if (tz.includes('bangkok') || tz.includes('thailand')) return 'th'
+    if (tz.includes('bogota') || tz.includes('colombia') || tz.includes('mexico')) return 'es'
+    if (tz.includes('sao_paulo') || tz.includes('brazil')) return 'pt'
+    if (tz.includes('tokyo')) return 'ja'
   } catch {}
 
   return 'en'

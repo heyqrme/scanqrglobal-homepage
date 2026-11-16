@@ -395,17 +395,26 @@ export function ScanQRGlobalHomeRoute() {
 
   const handleOpenRegistration = () => {
     recordInteraction('enter_cerca')
-    triggerWarpEntrance('https://www.qr4luv.com/faces?concierge=1', 'ENTERING CERCA SOCIAL')
+    triggerWarpEntrance(
+      `https://www.qr4luv.com/faces?concierge=1&lang=${encodeURIComponent(locale)}`,
+      'ENTERING CERCA SOCIAL',
+    )
   }
 
   const handleOpenDating = () => {
     recordInteraction('enter_cerca_dating')
-    triggerWarpEntrance('https://www.qr4luv.com/faces?dating=1', 'CERCA DATING • VERIFIED ACCESS')
+    triggerWarpEntrance(
+      `https://www.qr4luv.com/faces?dating=1&lang=${encodeURIComponent(locale)}`,
+      'CERCA DATING • VERIFIED ACCESS',
+    )
   }
 
   const handleMapCardClick = () => {
     recordInteraction('map_card_teleport')
-    triggerWarpEntrance('https://www.qr4luv.com/faces?market=nearby', 'NEARBY PROXIMITY MAP')
+    triggerWarpEntrance(
+      `https://www.qr4luv.com/faces?market=nearby&lang=${encodeURIComponent(locale)}`,
+      'NEARBY PROXIMITY MAP',
+    )
   }
 
   const handleContestClick = () => {
@@ -427,7 +436,10 @@ export function ScanQRGlobalHomeRoute() {
           className="cursor-pointer group"
           onClick={() => {
             recordInteraction('header_cerca')
-            triggerWarpEntrance('https://www.qr4luv.com/faces', 'SCANQR GLOBAL • CERCA')
+            triggerWarpEntrance(
+              `https://www.qr4luv.com/faces?lang=${encodeURIComponent(locale)}`,
+              'SCANQR GLOBAL • CERCA',
+            )
           }}
           style={{ textDecoration: 'none' }}
         >
@@ -769,7 +781,7 @@ export function ScanQRGlobalHomeRoute() {
                 setShowRadarModal(false)
                 const hubCity = t.hubs.cards[selectedHubIndex]?.city || ''
                 triggerWarpEntrance(
-                  `https://www.qr4luv.com/faces?hub=${encodeURIComponent(hubCity)}`,
+                  `https://www.qr4luv.com/faces?hub=${encodeURIComponent(hubCity)}&lang=${encodeURIComponent(locale)}`,
                   `LAUNCHING ${hubCity.toUpperCase() || 'CERCA'}`
                 )
               }}
@@ -802,6 +814,7 @@ export function ScanQRGlobalHomeRoute() {
       <StarfieldTunnelTransition
         active={isWarping}
         targetUrl={warpTargetUrl}
+        locale={locale}
         destinationLabel={warpDestinationLabel}
         onComplete={() => setIsWarping(false)}
       />
